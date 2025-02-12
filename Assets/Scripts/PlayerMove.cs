@@ -11,7 +11,7 @@ public class PlayerMove : MonoBehaviour {
     private float timeSinceLastDamage;
     public TextMeshProUGUI vieText;
     public RectTransform vieVisuel;
-    
+
     public GameObject projectilePrefab;
     public float shootInterval = 5f;
 
@@ -48,44 +48,44 @@ public class PlayerMove : MonoBehaviour {
             UpdateLife();
             timeSinceLastDamage = 4.8f;
         }
-        
+
         // Shooting
         shootInterval -= Time.deltaTime;
-        if (shootInterval <= 0) {
+        if(shootInterval <= 0) {
             ShootAtNearestEnemy();
         }
     }
 
     public void TakeDamage() {
-        health = Mathf.Max(0, health-100);
+        health = Mathf.Max(0, health - 100);
         UpdateLife();
         timeSinceLastDamage = 0f;
-        
+
         if(health <= 0) {
             Debug.Log("Game Over");
         }
     }
-    
+
     private void UpdateLife() {
         float healthRatio = health;
         vieVisuel.sizeDelta = new Vector2(healthRatio, vieVisuel.sizeDelta.y);
         vieText.text = health.ToString();
     }
-    
+
     private void ShootAtNearestEnemy() {
         Ennemi[] enemies = FindObjectsByType<Ennemi>(FindObjectsSortMode.None);
         Ennemi nearestEnemy = null;
         float nearestDistance = 15f;
 
-        foreach (Ennemi enemy in enemies) {
+        foreach(Ennemi enemy in enemies) {
             float distance = Vector3.Distance(transform.position, enemy.transform.position);
-            if (distance < nearestDistance) {
+            if(distance < nearestDistance) {
                 nearestDistance = distance;
                 nearestEnemy = enemy;
             }
         }
 
-        if (nearestEnemy) {
+        if(nearestEnemy) {
             Vector3 direction = (nearestEnemy.transform.position - transform.position).normalized;
             GameObject projectile = Instantiate(projectilePrefab, transform.position + direction, Quaternion.LookRotation(direction));
             projectile.GetComponent<Tire>().creator = gameObject;

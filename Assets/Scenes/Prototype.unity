@@ -1601,8 +1601,13 @@ PrefabInstance:
       propertyPath: projectilePrefab
       value: 
       objectReference: {fileID: 3062584499622089064, guid: 48bd4bc90eaa6a6438b3de2eeb45a22a, type: 3}
+    - target: {fileID: 6602615842412298945, guid: fa1a6e53672374a418cb19f6d63d12d4, type: 3}
+      propertyPath: m_Center.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 4179358951815884631, guid: fa1a6e53672374a418cb19f6d63d12d4, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3062584499622089064, guid: fa1a6e53672374a418cb19f6d63d12d4, type: 3}

@@ -29,6 +29,16 @@ public class Tire : MonoBehaviour {
         if(ennemi != null) {
             ennemi.TakeDamage();
             Destroy(gameObject);
+            return;
+        }
+        
+        Composant composant = other.GetComponent<Composant>();
+        if(composant != null) {
+            if(composant.isActivate) {
+                composant.TakeDamage();
+                Destroy(gameObject);
+            }
+            return;
         }
     }
 }
