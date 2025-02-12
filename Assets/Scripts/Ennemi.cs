@@ -4,7 +4,7 @@ public class Ennemi : MonoBehaviour {
     public Transform player; // Référence au joueur
     public float moveSpeed = 5f; // Vitesse de déplacement de l'ennemi
     public GameObject projectilePrefab; // Préfabriqué du projectile
-    public float shootInterval = 3f; // Intervalle de tir en secondes
+    public float shootInterval = 5f; // Intervalle de tir en secondes
     private float lastShootTime;
 
     void Update() {

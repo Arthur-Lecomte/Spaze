@@ -12,7 +12,7 @@ public class SpawnEnnemi : MonoBehaviour {
 
     IEnumerator SpawnEnnemiRoutine() {
         while (true) {
-            float waitTime = Random.Range(1f, 3f);
+            float waitTime = Random.Range(2f, 5f);
             yield return new WaitForSeconds(waitTime);
             SpawnEnnemiOutsideView();
         }
