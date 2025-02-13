@@ -1,19 +1,24 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour {
     public static PlayerMove Instance;
 
-    public float moveSpeed = 5f;
-    public float rotationSpeed = 200f;
+    public float moveSpeed = 10f;
+    public float rotationSpeed = 400f;
+    public float pourcentageSpeed = 0.4f;
 
-    public int health = 500;
+    public int maxHealth = 100;
+    public float pourcentageHealth = 0.4f;
+    public int health;
     private float timeSinceLastDamage;
     public TextMeshProUGUI vieText;
     public RectTransform vieVisuel;
 
     public GameObject projectilePrefab;
-    public float shootInterval = 5f;
+    public List<float> shootInterval;
+    public float pourcentageDamage = 0.4f;
 
     void Awake() {
         if(Instance == null) {
@@ -21,43 +26,46 @@ public class PlayerMove : MonoBehaviour {
         } else {
             Destroy(gameObject);
         }
-
+        shootInterval = new List<float> {0f};
+        health = (int)(maxHealth * pourcentageHealth);
         UpdateLife();
     }
 
     void Update() {
         // Avancer
         if(Input.GetKey(KeyCode.W)) {
-            transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
+            transform.Translate(Vector3.forward * moveSpeed * pourcentageSpeed * Time.deltaTime);
         }
 
         // Rotation à gauche
         if(Input.GetKey(KeyCode.A)) {
-            transform.Rotate(Vector3.down * rotationSpeed * Time.deltaTime);
+            transform.Rotate(Vector3.down * rotationSpeed * pourcentageSpeed * Time.deltaTime);
         }
 
         // Rotation à droite
         if(Input.GetKey(KeyCode.D)) {
-            transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
+            transform.Rotate(Vector3.up * rotationSpeed * pourcentageSpeed * Time.deltaTime);
         }
 
         // Health
         timeSinceLastDamage += Time.deltaTime;
         if(timeSinceLastDamage >= 5f) {
-            health = Mathf.Min(health + 1, 500);
+            health = Mathf.Min(health + 1, (int)(maxHealth * pourcentageHealth));
             UpdateLife();
-            timeSinceLastDamage = 4.8f;
+            timeSinceLastDamage = 4.5f;
         }
 
         // Shooting
-        shootInterval -= Time.deltaTime;
-        if(shootInterval <= 0) {
-            ShootAtNearestEnemy();
+        for(int i = 0; i < shootInterval.Count; i++) {
+            shootInterval[i] -= Time.deltaTime;
+            if(shootInterval[i] <= 0) {
+                ShootAtNearestEnemy(i);
+            }
         }
     }
 
-    public void TakeDamage() {
-        health = Mathf.Max(0, health - 100);
+    public void TakeDamage(int damage) {
+        health = Mathf.Max(0, health - damage);
         UpdateLife();
         timeSinceLastDamage = 0f;
 
@@ -66,20 +74,33 @@ public class PlayerMove : MonoBehaviour {
         }
     }
 
-    private void UpdateLife() {
-        float healthRatio = health;
-        vieVisuel.sizeDelta = new Vector2(healthRatio, vieVisuel.sizeDelta.y);
-        vieText.text = health.ToString();
+    public void UpgradeLife(float value) {
+        pourcentageHealth = value;
+        UpdateLife();
     }
 
-    private void ShootAtNearestEnemy() {
+    public void UpgradeDamage(float value) {
+        pourcentageDamage = value;
+    }
+
+    public void UpgradeSpeed(float value) {
+        pourcentageSpeed = value;
+    }
+
+    public void UpdateLife() {
+        health = Mathf.Min(health, (int)(maxHealth * pourcentageHealth));
+        vieVisuel.sizeDelta = new Vector2(health / (maxHealth * pourcentageHealth) * 1000, vieVisuel.sizeDelta.y);
+        vieText.text = health + " / " + maxHealth * pourcentageHealth;
+    }
+
+    private void ShootAtNearestEnemy(int i) {
         Ennemi[] enemies = FindObjectsByType<Ennemi>(FindObjectsSortMode.None);
         Ennemi nearestEnemy = null;
         float nearestDistance = 15f;
 
         foreach(Ennemi enemy in enemies) {
             float distance = Vector3.Distance(transform.position, enemy.transform.position);
-            if(distance < nearestDistance) {
+            if(distance < nearestDistance && enemy.timeBeforeBeingCible <= 0) {
                 nearestDistance = distance;
                 nearestEnemy = enemy;
             }
@@ -89,14 +110,16 @@ public class PlayerMove : MonoBehaviour {
             Vector3 direction = (nearestEnemy.transform.position - transform.position).normalized;
             GameObject projectile = Instantiate(projectilePrefab, transform.position + direction, Quaternion.LookRotation(direction));
             projectile.GetComponent<Tire>().creator = gameObject;
-            shootInterval = 5f;
+            projectile.GetComponent<Tire>().damage = (int)(45 * pourcentageDamage);
+            nearestEnemy.timeBeforeBeingCible = 2f;
+            shootInterval[i] = 5f;
         }
     }
 
     void OnDrawGizmos() {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, 8f);
-        Gizmos.color = Color.black;
+        Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, 15f);
     }
 }

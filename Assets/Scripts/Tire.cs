@@ -4,6 +4,7 @@ public class Tire : MonoBehaviour {
     public float speed = 20f;
     public float lifetime = 10f;
     public GameObject creator;
+    public int damage = 15;
 
     void Start() {
         Destroy(gameObject, lifetime);
@@ -20,22 +21,22 @@ public class Tire : MonoBehaviour {
         
         PlayerMove player = other.GetComponent<PlayerMove>();
         if(player != null) {
-            player.TakeDamage();
+            player.TakeDamage(damage);
             Destroy(gameObject);
             return;
         }
         
         Ennemi ennemi = other.GetComponent<Ennemi>();
         if(ennemi != null) {
-            ennemi.TakeDamage();
+            ennemi.TakeDamage(damage);
             Destroy(gameObject);
             return;
         }
         
         Composant composant = other.GetComponent<Composant>();
         if(composant != null) {
-            if(composant.isActivate) {
-                composant.TakeDamage();
+            if(composant.isActivate && creator != composant.transform.parent.gameObject) {
+                composant.TakeDamage(damage);
                 Destroy(gameObject);
             }
             return;

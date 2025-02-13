@@ -6,6 +6,9 @@ public class Ennemi : MonoBehaviour {
     public GameObject projectilePrefab; // Préfabriqué du projectile
     public float shootInterval = 5f; // Intervalle de tir en secondes
     private float lastShootTime;
+    public float timeBeforeBeingCible = 2f;
+    
+    public int health = 40;
 
     void Update() {
         if(player) {
@@ -33,6 +36,8 @@ public class Ennemi : MonoBehaviour {
                 lastShootTime = Time.time;
             }
         }
+        
+        timeBeforeBeingCible -= Time.deltaTime;
     }
 
     void ShootAtPlayer() {
@@ -42,7 +47,11 @@ public class Ennemi : MonoBehaviour {
         }
     }
     
-    public void TakeDamage() {
-        Destroy(gameObject);
+    public void TakeDamage(int damage) {
+        health = Mathf.Max(0, health - damage);
+
+        if(health <= 0) {
+            Destroy(gameObject);
+        }
     }
 }

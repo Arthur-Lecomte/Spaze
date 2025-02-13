@@ -5,13 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce895a77-7f2a-4357-90ed-c8a7ceb6b39f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaZe/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SpaZe/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Prototype.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Prototype.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Asteroid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Asteroid.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Composant.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Composant.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Ennemi.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Ennemi.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ModeBuild.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ModeBuild.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerMove.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerMove.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SpawnEnnemi.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SpawnEnnemi.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tire.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Tire.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/DynamicsManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/DynamicsManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +27,8 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Composant.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ai.navigation/Samples~/Scripts/ProjectSettingsUtilities/Editor/NavigationSampleProjectSettingsGenerator.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ide.visualstudio/Editor/Cli.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
@@ -99,7 +105,8 @@
       <option name="presentableId" value="Default" />
       <updated>1739375582259</updated>
       <workItem from="1739375583261" duration="4195000" />
-      <workItem from="1739379849052" duration="10437000" />
+      <workItem from="1739379849052" duration="10705000" />
+      <workItem from="1739452411665" duration="10259000" />
     </task>
     <servers />
   </component>

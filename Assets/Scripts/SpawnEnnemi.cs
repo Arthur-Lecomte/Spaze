@@ -5,14 +5,14 @@ public class SpawnEnnemi : MonoBehaviour {
     public GameObject ennemiPrefab; // Préfabriqué de l'ennemi
     public Transform player; // Référence au joueur
     public Camera mainCamera; // Référence à la caméra principale
-
+    public float timeToSpawn = 2f;
     void Start() {
         StartCoroutine(SpawnEnnemiRoutine());
     }
 
     IEnumerator SpawnEnnemiRoutine() {
         while (true) {
-            float waitTime = Random.Range(2f, 5f);
+            float waitTime = timeToSpawn;
             yield return new WaitForSeconds(waitTime);
             SpawnEnnemiOutsideView();
         }

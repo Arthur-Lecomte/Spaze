@@ -15,12 +15,12 @@ public class Asteroid : MonoBehaviour {
         if (distance <= 8f) {
             if (!isCollecting) {
                 isCollecting = true;
-                countdown = 3f;
+                countdown = 2f;
             }
 
-            countdown -= Time.deltaTime;
+            countdown -= Time.deltaTime * ModeBuild.Instance.pourcentageResource;
             if (countdown <= 0f) {
-                ModeBuild.Instance.ChangeResource(GetRessources(1));
+                ModeBuild.Instance.ChangeResource(GetRessources(ModeBuild.Instance.nbResource));
                 countdown = 1f;
             }
         } else {
