@@ -5,20 +5,12 @@ using UnityEngine.InputSystem;
 /// Classe responsable de la gestion du mode construction.
 /// </summary>
 public class BuildManager : MonoBehaviour {
-    /// <summary>
-    /// Instance singleton de BuildManager.
-    /// </summary>
     public static BuildManager Instance;
 
-    /// <summary>
-    /// Référence à l'action d'entrée pour basculer le mode construction.
-    /// </summary>
-    public InputActionReference toggleBuildModeAction;
-
-    /// <summary>
-    /// Indique si le mode construction est activé.
-    /// </summary>
+    public InputActionReference toggleBuildModeAction; //Référence de la touche
     private bool isInBuildMode;
+    private Composant[] allComposants;
+    private Composant currentComposant;
     
     private void Awake () {
         if (Instance == null) {
@@ -28,6 +20,8 @@ public class BuildManager : MonoBehaviour {
         }
 
         isInBuildMode = false;
+        
+        allComposants = FindObjectsByType<Composant>(FindObjectsSortMode.None);
     }
     
     void OnEnable() {
@@ -38,6 +32,13 @@ public class BuildManager : MonoBehaviour {
     void OnDisable() {
         toggleBuildModeAction.action.performed -= ToggleBuildMode;
         toggleBuildModeAction.action.Disable();
+    }
+
+    /// <summary>
+    /// Indique si le mode construction est activé.
+    /// </summary>
+    public bool InBuildMode() {
+        return isInBuildMode;
     }
 
     /// <summary>
@@ -52,11 +53,21 @@ public class BuildManager : MonoBehaviour {
     /// Active/Desactive le monde construction via un bouton sur l'UI.
     /// </summary>
     public void ToggleBuildMode() {
+        //DEBUG!!! Voir les conditions pour l'activer (proche d'un shop ?) [WaitFor ShopManager]
         isInBuildMode = !isInBuildMode;
+        foreach (Composant composant in allComposants) {
+            composant.ToggleBuildMode(isInBuildMode);
+        }
+        
         if (isInBuildMode) {
             Debug.Log("Build Mode On");
         } else {
             Debug.Log("Build Mode Off");
         }
+    }
+    
+    public void CurrentComposant(Composant composant) {
+        currentComposant = composant;
+        //DEBUG!! panelBuild.SetActive(currentComposant);
     }
 }
