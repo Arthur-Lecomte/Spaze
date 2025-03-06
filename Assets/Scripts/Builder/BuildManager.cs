@@ -12,6 +12,8 @@ public class BuildManager : MonoBehaviour {
     private Composant[] allComposants;
     private Composant currentComposant;
     
+    [SerializeField] private GameObject panelUpgrade;
+    
     private void Awake () {
         if (Instance == null) {
             Instance = this;
@@ -55,6 +57,10 @@ public class BuildManager : MonoBehaviour {
     public void ToggleBuildMode() {
         //DEBUG!!! Voir les conditions pour l'activer (proche d'un shop ?) [WaitFor ShopManager]
         isInBuildMode = !isInBuildMode;
+        
+        //On affiche les différents panels
+        panelUpgrade.SetActive(isInBuildMode);
+        //panelComposant.SetActive(currentComposant && isInBuildMode); //DEBUG!!! à créer
         foreach (Composant composant in allComposants) {
             composant.ToggleBuildMode(isInBuildMode);
         }
@@ -68,6 +74,6 @@ public class BuildManager : MonoBehaviour {
     
     public void CurrentComposant(Composant composant) {
         currentComposant = composant;
-        //DEBUG!! panelBuild.SetActive(currentComposant);
+        //panelComposant.SetActive(currentComposant && isInBuildMode); //DEBUG!!! à créer
     }
 }
