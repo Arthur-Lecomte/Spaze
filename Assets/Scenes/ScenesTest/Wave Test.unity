@@ -176,6 +176,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b7b7608deced79449748c0be122061c, type: 3}
+--- !u!1 &310832086 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7572137621045063789, guid: 0b7b7608deced79449748c0be122061c, type: 3}
+  m_PrefabInstance: {fileID: 310832085}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &336471194
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,6 +302,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac1397e11d3eb634987c6d9bfb339025, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 310832086}
+  enemyPrefabs:
+  - {fileID: 7820003459037310679, guid: 07a986ebb868dac47a683697c9413312, type: 3}
+  - {fileID: 8875886496037661072, guid: 4dedc0ee49431924fbe2019d4bcbd820, type: 3}
+  - {fileID: 512185805942302842, guid: 764ef6b0b0c9fe7458de8fced4c06222, type: 3}
+  spawnRadius: 10
+  spawnSpread: 3
+  timeBetweenWaves: 5
+  startEnemies: 3
+  enemiesIncrement: 2
 --- !u!4 &609600137
 Transform:
   m_ObjectHideFlags: 0
