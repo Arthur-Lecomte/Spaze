@@ -8,7 +8,7 @@ public class Composant : MonoBehaviour {
     private Collider objectCollider;
     private Renderer objectRenderer;
     private Color color;
-    public int currentType;
+    private Construction construction;
 
     void Awake() {
         objectCollider = GetComponent<Collider>();
@@ -20,8 +20,19 @@ public class Composant : MonoBehaviour {
             objectRenderer.enabled = false;
             color.a = 0.25f;
             objectRenderer.material.color = color;
-            currentType = -1;
         }
+    }
+    
+    public void SetConstruction(Construction c) {
+        construction = c;
+    }
+    
+    public Construction GetConstruction() {
+        return construction;
+    }
+    
+    public bool IsEmpty() {
+        return construction == null;
     }
     
     void OnMouseEnter() {
