@@ -34,12 +34,11 @@ public class Composant : MonoBehaviour {
     void OnMouseDown() {
         if (!isActivate) {
             //DEBUG!!! Regarder si j'ai assez de ressources pour acheter le composant [WaitFor ShopManager]
-            /*
-            if(ShopManager.Instance.Buy(this)){
+            if(true){ //ShopManager.Instance.Buy(this)
                 Activate();
                 BuildManager.Instance.CurrentComposant(this);
             }
-            */
+            
         } else if(BuildManager.Instance.InBuildMode()) {
             BuildManager.Instance.CurrentComposant(this);
         }
