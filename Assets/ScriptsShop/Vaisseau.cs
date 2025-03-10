@@ -12,7 +12,7 @@ public class Vaisseau : MonoBehaviour
     void Start()
     {
         InitialiserInventaire();
-        InitialiserConstructionsDebloques();
+        InitialiserConstructionsDebloquees();
         ObtenirConstructionsDebloquees();
 
     }
@@ -38,22 +38,15 @@ public class Vaisseau : MonoBehaviour
     }
 
     // Initialiser la liste des constructions à débloquer
-    private void InitialiserConstructionsDebloques()
+    private void InitialiserConstructionsDebloquees()
     {
         constructionsDebloques = new List<Construction>();
         foreach (var construction in GameManager.Instance.ObtenirConstructions())
         {
-            if (construction is Tourelle tourelle && tourelle.EstDebloque)
+            if (construction.EstDebloque)
             {
-                constructionsDebloques.Add(tourelle);
+                constructionsDebloques.Add(construction);
             }
-            /*
-            else if (construction is Bouclier bouclier && bouclier.EstDebloque)
-            {
-                constructionsDebloques.Add(bouclier);
-            }
-            */
-            // Ajoutez d'autres types de constructions ici 
         }
     }
 
@@ -105,5 +98,18 @@ public class Vaisseau : MonoBehaviour
         }
         
         return constructionsDebloques;
+    }
+
+    public void AfficherConstructionsDebloquees()
+    {
+        ObtenirConstructionsDebloquees();
+    }
+    
+
+    // Méthode pour ajouter une construction au vaisseau
+    public void AjouterConstruction(Construction construction)
+    {
+        constructionsDebloques.Add(construction);
+        Debug.Log($"Construction {construction.Nom} ajoutée au vaisseau.");
     }
 }

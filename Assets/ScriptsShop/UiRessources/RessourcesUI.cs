@@ -15,9 +15,6 @@ public class RessourcesUI : MonoBehaviour
     
     void Start()
     {
-        
-        
-        
         vaisseau.OnInventaireModifie += MettreAJourUI;
         CreerElementsUI();
         MettreAJourUI();
@@ -25,31 +22,19 @@ public class RessourcesUI : MonoBehaviour
     
 private void CreerElementsUI()
 {
-    // Supprimer les enfants existants si nécessaire
-    foreach (Transform enfant in conteneurRessources)
-    {
-        Destroy(enfant.gameObject);
-    }
-
     // Créer un élément UI pour chaque type de ressource
     foreach (Ressource.TypeRessource type in System.Enum.GetValues(typeof(Ressource.TypeRessource)))
     {
         GameObject elementRessource = Instantiate(prefabElementRessource, conteneurRessources);
-
-        // Configurer l'élément UI
         TextMeshProUGUI texteElement = elementRessource.transform.Find("TexteElement").GetComponent<TextMeshProUGUI>();
-
-        // Définir le titre initial
         texteElement.text = type.ToString() + ": 0";
-
-        // Enregistrer la référence pour les mises à jour
         texteRessources.Add(type, texteElement);
     }
 }
 
 public void MettreAJourUI()
 {
-    Debug.Log("Mise à jour de l'interface utilisateur des ressources");
+    
     // Mettre à jour le texte de quantité pour chaque ressource
     foreach (var res in texteRessources)
     {
@@ -59,7 +44,7 @@ public void MettreAJourUI()
         int quantite = vaisseau.ObtenirQuantite(type);
         texteElement.text = type.ToString() + ": " + quantite.ToString();
 
-        // Optionnel : colorer les ressources dont la quantité est 0
+        // colorer les ressources dont la quantité est 0
         if (quantite == 0)
         {
             texteElement.color = Color.red;
