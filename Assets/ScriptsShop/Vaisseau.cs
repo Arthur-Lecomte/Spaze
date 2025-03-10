@@ -3,75 +3,107 @@ using UnityEngine;
 
 public class Vaisseau : MonoBehaviour
 {
-    
-    //Ressources
-    [SerializeField] private List<Ressource> inventaire = new List<Ressource>();
-    private Dictionary<Ressource.TypeRessource, Ressource> ressourcesDict = new Dictionary<Ressource.TypeRessource, Ressource>();
-    
+    private Dictionary<Ressource.TypeRessource, Ressource> ressourcesDict;
+    private List<Construction> constructionsDebloques;
+
     public delegate void ChangementInventaire();
     public event ChangementInventaire OnInventaireModifie;
 
-    void Awake()
+    void Start()
     {
         InitialiserInventaire();
+        InitialiserConstructionsDebloques();
+        ObtenirConstructionsDebloquees();
+
     }
 
     // Initialiser le dictionnaire avec toutes les ressources possibles 
     private void InitialiserInventaire()
     {
-        
+        ressourcesDict = new Dictionary<Ressource.TypeRessource, Ressource>();
         foreach (Ressource.TypeRessource type in System.Enum.GetValues(typeof(Ressource.TypeRessource)))
         {
-            Ressource nouvelleRessource = new Ressource(type, 100);
-            inventaire.Add(nouvelleRessource);
-            ressourcesDict.Add(type, nouvelleRessource);
+            Ressource ressource = GameManager.Instance.ObtenirRessource(type);
+            if (ressource != null)
+            {
+                // Créer une nouvelle instance de Ressource pour le Vaisseau
+                Ressource nouvelleRessource = new Ressource(type, ressource.Quantite);
+                ressourcesDict.Add(type, nouvelleRessource);
+            }
+            else
+            {
+                Debug.LogError($"Ressource de type {type} non trouvée dans le GameManager.");
+            }
+        }
+    }
+
+    // Initialiser la liste des constructions à débloquer
+    private void InitialiserConstructionsDebloques()
+    {
+        constructionsDebloques = new List<Construction>();
+        foreach (var construction in GameManager.Instance.ObtenirConstructions())
+        {
+            if (construction is Tourelle tourelle && tourelle.EstDebloque)
+            {
+                constructionsDebloques.Add(tourelle);
+            }
+            /*
+            else if (construction is Bouclier bouclier && bouclier.EstDebloque)
+            {
+                constructionsDebloques.Add(bouclier);
+            }
+            */
+            // Ajoutez d'autres types de constructions ici 
         }
     }
 
     // Ajoute une quantité de ressource spécifiée
     public void AjouterRessource(Ressource.TypeRessource type, int quantite)
     {
-        if (quantite <= 0) return;
-        
-        Ressource ressource = ressourcesDict[type];
-        
+        if (ressourcesDict.TryGetValue(type, out Ressource ressource))
+        {
+            ressource.Quantite += quantite;
+            OnInventaireModifie?.Invoke();
+        }
+    }
 
-        ressource.Quantite += quantite;
-        Debug.Log($"Ajout de {quantite} {type}. Nouveau total : {ressource.Quantite}");
-        
-        // Déclencher l'événement de modification
-        OnInventaireModifie?.Invoke();
+    public void AjouterRessourceCuivre(int quantite)
+    {
+        AjouterRessource(Ressource.TypeRessource.Cuivre, quantite); // Exemple d'ajout de 10 unités de cuivre
     }
 
     // Retire une quantité de ressource spécifiée
-    public bool RetirerRessource(Ressource.TypeRessource type, int quantite)
+    public void RetirerRessource(Ressource.TypeRessource type, int quantite)
     {
-        if (quantite <= 0) return false;
-        
-        Ressource ressource = ressourcesDict[type];
-        
-        // Vérifier si on a assez de ressources
-        if (ressource.Quantite < quantite)
+        if (ressourcesDict.TryGetValue(type, out Ressource ressource))
         {
-            Debug.LogWarning($"Impossible de retirer {quantite} {type}. Quantité disponible : {ressource.Quantite}");
-            return false;
+            ressource.Quantite -= quantite;
+            OnInventaireModifie?.Invoke();
         }
-        
-        // Retirer la quantité
-        ressource.Quantite -= quantite;
-        Debug.Log($"Retrait de {quantite} {type}. Nouveau total : {ressource.Quantite}");
-        
-        // Déclencher l'événement de modification
-        OnInventaireModifie?.Invoke();
-        
-        return true;
     }
 
     // Obtient la quantité d'une ressource spécifique
     public int ObtenirQuantite(Ressource.TypeRessource type)
     {
-        return ressourcesDict[type].Quantite;
+        if (ressourcesDict.TryGetValue(type, out Ressource ressource))
+        {
+            return ressource.Quantite;
+        }
+        else
+        {
+            Debug.LogError($"Ressource de type {type} non trouvée.");
+            return 0;
+        }
     }
 
-   
+    // Méthode publique pour accéder à la liste des constructions débloquées
+    public List<Construction> ObtenirConstructionsDebloquees()
+    {
+        foreach (var construction in constructionsDebloques)
+        {
+            Debug.Log(construction.ToString());
+        }
+        
+        return constructionsDebloques;
+    }
 }

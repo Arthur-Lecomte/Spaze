@@ -18,6 +18,8 @@ public class Ressource
     [SerializeField] private TypeRessource type;
     [SerializeField] private int quantite;
 
+    //Autres propriétés (mining speed etc...)
+
     // Constructeur
     public Ressource(TypeRessource type, int quantite)
     {

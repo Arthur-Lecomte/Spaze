@@ -49,6 +49,7 @@ private void CreerElementsUI()
 
 public void MettreAJourUI()
 {
+    Debug.Log("Mise à jour de l'interface utilisateur des ressources");
     // Mettre à jour le texte de quantité pour chaque ressource
     foreach (var res in texteRessources)
     {
@@ -69,13 +70,5 @@ public void MettreAJourUI()
         }
     }
 }
-    
-    void OnDestroy()
-    {
-        // Ne pas oublier de se désabonner de l'événement
-        if (vaisseau != null)
-        {
-            vaisseau.OnInventaireModifie -= MettreAJourUI;
-        }
-    }
+
 }
