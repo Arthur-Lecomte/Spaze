@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Composant : MonoBehaviour {
+public class VaisseauModule : MonoBehaviour {
     [SerializeField] private bool isActivate;
 
     [SerializeField] private int price;

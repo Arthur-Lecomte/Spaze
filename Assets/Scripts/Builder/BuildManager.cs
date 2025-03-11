@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Classe responsable de la gestion du mode construction.
@@ -9,10 +10,10 @@ public class BuildManager : MonoBehaviour {
 
     public InputActionReference toggleBuildModeAction; //Référence de la touche
     private bool isInBuildMode;
-    private Composant[] allComposants;
-    private Composant currentComposant;
+    private VaisseauModule[] allComposants;
+    private VaisseauModule currentVaisseauModule;
     
-    [SerializeField] private GameObject panelUpgrade;
+    [SerializeField] private GameObject[] panels;
     
     private void Awake () {
         if (Instance == null) {
@@ -23,7 +24,7 @@ public class BuildManager : MonoBehaviour {
 
         isInBuildMode = false;
         
-        allComposants = FindObjectsByType<Composant>(FindObjectsSortMode.None);
+        allComposants = FindObjectsByType<VaisseauModule>(FindObjectsSortMode.None);
     }
     
     void OnEnable() {
@@ -59,9 +60,12 @@ public class BuildManager : MonoBehaviour {
         isInBuildMode = !isInBuildMode;
         
         //On affiche les différents panels
-        panelUpgrade.SetActive(isInBuildMode);
+        foreach(GameObject panel in panels) {
+            panel.SetActive(isInBuildMode);
+        }
+        
         //panelComposant.SetActive(currentComposant && isInBuildMode); //DEBUG!!! à créer
-        foreach (Composant composant in allComposants) {
+        foreach (VaisseauModule composant in allComposants) {
             composant.ToggleBuildMode(isInBuildMode);
         }
         
@@ -72,8 +76,8 @@ public class BuildManager : MonoBehaviour {
         }
     }
     
-    public void CurrentComposant(Composant composant) {
-        currentComposant = composant;
+    public void CurrentComposant(VaisseauModule vaisseauModule) {
+        currentVaisseauModule = vaisseauModule;
         //panelComposant.SetActive(currentComposant && isInBuildMode); //DEBUG!!! à créer
     }
 }
