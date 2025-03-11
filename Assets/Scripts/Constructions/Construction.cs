@@ -1,14 +1,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class Construction : MonoBehaviour {
     [SerializeField] protected string nom;
     [SerializeField] protected string description;
-    [SerializeField] protected string rarity;
-    [SerializeField] protected int niveau;
+    [SerializeField] protected RarityConstruction rarity;
     [SerializeField] protected int niveauMax;
+    protected int Niveau;
     protected Dictionary<TypeRessource, int> CoutRessources;
+    [SerializeField] protected float probability;
+    [SerializeField] protected RawImage image;
     
     public Dictionary<TypeRessource, int> GetCoutRessources() {
         return CoutRessources;
@@ -23,6 +26,13 @@ public abstract class Construction : MonoBehaviour {
         return false; // Vérifier la class, le niveau et la rareté
     }
     public abstract void Upgrade();
+}
+
+public enum RarityConstruction {
+    Common,
+    Rare,
+    Epic,
+    Legendary
 }
 
 public enum TypeConstruction {

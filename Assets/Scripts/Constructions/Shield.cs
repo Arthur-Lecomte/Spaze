@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Tourelle : Construction {
+public class Shield : Construction {
     [SerializeField] private int damage;
     [SerializeField] private float attackSpeed;
 
@@ -9,7 +9,7 @@ public class Tourelle : Construction {
     public float AttackSpeed => attackSpeed;
 
     public override string ToString() {
-        return base.ToString() + $"\nDégâts: {damage}\nVitesse d'attaque: {attackSpeed}\nNiveau: {niveau}/{niveauMax}";
+        return base.ToString() + $"\nDégâts: {damage}\nVitesse d'attaque: {attackSpeed}\nNiveau: {Niveau}/{niveauMax}";
     }
     
     public override void Upgrade() {
