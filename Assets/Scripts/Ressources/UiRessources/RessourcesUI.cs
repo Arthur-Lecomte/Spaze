@@ -14,6 +14,11 @@ public class RessourcesUI : MonoBehaviour {
         CreateElementsUI();
         UpdateUI();
     }
+    
+    public void AddRessourceCuivre(int quantity) {
+        vaisseau.inventory.AddRessource(TypeRessource.Cuivre, quantity);
+        UpdateUI();
+    }
 
     private void CreateElementsUI() {
         // Créer un élément UI pour chaque type de ressource
@@ -30,7 +35,6 @@ public class RessourcesUI : MonoBehaviour {
         foreach(var res in texteRessources) {
             TypeRessource type = res.Key;
             TextMeshProUGUI texteElement = res.Value;
-
             int quantity = vaisseau.inventory.GetRessource(type);
             texteElement.text = type + ": " + quantity;
 
@@ -42,5 +46,4 @@ public class RessourcesUI : MonoBehaviour {
             }
         }
     }
-
 }

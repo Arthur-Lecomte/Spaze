@@ -1,7 +1,4 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
 public class Shop : MonoBehaviour {
     [SerializeField] private GameObject[] prefabsConstructions;
@@ -26,7 +23,7 @@ public class Shop : MonoBehaviour {
     }
 
     // Méthode pour acheter une construction
-    private void BuyConstruction(Construction construction) {
+    private bool BuyConstruction(Construction construction) {
         // Vérifiez si le joueur à suffisamment de ressources pour acheter la construction
         bool canBuy = true;
         foreach((TypeRessource type, int quantity) in construction.GetCoutRessources()) {
@@ -45,5 +42,6 @@ public class Shop : MonoBehaviour {
             // Ajouter la construction au vaisseau
             vaisseau.inventory.AddConstruction(construction);
         }
+        return canBuy;
     }
 }

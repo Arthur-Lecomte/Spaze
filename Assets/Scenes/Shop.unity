@@ -240,6 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40d61184f3bf2d54ab17dac80e11503a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefabsConstructions: []
   vaisseau: {fileID: 897316673}
   conteneurConstructions: {fileID: 1298269005}
   prefabConstructionItem: {fileID: 5890795331791929511, guid: f6434b72e3445e14bb69e9bf4460b7fc, type: 3}
@@ -318,6 +319,7 @@ GameObject:
   - component: {fileID: 897316670}
   - component: {fileID: 897316669}
   - component: {fileID: 897316673}
+  - component: {fileID: 897316674}
   m_Layer: 0
   m_Name: Vaisseau
   m_TagString: Untagged
@@ -428,6 +430,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fda3cec2051c4604aa726530c78fc995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventory: {fileID: 897316674}
+--- !u!114 &897316674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897316667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ec5eff4920fede4e949d804b7f6eec0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  size: 3
 --- !u!1 &1036217481
 GameObject:
   m_ObjectHideFlags: 0
@@ -644,9 +660,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 897316673}
-        m_TargetAssemblyTypeName: Vaisseau, Assembly-CSharp
-        m_MethodName: AjouterRessourceCuivre
+      - m_Target: {fileID: 1783277892}
+        m_TargetAssemblyTypeName: RessourcesUI, Assembly-CSharp
+        m_MethodName: AddRessourceCuivre
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1460,7 +1476,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8068a4b3a39b734438072f9c3aaa4085, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ressources: []
 --- !u!1 &1915095874
 GameObject:
   m_ObjectHideFlags: 0
