@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1661398866715541562}
-  - component: {fileID: 4558260651786410225}
+  - component: {fileID: 466078380460351417}
   m_Layer: 0
   m_Name: Speed
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4558260651786410225
+--- !u!114 &466078380460351417
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,12 +41,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 3333276994703778306}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 247a798213f8a3142a7a5756a60f20b4, type: 3}
+  m_Script: {fileID: 11500000, guid: ea6b61815fa23b14b8fe7707593decc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   nom: Speed
   description: 
   rarity: 0
   niveauMax: 0
+  probability: 0
+  image: {fileID: 21300000, guid: 9596e40a5a85531418d570e14e68c705, type: 3}
   damage: 0
   attackSpeed: 0

@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 public abstract class Construction : MonoBehaviour {
     [SerializeField] protected string nom;
@@ -11,20 +9,20 @@ public abstract class Construction : MonoBehaviour {
     protected int Niveau;
     protected Dictionary<TypeRessource, int> CoutRessources;
     [SerializeField] protected float probability;
-    [SerializeField] protected RawImage image;
+    [SerializeField] protected Sprite image;
     
     public Dictionary<TypeRessource, int> GetCoutRessources() {
         return CoutRessources;
     }
-
-    public override string ToString() {
-        string couts = string.Join("\n", CoutRessources.Select(kv => $"{kv.Key}: {kv.Value}"));
-        return $"Nom: {nom}\nCoût:\n{couts}";
+    
+    public Sprite GetImage() {
+        return image;
     }
 
     public bool IsSameConstruction(Construction c) {
         return false; // Vérifier la class, le niveau et la rareté
     }
+    
     public abstract void Upgrade();
 }
 
