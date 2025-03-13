@@ -3758,8 +3758,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: 3
   parentInInventory: {fileID: 241697747}
-  prefabTest: {fileID: 8359947637238317693, guid: bf11484255bcde94db1a36490fdf6374, type: 3}
-  prefabTest2: {fileID: 4414696197551732868, guid: eaec36ff422a9a844b17d05072ddf17b, type: 3}
+  prefabTest: {fileID: 3973143260400882770, guid: 8b2c4980d71d4dd49888625ec653eeae, type: 3}
+  prefabTest2: {fileID: 3975518805115099631, guid: 94656846a6ae1b7409a8307a7ae0db4b, type: 3}
 --- !u!114 &1726177303
 MonoBehaviour:
   m_ObjectHideFlags: 0
