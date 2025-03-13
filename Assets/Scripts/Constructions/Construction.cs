@@ -1,18 +1,20 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class Construction : MonoBehaviour {
     [SerializeField] protected string nom;
     [SerializeField] protected string description;
-    [SerializeField] protected RarityConstruction rarity;
+    [SerializeField] public RarityConstruction rarity;
     [SerializeField] protected int niveauMax;
     protected int Niveau;
-    protected Dictionary<TypeRessource, int> CoutRessources;
-    [SerializeField] protected float probability;
+    [SerializeField] protected List<RessourceCout> CoutRessourcesDeBase = new List<RessourceCout>();
+    [SerializeField] public float probability;
     [SerializeField] protected Sprite image;
     
     public Dictionary<TypeRessource, int> GetCoutRessources() {
-        return CoutRessources;
+        return CoutRessourcesDeBase.ToDictionary(cout => cout.typeRessource, cout => cout.quantite);
     }
     
     public Sprite GetImage() {
@@ -24,13 +26,26 @@ public abstract class Construction : MonoBehaviour {
     }
     
     public abstract void Upgrade();
+
+    public void AssignRandomRarity() {
+        int roll = Random.Range(0, 100);
+        if (roll < 25) {
+            rarity = RarityConstruction.Common;
+        } else if (roll < 50) {
+            rarity = RarityConstruction.Rare;
+        } else if (roll < 75) {
+            rarity = RarityConstruction.Epic;
+        } else {
+            rarity = RarityConstruction.Legendary;
+        }
+    }
 }
 
 public enum RarityConstruction {
-    Common,
-    Rare,
-    Epic,
-    Legendary
+    Common=50,
+    Rare=30,
+    Epic=15,
+    Legendary=5,
 }
 
 public enum TypeConstruction {
