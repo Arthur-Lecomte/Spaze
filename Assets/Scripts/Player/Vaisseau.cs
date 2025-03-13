@@ -21,17 +21,12 @@ public class Vaisseau : MonoBehaviour {
 
     void Update()
     {
-        // Détection de l'accélération
-        isAccelerating = Input.GetKey(KeyCode.Z);
-        Debug.Log(isAccelerating);
+        float moveInput = Input.GetAxis("Vertical"); // Prend en charge ZQSD ou WASD selon config Unity
+        float rotationInput = Input.GetAxis("Horizontal"); // Prend en charge Q/D
 
-        // Gestion de la rotation (sur l'axe Z, vue du dessus)
-        float rotationInput = 0f;
-        if (Input.GetKey(KeyCode.Q)) rotationInput = 1f;  // Rotation à gauche
-        if (Input.GetKey(KeyCode.D)) rotationInput = -1f; // Rotation à droite
+        isAccelerating = moveInput > 0;
 
-        // Appliquer la rotation sur l'axe Z
-        rb.AddTorque(Vector3.forward * rotationInput * rotationSpeed * Time.deltaTime, ForceMode.Force);
+        rb.AddTorque(-rotationInput * rotationSpeed * Time.deltaTime * Vector3.forward, ForceMode.Force);
     }
 
     void FixedUpdate()
