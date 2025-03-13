@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class Shop : MonoBehaviour {
     [SerializeField] private GameObject[] prefabsConstructions;
@@ -10,6 +12,7 @@ public class Shop : MonoBehaviour {
     [SerializeField] private Vaisseau vaisseau;
     [SerializeField] private Transform conteneurConstructions;
     [SerializeField] private GameObject prefabConstructionItem;
+    [SerializeField] private Transform zoneForPrefab;
 
     private void Start() {
         // Appeler la fonction pour sélectionner et afficher les constructions
@@ -36,12 +39,8 @@ public class Shop : MonoBehaviour {
         
 
         GameObject selectedPrefab1 = SelectPrefabWithRarityAndProbability(autresPrefabs);
-        GameObject selectedPrefab2;
-        do {
-            selectedPrefab2 = SelectPrefabWithRarityAndProbability(autresPrefabs);
-        } while (selectedPrefab2 == selectedPrefab1);
+        GameObject selectedPrefab2 = SelectPrefabWithRarityAndProbability(autresPrefabs);
         
-
         // Afficher les trois constructions dans l'interface utilisateur
         AfficherConstruction(tourellePrefab);
         AfficherConstruction(selectedPrefab1);
@@ -55,7 +54,7 @@ public class Shop : MonoBehaviour {
             Construction construction = prefab.GetComponent<Construction>();
             if (construction != null) {
                 int weight = GetWeight(construction.rarity, construction.probability);
-                Debug.Log($"Prefab: {prefab.name}, Rarity: {construction.rarity}, Probability: {construction.probability}, Weight: {weight}");
+                //Debug.Log($"Prefab: {prefab.name}, Rarity: {construction.rarity}, Probability: {construction.probability}, Weight: {weight}");
                 for (int i = 0; i < weight; i++) {
                     weightedList.Add(prefab);
                 }
@@ -70,7 +69,7 @@ public class Shop : MonoBehaviour {
 
         // Sélectionner un prefab aléatoire dans la liste pondérée
         int randomIndex = Random.Range(0, weightedList.Count);
-        return weightedList[randomIndex];
+        return Instantiate(weightedList[randomIndex], zoneForPrefab, true);
     }
 
     private int GetWeight(RarityConstruction rarity, float probability) {
@@ -84,12 +83,20 @@ public class Shop : MonoBehaviour {
         GameObject constructionItem = Instantiate(prefabConstructionItem, conteneurConstructions);
 
         // Configurer l'élément UI
-        TextMeshProUGUI constructionText = constructionItem.transform.Find("ConstructionText")?.GetComponent<TextMeshProUGUI>();
-        Button acheterButton = constructionItem.transform.Find("AcheterButton")?.GetComponent<Button>();
-        Construction construction = prefab.GetComponent<Construction>();
-        constructionText.text = construction.ToString();
-        acheterButton.onClick.AddListener(() => BuyConstruction(construction));
+        TextMeshProUGUI nom = constructionItem.transform.Find("Zone").Find("Name")?.GetComponent<TextMeshProUGUI>();
+        Image sprite = constructionItem.transform.Find("Zone").Find("Sprite")?.GetComponent<Image>();
+        TextMeshProUGUI rarity = constructionItem.transform.Find("Zone").Find("Rarity Zone")?.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI cuivre = constructionItem.transform.Find("Zone").Find("Cout Cuivre")?.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI argent = constructionItem.transform.Find("Zone").Find("Cout Argent")?.GetComponent<TextMeshProUGUI>();
+        Button acheterButton = constructionItem.transform.Find("Zone").Find("AcheterButton")?.GetComponent<Button>();
         
+        Construction construction = prefab.GetComponent<Construction>();
+        nom.text = construction.nom;
+        sprite.sprite = construction.GetImage();
+        rarity.text = Enum.GetName(typeof(RarityConstruction), construction.rarity);
+        cuivre.text = construction.CoutRessourcesDeBase[0].quantite.ToString();
+        argent.text = construction.CoutRessourcesDeBase[1].quantite.ToString();
+        acheterButton.onClick.AddListener(() => BuyConstruction(construction));
     }
 
 
@@ -113,7 +120,7 @@ public class Shop : MonoBehaviour {
             // Ajouter la construction au vaisseau
             vaisseau.inventory.AddConstruction(construction);
             //TEMPORAIRE
-            vaisseau.inventory.ShowConstructions();
+            //vaisseau.inventory.ShowConstructions();
         }
         return canBuy;
     }
@@ -121,6 +128,9 @@ public class Shop : MonoBehaviour {
     public void ResetConstructions() {
         // Supprimer toutes les constructions affichées
         foreach (Transform child in conteneurConstructions) {
+            Destroy(child.gameObject);
+        }
+        foreach (Transform child in zoneForPrefab) {
             Destroy(child.gameObject);
         }
         // Réinitialiser les constructions

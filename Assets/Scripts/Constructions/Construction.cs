@@ -1,22 +1,23 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public abstract class Construction : MonoBehaviour {
-    [SerializeField] protected string nom;
+    [SerializeField] public string nom;
     [SerializeField] protected string description;
     [SerializeField] public RarityConstruction rarity;
     [SerializeField] protected int niveauMax;
     protected int Niveau;
-    [SerializeField] protected List<RessourceCout> CoutRessourcesDeBase = new List<RessourceCout>();
+    [SerializeField] public List<RessourceCout> CoutRessourcesDeBase = new List<RessourceCout>();
     [SerializeField] public float probability;
     [SerializeField] protected Sprite image;
-    
+
     public Dictionary<TypeRessource, int> GetCoutRessources() {
         return CoutRessourcesDeBase.ToDictionary(cout => cout.typeRessource, cout => cout.quantite);
     }
-    
+
     public Sprite GetImage() {
         return image;
     }
@@ -24,16 +25,16 @@ public abstract class Construction : MonoBehaviour {
     public bool IsSameConstruction(Construction c) {
         return false; // Vérifier la class, le niveau et la rareté
     }
-    
+
     public abstract void Upgrade();
 
     public void AssignRandomRarity() {
         int roll = Random.Range(0, 100);
-        if (roll < 25) {
+        if(roll < 25) {
             rarity = RarityConstruction.Common;
-        } else if (roll < 50) {
+        } else if(roll < 50) {
             rarity = RarityConstruction.Rare;
-        } else if (roll < 75) {
+        } else if(roll < 75) {
             rarity = RarityConstruction.Epic;
         } else {
             rarity = RarityConstruction.Legendary;
@@ -42,10 +43,16 @@ public abstract class Construction : MonoBehaviour {
 }
 
 public enum RarityConstruction {
-    Common=50,
-    Rare=30,
-    Epic=15,
-    Legendary=5,
+    Common = 50,
+    Rare = 30,
+    Epic = 15,
+    Legendary = 5,
+}
+
+[Serializable]
+public struct RessourceCout {
+    public TypeRessource typeRessource;
+    public int quantite;
 }
 
 public enum TypeConstruction {

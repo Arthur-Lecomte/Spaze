@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class VaisseauModule : MonoBehaviour {
     private Vaisseau vaisseau;
-
-    private Dictionary<TypeRessource, int> coutRessources;
+    
+    [SerializeField] public List<RessourceCout> coutRessources = new List<RessourceCout>();
     [SerializeField] private bool isActivate;
     private EventTrigger eventTrigger;
 
@@ -116,9 +117,11 @@ public class VaisseauModule : MonoBehaviour {
     private void OnMouseDown() {
         if(!isActivate) {
             //DEBUG!!! Vérifier si proche d'un shop [WaitforShopManager]
-            if(vaisseau.inventory.HaveEnoughRessources(coutRessources)) {
+            if(vaisseau.inventory.HaveEnoughRessources(coutRessources.ToDictionary(cout => cout.typeRessource, cout => cout.quantite))) {
+                foreach((TypeRessource type, int quantity) in coutRessources.ToDictionary(cout => cout.typeRessource, cout => cout.quantite)) {
+                    vaisseau.inventory.RemoveRessource(type, quantity);
+                }
                 BuildManager.Instance.CurrentConstruction(construction);
-
                 Activate();
             }
         } else if(BuildManager.Instance.InBuildMode()) {

@@ -51,7 +51,11 @@ public class BuildManager : MonoBehaviour {
     /// </summary>
     /// <param name="obj">Contexte de rappel de l'action d'entrée.</param>
     private void ToggleBuildMode(InputAction.CallbackContext obj) {
-        ToggleBuildMode();
+        //On affiche les différents panels
+        foreach(GameObject panel in panels) {
+            panel.SetActive(!panel.activeSelf);
+        }
+        //ToggleBuildMode();
     }
 
     /// <summary>
@@ -60,11 +64,6 @@ public class BuildManager : MonoBehaviour {
     public void ToggleBuildMode() {
         //DEBUG!!! Voir les conditions pour l'activer (proche d'un shop ?) [WaitFor ShopManager]
         isInBuildMode = !isInBuildMode;
-
-        //On affiche les différents panels
-        foreach(GameObject panel in panels) {
-            panel.SetActive(isInBuildMode);
-        }
 
         //panelDescription.SetActive(currentConstruction && isInBuildMode); //DEBUG!!! à créer
         foreach(VaisseauModule module in allModules) {
