@@ -39,7 +39,7 @@ public class VaisseauModule : MonoBehaviour {
         if(construction) {
             Transform constructionTransform = construction.transform;
             constructionTransform.SetParent(transform);
-            constructionTransform.localPosition = Vector3.zero;
+            constructionTransform.localPosition = new Vector3(0, 1, 0);
             EnablePointerHandlers();
         } else {
             DisablePointerHandlers();
