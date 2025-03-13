@@ -119,6 +119,28 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &181741777 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3426042385876086980, guid: 0d33feb822b43424caadeba0c9a4a58a, type: 3}
+  m_PrefabInstance: {fileID: 1031162566985654507}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &181741783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 181741777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fda3cec2051c4604aa726530c78fc995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventory: {fileID: 0}
+  acceleration: 10
+  maxSpeed: 5
+  rotationSpeed: 100
+  drag: 0.99
 --- !u!1 &805031598
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,10 +406,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Vaisseau
       objectReference: {fileID: 0}
+    - target: {fileID: 8499796202608848480, guid: 0d33feb822b43424caadeba0c9a4a58a, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3426042385876086980, guid: 0d33feb822b43424caadeba0c9a4a58a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 181741783}
   m_SourcePrefab: {fileID: 100100000, guid: 0d33feb822b43424caadeba0c9a4a58a, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
