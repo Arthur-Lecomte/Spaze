@@ -10,28 +10,30 @@ public class BuildManager : MonoBehaviour {
 
     public InputActionReference toggleBuildModeAction; //Référence de la touche
     private bool isInBuildMode;
-    private VaisseauModule[] allComposants;
-    private VaisseauModule currentVaisseauModule;
-    
+    private VaisseauModule[] allModules;
+    private Construction currentConstruction;
+
     [SerializeField] private GameObject[] panels;
-    
-    private void Awake () {
-        if (Instance == null) {
+
+    private void Awake() {
+        if(Instance == null) {
             Instance = this;
         } else {
             Destroy(gameObject);
         }
 
-        isInBuildMode = false;
-        
-        allComposants = FindObjectsByType<VaisseauModule>(FindObjectsSortMode.None);
+        allModules = FindObjectsByType<VaisseauModule>(FindObjectsSortMode.None);
     }
-    
+
+    private void Start() {
+        ToggleBuildMode();
+    }
+
     void OnEnable() {
         toggleBuildModeAction.action.performed += ToggleBuildMode;
         toggleBuildModeAction.action.Enable();
     }
-    
+
     void OnDisable() {
         toggleBuildModeAction.action.performed -= ToggleBuildMode;
         toggleBuildModeAction.action.Disable();
@@ -58,26 +60,20 @@ public class BuildManager : MonoBehaviour {
     public void ToggleBuildMode() {
         //DEBUG!!! Voir les conditions pour l'activer (proche d'un shop ?) [WaitFor ShopManager]
         isInBuildMode = !isInBuildMode;
-        
+
         //On affiche les différents panels
         foreach(GameObject panel in panels) {
             panel.SetActive(isInBuildMode);
         }
-        
-        //panelComposant.SetActive(currentComposant && isInBuildMode); //DEBUG!!! à créer
-        foreach (VaisseauModule composant in allComposants) {
-            composant.ToggleBuildMode(isInBuildMode);
-        }
-        
-        if (isInBuildMode) {
-            Debug.Log("Build Mode On");
-        } else {
-            Debug.Log("Build Mode Off");
+
+        //panelDescription.SetActive(currentConstruction && isInBuildMode); //DEBUG!!! à créer
+        foreach(VaisseauModule module in allModules) {
+            module.ToggleBuildMode(isInBuildMode);
         }
     }
-    
-    public void CurrentComposant(VaisseauModule vaisseauModule) {
-        currentVaisseauModule = vaisseauModule;
-        //panelComposant.SetActive(currentComposant && isInBuildMode); //DEBUG!!! à créer
+
+    public void CurrentConstruction(Construction construction) {
+        currentConstruction = construction;
+        //panelDescription.SetActive(currentConstruction && isInBuildMode); //DEBUG!!! à créer
     }
 }

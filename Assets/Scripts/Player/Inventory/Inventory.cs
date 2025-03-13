@@ -5,7 +5,7 @@ public class Inventory : MonoBehaviour {
     public static Inventory Instance; //DEBUG!!! Pour des tests rapides. À enlever et corriger plus tard
 
     private Dictionary<TypeRessource, int> ressources;
-    private List<VaisseauModule> composants;
+    private List<VaisseauModule> modules;
     private List<Construction> constructionsInventory;
     [SerializeField] private int size = 2;
     [SerializeField] private Transform parentInInventory;
@@ -25,7 +25,7 @@ public class Inventory : MonoBehaviour {
             ressources.Add(type, 0);
         }
 
-        composants = new List<VaisseauModule>(GetComponentsInChildren<VaisseauModule>(true));
+        modules = new List<VaisseauModule>(GetComponentsInChildren<VaisseauModule>(true));
         constructionsInventory = new List<Construction>(size);
         for(int i = 0; i < size; i++) {
             constructionsInventory.Add(null);
@@ -36,7 +36,7 @@ public class Inventory : MonoBehaviour {
         InventoryUI.Instance.ChangeNumberSlots(size);
         GameObject go = Instantiate(prefabTest);
         AddConstruction(go.GetComponent<Construction>());
-        
+
         go = Instantiate(prefabTest2);
         AddConstruction(go.GetComponent<Construction>());
     }
@@ -67,10 +67,22 @@ public class Inventory : MonoBehaviour {
         return ressources[type];
     }
 
-    public void AddInventorySlots() {
+    public void AddInventorySlotsSize() {
         size += 1;
         constructionsInventory.Add(null);
         InventoryUI.Instance.ChangeNumberSlots(size);
+    }
+
+    public void SetInventorySlots(int index, Construction construction) {
+        constructionsInventory[index] = construction;
+        if(construction) {
+            construction.transform.SetParent(parentInInventory);
+        }
+        InventoryUI.Instance.UpdateSlotImage(index, constructionsInventory[index]);
+    }
+
+    public Construction GetInventorySlots(int index) {
+        return constructionsInventory[index];
     }
 
     public void MoveInventorySlot(int index, int newIndex) {
@@ -79,21 +91,28 @@ public class Inventory : MonoBehaviour {
         InventoryUI.Instance.UpdateSlotImage(newIndex, constructionsInventory[newIndex]);
     }
 
+    public Construction RemoveInventorySlots(int index) {
+        Construction construction = constructionsInventory[index];
+        constructionsInventory[index] = null;
+        InventoryUI.Instance.UpdateSlotImage(index, null);
+        return construction;
+    }
+
     // Méthode pour ajouter une construction au vaisseau
     public bool AddConstruction(Construction newConstruction) {
         VaisseauModule libre = null;
 
         // On vérifie si on peut améliorer une construction posée sur le vaisseau
-        foreach(VaisseauModule composant in composants) {
-            Construction construction = composant.GetConstruction();
+        foreach(VaisseauModule module in modules) {
+            Construction construction = module.GetConstruction();
             if(construction && construction.IsSameConstruction(newConstruction)) {
-                composant.GetConstruction().Upgrade();
+                module.GetConstruction().Upgrade();
                 return true;
             }
 
-            // On garde en mémoire un composant libre au cas où on ne peut rien améliorer
-            if(!libre && !composant.IsEmpty()) {
-                libre = composant;
+            // On garde en mémoire un module libre au cas où on ne peut rien améliorer
+            if(!libre && !module.IsEmpty()) {
+                libre = module;
             }
         }
 
@@ -105,7 +124,7 @@ public class Inventory : MonoBehaviour {
             }
         }
 
-        // Si on a un composant libre, on lui ajoute la construction
+        // Si on a un module libre, on lui ajoute la construction
         if(libre) {
             libre.SetConstruction(newConstruction);
             return true;

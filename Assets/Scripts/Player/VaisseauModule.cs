@@ -1,10 +1,14 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class VaisseauModule : MonoBehaviour {
-    [SerializeField] private bool isActivate;
+    private Vaisseau vaisseau;
 
-    [SerializeField] private int price;
-    
+    private Dictionary<TypeRessource, int> coutRessources;
+    [SerializeField] private bool isActivate;
+    private EventTrigger eventTrigger;
+
     private Collider objectCollider;
     private Renderer objectRenderer;
     private Color color;
@@ -14,56 +18,82 @@ public class VaisseauModule : MonoBehaviour {
         objectCollider = GetComponent<Collider>();
         objectRenderer = GetComponent<Renderer>();
         color = objectRenderer.material.color;
-        
+
         if(!isActivate) {
             objectCollider.enabled = false;
             objectRenderer.enabled = false;
             color.a = 0.25f;
             objectRenderer.material.color = color;
         }
+
+        vaisseau = transform.parent.GetComponent<Vaisseau>();
+        //DEBUG!!! Initialiser les ressources nécessaires pour construire le module
     }
-    
+
     public void SetConstruction(Construction c) {
         construction = c;
+        if(construction) {
+            Transform constructionTransform = construction.transform;
+            constructionTransform.SetParent(transform);
+            constructionTransform.localPosition = Vector3.zero;
+            EnablePointerHandlers();
+        } else {
+            DisablePointerHandlers();
+        }
     }
-    
+
+    private void EnablePointerHandlers() {
+        if(eventTrigger == null) {
+            eventTrigger = gameObject.AddComponent<EventTrigger>();
+            InventoryUI.Instance.AddEventTrigger(eventTrigger, EventTriggerType.PointerDown, (data) => InventoryUI.Instance.OnPointerDownModule(this, Input.mousePosition));
+            InventoryUI.Instance.AddEventTrigger(eventTrigger, EventTriggerType.Drag, (data) => InventoryUI.Instance.OnDrag((PointerEventData)data));
+            InventoryUI.Instance.AddEventTrigger(eventTrigger, EventTriggerType.PointerUp, (data) => InventoryUI.Instance.OnPointerUp((PointerEventData)data));
+        }
+    }
+
+    private void DisablePointerHandlers() {
+        if(eventTrigger != null) {
+            Destroy(eventTrigger);
+            eventTrigger = null;
+        }
+    }
+
     public Construction GetConstruction() {
         return construction;
     }
-    
+
     public bool IsEmpty() {
         return construction == null;
     }
-    
-    void OnMouseEnter() {
-        if (!isActivate) {
+
+    private void OnMouseEnter() {
+        if(!isActivate) { //DEBUG!!! Vérifier si proche d'un shop [WaitFor ShopManager]
             color.a = 0.5f;
             objectRenderer.material.color = color;
         }
     }
-    
-    void OnMouseDown() {
-        if (!isActivate) {
-            //DEBUG!!! Regarder si j'ai assez de ressources pour acheter le composant [WaitFor ShopManager]
-            if(true){ //ShopManager.Instance.Buy(this)
+
+    private void OnMouseDown() {
+        if(!isActivate) { //DEBUG!!! Vérifier si proche d'un shop [WaitFor ShopManager]
+            if(vaisseau.inventory.HaveEnoughRessources(coutRessources)) {
+                BuildManager.Instance.CurrentConstruction(construction);
+
                 Activate();
-                BuildManager.Instance.CurrentComposant(this);
             }
-            
         } else if(BuildManager.Instance.InBuildMode()) {
-            BuildManager.Instance.CurrentComposant(this);
+            BuildManager.Instance.CurrentConstruction(construction);
         }
     }
 
-    void OnMouseExit() {
-        if (!isActivate) {
+    private void OnMouseExit() {
+        if(!isActivate) { //DEBUG!!! Vérifier si proche d'un shop [WaitFor ShopManager]
             color.a = 0.25f;
             objectRenderer.material.color = color;
         }
     }
-    
+
     public void ToggleBuildMode(bool value) {
-        if(!isActivate) {
+        if(!isActivate) { //DEBUG!!! Vérifier si proche d'un shop [WaitFor ShopManager]
             TogglePreview(value);
         }
     }
@@ -80,12 +110,8 @@ public class VaisseauModule : MonoBehaviour {
         objectRenderer.enabled = true;
         objectCollider.enabled = true;
     }
-    
-    public void TakeDamage(int damage) {
-        //DEBUG!!! Renvoie les dégâts au joueur ou les absorbe (à voir avec l'équipe) [WaitFor xxx]
-    }
 
-    public void ChangeBuilding(int type) {
-        //DEBUG!!! Changer la construction du vaisseau [WaitFort Building]
+    public void TakeDamage(int damage) {
+        //DEBUG!!! Renvoie les dégâts au joueur ou les absorbe (à voir avec l'équipe) [WaitFor Vaisseau]
     }
 }

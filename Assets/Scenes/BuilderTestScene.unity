@@ -353,7 +353,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 241697747}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: InventoryForPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -384,7 +384,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 245663259}
-  - component: {fileID: 245663257}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -392,20 +391,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &245663257
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 245663256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa063cb00d876b046b0f541f3f57ffa6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  toggleBuildModeAction: {fileID: 2895860171232644047, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  panels: []
 --- !u!4 &245663259
 Transform:
   m_ObjectHideFlags: 0
@@ -808,7 +793,7 @@ GameObject:
   - component: {fileID: 307071715}
   - component: {fileID: 307071714}
   - component: {fileID: 307071713}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Composant D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -842,7 +827,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3da3a2b9d6138fe4d9c3c17e6925757d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isActivate: 0
+  isActivate: 1
 --- !u!65 &307071714
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -929,6 +914,7 @@ GameObject:
   - component: {fileID: 330585545}
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
+  - component: {fileID: 330585548}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1054,6 +1040,22 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &330585548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c49b4cc203aa6414fae5c798d1d0e7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 64
+  m_MaxRayIntersections: 0
 --- !u!1 &362879269
 GameObject:
   m_ObjectHideFlags: 0
@@ -1942,7 +1944,7 @@ GameObject:
   - component: {fileID: 881020887}
   - component: {fileID: 881020886}
   - component: {fileID: 881020885}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Central
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2129,6 +2131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotPrefab: {fileID: 2112882634387953125, guid: 1e5ba49c7838d1d4aa5c0d8f7cbd256d, type: 3}
   dragImagePrefab: {fileID: 2112882634387953125, guid: 1879bfc301ea0ec4483b121100222869, type: 3}
+  mainCamera: {fileID: 330585545}
 --- !u!1 &931226727
 GameObject:
   m_ObjectHideFlags: 0
@@ -2278,7 +2281,7 @@ GameObject:
   - component: {fileID: 965852869}
   - component: {fileID: 965852868}
   - component: {fileID: 965852867}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Composant G2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2312,7 +2315,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3da3a2b9d6138fe4d9c3c17e6925757d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isActivate: 0
+  isActivate: 1
 --- !u!65 &965852868
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2894,7 +2897,7 @@ GameObject:
   - component: {fileID: 1226663209}
   - component: {fileID: 1226663208}
   - component: {fileID: 1226663207}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Composant G
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3240,6 +3243,7 @@ GameObject:
   - component: {fileID: 1467888737}
   - component: {fileID: 1467888736}
   - component: {fileID: 1467888735}
+  - component: {fileID: 1467888739}
   m_Layer: 5
   m_Name: Canvas - Builder
   m_TagString: Untagged
@@ -3332,6 +3336,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1467888739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1467888734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa063cb00d876b046b0f541f3f57ffa6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toggleBuildModeAction: {fileID: 2895860171232644047, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  panels:
+  - {fileID: 624810069}
+  - {fileID: 896818328}
 --- !u!1 &1471495698
 GameObject:
   m_ObjectHideFlags: 0
@@ -3696,7 +3716,7 @@ GameObject:
   - component: {fileID: 1726177301}
   - component: {fileID: 1726177303}
   - component: {fileID: 1726177302}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3916,7 +3936,7 @@ GameObject:
   - component: {fileID: 1816604159}
   - component: {fileID: 1816604158}
   - component: {fileID: 1816604157}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Composant D2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4808,7 +4828,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 245663257}
+      - m_Target: {fileID: 1467888739}
         m_TargetAssemblyTypeName: BuildManager, Assembly-CSharp
         m_MethodName: ToggleBuildMode
         m_Mode: 1
