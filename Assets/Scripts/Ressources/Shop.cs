@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -16,29 +17,66 @@ public class Shop : MonoBehaviour {
     }
 
         private void SelectionnerEtAfficherConstructions() {
+         // Assigner une rareté aléatoire à chaque prefab (Avec 25% de chance pour chaque rareté)
+        foreach (GameObject prefab in prefabsConstructions) {
+            Construction construction = prefab.GetComponent<Construction>();
+            if (construction != null) {
+                construction.AssignRandomRarity();
+            }
+        }
+
+
         // Filtrer les prefabs pour ne garder que les tourelles
         GameObject[] tourellePrefabs = prefabsConstructions.Where(prefab => prefab.GetComponent<Turret>() != null).ToArray();
         // Sélectionner une tourelle aléatoire parmi les tourelles filtrées
-        int randomTourelleIndex = Random.Range(0, tourellePrefabs.Length);
-        GameObject tourellePrefab = tourellePrefabs[randomTourelleIndex];
+        GameObject tourellePrefab = SelectPrefabWithRarityAndProbability(tourellePrefabs);
 
         // Sélectionner deux autres constructions aléatoires parmi toutes les constructions
         GameObject[] autresPrefabs = prefabsConstructions.Where(prefab => prefab != tourellePrefab).ToArray();
         
 
-        int randomIndex1 = Random.Range(0, autresPrefabs.Length);
-        int randomIndex2;
+        GameObject selectedPrefab1 = SelectPrefabWithRarityAndProbability(autresPrefabs);
+        GameObject selectedPrefab2;
         do {
-            randomIndex2 = Random.Range(0, autresPrefabs.Length);
-        } while (randomIndex2 == randomIndex1);
-
-        GameObject selectedPrefab1 = autresPrefabs[randomIndex1];
-        GameObject selectedPrefab2 = autresPrefabs[randomIndex2];
+            selectedPrefab2 = SelectPrefabWithRarityAndProbability(autresPrefabs);
+        } while (selectedPrefab2 == selectedPrefab1);
+        
 
         // Afficher les trois constructions dans l'interface utilisateur
         AfficherConstruction(tourellePrefab);
         AfficherConstruction(selectedPrefab1);
         AfficherConstruction(selectedPrefab2);
+    }
+
+    private GameObject SelectPrefabWithRarityAndProbability(GameObject[] prefabs) {
+        // Créer une liste pondérée en fonction de la rareté et de la probabilité
+        List<GameObject> weightedList = new List<GameObject>();
+        foreach (GameObject prefab in prefabs) {
+            Construction construction = prefab.GetComponent<Construction>();
+            if (construction != null) {
+                int weight = GetWeight(construction.rarity, construction.probability);
+                Debug.Log($"Prefab: {prefab.name}, Rarity: {construction.rarity}, Probability: {construction.probability}, Weight: {weight}");
+                for (int i = 0; i < weight; i++) {
+                    weightedList.Add(prefab);
+                }
+            }
+        }
+
+        if (weightedList.Count == 0) {
+            Debug.LogError("La liste pondérée est vide. Aucun prefab n'a été sélectionné.");
+            return null;
+        }
+
+
+        // Sélectionner un prefab aléatoire dans la liste pondérée
+        int randomIndex = Random.Range(0, weightedList.Count);
+        return weightedList[randomIndex];
+    }
+
+    private int GetWeight(RarityConstruction rarity, float probability) {
+    int baseWeight = 1; // Poids de base pour les calculs
+    int rarityWeight = (int)rarity; // Utiliser la valeur de l'énumération directement
+    return Mathf.RoundToInt(baseWeight * probability * rarityWeight);
     }
 
     private void AfficherConstruction(GameObject prefab) {
@@ -78,5 +116,14 @@ public class Shop : MonoBehaviour {
             vaisseau.inventory.ShowConstructions();
         }
         return canBuy;
+    }
+
+    public void ResetConstructions() {
+        // Supprimer toutes les constructions affichées
+        foreach (Transform child in conteneurConstructions) {
+            Destroy(child.gameObject);
+        }
+        // Réinitialiser les constructions
+        SelectionnerEtAfficherConstructions();
     }
 }

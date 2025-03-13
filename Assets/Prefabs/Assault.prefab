@@ -55,7 +55,7 @@ MonoBehaviour:
     quantite: 50
   - typeRessource: 2
     quantite: 10
-  probability: 0
+  probability: 10
   SpriteImage: {fileID: 0}
   damage: 5
   attackSpeed: 1

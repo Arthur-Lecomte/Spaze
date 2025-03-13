@@ -51,7 +51,7 @@ MonoBehaviour:
   CoutRessourcesDeBase:
   - typeRessource: 3
     quantite: 100
-  probability: 0
+  probability: 8
   SpriteImage: {fileID: 0}
   damage: 0
   attackSpeed: 0

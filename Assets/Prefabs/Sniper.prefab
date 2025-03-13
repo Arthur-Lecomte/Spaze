@@ -47,6 +47,10 @@ MonoBehaviour:
   nom: Sniper
   description: 
   rarity: 0
-  niveauMax: 0
+  niveauMax: 5
+  CoutRessourcesDeBase: []
+  probability: 5
+  SpriteImage: {fileID: 0}
   damage: 0
   attackSpeed: 0
+  range: 0
