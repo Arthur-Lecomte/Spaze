@@ -242,6 +242,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabsConstructions:
   - {fileID: 1595409793775326100, guid: 8180d4771f1d96749aa374578cfb19e1, type: 3}
+  - {fileID: 3975518805115099631, guid: 94656846a6ae1b7409a8307a7ae0db4b, type: 3}
+  - {fileID: 4799551789376413609, guid: 067964775e3a8584884cd9d84b8f16a1, type: 3}
   vaisseau: {fileID: 897316673}
   conteneurConstructions: {fileID: 1298269005}
   prefabConstructionItem: {fileID: 5890795331791929511, guid: f6434b72e3445e14bb69e9bf4460b7fc, type: 3}
@@ -481,8 +483,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 677.9999, y: 495.99997}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 698.83636, y: 495.99997}
+  m_SizeDelta: {x: 201.6729, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1036217483
 MonoBehaviour:
@@ -1070,7 +1072,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Show Item
+  m_text: 'Show Inventory
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
