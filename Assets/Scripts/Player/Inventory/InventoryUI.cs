@@ -17,7 +17,8 @@ public class InventoryUI : MonoBehaviour {
     private GameObject dragImage;
     private Image dragImageComponent;
     private int draggedSlotIndex = -1;
-    private VaisseauModule draggedConstruction;
+    private VaisseauModule draggedModule;
+    private GameObject draggedObject;
 
     private void Awake() {
         if(Instance == null) {
@@ -31,6 +32,7 @@ public class InventoryUI : MonoBehaviour {
 
         dragImage = Instantiate(dragImagePrefab, transform);
         dragImageComponent = dragImage.GetComponent<Image>();
+        dragImageComponent.color = new Color(1, 1, 1, 0.5f);
         dragImage.SetActive(false);
     }
 
@@ -68,6 +70,19 @@ public class InventoryUI : MonoBehaviour {
         }
         imageComponent.enabled = newConstruction;
     }
+    
+    public bool IsDragging() {
+        return dragImage.activeSelf;
+    }
+    
+    public GameObject StartDraggedOnModule() {
+        dragImageComponent.color = new Color(1, 1, 1, 0f);
+        return draggedObject;
+    }
+    
+    public void EndDraggedOnModule() {
+        dragImageComponent.color = new Color(1, 1, 1, 0.5f);
+    }
 
     private void OnPointerDown(PointerEventData eventData, GameObject slot, int index) {
         BuildManager.Instance.CurrentConstruction(Inventory.Instance.GetInventorySlots(index));
@@ -75,8 +90,8 @@ public class InventoryUI : MonoBehaviour {
 
         draggedSlotIndex = index;
         Image imageComponent = slot.transform.Find("ImageConstruction").GetComponent<Image>();
+        draggedObject = Inventory.Instance.GetInventorySlots(draggedSlotIndex).gameObject;
         dragImageComponent.sprite = imageComponent.sprite;
-        dragImageComponent.color = new Color(1, 1, 1, 0.5f);
         dragImage.transform.position = eventData.position;
         dragImage.transform.SetAsLastSibling();
         dragImage.SetActive(true);
@@ -84,12 +99,13 @@ public class InventoryUI : MonoBehaviour {
 
     public void OnPointerDownModule(VaisseauModule module, Vector2 position) {
         draggedSlotIndex = -2;
-        draggedConstruction = module;
+        draggedModule = module;
+        draggedObject = module.GetConstruction().gameObject;
         dragImageComponent.sprite = module.GetConstruction().GetImage();
-        dragImageComponent.color = new Color(1, 1, 1, 0.5f);
         dragImage.transform.position = position;
         dragImage.transform.SetAsLastSibling();
         dragImage.SetActive(true);
+        module.StartConstructionPreview();
     }
 
     public void OnDrag(PointerEventData eventData) {
@@ -116,8 +132,8 @@ public class InventoryUI : MonoBehaviour {
                     int targetIndex = constructionsList.IndexOf(slot);
                     if(targetIndex != draggedSlotIndex) {
                         if(draggedSlotIndex == -2) {
-                            Construction construction = draggedConstruction.GetConstruction();
-                            draggedConstruction.SetConstruction(Inventory.Instance.GetInventorySlots(targetIndex));
+                            Construction construction = draggedModule.GetConstruction();
+                            draggedModule.SetConstruction(Inventory.Instance.GetInventorySlots(targetIndex));
                             Inventory.Instance.SetInventorySlots(targetIndex, construction);
                         } else {
                             Inventory.Instance.MoveInventorySlot(draggedSlotIndex, targetIndex);
@@ -133,9 +149,10 @@ public class InventoryUI : MonoBehaviour {
                 if(Physics.Raycast(ray, out RaycastHit hit)) {
                     VaisseauModule module = hit.collider.GetComponent<VaisseauModule>();
                     if(module != null && module.IsActivate()) {
+                        module.EndConstructionPreview();
                         if(draggedSlotIndex == -2) {
-                            Construction construction = draggedConstruction.GetConstruction();
-                            draggedConstruction.SetConstruction(module.GetConstruction());
+                            Construction construction = draggedModule.GetConstruction();
+                            draggedModule.SetConstruction(module.GetConstruction());
                             module.SetConstruction(construction);
                         } else {
                             Construction construction = Inventory.Instance.RemoveInventorySlots(draggedSlotIndex);
@@ -147,6 +164,7 @@ public class InventoryUI : MonoBehaviour {
             }
         }
         draggedSlotIndex = -1;
-        draggedConstruction = null;
+        draggedModule = null;
+        draggedObject = null;
     }
 }

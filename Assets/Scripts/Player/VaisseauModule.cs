@@ -13,6 +13,10 @@ public class VaisseauModule : MonoBehaviour {
     private Renderer objectRenderer;
     private Color color;
     private Construction construction;
+    
+    private GameObject previewInstance;
+    private Transform parentPreview;
+    private Vector3 localPositionPreview;
 
     void Awake() {
         objectCollider = GetComponent<Collider>();
@@ -74,9 +78,28 @@ public class VaisseauModule : MonoBehaviour {
         if(!isActivate) { //DEBUG!!! Vérifier si proche d'un shop [WaitFor ShopManager]
             color.a = 0.5f;
             objectRenderer.material.color = color;
+        } else if(InventoryUI.Instance.IsDragging()) {
+            StartConstructionPreview();
         }
     }
+    
+    public void StartConstructionPreview() {
+        previewInstance = InventoryUI.Instance.StartDraggedOnModule();
+        
+        Renderer rendererPreview = previewInstance.GetComponent<Renderer>();
+        if (rendererPreview != null) {
+            Color previewColor = rendererPreview.material.color;
+            previewColor.a = previewInstance.transform.parent == transform ? 1f : 0.25f;
+            rendererPreview.material.color = previewColor;
+        }
+        
+        parentPreview = previewInstance.transform.parent;
+        localPositionPreview = previewInstance.transform.localPosition;
 
+        previewInstance.transform.SetParent(transform);
+        previewInstance.transform.localPosition = new Vector3(0, 1, 0);
+    }
+    
     private void OnMouseDown() {
         if(!isActivate) { //DEBUG!!! Vérifier si proche d'un shop [WaitFor ShopManager]
             if(vaisseau.inventory.HaveEnoughRessources(coutRessources)) {
@@ -93,16 +116,34 @@ public class VaisseauModule : MonoBehaviour {
         if(!isActivate) { //DEBUG!!! Vérifier si proche d'un shop [WaitFor ShopManager]
             color.a = 0.25f;
             objectRenderer.material.color = color;
+        } else if(InventoryUI.Instance.IsDragging()) {
+            EndConstructionPreview();
         }
+    }
+    
+    public void EndConstructionPreview() {
+        InventoryUI.Instance.EndDraggedOnModule();
+            
+        Renderer rendererPreview = previewInstance.GetComponent<Renderer>();
+        if (rendererPreview != null) {
+            Color previewColor = rendererPreview.material.color;
+            previewColor.a = 1f;
+            rendererPreview.material.color = previewColor;
+        }
+
+        previewInstance.transform.SetParent(parentPreview);
+        previewInstance.transform.localPosition = localPositionPreview;
+            
+        previewInstance = null;
     }
 
     public void ToggleBuildMode(bool value) {
         if(!isActivate) { //DEBUG!!! Vérifier si proche d'un shop [WaitFor ShopManager]
-            TogglePreview(value);
+            ToggleModulePreview(value);
         }
     }
 
-    private void TogglePreview(bool isPreview) {
+    private void ToggleModulePreview(bool isPreview) {
         objectCollider.enabled = isPreview;
         objectRenderer.enabled = isPreview;
     }
