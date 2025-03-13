@@ -17,6 +17,7 @@ public class VaisseauModule : MonoBehaviour {
     private GameObject previewInstance;
     private Transform parentPreview;
     private Vector3 localPositionPreview;
+    private float alphaPreview;
 
     void Awake() {
         objectCollider = GetComponent<Collider>();
@@ -75,7 +76,8 @@ public class VaisseauModule : MonoBehaviour {
     }
 
     private void OnMouseEnter() {
-        if(!isActivate) { //DEBUG!!! Vérifier si proche d'un shop [WaitFor ShopManager]
+        if(!isActivate) {
+            //DEBUG!!! Vérifier si proche d'un shop [WaitforShopManager]
             color.a = 0.5f;
             objectRenderer.material.color = color;
         } else if(InventoryUI.Instance.IsDragging()) {
@@ -89,19 +91,31 @@ public class VaisseauModule : MonoBehaviour {
         Renderer rendererPreview = previewInstance.GetComponent<Renderer>();
         if (rendererPreview != null) {
             Color previewColor = rendererPreview.material.color;
-            previewColor.a = previewInstance.transform.parent == transform ? 1f : 0.25f;
+            alphaPreview = previewColor.a;
+            previewColor.a = previewInstance.transform.parent == transform ? 1f : 0.75f;
             rendererPreview.material.color = previewColor;
         }
         
         parentPreview = previewInstance.transform.parent;
         localPositionPreview = previewInstance.transform.localPosition;
+        
+        if(construction && previewInstance.transform.parent != transform) {
+            VaisseauModule module = InventoryUI.Instance.GetDraggedModule();
+            if(module) {
+                construction.transform.SetParent(module.transform);
+                construction.transform.localPosition = new Vector3(0, 1, 0);
+            } else {
+                construction.gameObject.SetActive(false);
+            }
+        }
 
         previewInstance.transform.SetParent(transform);
         previewInstance.transform.localPosition = new Vector3(0, 1, 0);
     }
     
     private void OnMouseDown() {
-        if(!isActivate) { //DEBUG!!! Vérifier si proche d'un shop [WaitFor ShopManager]
+        if(!isActivate) {
+            //DEBUG!!! Vérifier si proche d'un shop [WaitforShopManager]
             if(vaisseau.inventory.HaveEnoughRessources(coutRessources)) {
                 BuildManager.Instance.CurrentConstruction(construction);
 
@@ -113,7 +127,8 @@ public class VaisseauModule : MonoBehaviour {
     }
 
     private void OnMouseExit() {
-        if(!isActivate) { //DEBUG!!! Vérifier si proche d'un shop [WaitFor ShopManager]
+        if(!isActivate) {
+            //DEBUG!!! Vérifier si proche d'un shop [WaitforShopManager]
             color.a = 0.25f;
             objectRenderer.material.color = color;
         } else if(InventoryUI.Instance.IsDragging()) {
@@ -123,22 +138,27 @@ public class VaisseauModule : MonoBehaviour {
     
     public void EndConstructionPreview() {
         InventoryUI.Instance.EndDraggedOnModule();
-            
+        
         Renderer rendererPreview = previewInstance.GetComponent<Renderer>();
-        if (rendererPreview != null) {
+        if(rendererPreview != null) {
             Color previewColor = rendererPreview.material.color;
-            previewColor.a = 1f;
+            previewColor.a = alphaPreview;
             rendererPreview.material.color = previewColor;
         }
 
         previewInstance.transform.SetParent(parentPreview);
         previewInstance.transform.localPosition = localPositionPreview;
-            
-        previewInstance = null;
+        
+        if(construction) {
+            construction.transform.SetParent(transform);
+            construction.transform.localPosition = new Vector3(0, 1, 0);
+            construction.gameObject.SetActive(true);
+        }
     }
 
     public void ToggleBuildMode(bool value) {
-        if(!isActivate) { //DEBUG!!! Vérifier si proche d'un shop [WaitFor ShopManager]
+        if(!isActivate) {
+            //DEBUG!!! Vérifier si proche d'un shop [WaitforShopManager]
             ToggleModulePreview(value);
         }
     }

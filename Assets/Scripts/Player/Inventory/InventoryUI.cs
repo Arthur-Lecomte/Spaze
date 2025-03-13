@@ -75,6 +75,10 @@ public class InventoryUI : MonoBehaviour {
         return dragImage.activeSelf;
     }
     
+    public VaisseauModule GetDraggedModule() {
+        return draggedModule;
+    }
+    
     public GameObject StartDraggedOnModule() {
         dragImageComponent.color = new Color(1, 1, 1, 0f);
         return draggedObject;
@@ -101,6 +105,12 @@ public class InventoryUI : MonoBehaviour {
         draggedSlotIndex = -2;
         draggedModule = module;
         draggedObject = module.GetConstruction().gameObject;
+
+        Renderer rendererPreview = draggedObject.GetComponent<Renderer>();
+        Color previewColor = rendererPreview.material.color;
+        previewColor.a = 0f;
+        rendererPreview.material.color = previewColor;
+
         dragImageComponent.sprite = module.GetConstruction().GetImage();
         dragImage.transform.position = position;
         dragImage.transform.SetAsLastSibling();
@@ -139,6 +149,7 @@ public class InventoryUI : MonoBehaviour {
                             Inventory.Instance.MoveInventorySlot(draggedSlotIndex, targetIndex);
                         }
                     }
+
                     handled = true;
                     break;
                 }
@@ -163,8 +174,15 @@ public class InventoryUI : MonoBehaviour {
                 }
             }
         }
+
         draggedSlotIndex = -1;
         draggedModule = null;
-        draggedObject = null;
+        if(draggedObject) {
+            Renderer rendererPreview = draggedObject.GetComponent<Renderer>();
+            Color previewColor = rendererPreview.material.color;
+            previewColor.a = 1f;
+            rendererPreview.material.color = previewColor;
+            draggedObject = null;
+        }
     }
 }
