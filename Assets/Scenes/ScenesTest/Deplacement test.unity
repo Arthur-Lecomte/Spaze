@@ -119,27 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &118587505 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8714951830728740092, guid: 3049c49e02798e644ad21e393ff7627e, type: 3}
-  m_PrefabInstance: {fileID: 2774360819438202007}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &118587510
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 118587505}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86698d9e6e5f8644a923b42dcaa41de3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cam: {fileID: 0}
-  zoomSpeed: 10
-  minZoom: 5
-  maxZoom: 50
 --- !u!1 &1614342876
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,9 +365,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6923007941088123861, guid: 3049c49e02798e644ad21e393ff7627e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2774360819438202009}
-    - targetCorrespondingSourceObject: {fileID: 8714951830728740092, guid: 3049c49e02798e644ad21e393ff7627e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 118587510}
   m_SourcePrefab: {fileID: 100100000, guid: 3049c49e02798e644ad21e393ff7627e, type: 3}
 --- !u!1 &2774360819438202008 stripped
 GameObject:
