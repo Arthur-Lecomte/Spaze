@@ -30,6 +30,10 @@ public class VaisseauModule : MonoBehaviour {
         //DEBUG!!! Initialiser les ressources nécessaires pour construire le module
     }
 
+    public bool IsActivate() {
+        return isActivate;
+    }
+
     public void SetConstruction(Construction c) {
         construction = c;
         if(construction) {

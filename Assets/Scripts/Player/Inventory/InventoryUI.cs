@@ -132,7 +132,7 @@ public class InventoryUI : MonoBehaviour {
                 Ray ray = mainCamera.ScreenPointToRay(eventData.position);
                 if(Physics.Raycast(ray, out RaycastHit hit)) {
                     VaisseauModule module = hit.collider.GetComponent<VaisseauModule>();
-                    if(module != null) {
+                    if(module != null && module.IsActivate()) {
                         if(draggedSlotIndex == -2) {
                             Construction construction = draggedConstruction.GetConstruction();
                             draggedConstruction.SetConstruction(module.GetConstruction());

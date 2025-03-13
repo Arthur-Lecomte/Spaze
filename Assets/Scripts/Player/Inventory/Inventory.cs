@@ -104,15 +104,17 @@ public class Inventory : MonoBehaviour {
 
         // On vérifie si on peut améliorer une construction posée sur le vaisseau
         foreach(VaisseauModule module in modules) {
-            Construction construction = module.GetConstruction();
-            if(construction && construction.IsSameConstruction(newConstruction)) {
-                module.GetConstruction().Upgrade();
-                return true;
-            }
+            if(module.IsActivate()) {
+                Construction construction = module.GetConstruction();
+                if(construction && construction.IsSameConstruction(newConstruction)) {
+                    module.GetConstruction().Upgrade();
+                    return true;
+                }
 
-            // On garde en mémoire un module libre au cas où on ne peut rien améliorer
-            if(!libre && !module.IsEmpty()) {
-                libre = module;
+                // On garde en mémoire un module libre au cas où on ne peut rien améliorer
+                if(!libre && !module.IsEmpty()) {
+                    libre = module;
+                }
             }
         }
 
