@@ -9,17 +9,17 @@ public abstract class Construction : MonoBehaviour {
     [SerializeField] protected RarityConstruction rarity;
     [SerializeField] protected int niveauMax;
     protected int Niveau;
-    protected Dictionary<TypeRessource, int> CoutRessources;
+    [SerializeField] protected List<RessourceCout> CoutRessourcesDeBase = new List<RessourceCout>();
     [SerializeField] protected float probability;
-    [SerializeField] protected RawImage image;
+    [SerializeField] protected RawImage SpriteImage;
     
     public Dictionary<TypeRessource, int> GetCoutRessources() {
-        return CoutRessources;
+        return CoutRessourcesDeBase.ToDictionary(cout => cout.typeRessource, cout => cout.quantite);
     }
 
     public override string ToString() {
-        string couts = string.Join("\n", CoutRessources.Select(kv => $"{kv.Key}: {kv.Value}"));
-        return $"Nom: {nom}\nCoût:\n{couts}";
+        string couts = string.Join("\n", CoutRessourcesDeBase.Select(kv => $"{kv.typeRessource}: {kv.quantite}"));
+        return $"Nom: {nom}\nDescription: {description}\nRarity: {rarity}\nNiveau: {Niveau}/{niveauMax}\nCoût:\n{couts}";
     }
 
     public bool IsSameConstruction(Construction c) {
@@ -51,3 +51,10 @@ public enum TypeConstruction {
 - Choisir le mode d'attaque des armes (ennemi le plus proche, le plus faible, avec le plus de PV...)
 - Pouvoir sélectionner des ennemis pour les ciblés en priorité
 */
+
+[System.Serializable]
+public struct RessourceCout
+{
+    public TypeRessource typeRessource;
+    public int quantite;
+}

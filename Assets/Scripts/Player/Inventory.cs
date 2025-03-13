@@ -14,6 +14,7 @@ public class Inventory : MonoBehaviour {
         }
         
         composants = new List<Composant>(GetComponentsInChildren<Composant>(true));
+        constructionsInventory = new List<Construction>();
     }
 
     public void AddRessource(TypeRessource type, int quantity) {
@@ -27,6 +28,7 @@ public class Inventory : MonoBehaviour {
     // Retire une quantité de ressource spécifiée
     public void RemoveRessource(TypeRessource type, int quantity) {
         ressources[type] -= quantity;
+        RessourcesUI.Instance.UpdateUI();
     }
     
     public int GetRessource(TypeRessource type) {
@@ -73,4 +75,12 @@ public class Inventory : MonoBehaviour {
         // On ne peut rien faire de cette construction, on annule l'achat
         return false;
     }
+
+
+    public void ShowConstructions() {
+        foreach (Construction construction in constructionsInventory) {
+            Debug.Log(construction.ToString());
+        }
+    }
+
 }

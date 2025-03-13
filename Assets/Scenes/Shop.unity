@@ -240,7 +240,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40d61184f3bf2d54ab17dac80e11503a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabsConstructions: []
+  prefabsConstructions:
+  - {fileID: 1595409793775326100, guid: 8180d4771f1d96749aa374578cfb19e1, type: 3}
   vaisseau: {fileID: 897316673}
   conteneurConstructions: {fileID: 1298269005}
   prefabConstructionItem: {fileID: 5890795331791929511, guid: f6434b72e3445e14bb69e9bf4460b7fc, type: 3}
@@ -457,7 +458,7 @@ GameObject:
   - component: {fileID: 1036217484}
   - component: {fileID: 1036217483}
   m_Layer: 0
-  m_Name: ButtonShowConst
+  m_Name: ButtonShowInventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -527,9 +528,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 897316673}
-        m_TargetAssemblyTypeName: Vaisseau, Assembly-CSharp
-        m_MethodName: AfficherConstructionsDebloquees
+      - m_Target: {fileID: 897316674}
+        m_TargetAssemblyTypeName: Inventory, Assembly-CSharp
+        m_MethodName: ShowConstructions
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -590,7 +591,7 @@ GameObject:
   - component: {fileID: 1128147617}
   - component: {fileID: 1128147616}
   m_Layer: 0
-  m_Name: ButtonAddCuivre
+  m_Name: ButtonAddRessource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -662,7 +663,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1783277892}
         m_TargetAssemblyTypeName: RessourcesUI, Assembly-CSharp
-        m_MethodName: AddRessourceCuivre
+        m_MethodName: AddRessource
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -829,7 +830,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Add Cuivre
+  m_text: 'Add Ressource
 
 '
   m_isRightToLeft: 0
@@ -858,10 +859,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
+  m_fontSize: 23.35
   m_fontSizeBase: 24
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0

@@ -1,4 +1,6 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Shop : MonoBehaviour {
     [SerializeField] private GameObject[] prefabsConstructions;
@@ -8,18 +10,19 @@ public class Shop : MonoBehaviour {
     [SerializeField] private GameObject prefabConstructionItem;
 
     private void Start() {
-        /* DEBUG!!! A garder pour plus tard
-
+        
+             // Configurer l'élément UI
             GameObject constructionItem = Instantiate(prefabConstructionItem, conteneurConstructions);
-
-            // Configurer l'élément UI
             TextMeshProUGUI constructionText = constructionItem.transform.Find("ConstructionText")?.GetComponent<TextMeshProUGUI>();
             Button acheterButton = constructionItem.transform.Find("AcheterButton")?.GetComponent<Button>();
 
+            int randomIndex = Random.Range(0, prefabsConstructions.Length);
+            GameObject selectedPrefab = prefabsConstructions[randomIndex];
+            Construction construction = selectedPrefab.GetComponent<Construction>();
             constructionText.text = construction.ToString();
-            acheterButton.onClick.AddListener(() => AcheterConstruction(construction));
+            acheterButton.onClick.AddListener(() => BuyConstruction(construction));
 
-        */
+        
     }
 
     // Méthode pour acheter une construction
@@ -41,6 +44,9 @@ public class Shop : MonoBehaviour {
 
             // Ajouter la construction au vaisseau
             vaisseau.inventory.AddConstruction(construction);
+            //TEMPORAIRE
+            Debug.Log("Construction achetée");
+            vaisseau.inventory.ShowConstructions();
         }
         return canBuy;
     }

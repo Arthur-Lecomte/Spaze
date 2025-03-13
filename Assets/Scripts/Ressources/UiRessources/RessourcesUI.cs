@@ -10,13 +10,27 @@ public class RessourcesUI : MonoBehaviour {
     // Dictionnaire pour stocker les références aux éléments UI de chaque ressource
     private Dictionary<TypeRessource, TextMeshProUGUI> texteRessources = new Dictionary<TypeRessource, TextMeshProUGUI>();
 
+    public static RessourcesUI Instance { get; private set; }
+
+    private void Awake() {
+        if (Instance == null) {
+            Instance = this;
+        } else {
+            Destroy(gameObject);
+        }
+    }
+
     void Start() {
         CreateElementsUI();
         UpdateUI();
     }
     
-    public void AddRessourceCuivre(int quantity) {
+    public void AddRessource(int quantity) {
         vaisseau.inventory.AddRessource(TypeRessource.Cuivre, quantity);
+        vaisseau.inventory.AddRessource(TypeRessource.Argent, quantity);
+        vaisseau.inventory.AddRessource(TypeRessource.Or, quantity);
+        vaisseau.inventory.AddRessource(TypeRessource.Platine, quantity);
+        vaisseau.inventory.AddRessource(TypeRessource.PoussiereRadioactive, quantity);
         UpdateUI();
     }
 
