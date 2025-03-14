@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class VaisseauModule : MonoBehaviour {
+public class VaisseauModule : MonoBehaviour, IPointerEnterHandler, IPointerDownHandler, IPointerExitHandler {
     private Vaisseau vaisseau;
 
     private Dictionary<TypeRessource, int> coutRessources;
@@ -33,6 +33,12 @@ public class VaisseauModule : MonoBehaviour {
 
         vaisseau = transform.parent.GetComponent<Vaisseau>();
         //DEBUG!!! Initialiser les ressources nécessaires pour construire le module
+        
+        eventTrigger = gameObject.AddComponent<EventTrigger>();
+        InventoryUI.Instance.AddEventTrigger(eventTrigger, EventTriggerType.PointerDown, (data) => InventoryUI.Instance.OnPointerDownModule(this, Input.mousePosition));
+        InventoryUI.Instance.AddEventTrigger(eventTrigger, EventTriggerType.Drag, (data) => InventoryUI.Instance.OnDrag((PointerEventData)data));
+        InventoryUI.Instance.AddEventTrigger(eventTrigger, EventTriggerType.PointerUp, (data) => InventoryUI.Instance.OnPointerUp((PointerEventData)data));
+        eventTrigger.enabled = false;
     }
 
     public bool IsActivate() {
@@ -45,26 +51,8 @@ public class VaisseauModule : MonoBehaviour {
             Transform constructionTransform = construction.transform;
             constructionTransform.SetParent(transform);
             constructionTransform.localPosition = new Vector3(0, 1, 0);
-            EnablePointerHandlers();
-        } else {
-            DisablePointerHandlers();
         }
-    }
-
-    private void EnablePointerHandlers() {
-        if(eventTrigger == null) {
-            eventTrigger = gameObject.AddComponent<EventTrigger>();
-            InventoryUI.Instance.AddEventTrigger(eventTrigger, EventTriggerType.PointerDown, (data) => InventoryUI.Instance.OnPointerDownModule(this, Input.mousePosition));
-            InventoryUI.Instance.AddEventTrigger(eventTrigger, EventTriggerType.Drag, (data) => InventoryUI.Instance.OnDrag((PointerEventData)data));
-            InventoryUI.Instance.AddEventTrigger(eventTrigger, EventTriggerType.PointerUp, (data) => InventoryUI.Instance.OnPointerUp((PointerEventData)data));
-        }
-    }
-
-    private void DisablePointerHandlers() {
-        if(eventTrigger != null) {
-            Destroy(eventTrigger);
-            eventTrigger = null;
-        }
+        eventTrigger.enabled = construction;
     }
 
     public Construction GetConstruction() {
@@ -75,7 +63,7 @@ public class VaisseauModule : MonoBehaviour {
         return construction == null;
     }
 
-    private void OnMouseEnter() {
+    public void OnPointerEnter(PointerEventData eventData) {
         if(!isActivate) {
             //DEBUG!!! Vérifier si proche d'un shop [WaitforShopManager]
             color.a = 0.5f;
@@ -113,12 +101,11 @@ public class VaisseauModule : MonoBehaviour {
         previewInstance.transform.localPosition = new Vector3(0, 1, 0);
     }
     
-    private void OnMouseDown() {
+    public void OnPointerDown(PointerEventData eventData) {
         if(!isActivate) {
             //DEBUG!!! Vérifier si proche d'un shop [WaitforShopManager]
             if(vaisseau.inventory.HaveEnoughRessources(coutRessources)) {
                 BuildManager.Instance.CurrentConstruction(construction);
-
                 Activate();
             }
         } else if(BuildManager.Instance.InBuildMode()) {
@@ -126,7 +113,7 @@ public class VaisseauModule : MonoBehaviour {
         }
     }
 
-    private void OnMouseExit() {
+    public void OnPointerExit(PointerEventData eventData) {
         if(!isActivate) {
             //DEBUG!!! Vérifier si proche d'un shop [WaitforShopManager]
             color.a = 0.25f;
