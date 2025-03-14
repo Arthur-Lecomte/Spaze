@@ -123,6 +123,7 @@ public class VaisseauModule : MonoBehaviour {
                 }
                 BuildManager.Instance.CurrentConstruction(construction);
                 Activate();
+                Inventory.Instance.AddInventorySlotsSize();
             }
         } else if(BuildManager.Instance.InBuildMode()) {
             BuildManager.Instance.CurrentConstruction(construction);
