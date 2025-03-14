@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b14f40b5d34d93547b01396d28c0a669
+guid: 1e5bc1b1c3cd6a3468c3d9a0f3d3ee2a
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,13 +7,28 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Accelerateur
+    second: {fileID: 2100000, guid: 5ce404c5de150f24cb6898ae6b27cacf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Jointure
+    second: {fileID: 2100000, guid: f515ed52a9c6fdd4098dee1085d97a6d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Metal
-    second: {fileID: 2100000, guid: 5cfd4108eb3275c43b6b3f1ee6bd1e0c, type: 2}
+    second: {fileID: 2100000, guid: 1a96c3878aeb372469ea90f0667a53c5, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Sol
-    second: {fileID: 2100000, guid: 740256b4283bc4c4bbad1f81aba925d4, type: 2}
+    second: {fileID: 2100000, guid: c0184c0318824624ab47a85e9214bc27, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Verre
+    second: {fileID: 2100000, guid: 9c833b55f84a3604c8dede321aa8b3dd, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

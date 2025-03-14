@@ -42,9 +42,9 @@ public class Shop : MonoBehaviour {
         GameObject selectedPrefab2 = SelectPrefabWithRarityAndProbability(autresPrefabs);
         
         // Afficher les trois constructions dans l'interface utilisateur
-        AfficherConstruction(tourellePrefab);
-        AfficherConstruction(selectedPrefab1);
-        AfficherConstruction(selectedPrefab2);
+        AfficherConstruction(tourellePrefab, -1);
+        AfficherConstruction(selectedPrefab1, 0);
+        AfficherConstruction(selectedPrefab2, 1);
     }
 
     private GameObject SelectPrefabWithRarityAndProbability(GameObject[] prefabs) {
@@ -78,9 +78,10 @@ public class Shop : MonoBehaviour {
     return Mathf.RoundToInt(baseWeight * probability * rarityWeight);
     }
 
-    private void AfficherConstruction(GameObject prefab) {
+    private void AfficherConstruction(GameObject prefab, int index) {
         // Instancier le prefab de l'élément UI
         GameObject constructionItem = Instantiate(prefabConstructionItem, conteneurConstructions);
+        constructionItem.transform.localPosition = new Vector3(index * 600, 0, 0);
 
         // Configurer l'élément UI
         TextMeshProUGUI nom = constructionItem.transform.Find("Zone").Find("Name")?.GetComponent<TextMeshProUGUI>();
@@ -96,12 +97,12 @@ public class Shop : MonoBehaviour {
         rarity.text = Enum.GetName(typeof(RarityConstruction), construction.rarity);
         cuivre.text = construction.CoutRessourcesDeBase[0].quantite.ToString();
         argent.text = construction.CoutRessourcesDeBase[1].quantite.ToString();
-        acheterButton.onClick.AddListener(() => BuyConstruction(construction));
+        acheterButton.onClick.AddListener(() => BuyConstruction(construction, constructionItem));
     }
 
 
     // Méthode pour acheter une construction
-    private bool BuyConstruction(Construction construction) {
+    private bool BuyConstruction(Construction construction, GameObject constructionItem) {
         // Vérifiez si le joueur à suffisamment de ressources pour acheter la construction
         bool canBuy = true;
         foreach((TypeRessource type, int quantity) in construction.GetCoutRessources()) {
@@ -111,16 +112,13 @@ public class Shop : MonoBehaviour {
             }
         }
 
-        if(canBuy) {
+        if(canBuy && vaisseau.inventory.AddConstruction(construction)) {
             // Retirer les ressources nécessaires
             foreach((TypeRessource type, int quantity) in construction.GetCoutRessources()) {
                 vaisseau.inventory.RemoveRessource(type, quantity);
             }
-
-            // Ajouter la construction au vaisseau
-            vaisseau.inventory.AddConstruction(construction);
-            //TEMPORAIRE
-            //vaisseau.inventory.ShowConstructions();
+            
+            constructionItem.SetActive(false);
         }
         return canBuy;
     }
