@@ -23,6 +23,9 @@ public class UpgradeColumn : MonoBehaviour {
             if(UpgradeManager.Instance.CanUpgrade()) {
                 level++;
                 UpdateImages();
+                if(type == TypeUpgrade.Speed) {
+                    Vaisseau.Instance.ChangeSpeed(level);
+                }
             }
         }
     }
@@ -33,6 +36,9 @@ public class UpgradeColumn : MonoBehaviour {
             level--;
             UpgradeManager.Instance.AddPoints();
             UpdateImages();
+            if(type == TypeUpgrade.Speed) {
+                Vaisseau.Instance.ChangeSpeed(level);
+            }
         }
     }
     

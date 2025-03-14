@@ -45,7 +45,7 @@ public class VaisseauModule : MonoBehaviour {
         if(construction) {
             Transform constructionTransform = construction.transform;
             constructionTransform.SetParent(transform);
-            constructionTransform.localPosition = new Vector3(0, 1, 0);
+            constructionTransform.localPosition = new Vector3(0,0,-0.5f);
             EnablePointerHandlers();
         } else {
             DisablePointerHandlers();
@@ -104,14 +104,14 @@ public class VaisseauModule : MonoBehaviour {
             VaisseauModule module = InventoryUI.Instance.GetDraggedModule();
             if(module) {
                 construction.transform.SetParent(module.transform);
-                construction.transform.localPosition = new Vector3(0, 1, 0);
+                construction.transform.localPosition = new Vector3(0,0,-0.5f);
             } else {
                 construction.gameObject.SetActive(false);
             }
         }
 
         previewInstance.transform.SetParent(transform);
-        previewInstance.transform.localPosition = new Vector3(0, 1, 0);
+        previewInstance.transform.localPosition = new Vector3(0,0,-0.5f);
     }
     
     private void OnMouseDown() {
@@ -154,7 +154,7 @@ public class VaisseauModule : MonoBehaviour {
         
         if(construction) {
             construction.transform.SetParent(transform);
-            construction.transform.localPosition = new Vector3(0, 1, 0);
+            construction.transform.localPosition = new Vector3(0,0,-0.5f);
             construction.gameObject.SetActive(true);
         }
     }
