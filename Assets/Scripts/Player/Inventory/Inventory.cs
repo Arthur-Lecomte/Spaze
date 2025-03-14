@@ -34,15 +34,11 @@ public class Inventory : MonoBehaviour {
 
     private void Start() {
         InventoryUI.Instance.ChangeNumberSlots(size);
-        GameObject go = Instantiate(prefabTest);
-        AddConstruction(go.GetComponent<Construction>());
-
-        go = Instantiate(prefabTest2);
-        AddConstruction(go.GetComponent<Construction>());
     }
 
     public void AddRessource(TypeRessource type, int quantity) {
         ressources[type] += quantity;
+        RessourcesUI.Instance.UpdateUI();
     }
 
     public bool HaveEnoughRessources(Dictionary<TypeRessource, int> allRessources) {
@@ -61,6 +57,7 @@ public class Inventory : MonoBehaviour {
     // Retire une quantité de ressource spécifiée
     public void RemoveRessource(TypeRessource type, int quantity) {
         ressources[type] -= quantity;
+        RessourcesUI.Instance.UpdateUI();
     }
 
     public int GetRessource(TypeRessource type) {
@@ -112,7 +109,7 @@ public class Inventory : MonoBehaviour {
                 }
 
                 // On garde en mémoire un module libre au cas où on ne peut rien améliorer
-                if(!libre && !module.IsEmpty()) {
+                if(!libre && module.IsEmpty()) {
                     libre = module;
                 }
             }

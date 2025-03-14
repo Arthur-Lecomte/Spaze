@@ -3,6 +3,8 @@ using UnityEngine;
 using TMPro;
 
 public class RessourcesUI : MonoBehaviour {
+    public static RessourcesUI Instance;
+    
     [SerializeField] private Vaisseau vaisseau;
     [SerializeField] private Transform conteneurRessources;
     [SerializeField] private GameObject prefabElementRessource;
@@ -10,6 +12,14 @@ public class RessourcesUI : MonoBehaviour {
     // Dictionnaire pour stocker les références aux éléments UI de chaque ressource
     private Dictionary<TypeRessource, TextMeshProUGUI> texteRessources = new Dictionary<TypeRessource, TextMeshProUGUI>();
 
+    void Awake() {
+        if(Instance == null) {
+            Instance = this;
+        } else {
+            Destroy(gameObject);
+        }
+    }
+    
     void Start() {
         CreateElementsUI();
         UpdateUI();

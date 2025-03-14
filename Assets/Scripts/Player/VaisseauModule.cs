@@ -107,6 +107,7 @@ public class VaisseauModule : MonoBehaviour, IPointerEnterHandler, IPointerDownH
             if(vaisseau.inventory.HaveEnoughRessources(coutRessources)) {
                 BuildManager.Instance.CurrentConstruction(construction);
                 Activate();
+                Inventory.Instance.AddInventorySlotsSize();
             }
         } else if(BuildManager.Instance.InBuildMode()) {
             BuildManager.Instance.CurrentConstruction(construction);
