@@ -23,25 +23,14 @@ public class Shop : MonoBehaviour {
     }
 
     // Méthode pour acheter une construction
-    private bool BuyConstruction(Construction construction) {
+    private void BuyConstruction(Construction construction) {
         // Vérifiez si le joueur à suffisamment de ressources pour acheter la construction
-        bool canBuy = true;
-        foreach((TypeRessource type, int quantity) in construction.GetCoutRessources()) {
-            if(!vaisseau.inventory.HaveEnoughRessource(type, quantity)) {
-                canBuy = false;
-                break;
+        if(!Inventory.Instance.HaveEnoughRessources(construction.GetCoutRessources())) {
+            // Si on peut ajouter la construction au vaisseau
+            if (Inventory.Instance.AddConstruction(construction)) {
+                // Retirer les ressources nécessaires
+                Inventory.Instance.RemoveRessources(construction.GetCoutRessources());
             }
         }
-
-        if(canBuy) {
-            // Retirer les ressources nécessaires
-            foreach((TypeRessource type, int quantity) in construction.GetCoutRessources()) {
-                vaisseau.inventory.RemoveRessource(type, quantity);
-            }
-
-            // Ajouter la construction au vaisseau
-            vaisseau.inventory.AddConstruction(construction);
-        }
-        return canBuy;
     }
 }

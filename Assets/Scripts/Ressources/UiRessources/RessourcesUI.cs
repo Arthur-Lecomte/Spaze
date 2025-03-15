@@ -26,7 +26,7 @@ public class RessourcesUI : MonoBehaviour {
     }
     
     public void AddRessourceCuivre(int quantity) {
-        vaisseau.inventory.AddRessource(TypeRessource.Cuivre, quantity);
+        Inventory.Instance.AddRessource(TypeRessource.Cuivre, quantity);
         UpdateUI();
     }
 
@@ -45,7 +45,7 @@ public class RessourcesUI : MonoBehaviour {
         foreach(var res in texteRessources) {
             TypeRessource type = res.Key;
             TextMeshProUGUI texteElement = res.Value;
-            int quantity = vaisseau.inventory.GetRessource(type);
+            int quantity = Inventory.Instance.GetRessource(type);
             texteElement.text = type + ": " + quantity;
 
             // colorer les ressources dont la quantité est 0
