@@ -3,15 +3,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class VaisseauModule : MonoBehaviour, IPointerEnterHandler, IPointerDownHandler, IPointerExitHandler {
-    private Vaisseau vaisseau;
-
     private List<Ressource> coutRessources;
     [SerializeField] private bool isActivate;
     private EventTrigger eventTrigger;
 
     private Collider objectCollider;
     private Renderer objectRenderer;
-    private Color color;
     private Construction construction;
     
     private GameObject previewInstance;
@@ -22,17 +19,12 @@ public class VaisseauModule : MonoBehaviour, IPointerEnterHandler, IPointerDownH
     private void Awake() {
         objectCollider = GetComponent<Collider>();
         objectRenderer = GetComponent<Renderer>();
-        color = objectRenderer.material.color;
 
         if(!isActivate) {
             objectCollider.enabled = false;
             objectRenderer.enabled = false;
-            color.a = 0.25f;
-            objectRenderer.material.color = color;
+            ChangeAlpha(objectRenderer, 0.25f);
         }
-
-        vaisseau = transform.parent.GetComponent<Vaisseau>();
-        //DEBUG!!! Initialiser les ressources nécessaires pour construire le module
     }
 
     private void Start() {
@@ -50,9 +42,7 @@ public class VaisseauModule : MonoBehaviour, IPointerEnterHandler, IPointerDownH
     public void SetConstruction(Construction c) {
         construction = c;
         if(construction) {
-            Transform constructionTransform = construction.transform;
-            constructionTransform.SetParent(transform);
-            constructionTransform.localPosition = new Vector3(0, 1, 0);
+            construction.SetChildOf(transform);
         }
         eventTrigger.enabled = construction;
     }
@@ -68,8 +58,7 @@ public class VaisseauModule : MonoBehaviour, IPointerEnterHandler, IPointerDownH
     public void OnPointerEnter(PointerEventData eventData) {
         if(!isActivate) {
             //DEBUG!!! Vérifier si proche d'un shop [WaitforShopManager]
-            color.a = 0.5f;
-            objectRenderer.material.color = color;
+            ChangeAlpha(objectRenderer, 0.5f);
         } else if(InventoryUI.Instance.IsDragging()) {
             StartConstructionPreview();
         }
@@ -78,13 +67,7 @@ public class VaisseauModule : MonoBehaviour, IPointerEnterHandler, IPointerDownH
     public void StartConstructionPreview() {
         previewInstance = InventoryUI.Instance.StartDraggedOnModule();
         
-        Renderer rendererPreview = previewInstance.GetComponent<Renderer>();
-        if (rendererPreview != null) {
-            Color previewColor = rendererPreview.material.color;
-            alphaPreview = previewColor.a;
-            previewColor.a = previewInstance.transform.parent == transform ? 1f : 0.75f;
-            rendererPreview.material.color = previewColor;
-        }
+        ChangeAlpha(previewInstance.GetComponent<Renderer>(), previewInstance.transform.parent == transform ? 1f : 0.75f);
         
         parentPreview = previewInstance.transform.parent;
         localPositionPreview = previewInstance.transform.localPosition;
@@ -92,8 +75,7 @@ public class VaisseauModule : MonoBehaviour, IPointerEnterHandler, IPointerDownH
         if(construction && previewInstance.transform.parent != transform) {
             VaisseauModule module = InventoryUI.Instance.GetDraggedModule();
             if(module) {
-                construction.transform.SetParent(module.transform);
-                construction.transform.localPosition = new Vector3(0, 1, 0);
+                construction.SetChildOf(transform);
             } else {
                 construction.gameObject.SetActive(false);
             }
@@ -119,8 +101,7 @@ public class VaisseauModule : MonoBehaviour, IPointerEnterHandler, IPointerDownH
     public void OnPointerExit(PointerEventData eventData) {
         if(!isActivate) {
             //DEBUG!!! Vérifier si proche d'un shop [WaitforShopManager]
-            color.a = 0.25f;
-            objectRenderer.material.color = color;
+            ChangeAlpha(objectRenderer, 0.25f);
         } else if(InventoryUI.Instance.IsDragging()) {
             EndConstructionPreview();
         }
@@ -129,19 +110,13 @@ public class VaisseauModule : MonoBehaviour, IPointerEnterHandler, IPointerDownH
     public void EndConstructionPreview() {
         InventoryUI.Instance.EndDraggedOnModule();
         
-        Renderer rendererPreview = previewInstance.GetComponent<Renderer>();
-        if(rendererPreview != null) {
-            Color previewColor = rendererPreview.material.color;
-            previewColor.a = alphaPreview;
-            rendererPreview.material.color = previewColor;
-        }
+        ChangeAlpha(previewInstance.GetComponent<Renderer>(), alphaPreview);
 
         previewInstance.transform.SetParent(parentPreview);
         previewInstance.transform.localPosition = localPositionPreview;
         
         if(construction) {
-            construction.transform.SetParent(transform);
-            construction.transform.localPosition = new Vector3(0, 1, 0);
+            construction.SetChildOf(transform);
             construction.gameObject.SetActive(true);
         }
     }
@@ -160,10 +135,17 @@ public class VaisseauModule : MonoBehaviour, IPointerEnterHandler, IPointerDownH
 
     private void Activate() {
         isActivate = true;
-        color.a = 1f;
-        objectRenderer.material.color = color;
+        ChangeAlpha(objectRenderer, 1f);
         objectRenderer.enabled = true;
         objectCollider.enabled = true;
+    }
+    
+    private void ChangeAlpha(Renderer rendererToChange, float alpha) {
+        foreach (Material material in rendererToChange.materials) {
+            Color color = material.color;
+            color.a = alpha;
+            rendererToChange.material.color = color;
+        }
     }
 
     public void TakeDamage(int damage) {

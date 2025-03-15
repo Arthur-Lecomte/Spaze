@@ -11,6 +11,11 @@ public abstract class Construction : MonoBehaviour {
     protected List<Ressource> CoutRessources;
     [SerializeField] protected float probability;
     [SerializeField] protected Sprite image;
+    private Transform constructionTransform;
+    
+    private void Awake() {
+        constructionTransform = transform.GetChild(0);
+    }
     
     public List<Ressource> GetCoutRessources() {
         return CoutRessources;
@@ -18,6 +23,14 @@ public abstract class Construction : MonoBehaviour {
     
     public Sprite GetImage() {
         return image;
+    }
+    
+    public void SetChildOf(Transform parent) {
+        transform.SetParent(parent);
+        transform.localPosition = Vector3.zero;
+        float taille = 1f + (Niveau - 1) * (2f - 1f) / (niveauMax - 1);
+        constructionTransform.localPosition = new Vector3(0, -0.5f * (taille - 1f), 0);
+        constructionTransform.localScale = new Vector3(taille, taille, taille);
     }
 
     public bool IsSameConstruction(Construction c) {
