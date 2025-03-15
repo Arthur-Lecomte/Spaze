@@ -1,14 +1,11 @@
 using UnityEngine;
 
 public class Speed : Construction {
-    [SerializeField] private int damage;
-    [SerializeField] private float attackSpeed;
+    [SerializeField] private float additionalSpeed;
+    
+    public float AdditionalSpeed => additionalSpeed;
 
-    // Propriétés spécifiques à la tourelle
-    public int Damage => damage;
-    public float AttackSpeed => attackSpeed;
-
-    public override void Upgrade() {
+    public override void PerformUpgrade() {
         throw new System.NotImplementedException(); // Augmenter le niveau de la construction (changer damage, attackSpeed...)
     }
 }

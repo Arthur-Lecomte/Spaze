@@ -4,7 +4,8 @@ using UnityEngine;
 public abstract class Construction : MonoBehaviour {
     [SerializeField] protected string nom;
     [SerializeField] protected string description;
-    [SerializeField] protected RarityConstruction rarity;
+    protected RarityConstruction Rarity;
+    [SerializeField] protected TypeConstruction type;     
     [SerializeField] protected int niveauMax;
     protected int Niveau;
     protected List<Ressource> CoutRessources;
@@ -20,10 +21,22 @@ public abstract class Construction : MonoBehaviour {
     }
 
     public bool IsSameConstruction(Construction c) {
-        return false; // Vérifier la class, le niveau et la rareté
+        if (c.GetType() == GetType() && c.Niveau == Niveau && c.Rarity == Rarity) {
+            return true;
+        }
+        return false;
+    }
+
+    public bool Upgrade() {
+        if (Niveau < niveauMax) {
+            Niveau++;
+            PerformUpgrade();
+            return true;
+        }
+        return false;
     }
     
-    public abstract void Upgrade();
+    public abstract void PerformUpgrade();
 }
 
 public enum RarityConstruction {
@@ -42,7 +55,7 @@ public enum TypeConstruction {
     RegenerationShield, //Augmente la régénération du bouclier du joueur
     Speed, //Augmente la vitesse de déplacement du joueur
     Slower, //Ralenti les ennemis proches
-    Extraction, //Augmente la quantité de ressources récoltées
+    Extracteur, //Augmente la quantité de ressources récoltées
     Radar, //Augmente la portée du radar (ennemis et/ou ressources)
 }
 /* Notes à voir avec l'équipe:

@@ -111,8 +111,9 @@ public class Inventory : MonoBehaviour {
             if(module.IsActivate()) {
                 Construction construction = module.GetConstruction();
                 if(construction && construction.IsSameConstruction(newConstruction)) {
-                    module.GetConstruction().Upgrade();
-                    return true;
+                    if (module.GetConstruction().Upgrade()) {
+                        return true;
+                    }
                 }
 
                 // On garde en mémoire un module libre au cas où on ne peut rien améliorer
@@ -125,8 +126,9 @@ public class Inventory : MonoBehaviour {
         // On vérifie si on peut améliorer une construction présente dans l'inventaire
         foreach(Construction construction in constructionsInventory) {
             if(construction && construction.IsSameConstruction(construction)) {
-                construction.Upgrade();
-                return true;
+                if (construction.Upgrade()) {
+                    return true;
+                }
             }
         }
 

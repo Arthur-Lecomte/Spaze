@@ -1,14 +1,11 @@
 using UnityEngine;
 
 public class Shield : Construction {
-    [SerializeField] private int damage;
-    [SerializeField] private float attackSpeed;
-
-    // Propriétés spécifiques à la tourelle
-    public int Damage => damage;
-    public float AttackSpeed => attackSpeed;
+    [SerializeField] private int quantity;
     
-    public override void Upgrade() {
+    public int Quantity => quantity;
+    
+    public override void PerformUpgrade() {
         throw new System.NotImplementedException(); // Augmenter le niveau de la construction (changer damage, attackSpeed...)
     }
 }
