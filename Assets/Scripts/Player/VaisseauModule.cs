@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 public class VaisseauModule : MonoBehaviour, IPointerEnterHandler, IPointerDownHandler, IPointerExitHandler {
     private Vaisseau vaisseau;
 
-    private Dictionary<TypeRessource, int> coutRessources;
+    private List<Ressource> coutRessources;
     [SerializeField] private bool isActivate;
     private EventTrigger eventTrigger;
 
@@ -104,7 +104,7 @@ public class VaisseauModule : MonoBehaviour, IPointerEnterHandler, IPointerDownH
     public void OnPointerDown(PointerEventData eventData) {
         if(!isActivate) {
             //DEBUG!!! Vérifier si proche d'un shop [WaitforShopManager]
-            if(vaisseau.inventory.HaveEnoughRessources(coutRessources)) {
+            if(Inventory.Instance.HaveEnoughRessources(coutRessources)) {
                 BuildManager.Instance.CurrentConstruction(construction);
                 Activate();
                 Inventory.Instance.AddInventorySlotsSize();

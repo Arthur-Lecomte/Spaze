@@ -7,11 +7,11 @@ public abstract class Construction : MonoBehaviour {
     [SerializeField] protected RarityConstruction rarity;
     [SerializeField] protected int niveauMax;
     protected int Niveau;
-    protected Dictionary<TypeRessource, int> CoutRessources;
+    protected List<Ressource> CoutRessources;
     [SerializeField] protected float probability;
     [SerializeField] protected Sprite image;
     
-    public Dictionary<TypeRessource, int> GetCoutRessources() {
+    public List<Ressource> GetCoutRessources() {
         return CoutRessources;
     }
     
