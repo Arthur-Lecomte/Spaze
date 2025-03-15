@@ -9,7 +9,7 @@ public class Inventory : MonoBehaviour {
     private List<VaisseauModule> modules;
     private List<Construction> constructionsInventory;
     [SerializeField] private int size = 2;
-    [SerializeField] private Transform parentInInventory;
+    private Transform parentInInventory;
 
     private void Awake() {
         if(Instance == null) {
@@ -28,6 +28,11 @@ public class Inventory : MonoBehaviour {
         for(int i = 0; i < size; i++) {
             constructionsInventory.Add(null);
         }
+        
+        GameObject newGameObject = new GameObject("InventoryForPrefab");
+        parentInInventory = newGameObject.transform;
+        parentInInventory.SetParent(transform);
+        newGameObject.SetActive(false);
     }
 
     private void Start() {

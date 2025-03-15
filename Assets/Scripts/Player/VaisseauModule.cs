@@ -19,7 +19,7 @@ public class VaisseauModule : MonoBehaviour, IPointerEnterHandler, IPointerDownH
     private Vector3 localPositionPreview;
     private float alphaPreview;
 
-    void Awake() {
+    private void Awake() {
         objectCollider = GetComponent<Collider>();
         objectRenderer = GetComponent<Renderer>();
         color = objectRenderer.material.color;
@@ -33,7 +33,9 @@ public class VaisseauModule : MonoBehaviour, IPointerEnterHandler, IPointerDownH
 
         vaisseau = transform.parent.GetComponent<Vaisseau>();
         //DEBUG!!! Initialiser les ressources nécessaires pour construire le module
-        
+    }
+
+    private void Start() {
         eventTrigger = gameObject.AddComponent<EventTrigger>();
         InventoryUI.Instance.AddEventTrigger(eventTrigger, EventTriggerType.PointerDown, (data) => InventoryUI.Instance.OnPointerDownModule(this, Input.mousePosition));
         InventoryUI.Instance.AddEventTrigger(eventTrigger, EventTriggerType.Drag, (data) => InventoryUI.Instance.OnDrag((PointerEventData)data));
