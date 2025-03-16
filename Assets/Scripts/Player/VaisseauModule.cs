@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 
 public class VaisseauModule : MonoBehaviour, ICanTakeDamage, IPointerEnterHandler, IPointerDownHandler, IPointerExitHandler {
     [SerializeField] private List<Ressource> coutRessources;
@@ -141,10 +142,12 @@ public class VaisseauModule : MonoBehaviour, ICanTakeDamage, IPointerEnterHandle
     }
     
     private void ChangeAlpha(Renderer rendererToChange, float alpha) {
-        foreach (Material material in rendererToChange.materials) {
+        for (int i = 0; i < rendererToChange.materials.Length; i++) {
+            Material material = rendererToChange.materials[i];
+            
             Color color = material.color;
             color.a = alpha;
-            rendererToChange.material.color = color;
+            rendererToChange.materials[i].color = color;
         }
     }
 
