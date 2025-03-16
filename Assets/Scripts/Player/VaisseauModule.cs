@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class VaisseauModule : MonoBehaviour, IPointerEnterHandler, IPointerDownHandler, IPointerExitHandler {
-    private List<Ressource> coutRessources;
+public class VaisseauModule : MonoBehaviour, ICanTakeDamage, IPointerEnterHandler, IPointerDownHandler, IPointerExitHandler {
+    [SerializeField] private List<Ressource> coutRessources;
     [SerializeField] private bool isActivate;
     private EventTrigger eventTrigger;
 

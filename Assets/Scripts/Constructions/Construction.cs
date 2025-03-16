@@ -43,6 +43,7 @@ public abstract class Construction : MonoBehaviour {
     public bool Upgrade() {
         if (Niveau < niveauMax) {
             Niveau++;
+            SetChildOf(transform.parent);
             PerformUpgrade();
             return true;
         }

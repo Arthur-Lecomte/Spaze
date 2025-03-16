@@ -80,6 +80,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3da3a2b9d6138fe4d9c3c17e6925757d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coutRessources:
+  - type: 0
+    quantite: 0
+  - type: 1
+    quantite: 0
   isActivate: 0
 --- !u!65 &4583743002597425657
 BoxCollider:
@@ -94,7 +99,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
