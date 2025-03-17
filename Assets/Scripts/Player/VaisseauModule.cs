@@ -151,7 +151,7 @@ public class VaisseauModule : MonoBehaviour, ICanTakeDamage, IPointerEnterHandle
         }
     }
 
-    public void TakeDamage(int damage) {
+    public void TakeDamage(float damage) {
         //DEBUG!!! Renvoie les dégâts au joueur ou les absorbe (à voir avec l'équipe) [WaitFor Vaisseau]
     }
 }

@@ -7,7 +7,7 @@ public class Extracteur : Construction {
     public float Speed => speed;
     public float Range => range;
     
-    public override void PerformUpgrade() {
+    protected override void PerformUpgrade() {
         throw new System.NotImplementedException(); // Augmenter le niveau de la construction (changer damage, attackSpeed...)
     }
 }

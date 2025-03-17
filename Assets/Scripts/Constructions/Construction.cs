@@ -50,7 +50,7 @@ public abstract class Construction : MonoBehaviour {
         return false;
     }
     
-    public abstract void PerformUpgrade();
+    protected abstract void PerformUpgrade();
 }
 
 public enum RarityConstruction {
