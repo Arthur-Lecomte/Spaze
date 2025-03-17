@@ -1,7 +1,6 @@
 using UnityEngine;
 
 public class Vaisseau : MonoBehaviour {
-    public Inventory inventory;
 
     [Header("Déplacement")]
     [SerializeField] private float acceleration = 10f;  // Force appliquée à l'accélération
