@@ -15,7 +15,7 @@ public class Shop : MonoBehaviour {
     [SerializeField] private Transform zoneForPrefab;
     [SerializeField] private GameObject shopPanel; 
 
-    private bool isShopActive;
+    private bool isShopActive=true;
 
     private void Start() {
         // Appeler la fonction pour sélectionner et afficher les constructions
