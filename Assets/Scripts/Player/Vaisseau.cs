@@ -11,7 +11,7 @@ public class Vaisseau : MonoBehaviour {
 
     [Header("Boost")]
     [SerializeField] private int speedSkillCount = 0;   // Nombre de point de vitesse appliqués 
-    [SerializeField] private float pourcentageBoost = 0.2f; // Pourcentage de boost appliqué par point 
+    [SerializeField] private float pourcentageBoost = 0.3f; // Pourcentage de boost appliqué par point 
 
     private Rigidbody rb;
     private bool isAccelerating = false;
@@ -39,7 +39,7 @@ public class Vaisseau : MonoBehaviour {
     void FixedUpdate()
     {
         // Calcul de la vitesse max avec le boost
-        float boostedMaxSpeed = maxSpeed * (1 + 0.2f * speedSkillCount);
+        float boostedMaxSpeed = maxSpeed * (1 + pourcentageBoost * speedSkillCount);
 
         // Appliquer une force vers l'avant seulement si le joueur accélère
         if (isAccelerating)
