@@ -4,10 +4,14 @@ public class Vaisseau : MonoBehaviour {
     public Inventory inventory;
 
     [Header("Déplacement")]
-    public float acceleration = 10f;   // Force d'accélération
-    public float maxSpeed = 5f;        // Vitesse maximale
-    public float rotationSpeed = 200f; // Vitesse de rotation
-    public float drag = 0.99f;         // Ralentissement progressif (momentum)
+    [SerializeField] private float acceleration = 10f;  // Force appliquée à l'accélération
+    [SerializeField] private float maxSpeed = 5f;       // Vitesse maximale
+    [SerializeField] private float rotationSpeed = 200f; // Vitesse de rotation
+    [SerializeField] private float drag = 0.99f;        // Ralentissement progressif (momentum)
+
+    [Header("Boost")]
+    [SerializeField] private int speedSkillCount = 0;   // Nombre de point de vitesse appliqués 
+    [SerializeField] private float pourcentageBoost = 0.2f; // Pourcentage de boost appliqué par point 
 
     private Rigidbody rb;
     private bool isAccelerating = false;
@@ -15,36 +19,51 @@ public class Vaisseau : MonoBehaviour {
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.linearDamping = 0;  // Pas de drag par défaut (on gère la friction nous-même)
-        rb.angularDamping = 5f; // Légère résistance à la rotation
+        rb.useGravity = false; // Pas de gravité pour un vaisseau spatial
+        rb.angularDamping = 5f;   // Réduit l'effet de rotation excessive
     }
 
     void Update()
     {
-        float moveInput = Input.GetAxis("Vertical"); // Prend en charge ZQSD ou WASD selon config Unity
-        float rotationInput = Input.GetAxis("Horizontal"); // Prend en charge Q/D
+        // Récupérer l'input pour la rotation avec Q/D
+        float rotationInput = Input.GetAxis("Horizontal");
+        isAccelerating = Input.GetAxis("Vertical") > 0; // Avancer avec Z
 
-        isAccelerating = moveInput > 0;
-
-        rb.AddTorque(-rotationInput * rotationSpeed * Time.deltaTime * Vector3.forward, ForceMode.Force);
+        // Appliquer la rotation (tourne autour de l'axe Y)
+        if (rotationInput != 0)
+        {
+            transform.Rotate(Vector3.up * rotationInput * rotationSpeed * Time.deltaTime);
+        }
     }
 
     void FixedUpdate()
     {
-        // Appliquer une force pour avancer si on accélère
+        // Calcul de la vitesse max avec le boost
+        float boostedMaxSpeed = maxSpeed * (1 + 0.2f * speedSkillCount);
+
+        // Appliquer une force vers l'avant seulement si le joueur accélère
         if (isAccelerating)
         {
-            rb.AddForce(transform.up * acceleration, ForceMode.Acceleration);
+            rb.AddForce(transform.forward * acceleration, ForceMode.Acceleration);
         }
 
-        // Limiter la vitesse max
-        if (rb.linearVelocity.magnitude > maxSpeed)
+        // Limiter la vitesse
+        if (rb.linearVelocity.magnitude > boostedMaxSpeed)
         {
-            rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
+            rb.linearVelocity = rb.linearVelocity.normalized * boostedMaxSpeed;
         }
 
-        // Simuler une légère friction (momentum progressif)
+        // Appliquer une légère friction pour l'inertie
         rb.linearVelocity *= drag;
     }
 
+    public void IncreaseSpeedSkill()
+    {
+        speedSkillCount++;
+    }
+
+    public void DecreaseSpeedSkill()
+    {
+        speedSkillCount--;
+    }
 }

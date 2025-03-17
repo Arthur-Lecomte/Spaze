@@ -169,7 +169,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 84
   m_CollisionDetection: 0
 --- !u!114 &2045232223157189340
 MonoBehaviour:
@@ -188,3 +188,4 @@ MonoBehaviour:
   maxSpeed: 5
   rotationSpeed: 200
   drag: 0.99
+  speedBoostCount: 0
