@@ -50,7 +50,10 @@ MonoBehaviour:
   description: 
   type: 4
   niveauMax: 0
-  probability: 0
+  CoutRessourcesDeBase:
+  - typeRessource: 0
+    quantite: 50
+  probability: 8
   image: {fileID: 21300000, guid: bd7d2c8f6670c9e4d9a626181ab04874, type: 3}
   quantity: 0
 --- !u!1001 &1509779905965943007

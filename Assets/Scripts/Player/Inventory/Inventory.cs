@@ -5,7 +5,7 @@ using UnityEngine;
 public class Inventory : MonoBehaviour {
     public static Inventory Instance;
 
-    private List<Ressource> ressources;
+    private Dictionary<TypeRessource, int> ressources;
     private List<VaisseauModule> modules;
     private List<Construction> constructionsInventory;
     [SerializeField] private int size = 2;
@@ -18,9 +18,9 @@ public class Inventory : MonoBehaviour {
             Destroy(gameObject);
         }
 
-        ressources = new List<Ressource>();
+        ressources = new Dictionary<TypeRessource, int>();
         foreach(TypeRessource type in System.Enum.GetValues(typeof(TypeRessource))) {
-            ressources.Add(new Ressource(type, 0));
+            ressources.Add(type, 0);
         }
 
         modules = new List<VaisseauModule>(GetComponentsInChildren<VaisseauModule>(true));
@@ -40,41 +40,34 @@ public class Inventory : MonoBehaviour {
     }
 
     public void AddRessource(TypeRessource type, int quantity) {
-        Ressource ressource = ressources.FirstOrDefault(r => r.type == type);
-        ressource.quantite += quantity;
+        ressources[type] += quantity;
         RessourcesUI.Instance.UpdateUI();
     }
     
-    public bool HaveEnoughRessources(List<Ressource> cout) {
-        Dictionary<TypeRessource, int> dictionary = ressources.ToDictionary(ressource => ressource.type, ressource => ressource.quantite);
-        foreach (Ressource ressource in cout) {
-            if (!dictionary.ContainsKey(ressource.type) || dictionary[ressource.type] < ressource.quantite) {
+    public bool HaveEnoughRessources(Dictionary<TypeRessource, int> allRessources) {
+        foreach((TypeRessource type, int quantity) in allRessources) {
+            if(!HaveEnoughRessource(type, quantity)) {
                 return false;
             }
         }
         return true;
     }
-    
-    public void RemoveRessources(List<Ressource> cout) {
-        foreach (Ressource ressource in cout) {
-            RemoveRessource(ressource.type, ressource.quantite);
-        }
+
+    public bool HaveEnoughRessource(TypeRessource type, int quantity) {
+        return ressources[type] >= quantity;
     }
     
     // Retire une quantité de ressource spécifiée
     public void RemoveRessource(TypeRessource type, int quantity) {
-        Ressource ressource = ressources.FirstOrDefault(r => r.type == type);
-        ressource.quantite -= quantity;
+        ressources[type] -= quantity;
         RessourcesUI.Instance.UpdateUI();
     }
     
+    
     public int GetRessource(TypeRessource type) {
-        return ressources.FirstOrDefault(r => r.type == type).quantite;
+        return ressources[type];
     }
     
-    public List<Ressource> GetRessources() {
-        return ressources;
-    }
 
     public void AddInventorySlotsSize() {
         size += 1;
