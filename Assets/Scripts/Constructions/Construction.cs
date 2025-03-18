@@ -6,14 +6,14 @@ public abstract class Construction : MonoBehaviour {
     [SerializeField] protected string description;
     protected RarityConstruction Rarity;
     [SerializeField] protected TypeConstruction type;     
-    [SerializeField] protected int niveauMax;
-    protected int Niveau;
+    protected int niveauMax = 5;
+    protected int Niveau = 1;
     protected List<Ressource> CoutRessources;
     [SerializeField] protected float probability;
     [SerializeField] protected Sprite image;
     private Transform constructionTransform;
     
-    private void Awake() {
+    protected virtual void Awake() {
         constructionTransform = transform.GetChild(0);
     }
     

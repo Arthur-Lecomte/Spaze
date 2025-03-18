@@ -6,14 +6,16 @@ public class Shield : Construction, ICanTakeDamage {
     [SerializeField] private float maxLife = 50;
     [SerializeField] private float life = 0;
     private float regeneration = 5;
-    [SerializeField] private float range = 25;
+    [SerializeField] private float range = 3;
 
     private SphereCollider trigger;
     private LineRenderer lineRenderer;
     
     private RawImage lifeBar;
     
-    private void Awake() {
+    protected override void Awake() {
+        base.Awake();
+        
         lifeBar = GetComponentInChildren<RawImage>();
         AddLife(maxLife);
         
@@ -45,8 +47,8 @@ public class Shield : Construction, ICanTakeDamage {
     protected override void PerformUpgrade() {
         maxLife += 25;
         AddLife(25);
-        range += 3;
         regeneration += 5;
+        range += 0.5f;
     }
     
     public void TakeDamage(float damage) {
