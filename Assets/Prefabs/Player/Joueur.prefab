@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 34210562637945075}
   - component: {fileID: 4845431113544120649}
   - component: {fileID: 4506729136521873191}
+  - component: {fileID: 7808618177432428735}
   m_Layer: 0
   m_Name: Vaisseau
   m_TagString: Untagged
@@ -177,6 +178,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7808618177432428735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3703148730423727997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9620382e740342c4ae719ccdcbc983d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8558659977021278786
 GameObject:
   m_ObjectHideFlags: 0

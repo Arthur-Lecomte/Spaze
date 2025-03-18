@@ -17,7 +17,7 @@ public class InventoryUI : MonoBehaviour {
     private GameObject dragImage;
     private Image dragImageComponent;
     private int draggedSlotIndex = -1;
-    private VaisseauModule draggedModule;
+    private AddonModule draggedModule;
     private GameObject draggedObject;
 
     private void Awake() {
@@ -75,7 +75,7 @@ public class InventoryUI : MonoBehaviour {
         return dragImage.activeSelf;
     }
     
-    public VaisseauModule GetDraggedModule() {
+    public AddonModule GetDraggedModule() {
         return draggedModule;
     }
     
@@ -101,7 +101,7 @@ public class InventoryUI : MonoBehaviour {
         dragImage.SetActive(true);
     }
 
-    public void OnPointerDownModule(VaisseauModule module, Vector2 position) {
+    public void OnPointerDownModule(AddonModule module, Vector2 position) {
         draggedSlotIndex = -2;
         draggedModule = module;
         draggedObject = module.GetConstruction().gameObject;
@@ -158,7 +158,7 @@ public class InventoryUI : MonoBehaviour {
             if(!handled) {
                 Ray ray = mainCamera.ScreenPointToRay(eventData.position);
                 if(Physics.Raycast(ray, out RaycastHit hit)) {
-                    VaisseauModule module = hit.collider.GetComponent<VaisseauModule>();
+                    AddonModule module = hit.collider.GetComponent<AddonModule>();
                     if(module != null && module.IsActivate()) {
                         module.EndConstructionPreview();
                         if(draggedSlotIndex == -2) {

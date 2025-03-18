@@ -10,7 +10,7 @@ public class BuildManager : MonoBehaviour {
 
     public InputActionReference toggleBuildModeAction; //Référence de la touche
     private bool isInBuildMode;
-    private VaisseauModule[] allModules;
+    private AddonModule[] allModules;
     private Construction currentConstruction;
 
     [SerializeField] private GameObject[] panels;
@@ -22,7 +22,7 @@ public class BuildManager : MonoBehaviour {
             Destroy(gameObject);
         }
 
-        allModules = FindObjectsByType<VaisseauModule>(FindObjectsSortMode.None);
+        allModules = FindObjectsByType<AddonModule>(FindObjectsSortMode.None);
     }
 
     private void Start() {
@@ -67,7 +67,7 @@ public class BuildManager : MonoBehaviour {
         }
 
         //panelDescription.SetActive(currentConstruction && isInBuildMode); //DEBUG!!! à créer
-        foreach(VaisseauModule module in allModules) {
+        foreach(AddonModule module in allModules) {
             module.ToggleBuildMode(isInBuildMode);
         }
     }

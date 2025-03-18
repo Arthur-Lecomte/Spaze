@@ -1,34 +1,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Rendering;
 
-public class VaisseauModule : MonoBehaviour, ICanTakeDamage, IPointerEnterHandler, IPointerDownHandler, IPointerExitHandler {
+public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointerDownHandler, IPointerExitHandler {
     [SerializeField] private List<Ressource> coutRessources;
-    [SerializeField] private bool isActivate;
+    private bool isActivate;
     private EventTrigger eventTrigger;
 
     private Collider objectCollider;
     private Renderer objectRenderer;
     private Construction construction;
-    
+
     private GameObject previewInstance;
     private Transform parentPreview;
     private Vector3 localPositionPreview;
     private float alphaPreview;
 
-    private void Awake() {
+    protected override void Awake() {
+        base.Awake();
         objectCollider = GetComponent<Collider>();
         objectRenderer = GetComponent<Renderer>();
-
-        if(!isActivate) {
-            objectCollider.enabled = false;
-            objectRenderer.enabled = false;
-            ChangeAlpha(objectRenderer, 0.25f);
-        }
+        ChangeAlpha(objectRenderer, 0.25f);
     }
 
     private void Start() {
+        objectCollider.enabled = false;
+        objectRenderer.enabled = false;
+        
         eventTrigger = gameObject.AddComponent<EventTrigger>();
         InventoryUI.Instance.AddEventTrigger(eventTrigger, EventTriggerType.PointerDown, (data) => InventoryUI.Instance.OnPointerDownModule(this, Input.mousePosition));
         InventoryUI.Instance.AddEventTrigger(eventTrigger, EventTriggerType.Drag, (data) => InventoryUI.Instance.OnDrag((PointerEventData)data));
@@ -42,7 +40,7 @@ public class VaisseauModule : MonoBehaviour, ICanTakeDamage, IPointerEnterHandle
 
     public void SetConstruction(Construction c) {
         construction = c;
-        if(construction) {
+        if (construction) {
             construction.SetChildOf(transform);
         }
         eventTrigger.enabled = construction;
@@ -57,25 +55,25 @@ public class VaisseauModule : MonoBehaviour, ICanTakeDamage, IPointerEnterHandle
     }
 
     public void OnPointerEnter(PointerEventData eventData) {
-        if(!isActivate) {
+        if (!isActivate) {
             //DEBUG!!! Vérifier si proche d'un shop [WaitforShopManager]
             ChangeAlpha(objectRenderer, 0.5f);
-        } else if(InventoryUI.Instance.IsDragging()) {
+        } else if (InventoryUI.Instance.IsDragging()) {
             StartConstructionPreview();
         }
     }
-    
+
     public void StartConstructionPreview() {
         previewInstance = InventoryUI.Instance.StartDraggedOnModule();
-        
+
         ChangeAlpha(previewInstance.GetComponent<Renderer>(), previewInstance.transform.parent == transform ? 1f : 0.75f);
-        
+
         parentPreview = previewInstance.transform.parent;
         localPositionPreview = previewInstance.transform.localPosition;
-        
-        if(construction && previewInstance.transform.parent != transform) {
-            VaisseauModule module = InventoryUI.Instance.GetDraggedModule();
-            if(module) {
+
+        if (construction && previewInstance.transform.parent != transform) {
+            AddonModule module = InventoryUI.Instance.GetDraggedModule();
+            if (module) {
                 construction.SetChildOf(transform);
             } else {
                 construction.gameObject.SetActive(false);
@@ -85,66 +83,64 @@ public class VaisseauModule : MonoBehaviour, ICanTakeDamage, IPointerEnterHandle
         previewInstance.transform.SetParent(transform);
         previewInstance.transform.localPosition = new Vector3(0, 1, 0);
     }
-    
+
     public void OnPointerDown(PointerEventData eventData) {
-        if(!isActivate) {
+        if (!isActivate) {
             //DEBUG!!! Vérifier si proche d'un shop [WaitforShopManager]
-            if(Inventory.Instance.HaveEnoughRessources(coutRessources)) {
+            if (Inventory.Instance.HaveEnoughRessources(coutRessources)) {
                 BuildManager.Instance.CurrentConstruction(construction);
-                Activate();
-                Inventory.Instance.AddInventorySlotsSize();
+                
+                isActivate = true;
+                ChangeAlpha(objectRenderer, 1f);
+                objectRenderer.enabled = true;
+                objectCollider.enabled = true;
+                
+                CanActivateNeighbors();
+                foreach (Module module in Neighbors) {
+                    module.ToggleBuildMode(true);
+                }
             }
-        } else if(BuildManager.Instance.InBuildMode()) {
+        } else if (BuildManager.Instance.InBuildMode()) {
             BuildManager.Instance.CurrentConstruction(construction);
         }
     }
 
     public void OnPointerExit(PointerEventData eventData) {
-        if(!isActivate) {
+        if (!isActivate) {
             //DEBUG!!! Vérifier si proche d'un shop [WaitforShopManager]
             ChangeAlpha(objectRenderer, 0.25f);
-        } else if(InventoryUI.Instance.IsDragging()) {
+        } else if (InventoryUI.Instance.IsDragging()) {
             EndConstructionPreview();
         }
     }
-    
+
     public void EndConstructionPreview() {
         InventoryUI.Instance.EndDraggedOnModule();
-        
+
         ChangeAlpha(previewInstance.GetComponent<Renderer>(), alphaPreview);
 
         previewInstance.transform.SetParent(parentPreview);
         previewInstance.transform.localPosition = localPositionPreview;
-        
-        if(construction) {
+
+        if (construction) {
             construction.SetChildOf(transform);
             construction.gameObject.SetActive(true);
         }
     }
 
-    public void ToggleBuildMode(bool value) {
-        if(!isActivate) {
+    public override void ToggleBuildMode(bool value) {
+        //Debug.Log(name + " " + value + " " + isActivate + " " + CanBeActivate);
+        if (!isActivate && CanBeActivate) {
             //DEBUG!!! Vérifier si proche d'un shop [WaitforShopManager]
-            ToggleModulePreview(value);
+            objectCollider.enabled = value;
+            objectRenderer.enabled = value;
         }
     }
 
-    private void ToggleModulePreview(bool isPreview) {
-        objectCollider.enabled = isPreview;
-        objectRenderer.enabled = isPreview;
-    }
-
-    private void Activate() {
-        isActivate = true;
-        ChangeAlpha(objectRenderer, 1f);
-        objectRenderer.enabled = true;
-        objectCollider.enabled = true;
-    }
-    
     private void ChangeAlpha(Renderer rendererToChange, float alpha) {
         for (int i = 0; i < rendererToChange.materials.Length; i++) {
             Material material = rendererToChange.materials[i];
-            
+
             Color color = material.color;
             color.a = alpha;
             rendererToChange.materials[i].color = color;

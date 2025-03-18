@@ -6,7 +6,7 @@ public class Inventory : MonoBehaviour {
     public static Inventory Instance;
 
     private List<Ressource> ressources;
-    private List<VaisseauModule> modules;
+    private List<AddonModule> modules;
     private List<Construction> constructionsInventory;
     [SerializeField] private int size = 2;
     private Transform parentInInventory;
@@ -23,7 +23,7 @@ public class Inventory : MonoBehaviour {
             ressources.Add(new Ressource(type, 0));
         }
 
-        modules = new List<VaisseauModule>(GetComponentsInChildren<VaisseauModule>(true));
+        modules = new List<AddonModule>(GetComponentsInChildren<AddonModule>(true));
         constructionsInventory = new List<Construction>(size);
         for(int i = 0; i < size; i++) {
             constructionsInventory.Add(null);
@@ -109,10 +109,10 @@ public class Inventory : MonoBehaviour {
 
     // Méthode pour ajouter une construction au vaisseau
     public bool AddConstruction(Construction newConstruction) {
-        VaisseauModule libre = null;
+        AddonModule libre = null;
 
         // On vérifie si on peut améliorer une construction posée sur le vaisseau
-        foreach(VaisseauModule module in modules) {
+        foreach(AddonModule module in modules) {
             if(module.IsActivate()) {
                 Construction construction = module.GetConstruction();
                 if(construction && construction.IsSameConstruction(newConstruction)) {
