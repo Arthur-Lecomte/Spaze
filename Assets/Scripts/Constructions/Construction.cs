@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 public abstract class Construction : MonoBehaviour {
     [SerializeField] protected string nom;
     [SerializeField] protected string description;
-    protected RarityConstruction rarity;
+    [SerializeField] protected RarityConstruction rarity;
     [SerializeField] protected TypeConstruction type;     
     [SerializeField] protected int niveauMax;
     protected int Niveau;
@@ -79,6 +79,27 @@ public abstract class Construction : MonoBehaviour {
             rarity = RarityConstruction.Epic;
         } else {
             rarity = RarityConstruction.Legendary;
+        }
+    }
+
+    public virtual void AdjustStatsByRarity() {
+    // Ajuster les coûts en fonction de la rareté
+    for (int i = 0; i < CoutRessourcesDeBase.Count; i++) {
+        CoutRessourcesDeBase[i] = new RessourceCout {
+            typeRessource = CoutRessourcesDeBase[i].typeRessource,
+            quantite = Mathf.RoundToInt(CoutRessourcesDeBase[i].quantite * GetRarityMultiplier())
+            };
+        }
+    }
+
+    // Méthode pour obtenir un multiplicateur basé sur la rareté
+    protected float GetRarityMultiplier() {
+        switch (rarity) {
+            case RarityConstruction.Common: return 1.0f;
+            case RarityConstruction.Rare: return 1.5f;
+            case RarityConstruction.Epic: return 2.0f;
+            case RarityConstruction.Legendary: return 3.0f;
+            default: return 1.0f;
         }
     }
 }

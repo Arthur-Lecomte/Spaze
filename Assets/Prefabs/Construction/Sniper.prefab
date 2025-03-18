@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nom: Sniper
   description: 
+  rarity: 50
   type: 0
   niveauMax: 0
   CoutRessourcesDeBase:

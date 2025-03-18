@@ -51,6 +51,6 @@ MonoBehaviour:
   CoutRessourcesDeBase:
   - typeRessource: 0
     quantite: 50
-  probability: 7
+  probability: 1
   image: {fileID: 21300000, guid: 5a9a23af5b2b5124abd1d0d8b3014860, type: 3}
   speed: 0
