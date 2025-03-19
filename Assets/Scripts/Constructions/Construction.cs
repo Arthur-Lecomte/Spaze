@@ -34,7 +34,7 @@ public abstract class Construction : MonoBehaviour {
     }
 
     public bool IsSameConstruction(Construction c) {
-        if (c.GetType() == GetType() && c.Niveau == Niveau && c.Rarity == Rarity) {
+        if (c.type == type && c.Niveau == Niveau && c.Rarity == Rarity) {
             return true;
         }
         return false;

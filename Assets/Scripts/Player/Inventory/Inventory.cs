@@ -121,6 +121,7 @@ public class Inventory : MonoBehaviour {
                 Construction construction = module.GetConstruction();
                 if (construction && construction.IsSameConstruction(newConstruction)) {
                     if (module.GetConstruction().Upgrade()) {
+                        Destroy(newConstruction.gameObject);
                         return true;
                     }
                 }
@@ -134,8 +135,9 @@ public class Inventory : MonoBehaviour {
 
         // On vérifie si on peut améliorer une construction présente dans l'inventaire
         foreach (Construction construction in constructionsInventory) {
-            if (construction && construction.IsSameConstruction(construction)) {
+            if (construction && construction.IsSameConstruction(newConstruction)) {
                 if (construction.Upgrade()) {
+                    Destroy(newConstruction.gameObject);
                     return true;
                 }
             }
