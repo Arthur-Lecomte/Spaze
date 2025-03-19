@@ -77,7 +77,9 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
             if (Inventory.Instance.HaveEnoughRessources(coutRessources)) {
                 //DEBUG!!! Demander une verification
                 //DEBUG!!! enlever over avec prix si acheté
-                Inventory.Instance.RemoveRessources(construction.GetCoutRessources());
+                
+                //DEBUG!!! Mettre un prix aux composants + décommenter la ligne d'après une fois sur developpe
+                //Inventory.Instance.RemoveRessources(coutRessources);
                 
                 isActivate = true;
                 ChangeAlpha(1f);

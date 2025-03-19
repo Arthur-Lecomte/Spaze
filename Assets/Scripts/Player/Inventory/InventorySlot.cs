@@ -10,8 +10,6 @@ public class InventorySlot : MonoBehaviour {
     private AddonModule module;
     
     private void Awake() {
-        image = transform.GetChild(0).GetComponent<Image>();
-        
         if (index == -1) {
             module = transform.parent.parent.GetComponent<AddonModule>();
             Initialisation(-1);
@@ -22,6 +20,7 @@ public class InventorySlot : MonoBehaviour {
         if (index == -1) {
             InventoryUI.Instance.AddInventorySlots(this);
             module.onAddConstruction.AddListener(SetGameObject);
+            SetActive(false);
         }
     }
     
@@ -32,6 +31,8 @@ public class InventorySlot : MonoBehaviour {
         AddEventTrigger(trigger, EventTriggerType.PointerDown, (data) => InventoryUI.Instance.OnPointerDown((PointerEventData)data, this));
         AddEventTrigger(trigger, EventTriggerType.Drag, (data) => InventoryUI.Instance.OnDrag((PointerEventData)data));
         AddEventTrigger(trigger, EventTriggerType.PointerUp, (data) => InventoryUI.Instance.OnPointerUp((PointerEventData)data));
+        
+        image = transform.GetChild(0).GetComponent<Image>();
     }
     
     private void AddEventTrigger(EventTrigger trigger, EventTriggerType eventType, System.Action<BaseEventData> action) {

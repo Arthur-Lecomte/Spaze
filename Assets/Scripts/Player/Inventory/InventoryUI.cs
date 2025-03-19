@@ -33,6 +33,7 @@ public class InventoryUI : MonoBehaviour {
         dragImageComponent = dragImage.GetComponent<Image>();
         dragImageComponent.color = new Color(1, 1, 1, 0.5f);
         dragImage.SetActive(false);
+        DisplayInventory(false);
     }
     
     public void DisplayInventory(bool value) {

@@ -18,6 +18,7 @@ public class UpgradeManager : MonoBehaviour {
         }
         
         allModules = FindObjectsByType<AddonModule>(FindObjectsSortMode.None);
+        gameObject.SetActive(false);
     }
     
     public void DisplayUpgrade(bool value) {
