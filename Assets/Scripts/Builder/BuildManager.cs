@@ -70,6 +70,8 @@ public class BuildManager : MonoBehaviour {
         foreach(AddonModule module in allModules) {
             module.ToggleBuildMode(isInBuildMode);
         }
+        
+        InventoryUI.Instance.ToggleBuildMode(isInBuildMode);
     }
 
     public void CurrentConstruction(Construction construction) {

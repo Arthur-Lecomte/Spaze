@@ -5,20 +5,19 @@ using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour {
     public static InventoryUI Instance;
+    
+    private List<InventorySlot> inventorySlots;
+    private int numberSlotsMemory;
+    private InventorySlot draggedSlot;
 
     [SerializeField] private GameObject slotPrefab;
-    [SerializeField] private GameObject dragImagePrefab;
     private RectTransform rectTransform;
-
-    private List<GameObject> constructionsList;
-    private int numberSlotsMemory;
-
-    [SerializeField] private Camera mainCamera;
+    
+    [SerializeField] private GameObject dragImagePrefab;
     private GameObject dragImage;
     private Image dragImageComponent;
-    private int draggedSlotIndex = -1;
-    private AddonModule draggedModule;
-    private GameObject draggedObject;
+    
+    [SerializeField] private Camera mainCamera;
 
     private void Awake() {
         if(Instance == null) {
@@ -28,12 +27,16 @@ public class InventoryUI : MonoBehaviour {
         }
 
         rectTransform = GetComponent<RectTransform>();
-        constructionsList = new List<GameObject>();
+        inventorySlots = new List<InventorySlot>();
 
         dragImage = Instantiate(dragImagePrefab, transform);
         dragImageComponent = dragImage.GetComponent<Image>();
         dragImageComponent.color = new Color(1, 1, 1, 0.5f);
         dragImage.SetActive(false);
+    }
+    
+    public void AddInventorySlots(InventorySlot inventorySlot) {
+        inventorySlots.Add(inventorySlot);
     }
 
     public void ChangeNumberSlots(int numberSlots) {
@@ -44,78 +47,29 @@ public class InventoryUI : MonoBehaviour {
         for(int i = numberSlotsMemory + 1; i < numberSlots + 1; i++) {
             int column = (i + 1) / 2;
             GameObject slot = Instantiate(slotPrefab, rectTransform);
-            constructionsList.Add(slot);
             RectTransform slotRectTransform = slot.GetComponent<RectTransform>();
             slotRectTransform.anchoredPosition = new Vector3(-45 + 105 * column, -65 + 105 * (i % 2), 0);
-
-            EventTrigger trigger = slot.AddComponent<EventTrigger>();
-            int index = i - 1;
-            AddEventTrigger(trigger, EventTriggerType.PointerDown, (data) => OnPointerDown((PointerEventData)data, slot, index));
-            AddEventTrigger(trigger, EventTriggerType.Drag, (data) => OnDrag((PointerEventData)data));
-            AddEventTrigger(trigger, EventTriggerType.PointerUp, (data) => OnPointerUp((PointerEventData)data));
+            
+            InventorySlot inventorySlot = slot.GetComponent<InventorySlot>();
+            inventorySlot.Initialisation(i - 1);
+            inventorySlots.Add(inventorySlot);
         }
         numberSlotsMemory = numberSlots;
     }
 
-    public void AddEventTrigger(EventTrigger trigger, EventTriggerType eventType, System.Action<BaseEventData> action) {
-        EventTrigger.Entry entry = new EventTrigger.Entry { eventID = eventType };
-        entry.callback.AddListener((data) => action(data));
-        trigger.triggers.Add(entry);
+    public void SetInventorySlot(int index, Construction construction) {
+        inventorySlots.Find(slot => slot.GetIndex() == index).SetGameObject(construction);
     }
 
-    public void UpdateSlotImage(int index, Construction newConstruction) {
-        Image imageComponent = constructionsList[index].transform.Find("ImageConstruction").GetComponent<Image>();
-        if(newConstruction) {
-            imageComponent.sprite = newConstruction.GetImage();
-        }
-        imageComponent.enabled = newConstruction;
-    }
-    
-    public bool IsDragging() {
-        return dragImage.activeSelf;
-    }
-    
-    public AddonModule GetDraggedModule() {
-        return draggedModule;
-    }
-    
-    public GameObject StartDraggedOnModule() {
-        dragImageComponent.color = new Color(1, 1, 1, 0f);
-        return draggedObject;
-    }
-    
-    public void EndDraggedOnModule() {
-        dragImageComponent.color = new Color(1, 1, 1, 0.5f);
-    }
+    //DEBUG!!! rendre l'image prit invisible ?
+    public void OnPointerDown(PointerEventData eventData, InventorySlot inventorySlot) {
+        if(inventorySlot.GetGameObject() == null) return;
+        draggedSlot = inventorySlot;
 
-    private void OnPointerDown(PointerEventData eventData, GameObject slot, int index) {
-        BuildManager.Instance.CurrentConstruction(Inventory.Instance.GetInventorySlots(index));
-        if(Inventory.Instance.GetInventorySlots(index) == null) return;
-
-        draggedSlotIndex = index;
-        Image imageComponent = slot.transform.Find("ImageConstruction").GetComponent<Image>();
-        draggedObject = Inventory.Instance.GetInventorySlots(draggedSlotIndex).gameObject;
-        dragImageComponent.sprite = imageComponent.sprite;
+        dragImageComponent.sprite = inventorySlot.GetSprite();
         dragImage.transform.position = eventData.position;
         dragImage.transform.SetAsLastSibling();
         dragImage.SetActive(true);
-    }
-
-    public void OnPointerDownModule(AddonModule module, Vector2 position) {
-        draggedSlotIndex = -2;
-        draggedModule = module;
-        draggedObject = module.GetConstruction().gameObject;
-
-        Renderer rendererPreview = draggedObject.GetComponent<Renderer>();
-        Color previewColor = rendererPreview.material.color;
-        previewColor.a = 0f;
-        rendererPreview.material.color = previewColor;
-
-        dragImageComponent.sprite = module.GetConstruction().GetImage();
-        dragImage.transform.position = position;
-        dragImage.transform.SetAsLastSibling();
-        dragImage.SetActive(true);
-        module.StartConstructionPreview();
     }
 
     public void OnDrag(PointerEventData eventData) {
@@ -134,55 +88,20 @@ public class InventoryUI : MonoBehaviour {
 
             List<RaycastResult> raycastResults = new List<RaycastResult>();
             EventSystem.current.RaycastAll(pointerEventData, raycastResults);
-
-            bool handled = false;
+            
             foreach(RaycastResult result in raycastResults) {
-                GameObject slot = result.gameObject;
-                if(constructionsList.Contains(slot)) {
-                    int targetIndex = constructionsList.IndexOf(slot);
-                    if(targetIndex != draggedSlotIndex) {
-                        if(draggedSlotIndex == -2) {
-                            Construction construction = draggedModule.GetConstruction();
-                            draggedModule.SetConstruction(Inventory.Instance.GetInventorySlots(targetIndex));
-                            Inventory.Instance.SetInventorySlots(targetIndex, construction);
-                        } else {
-                            Inventory.Instance.MoveInventorySlot(draggedSlotIndex, targetIndex);
-                        }
-                    }
-
-                    handled = true;
+                InventorySlot targetSlot = result.gameObject.GetComponent<InventorySlot>();
+                if(inventorySlots.Contains(targetSlot) && draggedSlot != targetSlot) {
+                    draggedSlot.Exchange(targetSlot);
                     break;
                 }
             }
-
-            if(!handled) {
-                Ray ray = mainCamera.ScreenPointToRay(eventData.position);
-                if(Physics.Raycast(ray, out RaycastHit hit)) {
-                    AddonModule module = hit.collider.GetComponent<AddonModule>();
-                    if(module != null && module.IsActivate()) {
-                        module.EndConstructionPreview();
-                        if(draggedSlotIndex == -2) {
-                            Construction construction = draggedModule.GetConstruction();
-                            draggedModule.SetConstruction(module.GetConstruction());
-                            module.SetConstruction(construction);
-                        } else {
-                            Construction construction = Inventory.Instance.RemoveInventorySlots(draggedSlotIndex);
-                            Inventory.Instance.SetInventorySlots(draggedSlotIndex, module.GetConstruction());
-                            module.SetConstruction(construction);
-                        }
-                    }
-                }
-            }
         }
-
-        draggedSlotIndex = -1;
-        draggedModule = null;
-        if(draggedObject) {
-            Renderer rendererPreview = draggedObject.GetComponent<Renderer>();
-            Color previewColor = rendererPreview.material.color;
-            previewColor.a = 1f;
-            rendererPreview.material.color = previewColor;
-            draggedObject = null;
+    }
+    
+    public void ToggleBuildMode(bool value) {
+        foreach(InventorySlot slot in inventorySlots) {
+            slot.SetActive(value);
         }
     }
 }

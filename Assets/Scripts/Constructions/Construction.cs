@@ -21,7 +21,7 @@ public abstract class Construction : MonoBehaviour {
         return CoutRessources;
     }
     
-    public Sprite GetImage() {
+    public Sprite GetSprite() {
         return image;
     }
     
@@ -35,12 +35,12 @@ public abstract class Construction : MonoBehaviour {
 
     public bool IsSameConstruction(Construction c) {
         if (c.GetType() == GetType() && c.Niveau == Niveau && c.Rarity == Rarity) {
-            return true;
+            return false; //DEBUG!!! TEST !
         }
         return false;
     }
 
-    public bool Upgrade() {
+    public bool Upgrade() { //DEBUG!!! Modifier l'UI ?
         if (Niveau < niveauMax) {
             Niveau++;
             SetChildOf(transform.parent);

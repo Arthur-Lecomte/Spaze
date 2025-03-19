@@ -11,24 +11,27 @@ public class Inventory : MonoBehaviour {
     [SerializeField] private int size = 2;
     private Transform parentInInventory;
 
+    public GameObject prefab;
+    public GameObject prefab2;
+
     private void Awake() {
-        if(Instance == null) {
+        if (Instance == null) {
             Instance = this;
         } else {
             Destroy(gameObject);
         }
 
         ressources = new List<Ressource>();
-        foreach(TypeRessource type in System.Enum.GetValues(typeof(TypeRessource))) {
+        foreach (TypeRessource type in System.Enum.GetValues(typeof(TypeRessource))) {
             ressources.Add(new Ressource(type, 0));
         }
 
         modules = new List<AddonModule>(GetComponentsInChildren<AddonModule>(true));
         constructionsInventory = new List<Construction>(size);
-        for(int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             constructionsInventory.Add(null);
         }
-        
+
         GameObject newGameObject = new GameObject("InventoryForPrefab");
         parentInInventory = newGameObject.transform;
         parentInInventory.SetParent(transform);
@@ -37,6 +40,17 @@ public class Inventory : MonoBehaviour {
 
     private void Start() {
         InventoryUI.Instance.ChangeNumberSlots(size);
+
+        //DEBUG!!! TEST SHIELD !
+        GameObject go;
+        for (int i = 0; i < 2; i++) {
+            go = Instantiate(prefab);
+            AddConstruction(go.GetComponent<Construction>());
+        }
+        for (int i = 0; i < 2; i++) {
+            go = Instantiate(prefab2);
+            AddConstruction(go.GetComponent<Construction>());
+        }
     }
 
     public void AddRessource(TypeRessource type, int quantity) {
@@ -44,7 +58,7 @@ public class Inventory : MonoBehaviour {
         ressource.quantite += quantity;
         RessourcesUI.Instance.UpdateUI();
     }
-    
+
     public bool HaveEnoughRessources(List<Ressource> cout) {
         Dictionary<TypeRessource, int> dictionary = ressources.ToDictionary(ressource => ressource.type, ressource => ressource.quantite);
         foreach (Ressource ressource in cout) {
@@ -54,24 +68,24 @@ public class Inventory : MonoBehaviour {
         }
         return true;
     }
-    
+
     public void RemoveRessources(List<Ressource> cout) {
         foreach (Ressource ressource in cout) {
             RemoveRessource(ressource.type, ressource.quantite);
         }
     }
-    
+
     // Retire une quantité de ressource spécifiée
     public void RemoveRessource(TypeRessource type, int quantity) {
         Ressource ressource = ressources.FirstOrDefault(r => r.type == type);
         ressource.quantite -= quantity;
         RessourcesUI.Instance.UpdateUI();
     }
-    
+
     public int GetRessource(TypeRessource type) {
         return ressources.FirstOrDefault(r => r.type == type).quantite;
     }
-    
+
     public List<Ressource> GetRessources() {
         return ressources;
     }
@@ -82,28 +96,18 @@ public class Inventory : MonoBehaviour {
         InventoryUI.Instance.ChangeNumberSlots(size);
     }
 
-    public void SetInventorySlots(int index, Construction construction) {
+    public void SetInventorySlot(int index, Construction construction) {
         constructionsInventory[index] = construction;
-        if(construction) {
+        if (construction) {
             construction.transform.SetParent(parentInInventory);
         }
-        InventoryUI.Instance.UpdateSlotImage(index, constructionsInventory[index]);
+        InventoryUI.Instance.SetInventorySlot(index, constructionsInventory[index]);
     }
 
-    public Construction GetInventorySlots(int index) {
-        return constructionsInventory[index];
-    }
-
-    public void MoveInventorySlot(int index, int newIndex) {
-        (constructionsInventory[index], constructionsInventory[newIndex]) = (constructionsInventory[newIndex], constructionsInventory[index]);
-        InventoryUI.Instance.UpdateSlotImage(index, constructionsInventory[index]);
-        InventoryUI.Instance.UpdateSlotImage(newIndex, constructionsInventory[newIndex]);
-    }
-
-    public Construction RemoveInventorySlots(int index) {
+    public Construction RemoveInventorySlot(int index) {
         Construction construction = constructionsInventory[index];
         constructionsInventory[index] = null;
-        InventoryUI.Instance.UpdateSlotImage(index, null);
+        InventoryUI.Instance.SetInventorySlot(index, null);
         return construction;
     }
 
@@ -112,25 +116,25 @@ public class Inventory : MonoBehaviour {
         AddonModule libre = null;
 
         // On vérifie si on peut améliorer une construction posée sur le vaisseau
-        foreach(AddonModule module in modules) {
-            if(module.IsActivate()) {
+        foreach (AddonModule module in modules) {
+            if (module.IsActivate()) {
                 Construction construction = module.GetConstruction();
-                if(construction && construction.IsSameConstruction(newConstruction)) {
+                if (construction && construction.IsSameConstruction(newConstruction)) {
                     if (module.GetConstruction().Upgrade()) {
                         return true;
                     }
                 }
 
                 // On garde en mémoire un module libre au cas où on ne peut rien améliorer
-                if(!libre && module.IsEmpty()) {
+                if (!libre && module.IsEmpty()) {
                     libre = module;
                 }
             }
         }
 
         // On vérifie si on peut améliorer une construction présente dans l'inventaire
-        foreach(Construction construction in constructionsInventory) {
-            if(construction && construction.IsSameConstruction(construction)) {
+        foreach (Construction construction in constructionsInventory) {
+            if (construction && construction.IsSameConstruction(construction)) {
                 if (construction.Upgrade()) {
                     return true;
                 }
@@ -138,17 +142,15 @@ public class Inventory : MonoBehaviour {
         }
 
         // Si on a un module libre, on lui ajoute la construction
-        if(libre) {
-            libre.SetConstruction(newConstruction);
+        if (libre) {
+            libre.onAddConstruction.Invoke(newConstruction);
             return true;
         }
 
         // Si on a de la place dans l'inventaire, on ajoute la construction
-        for(int i = 0; i < constructionsInventory.Count; i++) {
-            if(!constructionsInventory[i]) {
-                constructionsInventory[i] = newConstruction;
-                newConstruction.transform.SetParent(parentInInventory);
-                InventoryUI.Instance.UpdateSlotImage(i, newConstruction);
+        for (int i = 0; i < constructionsInventory.Count; i++) {
+            if (!constructionsInventory[i]) {
+                SetInventorySlot(i, newConstruction);
                 return true;
             }
         }

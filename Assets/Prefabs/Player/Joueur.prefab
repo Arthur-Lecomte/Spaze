@@ -669,6 +669,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: 2
+  prefab: {fileID: 0}
 --- !u!54 &5854109515049670432
 Rigidbody:
   m_ObjectHideFlags: 0

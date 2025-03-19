@@ -1,20 +1,25 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointerDownHandler, IPointerExitHandler {
     [SerializeField] private List<Ressource> coutRessources;
     private bool isActivate;
-    private EventTrigger eventTrigger;
 
     private Collider objectCollider;
     private Renderer objectRenderer;
     private Construction construction;
+    private Image constructionImage;
 
     private GameObject previewInstance;
     private Transform parentPreview;
     private Vector3 localPositionPreview;
     private float alphaPreview;
+    
+    public UnityEvent<Construction> onAddConstruction;
+    public UnityEvent<bool> onBuyModule;
 
     protected override void Awake() {
         base.Awake();
@@ -26,12 +31,6 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
     private void Start() {
         objectCollider.enabled = false;
         objectRenderer.enabled = false;
-        
-        eventTrigger = gameObject.AddComponent<EventTrigger>();
-        InventoryUI.Instance.AddEventTrigger(eventTrigger, EventTriggerType.PointerDown, (data) => InventoryUI.Instance.OnPointerDownModule(this, Input.mousePosition));
-        InventoryUI.Instance.AddEventTrigger(eventTrigger, EventTriggerType.Drag, (data) => InventoryUI.Instance.OnDrag((PointerEventData)data));
-        InventoryUI.Instance.AddEventTrigger(eventTrigger, EventTriggerType.PointerUp, (data) => InventoryUI.Instance.OnPointerUp((PointerEventData)data));
-        eventTrigger.enabled = false;
     }
 
     public bool IsActivate() {
@@ -43,7 +42,6 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
         if (construction) {
             construction.SetChildOf(transform);
         }
-        eventTrigger.enabled = construction;
     }
 
     public Construction GetConstruction() {
@@ -58,30 +56,7 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
         if (!isActivate) {
             //DEBUG!!! Vérifier si proche d'un shop [WaitforShopManager]
             ChangeAlpha(objectRenderer, 0.5f);
-        } else if (InventoryUI.Instance.IsDragging()) {
-            StartConstructionPreview();
         }
-    }
-
-    public void StartConstructionPreview() {
-        previewInstance = InventoryUI.Instance.StartDraggedOnModule();
-
-        ChangeAlpha(previewInstance.GetComponent<Renderer>(), previewInstance.transform.parent == transform ? 1f : 0.75f);
-
-        parentPreview = previewInstance.transform.parent;
-        localPositionPreview = previewInstance.transform.localPosition;
-
-        if (construction && previewInstance.transform.parent != transform) {
-            AddonModule module = InventoryUI.Instance.GetDraggedModule();
-            if (module) {
-                construction.SetChildOf(transform);
-            } else {
-                construction.gameObject.SetActive(false);
-            }
-        }
-
-        previewInstance.transform.SetParent(transform);
-        previewInstance.transform.localPosition = new Vector3(0, 1, 0);
     }
 
     public void OnPointerDown(PointerEventData eventData) {
@@ -99,9 +74,9 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
                 foreach (Module module in Neighbors) {
                     module.ToggleBuildMode(true);
                 }
+                
+                onBuyModule.Invoke(BuildManager.Instance.InBuildMode());
             }
-        } else if (BuildManager.Instance.InBuildMode()) {
-            BuildManager.Instance.CurrentConstruction(construction);
         }
     }
 
@@ -109,22 +84,6 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
         if (!isActivate) {
             //DEBUG!!! Vérifier si proche d'un shop [WaitforShopManager]
             ChangeAlpha(objectRenderer, 0.25f);
-        } else if (InventoryUI.Instance.IsDragging()) {
-            EndConstructionPreview();
-        }
-    }
-
-    public void EndConstructionPreview() {
-        InventoryUI.Instance.EndDraggedOnModule();
-
-        ChangeAlpha(previewInstance.GetComponent<Renderer>(), alphaPreview);
-
-        previewInstance.transform.SetParent(parentPreview);
-        previewInstance.transform.localPosition = localPositionPreview;
-
-        if (construction) {
-            construction.SetChildOf(transform);
-            construction.gameObject.SetActive(true);
         }
     }
 
