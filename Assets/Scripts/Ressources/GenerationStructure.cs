@@ -19,10 +19,12 @@ public class GenerationStructure : MonoBehaviour
     [SerializeField] private Transform wreckParent;
     [SerializeField] private Transform shopParent;
 
+    private System.Random random;
+
     void Start()
     {
         seed = Random.Range(0, 100000); // Génération d'une seed unique
-
+        random = new System.Random(seed);
     }
 
     void Update()
@@ -51,58 +53,45 @@ public class GenerationStructure : MonoBehaviour
         }
 
         // Supprimer les anciennes cellules qui ne sont plus dans la zone de spawn
-        List<Vector2Int> cellsToRemove = new List<Vector2Int>();
+        HashSet<Vector2Int> cellsToRemove = new HashSet<Vector2Int>(loadedCells);
+        cellsToRemove.ExceptWith(newLoadedCells);
 
-        foreach (Vector2Int cell in loadedCells)
+        foreach (Vector2Int cell in cellsToRemove)
         {
-            if (!newLoadedCells.Contains(cell))
-            {
-                DestroyCell(cell);
-                cellsToRemove.Add(cell);
-            }
+            DestroyCell(cell);
         }
 
         // Mettre à jour la liste des cellules chargées
-        foreach (Vector2Int cell in cellsToRemove)
-        {
-            loadedCells.Remove(cell);
-        }
-
         loadedCells = newLoadedCells;
     }
 
     void GenerateCell(Vector2Int cellCoord)
     {
-        Random.InitState(seed + cellCoord.x * 73856093 + cellCoord.y * 19349663); // Seed unique par cellule
+        random = new System.Random(seed + cellCoord.x * 73856093 + cellCoord.y * 19349663); // Seed unique par cellule
 
-        float asteroidChance = Random.value;
-        float wreckChance = Random.value;
-        float shopChance = Random.value;
+        float asteroidChance = (float)random.NextDouble();
+        float wreckChance = (float)random.NextDouble();
+        float shopChance = (float)random.NextDouble();
 
         Vector3 cellCenter = new Vector3(cellCoord.x * cellSize, 0, cellCoord.y * cellSize);
         List<GameObject> objectsInCell = new List<GameObject>();
 
-        if (asteroidChance < 0.5f) // 50% de chance d'apparition d'un astéroïde
-        {
-            Vector3 spawnPosition = GetRandomPositionInCell(cellCenter);
-            GameObject asteroid = Instantiate(asteroidPrefab, spawnPosition, Quaternion.identity, asteroidParent);
-            objectsInCell.Add(asteroid);
-        }
-        if (wreckChance < 0.2f) // 20% de chance pour une épave
-        {
-            Vector3 spawnPosition = GetRandomPositionInCell(cellCenter);
-            GameObject wreck = Instantiate(wreckPrefab, spawnPosition, Quaternion.identity, wreckParent);
-            objectsInCell.Add(wreck);
-        }
-        if (shopChance < 0.1f) // 10% de chance pour un magasin
-        {
-            Vector3 spawnPosition = GetRandomPositionInCell(cellCenter);
-            GameObject shop = Instantiate(shopPrefab, spawnPosition, Quaternion.identity, shopParent);
-            objectsInCell.Add(shop);
-        }
+        TryInstantiateObject(asteroidChance, 0.5f, asteroidPrefab, cellCenter, asteroidParent, objectsInCell);
+        TryInstantiateObject(wreckChance, 0.2f, wreckPrefab, cellCenter, wreckParent, objectsInCell);
+        TryInstantiateObject(shopChance, 0.1f, shopPrefab, cellCenter, shopParent, objectsInCell);
 
         spawnedObjects[cellCoord] = objectsInCell;
         loadedCells.Add(cellCoord);
+    }
+
+    void TryInstantiateObject(float chance, float threshold, GameObject prefab, Vector3 cellCenter, Transform parent, List<GameObject> objectsInCell)
+    {
+        if (chance < threshold)
+        {
+            Vector3 spawnPosition = GetRandomPositionInCell(cellCenter);
+            GameObject obj = Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
+            objectsInCell.Add(obj);
+        }
     }
 
     void DestroyCell(Vector2Int cellCoord)
