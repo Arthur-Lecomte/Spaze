@@ -271,10 +271,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c22e3764c5aa9bf448b88576bab655dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  asteroidPrefab: {fileID: 2615235310337103946, guid: 40550987faf83ab479417623ca3a7c63, type: 3}
-  wreckPrefab: {fileID: 981819025229493014, guid: e15ddaf6cfb44594aa11bbaf6b0256dc, type: 3}
+  asteroidData: {fileID: 11400000, guid: 7d923515d1431fd49ac17bd8b8ab2ec9, type: 2}
+  wreckData: {fileID: 11400000, guid: 591ebb168d4dce849aabffe4fff6bd90, type: 2}
   shopPrefab: {fileID: 6050097893267431798, guid: ed75602f8584afd4a8aaa7e33265ad1a, type: 3}
-  cellSize: 10
+  cellSize: 20
   spawnRadius: 3
   seed: 0
   player: {fileID: 983096769}
