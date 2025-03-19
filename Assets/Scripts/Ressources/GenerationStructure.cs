@@ -13,6 +13,7 @@ public class GenerationStructure : MonoBehaviour
 
     public Transform player;
     private HashSet<Vector2Int> loadedCells = new HashSet<Vector2Int>();
+    private Dictionary<Vector2Int, List<GameObject>> spawnedObjects = new Dictionary<Vector2Int, List<GameObject>>();
 
     void Start()
     {
@@ -27,21 +28,42 @@ public class GenerationStructure : MonoBehaviour
     void UpdateLoadedCells()
     {
         Vector2Int playerCell = GetCellCoordinates(player.position);
+        HashSet<Vector2Int> newLoadedCells = new HashSet<Vector2Int>();
 
-        // Charger les cellules autour du joueur
+        // Charger les nouvelles cellules
         for (int x = -spawnRadius; x <= spawnRadius; x++)
         {
             for (int y = -spawnRadius; y <= spawnRadius; y++)
             {
                 Vector2Int cellCoord = new Vector2Int(playerCell.x + x, playerCell.y + y);
+                newLoadedCells.Add(cellCoord);
 
                 if (!loadedCells.Contains(cellCoord))
                 {
                     GenerateCell(cellCoord);
-                    loadedCells.Add(cellCoord);
                 }
             }
         }
+
+        // Supprimer les anciennes cellules qui ne sont plus dans la zone de spawn
+        List<Vector2Int> cellsToRemove = new List<Vector2Int>();
+
+        foreach (Vector2Int cell in loadedCells)
+        {
+            if (!newLoadedCells.Contains(cell))
+            {
+                DestroyCell(cell);
+                cellsToRemove.Add(cell);
+            }
+        }
+
+        // Mettre à jour la liste des cellules chargées
+        foreach (Vector2Int cell in cellsToRemove)
+        {
+            loadedCells.Remove(cell);
+        }
+
+        loadedCells = newLoadedCells;
     }
 
     void GenerateCell(Vector2Int cellCoord)
@@ -53,18 +75,34 @@ public class GenerationStructure : MonoBehaviour
         float shopChance = Random.value;
 
         Vector3 cellCenter = new Vector3(cellCoord.x * cellSize, 0, cellCoord.y * cellSize);
+        List<GameObject> objectsInCell = new List<GameObject>();
 
         if (asteroidChance < 0.5f) // 50% de chance d'apparition d'un astéroïde
         {
-            Instantiate(asteroidPrefab, cellCenter + Random.insideUnitSphere * (cellSize / 2), Quaternion.identity);
+            objectsInCell.Add(Instantiate(asteroidPrefab, cellCenter + Random.insideUnitSphere * (cellSize / 2), Quaternion.identity));
         }
         if (wreckChance < 0.2f) // 20% de chance pour une épave
         {
-            Instantiate(wreckPrefab, cellCenter + Random.insideUnitSphere * (cellSize / 2), Quaternion.identity);
+            objectsInCell.Add(Instantiate(wreckPrefab, cellCenter + Random.insideUnitSphere * (cellSize / 2), Quaternion.identity));
         }
         if (shopChance < 0.1f) // 10% de chance pour un magasin
         {
-            Instantiate(shopPrefab, cellCenter + Random.insideUnitSphere * (cellSize / 2), Quaternion.identity);
+            objectsInCell.Add(Instantiate(shopPrefab, cellCenter + Random.insideUnitSphere * (cellSize / 2), Quaternion.identity));
+        }
+
+        spawnedObjects[cellCoord] = objectsInCell;
+        loadedCells.Add(cellCoord);
+    }
+
+    void DestroyCell(Vector2Int cellCoord)
+    {
+        if (spawnedObjects.ContainsKey(cellCoord))
+        {
+            foreach (GameObject obj in spawnedObjects[cellCoord])
+            {
+                if (obj != null) Destroy(obj);
+            }
+            spawnedObjects.Remove(cellCoord);
         }
     }
 

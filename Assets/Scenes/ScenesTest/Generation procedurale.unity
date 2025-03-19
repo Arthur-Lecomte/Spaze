@@ -275,7 +275,7 @@ MonoBehaviour:
   wreckPrefab: {fileID: 981819025229493014, guid: e15ddaf6cfb44594aa11bbaf6b0256dc, type: 3}
   shopPrefab: {fileID: 6050097893267431798, guid: ed75602f8584afd4a8aaa7e33265ad1a, type: 3}
   cellSize: 10
-  spawnRadius: 20
+  spawnRadius: 3
   seed: 0
   player: {fileID: 983096769}
 --- !u!4 &1260133847
