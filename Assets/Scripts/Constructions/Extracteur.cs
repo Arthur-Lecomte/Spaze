@@ -8,6 +8,6 @@ public class Extracteur : Construction {
     public float Range => range;
     
     protected override void PerformUpgrade() {
-        throw new System.NotImplementedException(); // Augmenter le niveau de la construction (changer damage, attackSpeed...)
+        Debug.LogWarning(GetType() +" PerformUpgrade Not Implemented"); // Augmenter le niveau de la construction (changer damage, attackSpeed...)
     }
 }
