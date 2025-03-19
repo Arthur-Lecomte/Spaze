@@ -1,8 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -15,17 +17,30 @@ public class Shop : MonoBehaviour {
     [SerializeField] private Transform zoneForPrefab;
     [SerializeField] private GameObject shopPanel; 
 
+    private Dictionary<GameObject, bool> panelStates = new Dictionary<GameObject, bool>(); // État ouvert/fermé
+    private Dictionary<GameObject, bool> panelTransitions = new Dictionary<GameObject, bool>(); // Transition en cours
+    //private bool isTransitioning = false; // Indique si une transition est en cours
+    
+
     private bool isShopActive=true;
 
     private void Start() {
         // Appeler la fonction pour sélectionner et afficher les constructions
         SelectionnerEtAfficherConstructions();
-        ToggleShop();
+        ToggleShop(false);
     }
 
-    public void ToggleShop() {
-        isShopActive = !isShopActive;
-        shopPanel.SetActive(isShopActive); 
+    public void ToggleShop(bool state) {
+
+        if(state){
+            isShopActive = true;
+            shopPanel.SetActive(isShopActive); 
+        }
+        else{
+            isShopActive = false;
+            shopPanel.SetActive(isShopActive); 
+        }
+        
     }
 
     private void SelectionnerEtAfficherConstructions() {
@@ -116,17 +131,17 @@ public class Shop : MonoBehaviour {
         constructionItem.transform.localPosition = new Vector3(index * 600, 0, 0);
 
         // Configurer l'élément UI
-        TextMeshProUGUI nom = constructionItem.transform.Find("Zone").Find("Name")?.GetComponent<TextMeshProUGUI>();
-        Image sprite = constructionItem.transform.Find("Zone").Find("Sprite")?.GetComponent<Image>();
-        TextMeshProUGUI rarity = constructionItem.transform.Find("Zone").Find("Rarity Zone")?.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI nom = constructionItem.transform.Find("PanelConstruction").Find("Name")?.GetComponent<TextMeshProUGUI>();
+        Image sprite = constructionItem.transform.Find("PanelConstruction").Find("Sprite")?.GetComponent<Image>();
+        TextMeshProUGUI rarity = constructionItem.transform.Find("PanelConstruction").Find("Rarity Zone")?.GetComponent<TextMeshProUGUI>();
 
         // Liste des champs de texte pour les ressources
         TextMeshProUGUI[] resourceTexts = new TextMeshProUGUI[] {
-            constructionItem.transform.Find("Zone").Find("Cout Cuivre")?.GetComponent<TextMeshProUGUI>(),
-            constructionItem.transform.Find("Zone").Find("Cout Argent")?.GetComponent<TextMeshProUGUI>(),
-            constructionItem.transform.Find("Zone").Find("Cout Or")?.GetComponent<TextMeshProUGUI>(),
-            constructionItem.transform.Find("Zone").Find("Cout Platine")?.GetComponent<TextMeshProUGUI>(),
-            constructionItem.transform.Find("Zone").Find("Cout Poussiere Radioactive")?.GetComponent<TextMeshProUGUI>()
+            constructionItem.transform.Find("PanelConstruction").Find("Cout Cuivre")?.GetComponent<TextMeshProUGUI>(),
+            constructionItem.transform.Find("PanelConstruction").Find("Cout Argent")?.GetComponent<TextMeshProUGUI>(),
+            constructionItem.transform.Find("PanelConstruction").Find("Cout Or")?.GetComponent<TextMeshProUGUI>(),
+            constructionItem.transform.Find("PanelConstruction").Find("Cout Platine")?.GetComponent<TextMeshProUGUI>(),
+            constructionItem.transform.Find("PanelConstruction").Find("Cout Poussiere Radioactive")?.GetComponent<TextMeshProUGUI>()
         };
 
         if (construction != null) {
@@ -145,13 +160,138 @@ public class Shop : MonoBehaviour {
             }
 
             // Configurer le bouton d'achat
-            Button acheterButton = constructionItem.transform.Find("Zone").Find("AcheterButton")?.GetComponent<Button>();
+            Button acheterButton = constructionItem.transform.Find("PanelConstruction").Find("AcheterButton")?.GetComponent<Button>();
             acheterButton.onClick.AddListener(() => BuyConstruction(construction, constructionItem));
         } else {
             Debug.LogError("AfficherConstruction: Construction component is missing on the prefab.");
         }
+
+        EventTrigger eventTrigger = constructionItem.AddComponent<EventTrigger>();
+
+        // Ajouter l'événement OnPointerEnter
+        EventTrigger.Entry pointerEnterEntry = new EventTrigger.Entry();
+        pointerEnterEntry.eventID = EventTriggerType.PointerEnter;
+        pointerEnterEntry.callback.AddListener((eventData) => { OpenSubPanel(constructionItem); });
+        eventTrigger.triggers.Add(pointerEnterEntry);
+
+        // Ajouter l'événement OnPointerExit (optionnel, pour fermer le panel)
+        
+        EventTrigger.Entry pointerExitEntry = new EventTrigger.Entry();
+        pointerExitEntry.eventID = EventTriggerType.PointerExit;
+        pointerExitEntry.callback.AddListener((eventData) => { CloseSubPanel(constructionItem); });
+        eventTrigger.triggers.Add(pointerExitEntry);
+
+        panelStates[constructionItem] = false; // Par défaut, le panneau est fermé
+        panelTransitions[constructionItem] = false; // Par défaut, aucune transition n'est en cours
+        
     }
 
+private void OpenSubPanel(GameObject constructionItem) {
+    // Vérifier si le panneau est déjà ouvert ou en transition
+    if (panelStates.ContainsKey(constructionItem) && panelStates[constructionItem]) {
+        return; // Ne rien faire si le panneau est déjà ouvert
+    }
+    if (panelTransitions.ContainsKey(constructionItem) && panelTransitions[constructionItem]) {
+        return; // Ne rien faire si une transition est en cours
+    }
+
+    // Marquer le panneau comme ouvert
+    panelStates[constructionItem] = true;
+
+    // Démarrer une coroutine pour ouvrir le panneau
+    StartCoroutine(OpenSubPanelCoroutine(constructionItem));
+}
+
+private IEnumerator OpenSubPanelCoroutine(GameObject constructionItem) {
+    Transform subPanel = constructionItem.transform.Find("SubPanel");
+
+    if (subPanel != null) {
+        Debug.Log("ouverture du panneau");
+        // Marquer la transition comme en cours
+        panelTransitions[constructionItem] = true;
+
+        // Activer le panneau avant de lancer l'animation
+        subPanel.gameObject.SetActive(true);
+
+        Vector3 initialPosition = subPanel.localPosition;
+        Vector3 targetPosition = initialPosition + new Vector3(370, 0, 0);
+        float duration = 0.5f;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration) {
+            subPanel.localPosition = Vector3.Lerp(initialPosition, targetPosition, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // S'assurer que la position finale est atteinte
+        subPanel.localPosition = targetPosition;
+
+        // Marquer la transition comme terminée
+        panelTransitions[constructionItem] = false;
+    }
+}
+
+private void CloseSubPanel(GameObject constructionItem) {
+    // Vérifier si le panneau est déjà fermé
+    if (panelStates.ContainsKey(constructionItem) && !panelStates[constructionItem]) {
+        return; // Ne rien faire si le panneau est déjà fermé
+    }
+
+    // Marquer le panneau comme fermé
+    panelStates[constructionItem] = false;
+
+    // Démarrer une coroutine pour fermer le panneau
+    StartCoroutine(CloseSubPanelCoroutine(constructionItem));
+}
+
+private IEnumerator CloseSubPanelCoroutine(GameObject constructionItem) {
+    Transform subPanel = constructionItem.transform.Find("SubPanel");
+
+    if (subPanel != null) {
+        // Attendre que l'ouverture soit terminée
+        while (panelTransitions.ContainsKey(constructionItem) && panelTransitions[constructionItem]) {
+            yield return null;
+        }
+
+        // Marquer la transition comme en cours
+        panelTransitions[constructionItem] = true;
+
+        Vector3 initialPosition = subPanel.localPosition;
+        Vector3 targetPosition = initialPosition + new Vector3(-370, 0, 0);
+        float duration = 0.5f;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration) {
+            subPanel.localPosition = Vector3.Lerp(initialPosition, targetPosition, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // S'assurer que la position finale est atteinte
+        subPanel.localPosition = targetPosition;
+
+        // Désactiver le panneau après la fermeture
+        subPanel.gameObject.SetActive(false);
+
+        // Marquer la transition comme terminée
+        panelTransitions[constructionItem] = false;
+    }
+}
+
+    private IEnumerator TranslateSubPanel(Transform subPanel, Vector3 translation, float duration) {
+        Vector3 initialPosition = subPanel.localPosition;
+        Vector3 targetPosition = initialPosition + translation;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration) {
+            subPanel.localPosition = Vector3.Lerp(initialPosition, targetPosition, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        subPanel.localPosition = targetPosition;
+    }
 
     // Méthode pour acheter une construction
     private bool BuyConstruction(Construction construction, GameObject constructionItem) {

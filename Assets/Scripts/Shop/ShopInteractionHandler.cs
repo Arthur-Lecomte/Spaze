@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShopInteractionHandler : MonoBehaviour
 {
@@ -26,6 +27,10 @@ public class ShopInteractionHandler : MonoBehaviour
             isInShopRange = distance <= circleDrawer.radius*10;
             
         }
+        if(!isInShopRange)
+        {
+            shop.ToggleShop(false);
+        }
     }
 
     private void OnMouseEnter()
@@ -51,7 +56,7 @@ public class ShopInteractionHandler : MonoBehaviour
         // Vérifier si le joueur est dans le rayon et appeler ToggleShop()
         if (isInShopRange && shop != null)
         {
-            shop.ToggleShop(); // Appeler la méthode ToggleShop
+            shop.ToggleShop(true); // Appeler la méthode ToggleShop
         }
     }
 }
