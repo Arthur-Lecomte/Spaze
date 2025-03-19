@@ -47,17 +47,24 @@ public class Shop : MonoBehaviour {
     // Liste temporaire pour stocker les instances des prefabs
     List<GameObject> instancesConstructions = new List<GameObject>();
 
-    // Instancier tous les prefabs et les ajouter à la liste
-    foreach (GameObject prefab in prefabsConstructions) {
-        GameObject instance = Instantiate(prefab, zoneForPrefab, true);
-        instancesConstructions.Add(instance);
+    // Méthode locale pour recréer les instances
+    List<GameObject> RecreateInstances() {
+        List<GameObject> newInstances = new List<GameObject>();
+        foreach (GameObject prefab in prefabsConstructions) {
+            GameObject instance = Instantiate(prefab, zoneForPrefab, true);
+            newInstances.Add(instance);
 
-        // Assigner une rareté aléatoire à chaque instance
-        Construction construction = instance.GetComponent<Construction>();
-        if (construction != null) {
-            construction.AssignRandomRarity();
+            // Assigner une rareté aléatoire à chaque instance
+            Construction construction = instance.GetComponent<Construction>();
+            if (construction != null) {
+                construction.AssignRandomRarity();
+            }
         }
+        return newInstances;
     }
+
+    // Créer les premières instances
+    instancesConstructions = RecreateInstances();
 
     // Filtrer les instances pour ne garder que les tourelles
     GameObject[] tourelleInstances = instancesConstructions
@@ -67,12 +74,22 @@ public class Shop : MonoBehaviour {
     // Sélectionner une tourelle aléatoire parmi les tourelles filtrées
     GameObject selectedTourelle = SelectPrefabWithRarityAndProbability(tourelleInstances);
 
-    // Sélectionner deux autres constructions aléatoires parmi toutes les instances
+    // Recréer les instances après la sélection
+    instancesConstructions = RecreateInstances();
+
+    // Sélectionner deux autres constructions aléatoires parmi les nouvelles instances
     GameObject[] autresInstances = instancesConstructions
         .Where(instance => instance != selectedTourelle)
         .ToArray();
 
     GameObject selectedInstance1 = SelectPrefabWithRarityAndProbability(autresInstances);
+
+    // Recréer les instances une dernière fois pour garantir l'unicité
+    instancesConstructions = RecreateInstances();
+    autresInstances = instancesConstructions
+        .Where(instance => instance != selectedTourelle && instance != selectedInstance1)
+        .ToArray();
+
     GameObject selectedInstance2 = SelectPrefabWithRarityAndProbability(autresInstances);
 
     // Récupérer les composants Construction des objets instanciés
@@ -81,13 +98,8 @@ public class Shop : MonoBehaviour {
     Construction construction2 = selectedInstance2.GetComponent<Construction>();
 
     constructionTourelle.AdjustStatsByRarity();
-    if (selectedInstance1 == selectedInstance2) {
-        construction1.AdjustStatsByRarity();
-    } else {
-        construction1.AdjustStatsByRarity();
-        construction2.AdjustStatsByRarity();
-    }
-
+    construction1.AdjustStatsByRarity();
+    construction2.AdjustStatsByRarity();
 
     // Afficher les trois constructions dans l'interface utilisateur
     AfficherConstruction(construction2, 1);
@@ -193,6 +205,11 @@ public class Shop : MonoBehaviour {
         // Display stats dynamically
         Transform subPanel = constructionItem.transform.Find("SubPanel");
         if (subPanel != null) {
+            // Réinitialiser la position et la taille du SubPanel
+            RectTransform rectTransform = subPanel.GetComponent<RectTransform>();
+            rectTransform.localPosition = Vector3.zero; // Position par défaut
+            rectTransform.sizeDelta = new Vector2(349, 551); // Taille par défaut (ajustez selon vos besoins)
+
             float yOffset = -50; // Start slightly below the middle top
             foreach (var stat in construction.GetStats()) {
                 GameObject statText = new GameObject(stat.Key, typeof(TextMeshProUGUI));
@@ -203,11 +220,11 @@ public class Shop : MonoBehaviour {
                 textComponent.fontSize = 20;
                 textComponent.alignment = TextAlignmentOptions.Left;
 
-                RectTransform rectTransform = textComponent.rectTransform;
-                rectTransform.anchorMin = new Vector2(0.6f, 1); // Middle top
-                rectTransform.anchorMax = new Vector2(0.6f, 1); // Middle top
-                rectTransform.pivot = new Vector2(0.5f, 1); // Pivot at the middle top
-                rectTransform.anchoredPosition = new Vector2(0, yOffset); // Offset from the middle top
+                RectTransform statRectTransform = textComponent.rectTransform;
+                statRectTransform.anchorMin = new Vector2(0.6f, 1); // Middle top
+                statRectTransform.anchorMax = new Vector2(0.6f, 1); // Middle top
+                statRectTransform.pivot = new Vector2(0.5f, 1); // Pivot at the middle top
+                statRectTransform.anchoredPosition = new Vector2(0, yOffset); // Offset from the middle top
                 yOffset -= 40; // Move down for the next stat
             }
         }
@@ -318,6 +335,7 @@ private IEnumerator CloseSubPanelCoroutine(GameObject constructionItem) {
     private bool BuyConstruction(Construction construction, GameObject constructionItem) {
         // Vérifiez si le joueur à suffisamment de ressources pour acheter la construction
         bool canBuy = true;
+        RestoreConstructionsVisibility();
         foreach((TypeRessource type, int quantity) in construction.GetCoutRessources()) {
             if(!vaisseau.inventory.HaveEnoughRessource(type, quantity)) {
                 canBuy = false;
