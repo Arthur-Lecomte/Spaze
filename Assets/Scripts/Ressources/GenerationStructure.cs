@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GenerationStructure : MonoBehaviour {
-    [Header("Prefabs")]
-    [SerializeField] private GameObject asteroidPrefab;
-    [SerializeField] private GameObject wreckPrefab;
+    [Header("Ressource Data")]
+    [SerializeField] private AsteroidData asteroidData;
+    [SerializeField] private WreckData wreckData;
     [SerializeField] private GameObject shopPrefab;
 
     [Header("Generation Settings")]
@@ -86,10 +86,10 @@ public class GenerationStructure : MonoBehaviour {
         // Limiter à une seule structure par cellule
         if (asteroidChance < 0.5f) // 50% de chance d'apparition d'un astéroïde
         {
-            TryInstantiateObject(asteroidPrefab, cellCenter, asteroidParent, objectsInCell);
+            TryInstantiateVariant(asteroidData.variants, cellCenter, asteroidParent, objectsInCell);
         } else if (wreckChance < 0.2f) // 20% de chance pour une épave
           {
-            TryInstantiateObject(wreckPrefab, cellCenter, wreckParent, objectsInCell);
+            TryInstantiateVariant(wreckData.variants, cellCenter, wreckParent, objectsInCell);
         } else if (shopChance < 0.1f) // 10% de chance pour un magasin
           {
             TryInstantiateObject(shopPrefab, cellCenter, shopParent, objectsInCell);
@@ -101,10 +101,36 @@ public class GenerationStructure : MonoBehaviour {
         Debug.Log($"Cell generated at {cellCoord}");
     }
 
+    void TryInstantiateVariant(List<VariantData> variants, Vector3 cellCenter, Transform parent, List<GameObject> objectsInCell) {
+        float randomValue = (float)random.NextDouble();
+        float cumulativeProbability = 0f;
+
+        foreach (var variant in variants) {
+            cumulativeProbability += variant.probability;
+            if (randomValue < cumulativeProbability) {
+                TryInstantiateObject(variant.prefab, cellCenter, parent, objectsInCell, variant.ressourceType);
+                break;
+            }
+        }
+    }
+
     void TryInstantiateObject(GameObject prefab, Vector3 cellCenter, Transform parent, List<GameObject> objectsInCell) {
         Vector3 spawnPosition = GetRandomPositionInCell(cellCenter);
         GameObject obj = Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
         objectsInCell.Add(obj);
+    }
+
+    void TryInstantiateObject(GameObject prefab, Vector3 cellCenter, Transform parent, List<GameObject> objectsInCell, TypeRessource ressourceType) {
+        Vector3 spawnPosition = GetRandomPositionInCell(cellCenter);
+        GameObject obj = Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
+        objectsInCell.Add(obj);
+
+        // Assigner une ressource à la structure si applicable
+        Structure structure = obj.GetComponent<Structure>();
+        if (structure != null) {
+            int quantite = random.Next(1, 101); // Quantité aléatoire entre 1 et 100
+            structure.Ressource = new Ressource(ressourceType, quantite);
+        }
     }
 
     void DestroyCell(Vector2Int cellCoord) {

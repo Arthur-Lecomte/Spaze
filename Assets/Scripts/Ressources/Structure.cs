@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Strucuture : MonoBehaviour
+public class Structure : MonoBehaviour
 {
     public Ressource Ressource;
 }
