@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 4983825292529029716}
   - component: {fileID: 4119708635611294160}
   - component: {fileID: 6832547357576208995}
-  - component: {fileID: 7706793148625828682}
+  - component: {fileID: 4794884279761096248}
   m_Layer: 5
-  m_Name: InventorySlot
+  m_Name: InventoryAddSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7706793148625828682
+--- !u!114 &4794884279761096248
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,10 +86,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2112882634387953125}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 031e9f0f94f24656a22ac7af8151230f, type: 3}
+  m_Script: {fileID: 11500000, guid: f0faddfa46794a1fad874e59f6bded0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: 0
+  coutRessources:
+  - type: 0
+    quantite: 0
 --- !u!1 &8863770054830385420
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,7 +144,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8863770054830385420}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -155,7 +157,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 75511525e2554f64183c66b50d972374, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

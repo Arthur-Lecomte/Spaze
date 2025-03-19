@@ -94,8 +94,6 @@ public class InventorySlot : MonoBehaviour {
     public void SetActive(bool value) {
         if (module) {
             gameObject.SetActive(value && module.IsActivate());
-        } else {
-            gameObject.SetActive(value);
         }
     }
 }

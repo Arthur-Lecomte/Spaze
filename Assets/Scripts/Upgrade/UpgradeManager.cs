@@ -18,12 +18,12 @@ public class UpgradeManager : MonoBehaviour {
         }
         
         allModules = FindObjectsByType<AddonModule>(FindObjectsSortMode.None);
-        gameObject.SetActive(false);
+        DisplayUpgrade(false);
     }
     
     public void DisplayUpgrade(bool value) {
         gameObject.SetActive(value);
-        panelInventory.SetActive(value); //Debug!!! Créer un faux inventaire pour acheter de nouveau slot
+        panelInventory.SetActive(value);
         foreach(AddonModule module in allModules) {
             module.DisplayModule(value);
         }

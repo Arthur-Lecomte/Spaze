@@ -38,7 +38,7 @@ public class Shop : MonoBehaviour {
     
     public void ChangeOption(ShopOption option) {
         if (currentOption == option) return;
-        
+        //DEBUG!!! à remplir par Baptiste
         // Désactiver le panel des constructions achetables (à Baptiste de remplir)
         UpgradeManager.Instance.DisplayUpgrade(false);
         InventoryUI.Instance.DisplayInventory(false);
