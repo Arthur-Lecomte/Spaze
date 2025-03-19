@@ -1,30 +1,46 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public abstract class Construction : MonoBehaviour {
     [SerializeField] protected string nom;
     [SerializeField] protected string description;
-    protected RarityConstruction Rarity;
-    [SerializeField] protected TypeConstruction type;     
+    [SerializeField] protected RarityConstruction rarity;
+    [SerializeField] protected TypeConstruction type;
     protected int NiveauMax = 5;
     protected int Niveau = 1;
-    protected List<Ressource> CoutRessources;
+    [SerializeField] protected List<Ressource> coutRessources = new List<Ressource>();
     [SerializeField] protected float probability;
     [SerializeField] protected Sprite image;
     private Transform constructionTransform;
-    
+
     protected virtual void Awake() {
         constructionTransform = transform.GetChild(0);
     }
-    
+
     public List<Ressource> GetCoutRessources() {
-        return CoutRessources;
+        return coutRessources;
     }
-    
+
     public Sprite GetSprite() {
         return image;
     }
-    
+
+    public RarityConstruction GetRarity() {
+        return rarity;
+    }
+
+    public float GetProbability() {
+        return probability;
+    }
+
+    public string GetNom() {
+        return nom;
+    }
+
+
     public void SetChildOf(Transform parent) {
         transform.SetParent(parent);
         transform.localPosition = Vector3.zero;
@@ -34,7 +50,7 @@ public abstract class Construction : MonoBehaviour {
     }
 
     public bool IsSameConstruction(Construction c) {
-        if (c.type == type && c.Niveau == Niveau && c.Rarity == Rarity) {
+        if (c.type == type && c.Niveau == Niveau && c.rarity == rarity) {
             return true;
         }
         return false;
@@ -49,15 +65,62 @@ public abstract class Construction : MonoBehaviour {
         }
         return false;
     }
-    
+
     protected abstract void PerformUpgrade();
+
+    public void AssignRandomRarity() {
+        int roll = Random.Range(0, 100);
+        if (roll < 25) {
+            rarity = RarityConstruction.Common;
+        } else if (roll < 50) {
+            rarity = RarityConstruction.Rare;
+        } else if (roll < 75) {
+            rarity = RarityConstruction.Epic;
+        } else {
+            rarity = RarityConstruction.Legendary;
+        }
+    }
+
+    public virtual void AdjustStatsByRarity() {
+        // Ajuster les coûts en fonction de la rareté
+        for (int i = 0; i < coutRessources.Count; i++) {
+            coutRessources[i] = new Ressource {
+                type = coutRessources[i].type,
+                quantite = Mathf.RoundToInt(coutRessources[i].quantite * GetRarityMultiplier())
+            };
+        }
+    }
+
+    // Méthode pour obtenir un multiplicateur basé sur la rareté
+    protected float GetRarityMultiplier() {
+        switch (rarity) {
+            case RarityConstruction.Common: return 1.0f;
+            case RarityConstruction.Rare: return 1.5f;
+            case RarityConstruction.Epic: return 2.0f;
+            case RarityConstruction.Legendary: return 3.0f;
+            default: return 1.0f;
+        }
+    }
+
+    public virtual Dictionary<string, string> GetStats() {
+        return new Dictionary<string, string> {
+            { "Description", description },
+            { "Level", $"{Niveau} / {NiveauMax}" }
+        };
+    }
 }
 
 public enum RarityConstruction {
-    Common,
-    Rare,
-    Epic,
-    Legendary
+    Common = 50,
+    Rare = 30,
+    Epic = 15,
+    Legendary = 5,
+}
+
+[Serializable]
+public struct RessourceCout {
+    public TypeRessource typeRessource;
+    public int quantite;
 }
 
 public enum TypeConstruction {
