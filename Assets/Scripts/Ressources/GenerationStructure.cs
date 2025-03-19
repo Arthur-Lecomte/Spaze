@@ -12,8 +12,8 @@ public class GenerationStructure : MonoBehaviour
     public int seed; // Seed aléatoire pour générer les structures
 
     [SerializeField] private Transform player;
-    private HashSet<Vector2Int> loadedCells = new HashSet<Vector2Int>();
-    private Dictionary<Vector2Int, List<GameObject>> spawnedObjects = new Dictionary<Vector2Int, List<GameObject>>();
+    private HashSet<Vector2Int> loadedCells = new();
+    private Dictionary<Vector2Int, List<GameObject>> spawnedObjects = new();
 
     [SerializeField] private Transform asteroidParent;
     [SerializeField] private Transform wreckParent;
@@ -76,22 +76,31 @@ public class GenerationStructure : MonoBehaviour
         Vector3 cellCenter = new Vector3(cellCoord.x * cellSize, 0, cellCoord.y * cellSize);
         List<GameObject> objectsInCell = new List<GameObject>();
 
-        TryInstantiateObject(asteroidChance, 0.5f, asteroidPrefab, cellCenter, asteroidParent, objectsInCell);
-        TryInstantiateObject(wreckChance, 0.2f, wreckPrefab, cellCenter, wreckParent, objectsInCell);
-        TryInstantiateObject(shopChance, 0.1f, shopPrefab, cellCenter, shopParent, objectsInCell);
+        // Limiter à une seule structure par cellule
+        if (asteroidChance < 0.5f) // 50% de chance d'apparition d'un astéroïde
+        {
+            TryInstantiateObject(asteroidPrefab, cellCenter, asteroidParent, objectsInCell);
+        }
+        else if (wreckChance < 0.2f) // 20% de chance pour une épave
+        {
+            TryInstantiateObject(wreckPrefab, cellCenter, wreckParent, objectsInCell);
+        }
+        else if (shopChance < 0.1f) // 10% de chance pour un magasin
+        {
+            TryInstantiateObject(shopPrefab, cellCenter, shopParent, objectsInCell);
+        }
 
         spawnedObjects[cellCoord] = objectsInCell;
         loadedCells.Add(cellCoord);
+
+        Debug.Log($"Cell generated at {cellCoord}");
     }
 
-    void TryInstantiateObject(float chance, float threshold, GameObject prefab, Vector3 cellCenter, Transform parent, List<GameObject> objectsInCell)
+    void TryInstantiateObject(GameObject prefab, Vector3 cellCenter, Transform parent, List<GameObject> objectsInCell)
     {
-        if (chance < threshold)
-        {
-            Vector3 spawnPosition = GetRandomPositionInCell(cellCenter);
-            GameObject obj = Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
-            objectsInCell.Add(obj);
-        }
+        Vector3 spawnPosition = GetRandomPositionInCell(cellCenter);
+        GameObject obj = Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
+        objectsInCell.Add(obj);
     }
 
     void DestroyCell(Vector2Int cellCoord)
@@ -104,6 +113,8 @@ public class GenerationStructure : MonoBehaviour
             }
             spawnedObjects.Remove(cellCoord);
         }
+
+        Debug.Log($"Cell destroyed at {cellCoord}");
     }
 
     Vector2Int GetCellCoordinates(Vector3 position)
@@ -115,5 +126,16 @@ public class GenerationStructure : MonoBehaviour
     {
         Vector3 randomOffset = new Vector3(Random.Range(-cellSize / 2, cellSize / 2), 0, Random.Range(-cellSize / 2, cellSize / 2));
         return cellCenter + randomOffset;
+    }
+    void OnDrawGizmos()
+    {
+        if (loadedCells == null) return;
+
+        Gizmos.color = Color.green;
+        foreach (Vector2Int cell in loadedCells)
+        {
+            Vector3 cellCenter = new Vector3(cell.x * cellSize, 0, cell.y * cellSize);
+            Gizmos.DrawWireCube(cellCenter, new Vector3(cellSize, 1, cellSize));
+        }
     }
 }
