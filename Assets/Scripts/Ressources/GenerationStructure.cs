@@ -74,7 +74,8 @@ public class GenerationStructure : MonoBehaviour {
     }
 
     void GenerateCell(Vector2Int cellCoord) {
-        random = new System.Random(seed + cellCoord.x * 73856093 + cellCoord.y * 19349663); // Seed unique par cellule
+        int cellSeed = seed + cellCoord.x * 73856093 + cellCoord.y * 19349663; // Seed unique par cellule
+        random = new System.Random(cellSeed);
 
         float asteroidChance = (float)random.NextDouble();
         float wreckChance = (float)random.NextDouble();
@@ -86,13 +87,13 @@ public class GenerationStructure : MonoBehaviour {
         // Limiter à une seule structure par cellule
         if (asteroidChance < 0.5f) // 50% de chance d'apparition d'un astéroïde
         {
-            TryInstantiateVariant(asteroidData.variants, cellCenter, asteroidParent, objectsInCell);
+            TryInstantiateVariant(asteroidData.variants, cellCenter, asteroidParent, objectsInCell, cellSeed);
         } else if (wreckChance < 0.2f) // 20% de chance pour une épave
           {
-            TryInstantiateVariant(wreckData.variants, cellCenter, wreckParent, objectsInCell);
+            TryInstantiateVariant(wreckData.variants, cellCenter, wreckParent, objectsInCell, cellSeed);
         } else if (shopChance < 0.1f) // 10% de chance pour un magasin
           {
-            TryInstantiateObject(shopPrefab, cellCenter, shopParent, objectsInCell);
+            TryInstantiateObject(shopPrefab, cellCenter, shopParent, objectsInCell, cellSeed);
         }
 
         spawnedObjects[cellCoord] = objectsInCell;
@@ -101,27 +102,27 @@ public class GenerationStructure : MonoBehaviour {
         Debug.Log($"Cell generated at {cellCoord}");
     }
 
-    void TryInstantiateVariant(List<VariantData> variants, Vector3 cellCenter, Transform parent, List<GameObject> objectsInCell) {
+    void TryInstantiateVariant(List<VariantData> variants, Vector3 cellCenter, Transform parent, List<GameObject> objectsInCell, int cellSeed) {
         float randomValue = (float)random.NextDouble();
         float cumulativeProbability = 0f;
 
         foreach (var variant in variants) {
             cumulativeProbability += variant.probability;
             if (randomValue < cumulativeProbability) {
-                TryInstantiateObject(variant.prefab, cellCenter, parent, objectsInCell, variant.ressourceType);
+                TryInstantiateObject(variant.prefab, cellCenter, parent, objectsInCell, cellSeed, variant.ressourceType);
                 break;
             }
         }
     }
 
-    void TryInstantiateObject(GameObject prefab, Vector3 cellCenter, Transform parent, List<GameObject> objectsInCell) {
-        Vector3 spawnPosition = GetRandomPositionInCell(cellCenter);
+    void TryInstantiateObject(GameObject prefab, Vector3 cellCenter, Transform parent, List<GameObject> objectsInCell, int cellSeed) {
+        Vector3 spawnPosition = GetRandomPositionInCell(cellCenter, cellSeed);
         GameObject obj = Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
         objectsInCell.Add(obj);
     }
 
-    void TryInstantiateObject(GameObject prefab, Vector3 cellCenter, Transform parent, List<GameObject> objectsInCell, TypeRessource ressourceType) {
-        Vector3 spawnPosition = GetRandomPositionInCell(cellCenter);
+    void TryInstantiateObject(GameObject prefab, Vector3 cellCenter, Transform parent, List<GameObject> objectsInCell, int cellSeed, TypeRessource ressourceType) {
+        Vector3 spawnPosition = GetRandomPositionInCell(cellCenter, cellSeed);
         GameObject obj = Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
         objectsInCell.Add(obj);
 
@@ -131,6 +132,12 @@ public class GenerationStructure : MonoBehaviour {
             int quantite = random.Next(1, 101); // Quantité aléatoire entre 1 et 100
             structure.Ressource = new Ressource(ressourceType, quantite);
         }
+    }
+
+    Vector3 GetRandomPositionInCell(Vector3 cellCenter, int cellSeed) {
+        System.Random positionRandom = new System.Random(cellSeed);
+        Vector3 randomOffset = new Vector3((float)positionRandom.NextDouble() * cellSize - cellSize / 2, 0, (float)positionRandom.NextDouble() * cellSize - cellSize / 2);
+        return cellCenter + randomOffset;
     }
 
     void DestroyCell(Vector2Int cellCoord) {
@@ -146,11 +153,6 @@ public class GenerationStructure : MonoBehaviour {
 
     Vector2Int GetCellCoordinates(Vector3 position) {
         return new Vector2Int(Mathf.FloorToInt(position.x / cellSize), Mathf.FloorToInt(position.z / cellSize));
-    }
-
-    Vector3 GetRandomPositionInCell(Vector3 cellCenter) {
-        Vector3 randomOffset = new Vector3(Random.Range(-cellSize / 2, cellSize / 2), 0, Random.Range(-cellSize / 2, cellSize / 2));
-        return cellCenter + randomOffset;
     }
 
     void OnDrawGizmos() {
