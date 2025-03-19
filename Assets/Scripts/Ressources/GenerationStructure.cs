@@ -11,13 +11,18 @@ public class GenerationStructure : MonoBehaviour
     public int spawnRadius = 3; // Nombre de cellules autour du joueur à charger
     public int seed; // Seed aléatoire pour générer les structures
 
-    public Transform player;
+    [SerializeField] private Transform player;
     private HashSet<Vector2Int> loadedCells = new HashSet<Vector2Int>();
     private Dictionary<Vector2Int, List<GameObject>> spawnedObjects = new Dictionary<Vector2Int, List<GameObject>>();
+
+    [SerializeField] private Transform asteroidParent;
+    [SerializeField] private Transform wreckParent;
+    [SerializeField] private Transform shopParent;
 
     void Start()
     {
         seed = Random.Range(0, 100000); // Génération d'une seed unique
+
     }
 
     void Update()
@@ -80,17 +85,20 @@ public class GenerationStructure : MonoBehaviour
         if (asteroidChance < 0.5f) // 50% de chance d'apparition d'un astéroïde
         {
             Vector3 spawnPosition = GetRandomPositionInCell(cellCenter);
-            objectsInCell.Add(Instantiate(asteroidPrefab, spawnPosition, Quaternion.identity));
+            GameObject asteroid = Instantiate(asteroidPrefab, spawnPosition, Quaternion.identity, asteroidParent);
+            objectsInCell.Add(asteroid);
         }
         if (wreckChance < 0.2f) // 20% de chance pour une épave
         {
             Vector3 spawnPosition = GetRandomPositionInCell(cellCenter);
-            objectsInCell.Add(Instantiate(wreckPrefab, spawnPosition, Quaternion.identity));
+            GameObject wreck = Instantiate(wreckPrefab, spawnPosition, Quaternion.identity, wreckParent);
+            objectsInCell.Add(wreck);
         }
         if (shopChance < 0.1f) // 10% de chance pour un magasin
         {
             Vector3 spawnPosition = GetRandomPositionInCell(cellCenter);
-            objectsInCell.Add(Instantiate(shopPrefab, spawnPosition, Quaternion.identity));
+            GameObject shop = Instantiate(shopPrefab, spawnPosition, Quaternion.identity, shopParent);
+            objectsInCell.Add(shop);
         }
 
         spawnedObjects[cellCoord] = objectsInCell;
