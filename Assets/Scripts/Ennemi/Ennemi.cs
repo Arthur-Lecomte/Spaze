@@ -7,6 +7,7 @@ public class Ennemi : MonoBehaviour
     public int health = 200;
     public float moveSpeed = 1f; // Vitesse de déplacement de l'ennemi
     public float timeBeforeBeingCible = 2f;
+    
 
     [Header("Comportement de tir")]
     public GameObject projectilePrefab; // Préfabriqué du projectile
@@ -39,15 +40,23 @@ void Update() {
     }
 
     // Déplacement vers le joueur
-    void MoveTowardsPlayer(float distanceToPlayer) {
-        Vector3 direction = (player.position - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * moveSpeed);
+    void MoveTowardsPlayer(float distanceToPlayer)
+    {
+        if (distanceToPlayer > 1f)
+        {
+            // Calculer la direction du joueur
+            Vector3 direction = (player.position - transform.position).normalized;
 
-        // Si l'ennemi est loin du joueur, il se déplace vers lui
-        if(distanceToPlayer > 15f) {
+            // Déplacer l'ennemi dans cette direction
             transform.position += direction * moveSpeed * Time.deltaTime;
+            
+            //si le joueur se rapporche de l'ennemi, l'ennemi ne recule pas 
+            if (distanceToPlayer < 5f)
+            {
+                transform.position -= direction * moveSpeed * Time.deltaTime;
+            }
         }
+
     }
 
     // Tirer un projectile
@@ -68,6 +77,7 @@ void Update() {
             obj.GetComponent<Tire>().creator = gameObject;
         }
     }
+    
     // Prendre des dégâts
     public void TakeDamage(int damage) {
         health = Mathf.Max(0, health - damage);
@@ -76,4 +86,7 @@ void Update() {
             Destroy(gameObject);
         }
     }
+
+    
+    
 }

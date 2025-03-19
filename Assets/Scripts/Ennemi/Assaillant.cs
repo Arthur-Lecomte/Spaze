@@ -5,7 +5,7 @@ public class Assaillant : Ennemi
         // Initialiser les valeurs spécifiques pour l'Assaillant
         damage = 200;
         health = 200;
-        moveSpeed = 1f;
+        moveSpeed = 10f;
         shootInterval = 1f;
         shootRange = 10f; 
         timeBeforeBeingCible = 2f;
