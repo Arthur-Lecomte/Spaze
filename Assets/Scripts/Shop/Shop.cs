@@ -90,9 +90,9 @@ public class Shop : MonoBehaviour {
 
 
     // Afficher les trois constructions dans l'interface utilisateur
-    AfficherConstruction(constructionTourelle, -1);
-    AfficherConstruction(construction1, 0);
     AfficherConstruction(construction2, 1);
+    AfficherConstruction(construction1, 0);
+    AfficherConstruction(constructionTourelle, -1);
     }
 
     private GameObject SelectPrefabWithRarityAndProbability(GameObject[] instances) {
@@ -171,19 +171,46 @@ public class Shop : MonoBehaviour {
         // Ajouter l'événement OnPointerEnter
         EventTrigger.Entry pointerEnterEntry = new EventTrigger.Entry();
         pointerEnterEntry.eventID = EventTriggerType.PointerEnter;
-        pointerEnterEntry.callback.AddListener((eventData) => { OpenSubPanel(constructionItem); });
+        pointerEnterEntry.callback.AddListener((eventData) => {
+            OpenSubPanel(constructionItem);
+            DimOtherConstructions(constructionItem); // Dim other constructions
+        });
         eventTrigger.triggers.Add(pointerEnterEntry);
 
-        // Ajouter l'événement OnPointerExit (optionnel, pour fermer le panel)
+        // Ajouter l'événement OnPointerExit 
         
         EventTrigger.Entry pointerExitEntry = new EventTrigger.Entry();
         pointerExitEntry.eventID = EventTriggerType.PointerExit;
-        pointerExitEntry.callback.AddListener((eventData) => { CloseSubPanel(constructionItem); });
+        pointerExitEntry.callback.AddListener((eventData) => {
+            CloseSubPanel(constructionItem);
+            RestoreConstructionsVisibility(); // Restore visibility
+        });
         eventTrigger.triggers.Add(pointerExitEntry);
 
         panelStates[constructionItem] = false; // Par défaut, le panneau est fermé
         panelTransitions[constructionItem] = false; // Par défaut, aucune transition n'est en cours
         
+        // Display stats dynamically
+        Transform subPanel = constructionItem.transform.Find("SubPanel");
+        if (subPanel != null) {
+            float yOffset = -50; // Start slightly below the middle top
+            foreach (var stat in construction.GetStats()) {
+                GameObject statText = new GameObject(stat.Key, typeof(TextMeshProUGUI));
+                statText.transform.SetParent(subPanel);
+
+                TextMeshProUGUI textComponent = statText.GetComponent<TextMeshProUGUI>();
+                textComponent.text = $"{stat.Key}: {stat.Value}";
+                textComponent.fontSize = 20;
+                textComponent.alignment = TextAlignmentOptions.Left;
+
+                RectTransform rectTransform = textComponent.rectTransform;
+                rectTransform.anchorMin = new Vector2(0.6f, 1); // Middle top
+                rectTransform.anchorMax = new Vector2(0.6f, 1); // Middle top
+                rectTransform.pivot = new Vector2(0.5f, 1); // Pivot at the middle top
+                rectTransform.anchoredPosition = new Vector2(0, yOffset); // Offset from the middle top
+                yOffset -= 40; // Move down for the next stat
+            }
+        }
     }
 
 private void OpenSubPanel(GameObject constructionItem) {
@@ -214,7 +241,7 @@ private IEnumerator OpenSubPanelCoroutine(GameObject constructionItem) {
         subPanel.gameObject.SetActive(true);
 
         Vector3 initialPosition = subPanel.localPosition;
-        Vector3 targetPosition = initialPosition + new Vector3(370, 0, 0);
+        Vector3 targetPosition = initialPosition + (constructionItem.transform.localPosition.x == 600 ? new Vector3(-370, 0, 0) : new Vector3(370, 0, 0)); // Reverse for index 1
         float duration = 0.5f;
         float elapsedTime = 0f;
 
@@ -254,44 +281,38 @@ private IEnumerator CloseSubPanelCoroutine(GameObject constructionItem) {
             yield return null;
         }
 
+        // Vérifier si l'objet a été détruit
+        if (constructionItem == null || subPanel == null) {
+            yield break; // Arrêter la coroutine si l'objet n'existe plus
+        }
+
         // Marquer la transition comme en cours
         panelTransitions[constructionItem] = true;
 
         Vector3 initialPosition = subPanel.localPosition;
-        Vector3 targetPosition = initialPosition + new Vector3(-370, 0, 0);
+        Vector3 targetPosition = initialPosition + (constructionItem.transform.localPosition.x == 600 ? new Vector3(370, 0, 0) : new Vector3(-370, 0, 0)); // Reverse for index 1
         float duration = 0.5f;
         float elapsedTime = 0f;
 
         while (elapsedTime < duration) {
+            if (subPanel == null) {
+                yield break; // Arrêter la coroutine si l'objet a été détruit
+            }
             subPanel.localPosition = Vector3.Lerp(initialPosition, targetPosition, elapsedTime / duration);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
         // S'assurer que la position finale est atteinte
-        subPanel.localPosition = targetPosition;
-
-        // Désactiver le panneau après la fermeture
-        subPanel.gameObject.SetActive(false);
+        if (subPanel != null) {
+            subPanel.localPosition = targetPosition;
+            subPanel.gameObject.SetActive(false);
+        }
 
         // Marquer la transition comme terminée
         panelTransitions[constructionItem] = false;
     }
 }
-
-    private IEnumerator TranslateSubPanel(Transform subPanel, Vector3 translation, float duration) {
-        Vector3 initialPosition = subPanel.localPosition;
-        Vector3 targetPosition = initialPosition + translation;
-        float elapsedTime = 0f;
-
-        while (elapsedTime < duration) {
-            subPanel.localPosition = Vector3.Lerp(initialPosition, targetPosition, elapsedTime / duration);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        subPanel.localPosition = targetPosition;
-    }
 
     // Méthode pour acheter une construction
     private bool BuyConstruction(Construction construction, GameObject constructionItem) {
@@ -316,6 +337,9 @@ private IEnumerator CloseSubPanelCoroutine(GameObject constructionItem) {
     }
 
     public void ResetConstructions() {
+        // Arrêter toutes les coroutines en cours
+        StopAllCoroutines();
+
         // Supprimer toutes les constructions affichées
         foreach (Transform child in conteneurConstructions) {
             Destroy(child.gameObject);
@@ -323,6 +347,7 @@ private IEnumerator CloseSubPanelCoroutine(GameObject constructionItem) {
         foreach (Transform child in zoneForPrefab) {
             Destroy(child.gameObject);
         }
+
         // Réinitialiser les constructions
         SelectionnerEtAfficherConstructions();
     }
@@ -340,6 +365,30 @@ private IEnumerator CloseSubPanelCoroutine(GameObject constructionItem) {
                 return Color.yellow; 
             default:
                 return Color.gray; 
+        }
+    }
+
+    private void DimOtherConstructions(GameObject activeConstruction) {
+        foreach (Transform child in conteneurConstructions) {
+            if (child.gameObject != activeConstruction) {
+                CanvasGroup canvasGroup = child.GetComponent<CanvasGroup>();
+                if (canvasGroup == null) {
+                    canvasGroup = child.gameObject.AddComponent<CanvasGroup>();
+                }
+                canvasGroup.alpha = 0.02f; // Make less visible
+            }
+        }
+
+        // Move the active construction to the bottom of the hierarchy
+        activeConstruction.transform.SetAsLastSibling();
+    }
+
+    private void RestoreConstructionsVisibility() {
+        foreach (Transform child in conteneurConstructions) {
+            CanvasGroup canvasGroup = child.GetComponent<CanvasGroup>();
+            if (canvasGroup != null) {
+                canvasGroup.alpha = 1f; // Restore visibility
+            }
         }
     }
 }

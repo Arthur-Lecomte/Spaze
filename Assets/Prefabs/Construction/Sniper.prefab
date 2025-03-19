@@ -50,7 +50,7 @@ MonoBehaviour:
   description: 
   rarity: 50
   type: 0
-  niveauMax: 0
+  niveauMax: 5
   CoutRessourcesDeBase:
   - typeRessource: 0
     quantite: 50

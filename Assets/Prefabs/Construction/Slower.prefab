@@ -46,8 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nom: Slower
   description: 
+  rarity: 0
   type: 7
-  niveauMax: 0
+  niveauMax: 5
   CoutRessourcesDeBase:
   - typeRessource: 0
     quantite: 50

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Turret : Construction {
     [SerializeField] private int damage;
@@ -18,5 +19,12 @@ public class Turret : Construction {
         // Ajuster les dégâts et la vitesse d'attaque
         damage = Mathf.RoundToInt(damage * GetRarityMultiplier());
         attackSpeed *= GetRarityMultiplier();
+    }
+
+    public override Dictionary<string, string> GetStats() {
+        var stats = base.GetStats();
+        stats.Add("Damage", damage.ToString());
+        stats.Add("Attack Speed", attackSpeed.ToString("F2"));
+        return stats;
     }
 }

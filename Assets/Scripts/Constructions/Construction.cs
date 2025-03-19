@@ -102,6 +102,13 @@ public abstract class Construction : MonoBehaviour {
             default: return 1.0f;
         }
     }
+
+    public virtual Dictionary<string, string> GetStats() {
+        return new Dictionary<string, string> {
+            { "Description", description },
+            { "Level", $"{Niveau} / {niveauMax}" }
+        };
+    }
 }
 
 public enum RarityConstruction {

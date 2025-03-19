@@ -48,8 +48,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nom: Extracteur
   description: 
+  rarity: 0
   type: 8
-  niveauMax: 0
+  niveauMax: 5
   CoutRessourcesDeBase:
   - typeRessource: 0
     quantite: 50

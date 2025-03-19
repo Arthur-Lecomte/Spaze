@@ -46,8 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nom: RegenerationShield
   description: 
+  rarity: 0
   type: 5
-  niveauMax: 0
+  niveauMax: 5
   CoutRessourcesDeBase:
   - typeRessource: 0
     quantite: 50

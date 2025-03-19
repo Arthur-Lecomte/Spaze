@@ -46,8 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nom: Radar
   description: 
+  rarity: 0
   type: 9
-  niveauMax: 0
+  niveauMax: 5
   CoutRessourcesDeBase:
   - typeRessource: 0
     quantite: 50
