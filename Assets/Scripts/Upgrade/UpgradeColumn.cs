@@ -27,9 +27,8 @@ public class UpgradeColumn : MonoBehaviour {
         }
     }
     
-    //DEBUG!!! Interdire de mettre à 0 ???
     public void Remove() {
-        if (level > 0) {
+        if (level > 1) {
             level--;
             UpgradeManager.Instance.AddPoints();
             UpdateImages();

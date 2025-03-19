@@ -6,7 +6,7 @@ public abstract class Construction : MonoBehaviour {
     [SerializeField] protected string description;
     protected RarityConstruction Rarity;
     [SerializeField] protected TypeConstruction type;     
-    protected int niveauMax = 5;
+    protected int NiveauMax = 5;
     protected int Niveau = 1;
     protected List<Ressource> CoutRessources;
     [SerializeField] protected float probability;
@@ -28,20 +28,20 @@ public abstract class Construction : MonoBehaviour {
     public void SetChildOf(Transform parent) {
         transform.SetParent(parent);
         transform.localPosition = Vector3.zero;
-        float taille = 1f + (Niveau - 1) * (2f - 1f) / (niveauMax - 1);
+        float taille = 1f + (Niveau - 1) * (2f - 1f) / (NiveauMax - 1);
         constructionTransform.localPosition = new Vector3(0, -0.5f * (taille - 1f), 0);
         constructionTransform.localScale = new Vector3(taille, taille, taille);
     }
 
     public bool IsSameConstruction(Construction c) {
         if (c.GetType() == GetType() && c.Niveau == Niveau && c.Rarity == Rarity) {
-            return false; //DEBUG!!! TEST !
+            return true;
         }
         return false;
     }
 
     public bool Upgrade() { //DEBUG!!! Modifier l'UI ?
-        if (Niveau < niveauMax) {
+        if (Niveau < NiveauMax) {
             Niveau++;
             SetChildOf(transform.parent);
             PerformUpgrade();

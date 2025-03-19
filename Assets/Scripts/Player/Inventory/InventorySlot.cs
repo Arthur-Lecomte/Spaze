@@ -22,7 +22,6 @@ public class InventorySlot : MonoBehaviour {
         if (index == -1) {
             InventoryUI.Instance.AddInventorySlots(this);
             module.onAddConstruction.AddListener(SetGameObject);
-            module.onBuyModule.AddListener(SetActive);
         }
     }
     
@@ -95,7 +94,7 @@ public class InventorySlot : MonoBehaviour {
         if (module) {
             gameObject.SetActive(value && module.IsActivate());
         } else {
-            gameObject.SetActive(true);
+            gameObject.SetActive(value);
         }
     }
 }

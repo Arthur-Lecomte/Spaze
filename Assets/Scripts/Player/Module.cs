@@ -40,6 +40,6 @@ public abstract class Module : MonoBehaviour {
         }
     }
 
-    public virtual void ToggleBuildMode(bool value) {
+    public virtual void DisplayModule(bool value) {
     }
 }

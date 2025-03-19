@@ -1,6 +1,8 @@
 using UnityEngine;
 
 public class Shop : MonoBehaviour {
+    private ShopOption currentOption;
+    
     [SerializeField] private GameObject[] prefabsConstructions;
 
     [SerializeField] private Vaisseau vaisseau;
@@ -33,4 +35,32 @@ public class Shop : MonoBehaviour {
             }
         }
     }
+    
+    public void ChangeOption(ShopOption option) {
+        if (currentOption == option) return;
+        
+        // Désactiver le panel des constructions achetables (à Baptiste de remplir)
+        UpgradeManager.Instance.DisplayUpgrade(false);
+        InventoryUI.Instance.DisplayInventory(false);
+        
+        currentOption = option;
+        switch(option) {
+            case ShopOption.PurchaseConstruction:
+                // Afficher le panel des constructions achetables (à Baptiste de remplir)
+                break;
+            case ShopOption.UpgradeShip:
+                UpgradeManager.Instance.DisplayUpgrade(true);
+                break;
+            case ShopOption.ManageInventory:
+                InventoryUI.Instance.DisplayInventory(true);
+                break;
+        }
+    }
+}
+
+public enum ShopOption {
+    None,
+    PurchaseConstruction,
+    UpgradeShip,
+    ManageInventory
 }

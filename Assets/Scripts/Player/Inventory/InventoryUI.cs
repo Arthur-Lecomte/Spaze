@@ -35,8 +35,16 @@ public class InventoryUI : MonoBehaviour {
         dragImage.SetActive(false);
     }
     
+    public void DisplayInventory(bool value) {
+        gameObject.SetActive(value);
+        foreach (InventorySlot slot in inventorySlots) {
+            slot.SetActive(value);
+        }
+    }
+    
     public void AddInventorySlots(InventorySlot inventorySlot) {
         inventorySlots.Add(inventorySlot);
+        
     }
 
     public void ChangeNumberSlots(int numberSlots) {
@@ -96,12 +104,6 @@ public class InventoryUI : MonoBehaviour {
                     break;
                 }
             }
-        }
-    }
-    
-    public void ToggleBuildMode(bool value) {
-        foreach(InventorySlot slot in inventorySlots) {
-            slot.SetActive(value);
         }
     }
 }
