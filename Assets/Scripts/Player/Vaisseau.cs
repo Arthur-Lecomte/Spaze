@@ -2,29 +2,33 @@ using UnityEngine;
 
 public class Vaisseau : MonoBehaviour {
 
-    [Header("Déplacement")]
-    [SerializeField] private float acceleration = 10f;  // Force appliquée à l'accélération
+    public static Vaisseau Instance;
+    public Inventory inventory;
+
+    [Header("Dï¿½placement")]
+    [SerializeField] private float acceleration = 10f;  // Force appliquï¿½e ï¿½ l'accï¿½lï¿½ration
     [SerializeField] private float maxSpeed = 5f;       // Vitesse maximale
     [SerializeField] private float rotationSpeed = 200f; // Vitesse de rotation
     [SerializeField] private float drag = 0.99f;        // Ralentissement progressif (momentum)
 
     [Header("Boost")]
-    [SerializeField] private int speedSkillCount = 0;   // Nombre de point de vitesse appliqués 
-    [SerializeField] private float pourcentageBoost = 0.3f; // Pourcentage de boost appliqué par point 
+    [SerializeField] private int speedSkillCount = 0;   // Nombre de point de vitesse appliquï¿½s 
+    [SerializeField] private float pourcentageBoost = 0.3f; // Pourcentage de boost appliquï¿½ par point 
 
     private Rigidbody rb;
     private bool isAccelerating = false;
 
     void Start()
     {
+        Instance = this;
         rb = GetComponent<Rigidbody>();
-        rb.useGravity = false; // Pas de gravité pour un vaisseau spatial
-        rb.angularDamping = 5f;   // Réduit l'effet de rotation excessive
+        rb.useGravity = false; // Pas de gravitï¿½ pour un vaisseau spatial
+        rb.angularDamping = 5f;   // Rï¿½duit l'effet de rotation excessive
     }
 
     void Update()
     {
-        // Récupérer l'input pour la rotation avec Q/D
+        // Rï¿½cupï¿½rer l'input pour la rotation avec Q/D
         float rotationInput = Input.GetAxis("Horizontal");
         isAccelerating = Input.GetAxis("Vertical") > 0; // Avancer avec Z
 
@@ -40,7 +44,7 @@ public class Vaisseau : MonoBehaviour {
         // Calcul de la vitesse max avec le boost
         float boostedMaxSpeed = maxSpeed * (1 + pourcentageBoost * speedSkillCount);
 
-        // Appliquer une force vers l'avant seulement si le joueur accélère
+        // Appliquer une force vers l'avant seulement si le joueur accï¿½lï¿½re
         if (isAccelerating)
         {
             rb.AddForce(transform.forward * acceleration, ForceMode.Acceleration);
@@ -52,7 +56,7 @@ public class Vaisseau : MonoBehaviour {
             rb.linearVelocity = rb.linearVelocity.normalized * boostedMaxSpeed;
         }
 
-        // Appliquer une légère friction pour l'inertie
+        // Appliquer une lï¿½gï¿½re friction pour l'inertie
         rb.linearVelocity *= drag;
     }
 

@@ -1,9 +1,12 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class VaisseauModule : MonoBehaviour, IPointerEnterHandler, IPointerDownHandler, IPointerExitHandler {
-    private List<Ressource> coutRessources;
+
+    private Vaisseau vaisseau;
+    [SerializeField] public List<RessourceCout> coutRessources = new List<RessourceCout>();
     [SerializeField] private bool isActivate;
     private EventTrigger eventTrigger;
 
@@ -25,6 +28,9 @@ public class VaisseauModule : MonoBehaviour, IPointerEnterHandler, IPointerDownH
             objectRenderer.enabled = false;
             ChangeAlpha(objectRenderer, 0.25f);
         }
+
+        vaisseau = transform.parent.GetComponent<Vaisseau>();
+        //DEBUG!!! Initialiser les ressources nécessaires pour construire le module
     }
 
     private void Start() {
@@ -85,16 +91,20 @@ public class VaisseauModule : MonoBehaviour, IPointerEnterHandler, IPointerDownH
         previewInstance.transform.localPosition = new Vector3(0, 1, 0);
     }
     
-    public void OnPointerDown(PointerEventData eventData) {
+
+        public void OnPointerDown(PointerEventData eventData) {
         if(!isActivate) {
             //DEBUG!!! Vérifier si proche d'un shop [WaitforShopManager]
-            if(Inventory.Instance.HaveEnoughRessources(coutRessources)) {
+            if(vaisseau.inventory.HaveEnoughRessources(coutRessources.ToDictionary(cout => cout.typeRessource, cout => cout.quantite))) {
+                foreach((TypeRessource type, int quantity) in coutRessources.ToDictionary(cout => cout.typeRessource, cout => cout.quantite)) {
+                    vaisseau.inventory.RemoveRessource(type, quantity);
+                }
                 BuildManager.Instance.CurrentConstruction(construction);
                 Activate();
                 Inventory.Instance.AddInventorySlotsSize();
-            }
-        } else if(BuildManager.Instance.InBuildMode()) {
-            BuildManager.Instance.CurrentConstruction(construction);
+                }
+            } else if(BuildManager.Instance.InBuildMode()) {
+                BuildManager.Instance.CurrentConstruction(construction);
         }
     }
 
