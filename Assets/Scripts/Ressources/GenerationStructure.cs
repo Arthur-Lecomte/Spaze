@@ -79,15 +79,18 @@ public class GenerationStructure : MonoBehaviour
 
         if (asteroidChance < 0.5f) // 50% de chance d'apparition d'un astéroïde
         {
-            objectsInCell.Add(Instantiate(asteroidPrefab, cellCenter + Random.insideUnitSphere * (cellSize / 2), Quaternion.identity));
+            Vector3 spawnPosition = GetRandomPositionInCell(cellCenter);
+            objectsInCell.Add(Instantiate(asteroidPrefab, spawnPosition, Quaternion.identity));
         }
         if (wreckChance < 0.2f) // 20% de chance pour une épave
         {
-            objectsInCell.Add(Instantiate(wreckPrefab, cellCenter + Random.insideUnitSphere * (cellSize / 2), Quaternion.identity));
+            Vector3 spawnPosition = GetRandomPositionInCell(cellCenter);
+            objectsInCell.Add(Instantiate(wreckPrefab, spawnPosition, Quaternion.identity));
         }
         if (shopChance < 0.1f) // 10% de chance pour un magasin
         {
-            objectsInCell.Add(Instantiate(shopPrefab, cellCenter + Random.insideUnitSphere * (cellSize / 2), Quaternion.identity));
+            Vector3 spawnPosition = GetRandomPositionInCell(cellCenter);
+            objectsInCell.Add(Instantiate(shopPrefab, spawnPosition, Quaternion.identity));
         }
 
         spawnedObjects[cellCoord] = objectsInCell;
@@ -109,5 +112,11 @@ public class GenerationStructure : MonoBehaviour
     Vector2Int GetCellCoordinates(Vector3 position)
     {
         return new Vector2Int(Mathf.FloorToInt(position.x / cellSize), Mathf.FloorToInt(position.z / cellSize));
+    }
+
+    Vector3 GetRandomPositionInCell(Vector3 cellCenter)
+    {
+        Vector3 randomOffset = new Vector3(Random.Range(-cellSize / 2, cellSize / 2), 0, Random.Range(-cellSize / 2, cellSize / 2));
+        return cellCenter + randomOffset;
     }
 }
