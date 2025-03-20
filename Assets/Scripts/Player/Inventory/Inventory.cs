@@ -77,6 +77,15 @@ public class Inventory : MonoBehaviour {
         return true;
     }
 
+    public bool HaveEnoughRessource(Ressource cout) {
+        Dictionary<TypeRessource, int> dictionary = ressources.ToDictionary(ressource => ressource.type, ressource => ressource.quantite);
+        if (!dictionary.ContainsKey(cout.type) || dictionary[cout.type] < cout.quantite) {
+            return false;
+        }
+
+        return true;
+    }
+
     public void RemoveRessources(List<Ressource> cout) {
         foreach (Ressource ressource in cout) {
             RemoveRessource(ressource.type, ressource.quantite);

@@ -40,7 +40,10 @@ public class BuyHoverUI : MonoBehaviour {
             GameObject element = Instantiate(prefabElement, priceContainer);
 
             element.GetComponentInChildren<Image>().sprite = ressource.GetSprite();
-            element.GetComponentInChildren<TextMeshProUGUI>().text = ressource.quantite.ToString();
+            
+            TextMeshProUGUI quantity = element.GetComponentInChildren<TextMeshProUGUI>();
+            quantity.text = ressource.quantite.ToString();
+            quantity.color = Inventory.Instance.HaveEnoughRessource(ressource) ? Color.white : Color.red;
         }
     }
 }

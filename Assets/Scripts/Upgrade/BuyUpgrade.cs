@@ -19,6 +19,8 @@ public class BuyUpgrade : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         if (Inventory.Instance.HaveEnoughRessources(coutRessources)) {
             Inventory.Instance.RemoveRessources(coutRessources);
             UpgradeManager.Instance.AddPoints();
+            BuyHoverUI.Instance.ShowHoverUI(name, coutRessources); //On réactualise l'UI
+            
             canBuy -= 1;
             if (canBuy == 0) {
                 gameObject.SetActive(false);
