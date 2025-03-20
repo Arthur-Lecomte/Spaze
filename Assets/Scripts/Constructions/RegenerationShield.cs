@@ -1,18 +1,19 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class RegenerationShield : Construction {
-    [SerializeField] private int damage;
-    [SerializeField] private float attackSpeed;
-
-    // Propriétés spécifiques à la tourelle
-    public int Damage => damage;
-    public float AttackSpeed => attackSpeed;
-
-    public override string ToString() {
-        return base.ToString() + $"\nDégâts: {damage}\nVitesse d'attaque: {attackSpeed}\nNiveau: {Niveau}/{niveauMax}";
-    }
+    [SerializeField] private float speed;
     
-    public override void Upgrade() {
-        throw new System.NotImplementedException(); // Augmenter le niveau de la construction (changer damage, attackSpeed...)
+    public float Speed => speed;
+    
+    protected override void PerformUpgrade() {
+        Debug.LogWarning(GetType() +" PerformUpgrade Not Implemented"); // Augmenter le niveau de la construction (changer damage, attackSpeed...)
+    }
+
+    public override Dictionary<string, string> GetStats() {
+        var stats = base.GetStats();
+        stats.Add("Regeneration Speed", speed.ToString("F2"));
+
+        return stats;
     }
 }

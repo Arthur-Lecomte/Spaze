@@ -12,7 +12,9 @@ public class RessourcesUI : MonoBehaviour {
     // Dictionnaire pour stocker les références aux éléments UI de chaque ressource
     private Dictionary<TypeRessource, TextMeshProUGUI> texteRessources = new Dictionary<TypeRessource, TextMeshProUGUI>();
 
-    void Awake() {
+    public static RessourcesUI Instance { get; private set; }
+
+    private void Awake() {
         if (Instance == null) {
             Instance = this;
         } else {
@@ -21,12 +23,31 @@ public class RessourcesUI : MonoBehaviour {
     }
     
     void Start() {
+
+        if (vaisseau == null) {
+            Debug.LogError("Vaisseau n'est pas assigné dans l'inspecteur.");
+            return;
+        }
+
         CreateElementsUI();
         UpdateUI();
     }
     
     public void AddRessourceByType(TypeRessource ressourceType, int quantity) {
-        vaisseau.inventory.AddRessource(ressourceType, quantity);
+        Inventory.Instance.AddRessource(ressourceType, quantity);
+    }
+
+    public void AddRessource(int quantity) {
+        if (vaisseau == null || Inventory.Instance == null) {
+            Debug.LogError("Vaisseau ou inventaire n'est pas assigné.");
+            return;
+        }
+
+        Inventory.Instance.AddRessource(TypeRessource.Cuivre, quantity);
+        Inventory.Instance.AddRessource(TypeRessource.Argent, quantity);
+        Inventory.Instance.AddRessource(TypeRessource.Or, quantity);
+        Inventory.Instance.AddRessource(TypeRessource.Platine, quantity);
+        Inventory.Instance.AddRessource(TypeRessource.PoussiereRadioactive, quantity);
         UpdateUI();
     }
 
@@ -41,11 +62,17 @@ public class RessourcesUI : MonoBehaviour {
     }
 
     public void UpdateUI() {
+        if (vaisseau == null || Inventory.Instance == null) {
+            Debug.LogError("Vaisseau ou inventaire n'est pas assigné.");
+            return;
+        }
+
+
         // Mettre à jour le texte de quantité pour chaque ressource
         foreach(var res in texteRessources) {
             TypeRessource type = res.Key;
             TextMeshProUGUI texteElement = res.Value;
-            int quantity = vaisseau.inventory.GetRessource(type);
+            int quantity = Inventory.Instance.GetRessource(type);
             texteElement.text = type + ": " + quantity;
 
             // colorer les ressources dont la quantité est 0
