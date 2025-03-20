@@ -91,7 +91,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coutRessources:
   - type: 0
-    quantite: 0
+    quantite: 100
+  - type: 1
+    quantite: 50
+  - type: 2
+    quantite: 25
 --- !u!1 &8863770054830385420
 GameObject:
   m_ObjectHideFlags: 0

@@ -73,4 +73,8 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
     public void TakeDamage(float damage) {
         //DEBUG!!! Appliquer les dégâts
     }
+    
+    public GameObject WhoAmI() {
+        return gameObject;
+    }
 }

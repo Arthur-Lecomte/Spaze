@@ -152,7 +152,7 @@ public class Shop : MonoBehaviour {
             constructionItem.transform.Find("PanelConstruction").Find("Cout Argent")?.GetComponent<TextMeshProUGUI>(),
             constructionItem.transform.Find("PanelConstruction").Find("Cout Or")?.GetComponent<TextMeshProUGUI>(),
             constructionItem.transform.Find("PanelConstruction").Find("Cout Platine")?.GetComponent<TextMeshProUGUI>(),
-            constructionItem.transform.Find("PanelConstruction").Find("Cout Poussiere Radioactive")?.GetComponent<TextMeshProUGUI>()
+            constructionItem.transform.Find("PanelConstruction").Find("Cout Noyau Energie")?.GetComponent<TextMeshProUGUI>()
         };
 
         if (construction != null) {

@@ -11,21 +11,20 @@ public class InventoryAddSlot : MonoBehaviour {
 
     public void Initialisation() {
         image = transform.GetChild(0).GetComponent<Image>();
+        gameObject.name = "Place d'inventaire";
 
         trigger = gameObject.AddComponent<EventTrigger>();
     }
 
     public void OnPointerEnter(PointerEventData eventData) {
-        //DEBUG!!! afficher over avec prix
+        BuyHoverUI.Instance.ShowHoverUI(name, coutRessources);
     }
 
     public void OnPointerDown(PointerEventData eventData) {
         if (Inventory.Instance.HaveEnoughRessources(coutRessources)) {
-            //DEBUG!!! Demander une verification
-            //DEBUG!!! enlever over avec prix si acheté
-
-            //DEBUG!!! Mettre un prix aux slots + décommenter la ligne d'après une fois sur developpe
-            //Inventory.Instance.RemoveRessources(coutRessources);
+            BuyHoverUI.Instance.HideHoverUI();
+            
+            Inventory.Instance.RemoveRessources(coutRessources);
 
             Inventory.Instance.AddInventorySlotsSize();
             IsBuy(true);
@@ -33,7 +32,7 @@ public class InventoryAddSlot : MonoBehaviour {
     }
 
     public void OnPointerExit(PointerEventData eventData) {
-        //DEBUG!!! enlever over avec prix
+        BuyHoverUI.Instance.HideHoverUI();
     }
     
     public void IsBuy(bool value) {

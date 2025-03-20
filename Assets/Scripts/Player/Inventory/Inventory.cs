@@ -13,6 +13,7 @@ public class Inventory : MonoBehaviour {
 
     public GameObject prefab;
     public GameObject prefab2;
+    public GameObject prefab3;
 
     private void Awake() {
         if (Instance == null) {
@@ -41,14 +42,21 @@ public class Inventory : MonoBehaviour {
     private void Start() {
         InventoryUI.Instance.ChangeNumberSlots(size);
 
-        //DEBUG!!! TEST SHIELD !
+        //DEBUG!!! TEST TURRET !
+        AddRessource(TypeRessource.Cuivre, 1000);
+        AddRessource(TypeRessource.Argent, 1000);
+        AddRessource(TypeRessource.Or, 1000);
         GameObject go;
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 1; i++) {
             go = Instantiate(prefab);
             AddConstruction(go.GetComponent<Construction>());
         }
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 1; i++) {
             go = Instantiate(prefab2);
+            AddConstruction(go.GetComponent<Construction>());
+        }
+        for (int i = 0; i < 1; i++) {
+            go = Instantiate(prefab3);
             AddConstruction(go.GetComponent<Construction>());
         }
     }
@@ -66,6 +74,15 @@ public class Inventory : MonoBehaviour {
                 return false;
             }
         }
+        return true;
+    }
+
+    public bool HaveEnoughRessource(Ressource cout) {
+        Dictionary<TypeRessource, int> dictionary = ressources.ToDictionary(ressource => ressource.type, ressource => ressource.quantite);
+        if (!dictionary.ContainsKey(cout.type) || dictionary[cout.type] < cout.quantite) {
+            return false;
+        }
+
         return true;
     }
 
