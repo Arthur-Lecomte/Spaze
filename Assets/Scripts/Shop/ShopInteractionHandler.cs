@@ -7,7 +7,6 @@ public class ShopInteractionHandler : MonoBehaviour
     private bool isInShopRange = false;
 
     [SerializeField] private CircleDrawer circleDrawer; // Référence au CircleDrawer
-    [SerializeField] private Transform player; // Référence au vaisseau (joueur)
 
     public bool IsInShopRange => isInShopRange; // Propriété publique pour accéder au booléen
     [SerializeField] private Shop shop;
@@ -20,10 +19,10 @@ public class ShopInteractionHandler : MonoBehaviour
 
     private void Update()
     {
-        if (circleDrawer != null && player != null)
+        if (circleDrawer != null && Vaisseau.Instance.transform != null)
         {
             // Vérifier si la distance entre le joueur et le centre du CircleDrawer est inférieure au radius
-            float distance = Vector3.Distance(player.position, circleDrawer.transform.position);
+            float distance = Vector3.Distance(Vaisseau.Instance.transform.position, circleDrawer.transform.position);
             isInShopRange = distance <= circleDrawer.radius*10;
             
         }

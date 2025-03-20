@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class RessourcesUI : MonoBehaviour {
-    [SerializeField] private Vaisseau vaisseau;
     [SerializeField] private Transform conteneurRessources;
     [SerializeField] private GameObject prefabElementRessource;
 
@@ -21,22 +21,11 @@ public class RessourcesUI : MonoBehaviour {
     }
 
     void Start() {
-
-        if (vaisseau == null) {
-            Debug.LogError("Vaisseau n'est pas assigné dans l'inspecteur.");
-            return;
-        }
-
         CreateElementsUI();
         UpdateUI();
     }
     
     public void AddRessource(int quantity) {
-        if (vaisseau == null || Inventory.Instance == null) {
-            Debug.LogError("Vaisseau ou inventaire n'est pas assigné.");
-            return;
-        }
-        
         Inventory.Instance.AddRessource(TypeRessource.Cuivre, quantity);
         Inventory.Instance.AddRessource(TypeRessource.Argent, quantity);
         Inventory.Instance.AddRessource(TypeRessource.Or, quantity);
@@ -48,25 +37,19 @@ public class RessourcesUI : MonoBehaviour {
         // Créer un élément UI pour chaque type de ressource
         foreach(TypeRessource type in System.Enum.GetValues(typeof(TypeRessource))) {
             GameObject elementRessource = Instantiate(prefabElementRessource, conteneurRessources);
-            TextMeshProUGUI texteElement = elementRessource.transform.Find("TexteElement").GetComponent<TextMeshProUGUI>();
-            texteElement.text = type + ": 0";
+            TextMeshProUGUI texteElement = elementRessource.GetComponentInChildren<TextMeshProUGUI>();
+            elementRessource.GetComponentInChildren<Image>().sprite = Ressource.GetRessourceSprite(type);
             texteRessources.Add(type, texteElement);
         }
     }
 
     public void UpdateUI() {
-        if (vaisseau == null || Inventory.Instance == null) {
-            Debug.LogError("Vaisseau ou inventaire n'est pas assigné.");
-            return;
-        }
-
-
         // Mettre à jour le texte de quantité pour chaque ressource
         foreach(var res in texteRessources) {
             TypeRessource type = res.Key;
             TextMeshProUGUI texteElement = res.Value;
             int quantity = Inventory.Instance.GetRessource(type);
-            texteElement.text = type + ": " + quantity;
+            texteElement.text = quantity.ToString();
 
             // colorer les ressources dont la quantité est 0
             if(quantity == 0) {

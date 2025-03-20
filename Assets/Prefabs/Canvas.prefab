@@ -1856,7 +1856,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1638749099363818107}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RessourcesUI, Assembly-CSharp
         m_MethodName: AddRessource
         m_Mode: 3
@@ -3265,8 +3265,9 @@ GameObject:
   - component: {fileID: 9028683997758670291}
   - component: {fileID: 7831380072641074648}
   - component: {fileID: 2137450077472585662}
+  - component: {fileID: 7503914010774126566}
   m_Layer: 0
-  m_Name: CanvasRessourcesUI
+  m_Name: Canvas - Ressources
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3356,6 +3357,20 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &7503914010774126566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4738011348606336036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c3ad5b8a75f25a41bc7d5b6d7d8ddf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  conteneurRessources: {fileID: 5454547413146160426}
+  prefabElementRessource: {fileID: 5751384533843721717, guid: e5d09b2235d68de4b800d87cc98ccb9b, type: 3}
 --- !u!1 &4885950252121621015
 GameObject:
   m_ObjectHideFlags: 0
@@ -3881,7 +3896,6 @@ GameObject:
   - component: {fileID: 6580112660653511369}
   - component: {fileID: 5810654741437340759}
   - component: {fileID: 3333542946387266430}
-  - component: {fileID: 1638749099363818107}
   - component: {fileID: 2421460073983740333}
   - component: {fileID: 9026288674840972776}
   m_Layer: 0
@@ -3949,21 +3963,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1638749099363818107
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5287288443768181490}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c3ad5b8a75f25a41bc7d5b6d7d8ddf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vaisseau: {fileID: 0}
-  conteneurRessources: {fileID: 5454547413146160426}
-  prefabElementRessource: {fileID: 1606070629621816778, guid: 5302351beb1886540ab5787a661805f0, type: 3}
 --- !u!223 &2421460073983740333
 Canvas:
   m_ObjectHideFlags: 0
@@ -5447,7 +5446,7 @@ GameObject:
   - component: {fileID: 3653563077246117339}
   - component: {fileID: 7377102693799776975}
   m_Layer: 0
-  m_Name: CanvasShop
+  m_Name: Canvas - Shop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

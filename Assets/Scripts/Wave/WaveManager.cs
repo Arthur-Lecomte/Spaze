@@ -5,17 +5,16 @@ using UnityEngine;
 
 public class WaveManager : MonoBehaviour {
     [Header("Wave Settings")]
-    [SerializeField] private GameObject player; // Référence au joueur
     [SerializeField] private List<GameObject> enemyPrefabs; // Liste des ennemis possibles
     [SerializeField] private float spawnRadius; // Distance autour du joueur pour spawn
-    [SerializeField] private float spawnSpread; // Écart possible entre les spawns
+    [SerializeField] private float spawnSpread; // Ã©cart possible entre les spawns
     [SerializeField] private float timeBetweenWaves; // Temps entre chaque vague
-    [SerializeField] private int startEnemies; // Nombre d'ennemis de la première vague
-    [SerializeField] private TextMeshProUGUI waveInfoText; // Référence au texte UI
+    [SerializeField] private int startEnemies; // Nombre d'ennemis de la premiÃ¨re vague
+    [SerializeField] private TextMeshProUGUI waveInfoText; // RÃ©fÃ©rence au texte UI
 
-    private int currentWave = 0; // Numéro de la vague actuelle
+    private int currentWave = 0; // NumÃ©ro de la vague actuelle
     private List<GameObject> activeEnemies = new(); // Liste des ennemis actifs
-    private int nextEnemyIndex = 0; // Index du prochain ennemi à spawn
+    private int nextEnemyIndex = 0; // Index du prochain ennemi Ã  spawn
     private float timeUntilNextWave; // Temps restant avant la prochaine vague
 
     void Start() {
@@ -31,7 +30,7 @@ public class WaveManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Gère l'apparaition des vagues d'ennemies.
+    /// GÃ¨re l'apparaition des vagues d'ennemies.
     /// </summary>
     /// <returns></returns>
     private IEnumerator SpawnWaves() {
@@ -49,24 +48,24 @@ public class WaveManager : MonoBehaviour {
 
             for (int i = 0; i < enemyCount; i++) {
                 SpawnEnemy();
-                yield return new WaitForSeconds(0.2f); // Petit délai entre chaque spawn
+                yield return new WaitForSeconds(0.2f); // Petit dÃ©lai entre chaque spawn
             }
 
-            // Attendre que tous les ennemis soient détruits
+            // Attendre que tous les ennemis soient dÃ©truits
             yield return new WaitUntil(() => activeEnemies.Count == 0);
         }
     }
 
     /// <summary>
-    /// Instantie un ennemie aléatoire provénant de la liste d'ennemie si elle n'est pas vide et que le player n'est pas null.
+    /// Instantie un ennemi alÃ©atoire provenant de la liste d'ennemie si elle n'est pas vide et que le player n'est pas null.
     /// </summary>
     private void SpawnEnemy() {
-        if (enemyPrefabs.Count == 0 || player == null) {
-            Debug.LogWarning("Aucun ennemi disponible ou joueur non défini !");
+        if (enemyPrefabs.Count == 0 || Vaisseau.Instance.gameObject == null) {
+            Debug.LogWarning("Aucun ennemi disponible ou joueur non dÃ©fini !");
             return;
         }
 
-        // Choisir un ennemi de manière cyclique
+        // Choisir un ennemi de maniÃ¨re cyclique
         GameObject enemyPrefab = enemyPrefabs[nextEnemyIndex];
         nextEnemyIndex = (nextEnemyIndex + 1) % enemyPrefabs.Count;
 
@@ -74,7 +73,7 @@ public class WaveManager : MonoBehaviour {
         GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
         activeEnemies.Add(enemy);
 
-        // Ajouter un événement pour retirer l'ennemi de la liste lorsqu'il est détruit
+        // Ajouter un Ã©vÃ¨nement pour retirer l'ennemi de la liste lorsqu'il est dÃ©truit
         if (enemy.TryGetComponent<Enemy>(out var enemyComponent)) {
             enemyComponent.Level = 1 + (currentWave - 1) / 2; // Augmenter le niveau toutes les 2 vagues
             enemyComponent.OnDestroyed += (destroyedEnemy) => activeEnemies.Remove(destroyedEnemy);
@@ -82,18 +81,18 @@ public class WaveManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Calcule une position aléatoire de spawn d'un ennemie selon les paramètres de la class.
+    /// Calcule une position alÃ©atoire de spawn d'un ennemi selon les paramÃ¨tres de la class.
     /// </summary>
-    /// <returns>Renvoie un Vector3 pour le spawn d'un ennemie.</returns>
+    /// <returns>Renvoie un Vector3 pour le spawn d'un ennemi.</returns>
     private Vector3 GetRandomSpawnPosition() {
         float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
         float offsetX = Random.Range(-spawnSpread, spawnSpread);
         float offsetZ = Random.Range(-spawnSpread, spawnSpread);
 
         Vector3 basePosition = new(
-            player.transform.position.x + Mathf.Cos(angle) * spawnRadius,
-            player.transform.position.y, // Garder la même hauteur que le joueur
-            player.transform.position.z + Mathf.Sin(angle) * spawnRadius
+            Vaisseau.Instance.transform.position.x + Mathf.Cos(angle) * spawnRadius,
+            Vaisseau.Instance.transform.position.y, // Garder la mÃªme hauteur que le joueur
+            Vaisseau.Instance.transform.position.z + Mathf.Sin(angle) * spawnRadius
         );
 
         return basePosition + new Vector3(offsetX, 0, offsetZ);

@@ -18,6 +18,10 @@ public class Ressource {
         }
         return icon;
     }
+    
+    public static Sprite GetRessourceSprite(TypeRessource type) {
+        return Resources.Load<Sprite>($"IconRessource/{type.ToString()}");
+    }
 }
 
 public enum TypeRessource {

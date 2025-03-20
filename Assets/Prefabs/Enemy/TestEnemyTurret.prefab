@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6823031340406525772}
   - component: {fileID: 6945813808722628561}
   - component: {fileID: 1490768996296153333}
-  - component: {fileID: 3541202350899901940}
+  - component: {fileID: 7104461111459331104}
   m_Layer: 0
   m_Name: TestEnemyTurret
   m_TagString: Enemy
@@ -137,7 +137,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &3541202350899901940
+--- !u!114 &7104461111459331104
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,6 +146,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 3508056942656620514}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c9de6278d2e4e9d95a14da48c7de20e, type: 3}
+  m_Script: {fileID: 11500000, guid: dbcdc74a4bb7a0743bb6ee7dd2432689, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

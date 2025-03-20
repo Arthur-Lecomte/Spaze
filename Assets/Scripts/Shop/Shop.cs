@@ -12,8 +12,7 @@ public class Shop : MonoBehaviour {
     private ShopOption currentOption;
 
     [SerializeField] private GameObject[] prefabsConstructions;
-
-    [SerializeField] private Vaisseau vaisseau;
+    
     [SerializeField] private Transform conteneurConstructions;
     [SerializeField] private GameObject prefabConstructionItem;
     [SerializeField] private Transform zoneForPrefab;
