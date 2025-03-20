@@ -2,7 +2,6 @@ using UnityEngine;
 public class Tank : Ennemi
 {
     void Start() {
-        damage = 100;
         health = 1000;
         moveSpeed = 0.3f; // Très lent
         shootInterval = 2.5f;

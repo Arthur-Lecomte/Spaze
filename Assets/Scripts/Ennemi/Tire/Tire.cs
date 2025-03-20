@@ -19,4 +19,10 @@ public class Tire : MonoBehaviour
             Destroy(gameObject); // Détruit le projectile
         }
     }
+    //Détruit le projectile après 5 seccondes
+    void Start()
+    {
+        Destroy(gameObject, 3f);
+    }
+    
 }

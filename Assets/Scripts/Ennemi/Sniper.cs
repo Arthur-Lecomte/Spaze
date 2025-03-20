@@ -2,7 +2,6 @@ using UnityEngine;
 public class Sniper : Ennemi
 {
     void Start() {
-        damage = 400;
         health = 150;
         moveSpeed = 0.5f;
         shootInterval = 3f; // Tire lentement

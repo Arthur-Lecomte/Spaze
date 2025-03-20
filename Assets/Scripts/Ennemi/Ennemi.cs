@@ -3,7 +3,6 @@ using UnityEngine;
 public class Ennemi : MonoBehaviour
 {
     [Header("Statistiques de base")]
-    public int damage = 200;
     public int health = 200;
     public float moveSpeed = 1f; // Vitesse de déplacement de l'ennemi
     public float timeBeforeBeingCible = 2f;

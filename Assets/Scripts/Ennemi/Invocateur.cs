@@ -4,7 +4,6 @@ public class Invocateur : Ennemi
     public GameObject minionPrefab; // Préfabriqué du sbire
 
     void Start() {
-        damage = 50;
         health = 300;
         moveSpeed = 0.7f;
         shootInterval = 4f;

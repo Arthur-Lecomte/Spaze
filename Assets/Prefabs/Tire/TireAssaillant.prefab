@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 3963510781873462842}
   - component: {fileID: 6600380700809514985}
   - component: {fileID: 5793840706110722324}
-  - component: {fileID: 8553247524483974628}
   - component: {fileID: -8320235731293649438}
+  - component: {fileID: -275856535160968385}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: TireAssaillant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -112,21 +112,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8553247524483974628
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6302220743199107413}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c142e0ba7cc810b4b9fefa21ae735913, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  creator: {fileID: 0}
-  speed: 10
-  damage: 50
 --- !u!54 &-8320235731293649438
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -154,3 +139,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-275856535160968385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6302220743199107413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a22a951e837f7164384859bb33378d06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  creator: {fileID: 6023353615991927423, guid: 3341c6be42d22344face7d8fde7e0a67, type: 3}
+  speed: 10
+  damage: 50

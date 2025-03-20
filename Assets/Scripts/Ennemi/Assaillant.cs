@@ -3,7 +3,6 @@ public class Assaillant : Ennemi
 { 
     void Start() {
         // Initialiser les valeurs spécifiques pour l'Assaillant
-        damage = 200;
         health = 200;
         moveSpeed = 10f;
         shootInterval = 1f;
