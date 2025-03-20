@@ -4,7 +4,7 @@ public class Tire : MonoBehaviour
 {
     public GameObject creator; 
     [SerializeField] public float speed = 10f; // Vitesse de déplacement
-    [SerializeField] public int damage = 50; // Dégâts infligés
+
 
     private void Start() {
         // Ignorer les collisions entre le projectile et le créateur
@@ -34,7 +34,8 @@ public class Tire : MonoBehaviour
         // Appliquer des dégâts si l'objet touché est un vaisseau
         Vaisseau vaisseau = other.GetComponent<Vaisseau>();
         if (vaisseau != null) {
-            vaisseau.TakeDamage(damage); // Appliquer les dégâts au vaisseau
+            Ennemi ennemi = creator.GetComponent<Ennemi>();
+            vaisseau.TakeDamage(ennemi.GetDamage()); // Appliquer les dégâts au vaisseau
             Destroy(gameObject);
         }
 

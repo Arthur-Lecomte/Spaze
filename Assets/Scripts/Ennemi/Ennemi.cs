@@ -3,9 +3,11 @@ using UnityEngine;
 public class Ennemi : MonoBehaviour
 {
     [Header("Statistiques de base")]
+    private int niveau = 1;
     [SerializeField] public int health = 200;
     [SerializeField] public float moveSpeed = 1f; // Vitesse de déplacement de l'ennemi
     [SerializeField] public float timeBeforeBeingCible = 2f;
+    [SerializeField] public int damage = 50;
 
 
     [Header("Comportement de tir")]
@@ -34,6 +36,8 @@ public class Ennemi : MonoBehaviour
                 Debug.LogError("Aucun joueur trouvé dans la scène ! Assurez-vous que le joueur a le tag 'Player'.");
             }
         }
+
+        ScaleStats();
     }
 
     protected virtual void Update()
@@ -52,7 +56,7 @@ public class Ennemi : MonoBehaviour
 
             // Vérifier si la rotation est terminée
             float angleDifference = Quaternion.Angle(transform.rotation, lookRotation);
-            bool isRotationComplete = angleDifference < 25f; 
+            bool isRotationComplete = angleDifference < 25f;
 
             // Déplacement vers le joueur
             MoveTowardsPlayer(distance);
@@ -70,7 +74,7 @@ public class Ennemi : MonoBehaviour
     }
 
 
-    
+
 
     protected virtual void MoveTowardsPlayer(float distanceToPlayer)
     { }
@@ -84,7 +88,6 @@ public class Ennemi : MonoBehaviour
             // Calculer la direction vers la position actuelle du joueur
             Vector3 direction = (playerPosition - transform.position).normalized;
             // Instancier le projectile au niveau de shootPoint
-            Debug.Log(shootPoint.position);
             GameObject obj = Instantiate(projectilePrefab, shootPoint.position, Quaternion.LookRotation(direction));
 
             Rigidbody rb = obj.GetComponent<Rigidbody>();
@@ -97,20 +100,43 @@ public class Ennemi : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int damage)
-{
-    health = Mathf.Max(0, health - damage);
-
-    if (health <= 0)
+    protected virtual void ScaleStats()
     {
-        Destroy(gameObject);
+        // Multiplier les statistiques par un facteur basé sur le niveau
+        health = Mathf.RoundToInt(health * (1 + (niveau - 1) * 0.2f)); // Augmente de 20% par niveau
+        damage = Mathf.RoundToInt(damage * (1 + (niveau - 1) * 0.1f)); // Augmente de 10% par niveau
+        shootInterval = Mathf.Max(0.1f, shootInterval * (1 - (niveau - 1) * 0.05f)); // Diminue de 5% par niveau () Mini = 0.1f
+        moveSpeed *= (1 + (niveau - 1) * 0.05f); // Augmente de 5% par niveau
+
+
+    }
+
+    public void TakeDamage(int damage)
+    {
+        health = Mathf.Max(0, health - damage);
+
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public Transform setPlayer(Transform player)
+    {
+        this.player = player;
+        return player;
+
+    }
+
+    public int GetDamage()
+    {
+        return damage;
+    }
+
+    public void SetLevel(int newLevel)
+    {
+        niveau = newLevel;
+        ScaleStats();
     }
 }
 
-public Transform setPlayer(Transform player)
-{
-    this.player = player;
-    return player;
-
-}
-}

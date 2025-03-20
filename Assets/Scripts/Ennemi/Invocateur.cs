@@ -8,6 +8,7 @@ public class Invocateur : Ennemi
     {
         // Appeler la méthode Start de la classe parente
         base.Start();
+        
     }
 
     protected override void Update()
@@ -17,6 +18,13 @@ public class Invocateur : Ennemi
             // Calculer la distance entre l'invocateur et le joueur
             float distance = Vector3.Distance(transform.position, player.position);
 
+             // Calculer la direction vers le joueur
+            Vector3 directionToPlayer = (player.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0, directionToPlayer.z));
+
+            // Effectuer la rotation vers le joueur
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+            
             // Déplacement vers le joueur
             MoveTowardsPlayer(distance);
 
@@ -48,9 +56,7 @@ public class Invocateur : Ennemi
 
     public void SpawnMinion()
     {
-        
         Assaillant minion = Instantiate(minionPrefab, transform.position, Quaternion.identity);
-
         // Lui donner une référence au joueur
         minion.setPlayer(player);
     }

@@ -5,8 +5,7 @@ public class TireAssaillant : Tire
     void Start()
     {
     speed = 10f; // Vitesse de déplacement
-    damage = 100; // Dégâts infligés
-    Destroy(gameObject, 3f);
+    Destroy(gameObject, 3f); // Détruire le projectile après 3 secondes
 
     }
 
