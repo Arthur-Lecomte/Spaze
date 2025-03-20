@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class WaveManager : MonoBehaviour {
     [Header("Wave Settings")]
@@ -11,17 +11,23 @@ public class WaveManager : MonoBehaviour {
     [SerializeField] private float spawnSpread; // Écart possible entre les spawns
     [SerializeField] private float timeBetweenWaves; // Temps entre chaque vague
     [SerializeField] private int startEnemies; // Nombre d'ennemis de la première vague
+    [SerializeField] private TextMeshProUGUI waveInfoText; // Référence au texte UI
 
     private int currentWave = 0; // Numéro de la vague actuelle
     private List<GameObject> activeEnemies = new(); // Liste des ennemis actifs
     private int nextEnemyIndex = 0; // Index du prochain ennemi à spawn
+    private float timeUntilNextWave; // Temps restant avant la prochaine vague
 
     void Start() {
         StartCoroutine(SpawnWaves());
     }
 
     void Update() {
-        Debug.Log($"Nombre d'ennemis actifs : {activeEnemies.Count}");
+        if (activeEnemies.Count > 0) {
+            waveInfoText.text = $"Ennemis restants : {activeEnemies.Count}";
+        } else {
+            waveInfoText.text = $"Prochaine vague : {Mathf.CeilToInt(timeUntilNextWave)} s";
+        }
     }
 
     /// <summary>
@@ -29,9 +35,13 @@ public class WaveManager : MonoBehaviour {
     /// </summary>
     /// <returns></returns>
     private IEnumerator SpawnWaves() {
-        yield return new WaitForSeconds(timeBetweenWaves); // Délai avant la première vague
-
         while (true) {
+            timeUntilNextWave = timeBetweenWaves;
+            while (timeUntilNextWave > 0) {
+                yield return null;
+                timeUntilNextWave -= Time.deltaTime;
+            }
+
             currentWave++;
             int enemyCount = startEnemies + (currentWave - 1) / 5; // Ajouter 1 ennemi toutes les 5 vagues
 
@@ -44,8 +54,6 @@ public class WaveManager : MonoBehaviour {
 
             // Attendre que tous les ennemis soient détruits
             yield return new WaitUntil(() => activeEnemies.Count == 0);
-
-            yield return new WaitForSeconds(timeBetweenWaves); // Attente avant la prochaine vague
         }
     }
 
