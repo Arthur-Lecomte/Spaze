@@ -55,7 +55,7 @@ MonoBehaviour:
   image: {fileID: 21300000, guid: 91258b57d5d94194082a6330517b9a1e, type: 3}
   damage: 10
   attackSpeed: 0.2
-  bulletSpeed: 30
+  bulletSpeed: 60
   range: 20
   bulletPrefab: {fileID: 3824452743231026403, guid: 59044da8fbf8d4e46862be06223b732a, type: 3}
 --- !u!1 &7159078570790184736

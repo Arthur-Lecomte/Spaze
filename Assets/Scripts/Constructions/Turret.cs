@@ -34,7 +34,7 @@ public class Turret : Construction {
             currentTarget = GetClosestEnemy();
             if (currentTarget) {
                 RotateTurretHead(currentTarget.transform);
-                if (Time.time >= nextFireTime) {
+                if (Time.time >= nextFireTime && IsAlignedWithTarget(currentTarget.transform)) {
                     Fire(currentTarget);
                     nextFireTime = Time.time + 1f / attackSpeed;
                 }
@@ -42,6 +42,12 @@ public class Turret : Construction {
         } else {
             currentTarget = null;
         }
+    }
+    
+    private bool IsAlignedWithTarget(Transform target) {
+        Vector3 directionToTarget = (target.position - turretHead.position).normalized;
+        float angle = Vector3.Angle(turretHead.forward, directionToTarget);
+        return angle < 3f;
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -74,7 +80,7 @@ public class Turret : Construction {
     private void RotateTurretHead(Transform target) {
         Vector3 direction = (target.position - turretHead.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
-        turretHead.rotation = Quaternion.Slerp(turretHead.rotation, lookRotation, Time.deltaTime * 5f);
+        turretHead.rotation = Quaternion.Slerp(turretHead.rotation, lookRotation, Time.deltaTime * 10f);
     }
 
     private void Fire(GameObject target) {
