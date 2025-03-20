@@ -164,6 +164,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tank
       objectReference: {fileID: 0}
+    - target: {fileID: 3579862374581722119, guid: 0ea0212633651634ca1eda76568c9c8d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5906599231117731693, guid: 0ea0212633651634ca1eda76568c9c8d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -803,6 +807,10 @@ PrefabInstance:
     - target: {fileID: 8027717516412659972, guid: 903bbf1b33adf35408423e73e8abcd3c, type: 3}
       propertyPath: m_Name
       value: Sniper
+      objectReference: {fileID: 0}
+    - target: {fileID: 8027717516412659972, guid: 903bbf1b33adf35408423e73e8abcd3c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
