@@ -41,7 +41,7 @@ public class RessourcesUI : MonoBehaviour {
         Inventory.Instance.AddRessource(TypeRessource.Argent, quantity);
         Inventory.Instance.AddRessource(TypeRessource.Or, quantity);
         Inventory.Instance.AddRessource(TypeRessource.Platine, quantity);
-        Inventory.Instance.AddRessource(TypeRessource.PoussiereRadioactive, quantity);
+        Inventory.Instance.AddRessource(TypeRessource.NoyauEnergie, quantity);
     }
 
     private void CreateElementsUI() {

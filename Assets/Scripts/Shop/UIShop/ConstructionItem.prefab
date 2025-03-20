@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 2122610580788591215}
   - component: {fileID: 4883132994978513496}
   m_Layer: 0
-  m_Name: Cout Poussiere Radioactive
+  m_Name: Cout Noyau Energie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -631,10 +631,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PieceBBD
       objectReference: {fileID: 0}
-    - target: {fileID: 5064010918249530537, guid: 8c83f818cfd224a4ebeeda3ab4e43ac5, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 5552141972179181075, guid: 8c83f818cfd224a4ebeeda3ab4e43ac5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2
@@ -1037,6 +1033,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4584283805014892772, guid: 0e25f0746b9f21347896a6b13a752a22, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4584283805014892772, guid: 0e25f0746b9f21347896a6b13a752a22, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4584283805014892772, guid: 0e25f0746b9f21347896a6b13a752a22, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -60
+      objectReference: {fileID: 0}
+    - target: {fileID: 4885950252121621015, guid: 0e25f0746b9f21347896a6b13a752a22, type: 3}
+      propertyPath: m_Name
+      value: ButtonBuy
+      objectReference: {fileID: 0}
     - target: {fileID: 8375626801454548900, guid: 0e25f0746b9f21347896a6b13a752a22, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -1050,7 +1062,8 @@ PrefabInstance:
       value: ToggleShop
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1463909987608847948, guid: 0e25f0746b9f21347896a6b13a752a22, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e25f0746b9f21347896a6b13a752a22, type: 3}
