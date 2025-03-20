@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -115,12 +113,6 @@ public enum RarityConstruction {
     Rare = 30,
     Epic = 15,
     Legendary = 5,
-}
-
-[Serializable]
-public struct RessourceCout {
-    public TypeRessource typeRessource;
-    public int quantite;
 }
 
 public enum TypeConstruction {

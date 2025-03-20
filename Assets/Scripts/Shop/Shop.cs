@@ -9,20 +9,22 @@ using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class Shop : MonoBehaviour {
+    private ShopOption currentOption;
+
     [SerializeField] private GameObject[] prefabsConstructions;
 
     [SerializeField] private Vaisseau vaisseau;
     [SerializeField] private Transform conteneurConstructions;
     [SerializeField] private GameObject prefabConstructionItem;
     [SerializeField] private Transform zoneForPrefab;
-    [SerializeField] private GameObject shopPanel; 
+    [SerializeField] private GameObject shopPanel;
 
     private Dictionary<GameObject, bool> panelStates = new Dictionary<GameObject, bool>(); // État ouvert/fermé
     private Dictionary<GameObject, bool> panelTransitions = new Dictionary<GameObject, bool>(); // Transition en cours
     //private bool isTransitioning = false; // Indique si une transition est en cours
-    
 
-    private bool isShopActive=true;
+
+    private bool isShopActive = true;
 
     private void Start() {
         // Appeler la fonction pour sélectionner et afficher les constructions
@@ -31,104 +33,101 @@ public class Shop : MonoBehaviour {
     }
 
     public void ToggleShop(bool state) {
-
-        if(state){
+        if (state) {
             isShopActive = true;
-            shopPanel.SetActive(isShopActive); 
-        }
-        else{
+            shopPanel.SetActive(isShopActive);
+        } else {
             isShopActive = false;
-            shopPanel.SetActive(isShopActive); 
+            shopPanel.SetActive(isShopActive);
         }
-        
     }
 
     private void SelectionnerEtAfficherConstructions() {
-    // Liste temporaire pour stocker les instances des prefabs
-    List<GameObject> instancesConstructions = new List<GameObject>();
+        // Liste temporaire pour stocker les instances des prefabs
+        List<GameObject> instancesConstructions = new List<GameObject>();
 
-    // Méthode locale pour recréer les instances
-    List<GameObject> RecreateInstances() {
-        List<GameObject> newInstances = new List<GameObject>();
-        foreach (GameObject prefab in prefabsConstructions) {
-            GameObject instance = Instantiate(prefab, zoneForPrefab, true);
-            newInstances.Add(instance);
+        // Méthode locale pour recréer les instances
+        List<GameObject> RecreateInstances() {
+            List<GameObject> newInstances = new List<GameObject>();
+            foreach (GameObject prefab in prefabsConstructions) {
+                GameObject instance = Instantiate(prefab, zoneForPrefab, true);
+                newInstances.Add(instance);
 
-            // Assigner une rareté aléatoire à chaque instance
-            Construction construction = instance.GetComponent<Construction>();
-            if (construction != null) {
-                construction.AssignRandomRarity();
+                // Assigner une rareté aléatoire à chaque instance
+                Construction construction = instance.GetComponent<Construction>();
+                if (construction != null) {
+                    construction.AssignRandomRarity();
+                }
             }
+            return newInstances;
         }
-        return newInstances;
-    }
 
-    // Créer les premières instances
-    instancesConstructions = RecreateInstances();
+        // Créer les premières instances
+        instancesConstructions = RecreateInstances();
 
-    // Filtrer les instances pour ne garder que les tourelles
-    GameObject[] tourelleInstances = instancesConstructions
-        .Where(instance => instance.GetComponent<Turret>() != null)
-        .ToArray();
+        // Filtrer les instances pour ne garder que les tourelles
+        GameObject[] tourelleInstances = instancesConstructions
+            .Where(instance => instance.GetComponent<Turret>() != null)
+            .ToArray();
 
-    // Sélectionner une tourelle aléatoire parmi les tourelles filtrées
-    GameObject selectedTourelle = SelectPrefabWithRarityAndProbability(tourelleInstances);
+        // Sélectionner une tourelle aléatoire parmi les tourelles filtrées
+        GameObject selectedTourelle = SelectPrefabWithRarityAndProbability(tourelleInstances);
 
-    // Recréer les instances après la sélection
-    instancesConstructions = RecreateInstances();
+        // Recréer les instances après la sélection
+        instancesConstructions = RecreateInstances();
 
-    // Sélectionner deux autres constructions aléatoires parmi les nouvelles instances
-    GameObject[] autresInstances = instancesConstructions
-        .Where(instance => instance != selectedTourelle)
-        .ToArray();
+        // Sélectionner deux autres constructions aléatoires parmi les nouvelles instances
+        GameObject[] autresInstances = instancesConstructions
+            .Where(instance => instance != selectedTourelle)
+            .ToArray();
 
-    GameObject selectedInstance1 = SelectPrefabWithRarityAndProbability(autresInstances);
+        GameObject selectedInstance1 = SelectPrefabWithRarityAndProbability(autresInstances);
 
-    // Recréer les instances une dernière fois pour garantir l'unicité
-    instancesConstructions = RecreateInstances();
-    autresInstances = instancesConstructions
-        .Where(instance => instance != selectedTourelle && instance != selectedInstance1)
-        .ToArray();
+        // Recréer les instances une dernière fois pour garantir l'unicité
+        instancesConstructions = RecreateInstances();
+        autresInstances = instancesConstructions
+            .Where(instance => instance != selectedTourelle && instance != selectedInstance1)
+            .ToArray();
 
-    GameObject selectedInstance2 = SelectPrefabWithRarityAndProbability(autresInstances);
+        GameObject selectedInstance2 = SelectPrefabWithRarityAndProbability(autresInstances);
 
-    // Récupérer les composants Construction des objets instanciés
-    Construction constructionTourelle = selectedTourelle.GetComponent<Construction>();
-    Construction construction1 = selectedInstance1.GetComponent<Construction>();
-    Construction construction2 = selectedInstance2.GetComponent<Construction>();
+        // Récupérer les composants Construction des objets instanciés
+        Construction constructionTourelle = selectedTourelle.GetComponent<Construction>();
+        Construction construction1 = selectedInstance1.GetComponent<Construction>();
+        Construction construction2 = selectedInstance2.GetComponent<Construction>();
 
-    constructionTourelle.AdjustStatsByRarity();
-    construction1.AdjustStatsByRarity();
-    construction2.AdjustStatsByRarity();
+        constructionTourelle.AdjustStatsByRarity();
+        construction1.AdjustStatsByRarity();
+        construction2.AdjustStatsByRarity();
 
-    // Afficher les trois constructions dans l'interface utilisateur
-    AfficherConstruction(construction2, 1);
-    AfficherConstruction(construction1, 0);
-    AfficherConstruction(constructionTourelle, -1);
+        // Afficher les trois constructions dans l'interface utilisateur
+        AfficherConstruction(construction2, 1);
+        AfficherConstruction(construction1, 0);
+        AfficherConstruction(constructionTourelle, -1);
     }
 
     private GameObject SelectPrefabWithRarityAndProbability(GameObject[] instances) {
-    // Créer une liste pondérée en fonction de la rareté et de la probabilité
-    List<GameObject> weightedList = new List<GameObject>();
-    foreach (GameObject instance in instances) {
-        Construction construction = instance.GetComponent<Construction>();
-        if (construction != null) {
-            int weight = GetWeight(construction.GetRarity(), construction.GetProbability());
-            //Debug.Log($"Instance: {instance.name}, Rarity: {construction.GetRarity()}, Probability: {construction.GetProbability()}, Weight: {weight}");
-            for (int i = 0; i < weight; i++) {
-                weightedList.Add(instance);
+        // Créer une liste pondérée en fonction de la rareté et de la probabilité
+        List<GameObject> weightedList = new List<GameObject>();
+        foreach (GameObject instance in instances) {
+            Construction construction = instance.GetComponent<Construction>();
+            if (construction != null) {
+                int weight = GetWeight(construction.GetRarity(), construction.GetProbability());
+                //Debug.Log($"Instance: {instance.name}, Rarity: {construction.GetRarity()}, Probability: {construction.GetProbability()}, Weight: {weight}");
+                for (int i = 0; i < weight; i++) {
+                    weightedList.Add(instance);
+                }
             }
         }
-    }
 
-    if (weightedList.Count == 0) {
-        Debug.LogError("La liste pondérée est vide. Aucun prefab n'a été sélectionné.");
-        return null;
-    }
+        if (weightedList.Count == 0) {
+            Debug.LogError("La liste pondérée est vide. Aucun prefab n'a été sélectionné.");
+            return null;
+        }
 
-    // Sélectionner un prefab aléatoire dans la liste pondérée
-    int randomIndex = Random.Range(0, weightedList.Count);
-    return weightedList[randomIndex];
+        // Sélectionner un prefab aléatoire dans la liste pondérée
+        int randomIndex = Random.Range(0, weightedList.Count);
+        return weightedList[randomIndex];
     }
 
     private int GetWeight(RarityConstruction rarity, float probability) {
@@ -158,14 +157,14 @@ public class Shop : MonoBehaviour {
 
         if (construction != null) {
             nom.text = construction.GetNom();
-            sprite.sprite = construction.GetImage();
+            sprite.sprite = construction.GetSprite();
             rarity.text = Enum.GetName(typeof(RarityConstruction), construction.GetRarity());
             rarity.color = GetColorForRarity(construction.GetRarity());
 
-            // Mettre à jour les coûts des ressources
+            // Mettre à jour les coûts des ressources //DEBUG!!! à faire attention, si on met une ressource, toutes les ressources inférieures doivent être présentes !!!
             for (int i = 0; i < resourceTexts.Length; i++) {
-                if (i < construction.CoutRessourcesDeBase.Count) {
-                    resourceTexts[i].text = construction.CoutRessourcesDeBase[i].quantite.ToString();
+                if (i < construction.GetCoutRessources().Count) {
+                    resourceTexts[i].text = construction.GetCoutRessources()[i].quantite.ToString();
                 } else {
                     resourceTexts[i].text = "0"; // Valeur par défaut si aucune ressource
                 }
@@ -173,7 +172,7 @@ public class Shop : MonoBehaviour {
 
             // Configurer le bouton d'achat
             Button acheterButton = constructionItem.transform.Find("PanelConstruction").Find("AcheterButton")?.GetComponent<Button>();
-            acheterButton.onClick.AddListener(() => BuyConstruction(construction, constructionItem));
+            acheterButton.onClick.AddListener(() => BuyConstruction(construction));
         } else {
             Debug.LogError("AfficherConstruction: Construction component is missing on the prefab.");
         }
@@ -190,7 +189,7 @@ public class Shop : MonoBehaviour {
         eventTrigger.triggers.Add(pointerEnterEntry);
 
         // Ajouter l'événement OnPointerExit 
-        
+
         EventTrigger.Entry pointerExitEntry = new EventTrigger.Entry();
         pointerExitEntry.eventID = EventTriggerType.PointerExit;
         pointerExitEntry.callback.AddListener((eventData) => {
@@ -201,7 +200,7 @@ public class Shop : MonoBehaviour {
 
         panelStates[constructionItem] = false; // Par défaut, le panneau est fermé
         panelTransitions[constructionItem] = false; // Par défaut, aucune transition n'est en cours
-        
+
         // Display stats dynamically
         Transform subPanel = constructionItem.transform.Find("SubPanel");
         if (subPanel != null) {
@@ -230,128 +229,117 @@ public class Shop : MonoBehaviour {
         }
     }
 
-private void OpenSubPanel(GameObject constructionItem) {
-    // Vérifier si le panneau est déjà ouvert ou en transition
-    if (panelStates.ContainsKey(constructionItem) && panelStates[constructionItem]) {
-        return; // Ne rien faire si le panneau est déjà ouvert
-    }
-    if (panelTransitions.ContainsKey(constructionItem) && panelTransitions[constructionItem]) {
-        return; // Ne rien faire si une transition est en cours
-    }
-
-    // Marquer le panneau comme ouvert
-    panelStates[constructionItem] = true;
-
-    // Démarrer une coroutine pour ouvrir le panneau
-    StartCoroutine(OpenSubPanelCoroutine(constructionItem));
-}
-
-private IEnumerator OpenSubPanelCoroutine(GameObject constructionItem) {
-    Transform subPanel = constructionItem.transform.Find("SubPanel");
-
-    if (subPanel != null) {
-        Debug.Log("ouverture du panneau");
-        // Marquer la transition comme en cours
-        panelTransitions[constructionItem] = true;
-
-        // Activer le panneau avant de lancer l'animation
-        subPanel.gameObject.SetActive(true);
-
-        Vector3 initialPosition = subPanel.localPosition;
-        Vector3 targetPosition = initialPosition + (constructionItem.transform.localPosition.x == 600 ? new Vector3(-370, 0, 0) : new Vector3(370, 0, 0)); // Reverse for index 1
-        float duration = 0.5f;
-        float elapsedTime = 0f;
-
-        while (elapsedTime < duration) {
-            subPanel.localPosition = Vector3.Lerp(initialPosition, targetPosition, elapsedTime / duration);
-            elapsedTime += Time.deltaTime;
-            yield return null;
+    private void OpenSubPanel(GameObject constructionItem) {
+        // Vérifier si le panneau est déjà ouvert ou en transition
+        if (panelStates.ContainsKey(constructionItem) && panelStates[constructionItem]) {
+            return; // Ne rien faire si le panneau est déjà ouvert
+        }
+        if (panelTransitions.ContainsKey(constructionItem) && panelTransitions[constructionItem]) {
+            return; // Ne rien faire si une transition est en cours
         }
 
-        // S'assurer que la position finale est atteinte
-        subPanel.localPosition = targetPosition;
+        // Marquer le panneau comme ouvert
+        panelStates[constructionItem] = true;
 
-        // Marquer la transition comme terminée
-        panelTransitions[constructionItem] = false;
-    }
-}
-
-private void CloseSubPanel(GameObject constructionItem) {
-    // Vérifier si le panneau est déjà fermé
-    if (panelStates.ContainsKey(constructionItem) && !panelStates[constructionItem]) {
-        return; // Ne rien faire si le panneau est déjà fermé
+        // Démarrer une coroutine pour ouvrir le panneau
+        StartCoroutine(OpenSubPanelCoroutine(constructionItem));
     }
 
-    // Marquer le panneau comme fermé
-    panelStates[constructionItem] = false;
+    private IEnumerator OpenSubPanelCoroutine(GameObject constructionItem) {
+        Transform subPanel = constructionItem.transform.Find("SubPanel");
 
-    // Démarrer une coroutine pour fermer le panneau
-    StartCoroutine(CloseSubPanelCoroutine(constructionItem));
-}
+        if (subPanel) {
+            Debug.Log("ouverture du panneau");
+            // Marquer la transition comme en cours
+            panelTransitions[constructionItem] = true;
 
-private IEnumerator CloseSubPanelCoroutine(GameObject constructionItem) {
-    Transform subPanel = constructionItem.transform.Find("SubPanel");
+            // Activer le panneau avant de lancer l'animation
+            subPanel.gameObject.SetActive(true);
 
-    if (subPanel != null) {
-        // Attendre que l'ouverture soit terminée
-        while (panelTransitions.ContainsKey(constructionItem) && panelTransitions[constructionItem]) {
-            yield return null;
-        }
+            Vector3 initialPosition = subPanel.localPosition;
+            Vector3 targetPosition = initialPosition + (constructionItem.transform.localPosition.x == 600 ? new Vector3(-370, 0, 0) : new Vector3(370, 0, 0)); // Reverse for index 1
+            float duration = 0.5f;
+            float elapsedTime = 0f;
 
-        // Vérifier si l'objet a été détruit
-        if (constructionItem == null || subPanel == null) {
-            yield break; // Arrêter la coroutine si l'objet n'existe plus
-        }
-
-        // Marquer la transition comme en cours
-        panelTransitions[constructionItem] = true;
-
-        Vector3 initialPosition = subPanel.localPosition;
-        Vector3 targetPosition = initialPosition + (constructionItem.transform.localPosition.x == 600 ? new Vector3(370, 0, 0) : new Vector3(-370, 0, 0)); // Reverse for index 1
-        float duration = 0.5f;
-        float elapsedTime = 0f;
-
-        while (elapsedTime < duration) {
-            if (subPanel == null) {
-                yield break; // Arrêter la coroutine si l'objet a été détruit
+            while (elapsedTime < duration) {
+                subPanel.localPosition = Vector3.Lerp(initialPosition, targetPosition, elapsedTime / duration);
+                elapsedTime += Time.deltaTime;
+                yield return null;
             }
-            subPanel.localPosition = Vector3.Lerp(initialPosition, targetPosition, elapsedTime / duration);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
 
-        // S'assurer que la position finale est atteinte
-        if (subPanel != null) {
+            // S'assurer que la position finale est atteinte
             subPanel.localPosition = targetPosition;
-            subPanel.gameObject.SetActive(false);
+
+            // Marquer la transition comme terminée
+            panelTransitions[constructionItem] = false;
+        }
+    }
+
+    private void CloseSubPanel(GameObject constructionItem) {
+        // Vérifier si le panneau est déjà fermé
+        if (panelStates.ContainsKey(constructionItem) && !panelStates[constructionItem]) {
+            return; // Ne rien faire si le panneau est déjà fermé
         }
 
-        // Marquer la transition comme terminée
-        panelTransitions[constructionItem] = false;
+        // Marquer le panneau comme fermé
+        panelStates[constructionItem] = false;
+
+        // Démarrer une coroutine pour fermer le panneau
+        StartCoroutine(CloseSubPanelCoroutine(constructionItem));
     }
-}
+
+    private IEnumerator CloseSubPanelCoroutine(GameObject constructionItem) {
+        Transform subPanel = constructionItem.transform.Find("SubPanel");
+
+        if (subPanel) {
+            // Attendre que l'ouverture soit terminée
+            while (panelTransitions.ContainsKey(constructionItem) && panelTransitions[constructionItem]) {
+                yield return null;
+            }
+
+            // Vérifier si l'objet a été détruit
+            if (!constructionItem || !subPanel) {
+                yield break; // Arrêter la coroutine si l'objet n'existe plus
+            }
+
+            // Marquer la transition comme en cours
+            panelTransitions[constructionItem] = true;
+
+            Vector3 initialPosition = subPanel.localPosition;
+            Vector3 targetPosition = initialPosition + (constructionItem.transform.localPosition.x == 600 ? new Vector3(370, 0, 0) : new Vector3(-370, 0, 0)); // Reverse for index 1
+            float duration = 0.5f;
+            float elapsedTime = 0f;
+
+            while (elapsedTime < duration) {
+                if (!subPanel) {
+                    yield break; // Arrêter la coroutine si l'objet a été détruit
+                }
+                subPanel.localPosition = Vector3.Lerp(initialPosition, targetPosition, elapsedTime / duration);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            // S'assurer que la position finale est atteinte
+            if (subPanel) {
+                subPanel.localPosition = targetPosition;
+                subPanel.gameObject.SetActive(false);
+            }
+
+            // Marquer la transition comme terminée
+            panelTransitions[constructionItem] = false;
+        }
+    }
 
     // Méthode pour acheter une construction
-    private bool BuyConstruction(Construction construction, GameObject constructionItem) {
+    private void BuyConstruction(Construction construction) {
         // Vérifiez si le joueur à suffisamment de ressources pour acheter la construction
-        bool canBuy = true;
-        RestoreConstructionsVisibility();
-        foreach((TypeRessource type, int quantity) in construction.GetCoutRessources()) {
-            if(!vaisseau.inventory.HaveEnoughRessource(type, quantity)) {
-                canBuy = false;
-                break;
+        if (!Inventory.Instance.HaveEnoughRessources(construction.GetCoutRessources())) {
+            // Si on peut ajouter la construction au vaisseau
+            if (Inventory.Instance.AddConstruction(construction)) {
+                // Retirer les ressources nécessaires
+                Inventory.Instance.RemoveRessources(construction.GetCoutRessources());
             }
         }
-
-        if(canBuy && vaisseau.inventory.AddConstruction(construction)) {
-            // Retirer les ressources nécessaires
-            foreach((TypeRessource type, int quantity) in construction.GetCoutRessources()) {
-                vaisseau.inventory.RemoveRessource(type, quantity);
-            }
-            
-            constructionItem.SetActive(false);
-        }
-        return canBuy;
     }
 
     public void ResetConstructions() {
@@ -376,13 +364,13 @@ private IEnumerator CloseSubPanelCoroutine(GameObject constructionItem) {
             case RarityConstruction.Common:
                 return Color.white;
             case RarityConstruction.Rare:
-                return Color.blue; 
+                return Color.blue;
             case RarityConstruction.Epic:
                 return new Color(0.5f, 0f, 0.5f); // Violet pour "Epic"
             case RarityConstruction.Legendary:
-                return Color.yellow; 
+                return Color.yellow;
             default:
-                return Color.gray; 
+                return Color.gray;
         }
     }
 
@@ -409,4 +397,32 @@ private IEnumerator CloseSubPanelCoroutine(GameObject constructionItem) {
             }
         }
     }
+
+    public void ChangeOption(ShopOption option) {
+        if (currentOption == option) return;
+        
+        ToggleShop(false);
+        UpgradeManager.Instance.DisplayUpgrade(false);
+        InventoryUI.Instance.DisplayInventory(false);
+
+        currentOption = option;
+        switch (option) {
+            case ShopOption.PurchaseConstruction:
+                ToggleShop(true);
+                break;
+            case ShopOption.UpgradeShip:
+                UpgradeManager.Instance.DisplayUpgrade(true);
+                break;
+            case ShopOption.ManageInventory:
+                InventoryUI.Instance.DisplayInventory(true);
+                break;
+        }
+    }
+}
+
+public enum ShopOption {
+    None,
+    PurchaseConstruction,
+    UpgradeShip,
+    ManageInventory
 }

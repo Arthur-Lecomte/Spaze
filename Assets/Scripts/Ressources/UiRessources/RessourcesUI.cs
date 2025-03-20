@@ -32,16 +32,16 @@ public class RessourcesUI : MonoBehaviour {
     }
     
     public void AddRessource(int quantity) {
-        if (vaisseau == null || vaisseau.inventory == null) {
+        if (vaisseau == null || Inventory.Instance == null) {
             Debug.LogError("Vaisseau ou inventaire n'est pas assigné.");
             return;
         }
 
-        vaisseau.inventory.AddRessource(TypeRessource.Cuivre, quantity);
-        vaisseau.inventory.AddRessource(TypeRessource.Argent, quantity);
-        vaisseau.inventory.AddRessource(TypeRessource.Or, quantity);
-        vaisseau.inventory.AddRessource(TypeRessource.Platine, quantity);
-        vaisseau.inventory.AddRessource(TypeRessource.PoussiereRadioactive, quantity);
+        Inventory.Instance.AddRessource(TypeRessource.Cuivre, quantity);
+        Inventory.Instance.AddRessource(TypeRessource.Argent, quantity);
+        Inventory.Instance.AddRessource(TypeRessource.Or, quantity);
+        Inventory.Instance.AddRessource(TypeRessource.Platine, quantity);
+        Inventory.Instance.AddRessource(TypeRessource.PoussiereRadioactive, quantity);
         UpdateUI();
     }
 
@@ -56,7 +56,7 @@ public class RessourcesUI : MonoBehaviour {
     }
 
     public void UpdateUI() {
-        if (vaisseau == null || vaisseau.inventory == null) {
+        if (vaisseau == null || Inventory.Instance == null) {
             Debug.LogError("Vaisseau ou inventaire n'est pas assigné.");
             return;
         }
@@ -66,7 +66,7 @@ public class RessourcesUI : MonoBehaviour {
         foreach(var res in texteRessources) {
             TypeRessource type = res.Key;
             TextMeshProUGUI texteElement = res.Value;
-            int quantity = vaisseau.inventory.GetRessource(type);
+            int quantity = Inventory.Instance.GetRessource(type);
             texteElement.text = type + ": " + quantity;
 
             // colorer les ressources dont la quantité est 0

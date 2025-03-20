@@ -22,6 +22,7 @@ public class UpgradeColumn : MonoBehaviour {
         if (level < 5) {
             if(UpgradeManager.Instance.CanUpgrade()) {
                 level++;
+                Vaisseau.Instance.UpgradePointsChanged(type, level);
                 UpdateImages();
             }
         }
@@ -31,6 +32,7 @@ public class UpgradeColumn : MonoBehaviour {
         if (level > 1) {
             level--;
             UpgradeManager.Instance.AddPoints();
+            Vaisseau.Instance.UpgradePointsChanged(type, level);
             UpdateImages();
         }
     }

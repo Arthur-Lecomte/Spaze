@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -18,19 +19,19 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
     private Transform parentPreview;
     private Vector3 localPositionPreview;
     private float alphaPreview;
-    
+
     public UnityEvent<Construction> onAddConstruction;
 
     protected override void Awake() {
         base.Awake();
         objectCollider = GetComponent<Collider>();
         objectRenderer = GetComponent<Renderer>();
-        
+
         colors = new List<Color>();
         foreach (Material material in objectRenderer.materials) {
             colors.Add(material.color);
         }
-        
+
         ChangeAlpha(0.25f);
     }
 
@@ -42,7 +43,7 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
     public bool IsActivate() {
         return isActivate;
     }
-    
+
     public override void DisplayModule(bool value) {
         if (!isActivate && CanBeActivate) {
             objectCollider.enabled = value;
@@ -77,15 +78,15 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
             if (Inventory.Instance.HaveEnoughRessources(coutRessources)) {
                 //DEBUG!!! Demander une verification
                 //DEBUG!!! enlever over avec prix si acheté
-                
+
                 //DEBUG!!! Mettre un prix aux composants + décommenter la ligne d'après une fois sur developpe
                 //Inventory.Instance.RemoveRessources(coutRessources);
-                
+
                 isActivate = true;
                 ChangeAlpha(1f);
                 objectRenderer.enabled = true;
                 objectCollider.enabled = true;
-                
+
                 CanActivateNeighbors();
                 foreach (Module module in Neighbors) {
                     module.DisplayModule(true);
