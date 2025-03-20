@@ -31,9 +31,6 @@ public class CircleDrawer : MonoBehaviour
         lineRenderer.startWidth = lineWidth;
         lineRenderer.endWidth = lineWidth;
 
-        // Assigner la couche "IgnoreOutline" uniquement à ce GameObject
-        gameObject.layer = LayerMask.NameToLayer("IgnoreOutline");
-
         // Dessiner le cercle initial
         DrawCircle();
 
@@ -42,7 +39,7 @@ public class CircleDrawer : MonoBehaviour
         previousLineWidth = lineWidth;
     }
 
-    private void Update()
+    private void Update() //DEBUG!!! Demander à Baptiste si la range du shop change, et si non pourquoi avoir fait ça ?
     {
         // Vérifier si le rayon a changé
         if (Mathf.Abs(previousRadius - radius) > Mathf.Epsilon)

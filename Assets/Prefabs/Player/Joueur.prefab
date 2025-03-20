@@ -578,6 +578,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Joueur
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d7a4a1b4f497eb748880fc74662cbe1a, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 5252682845850649624, guid: d7a4a1b4f497eb748880fc74662cbe1a, type: 3}
@@ -656,6 +660,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fda3cec2051c4604aa726530c78fc995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  acceleration: 10
+  maxSpeed: 5
+  rotationSpeed: 200
+  drag: 0.99
+  speedSkillCount: 0
+  pourcentageBoost: 0.3
 --- !u!114 &5226106451873539103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -671,6 +681,7 @@ MonoBehaviour:
   size: 2
   prefab: {fileID: 2137690124537299540, guid: 57806f65677c04a40a5dad0dcdab1cb7, type: 3}
   prefab2: {fileID: 3975518805115099631, guid: 94656846a6ae1b7409a8307a7ae0db4b, type: 3}
+  prefab3: {fileID: 0}
 --- !u!54 &5854109515049670432
 Rigidbody:
   m_ObjectHideFlags: 0

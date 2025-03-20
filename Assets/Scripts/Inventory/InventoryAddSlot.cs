@@ -11,6 +11,7 @@ public class InventoryAddSlot : MonoBehaviour, IPointerEnterHandler, IPointerDow
 
     public void Initialisation() {
         gameObject.name = "place d'inventaire";
+        image = transform.GetChild(0).GetComponent<Image>();
     }
 
     public void OnPointerEnter(PointerEventData eventData) {

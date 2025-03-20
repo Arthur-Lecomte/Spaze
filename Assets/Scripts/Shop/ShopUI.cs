@@ -8,7 +8,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class Shop : MonoBehaviour {
+public class ShopUI : MonoBehaviour {
+    public static ShopUI Instance;
     private ShopOption currentOption;
 
     [SerializeField] private GameObject[] prefabsConstructions;
@@ -22,23 +23,23 @@ public class Shop : MonoBehaviour {
     private Dictionary<GameObject, bool> panelTransitions = new Dictionary<GameObject, bool>(); // Transition en cours
     //private bool isTransitioning = false; // Indique si une transition est en cours
 
-
-    private bool isShopActive = true;
+    private void Awake() {
+        if (Instance == null) {
+            Instance = this;
+        } else {
+            Destroy(gameObject);
+        }
+        
+        DisplayShop(false);
+    }
 
     private void Start() {
         // Appeler la fonction pour sélectionner et afficher les constructions
         SelectionnerEtAfficherConstructions();
-        ToggleShop(false);
     }
-
-    public void ToggleShop(bool state) {
-        if (state) {
-            isShopActive = true;
-            shopPanel.SetActive(isShopActive);
-        } else {
-            isShopActive = false;
-            shopPanel.SetActive(isShopActive);
-        }
+    
+    public void DisplayShop(bool value) {
+        shopPanel.SetActive(value);
     }
 
     private void SelectionnerEtAfficherConstructions() {
@@ -396,18 +397,22 @@ public class Shop : MonoBehaviour {
             }
         }
     }
+    
+    public bool IsShopOpen() {
+        return currentOption != ShopOption.None;
+    }
 
-    public void ChangeOption(ShopOption option) {
+    public void ChangeShopOption(ShopOption option) {
         if (currentOption == option) return;
         
-        ToggleShop(false);
+        DisplayShop(false);
         UpgradeManager.Instance.DisplayUpgrade(false);
         InventoryUI.Instance.DisplayInventory(false);
 
         currentOption = option;
         switch (option) {
             case ShopOption.PurchaseConstruction:
-                ToggleShop(true);
+                DisplayShop(true);
                 break;
             case ShopOption.UpgradeShip:
                 UpgradeManager.Instance.DisplayUpgrade(true);
