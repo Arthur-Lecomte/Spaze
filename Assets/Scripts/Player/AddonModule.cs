@@ -67,7 +67,6 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
     }
 
     public void OnPointerEnter(PointerEventData eventData) {
-        Debug.Log("OnPointerEnter");
         if (!isActivate) {
             //DEBUG!!! afficher over avec prix
             ChangeAlpha(0.5f);

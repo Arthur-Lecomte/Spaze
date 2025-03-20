@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1092934607404839264
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2390080802676781868}
+  m_Layer: 0
+  m_Name: Spawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2390080802676781868
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092934607404839264}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.05, y: 0.93, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5754858782466493095}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1595409793775326100
 GameObject:
   m_ObjectHideFlags: 0
@@ -50,16 +81,44 @@ MonoBehaviour:
   description: 
   rarity: 0
   type: 1
-  niveauMax: 5
-  CoutRessourcesDeBase:
-  - typeRessource: 0
-    quantite: 50
-  - typeRessource: 1
-    quantite: 100
+  coutRessources: []
   probability: 5
   image: {fileID: 21300000, guid: 71374107c8ea7734c9d98d5155d4346c, type: 3}
   damage: 5
-  attackSpeed: 1
+  attackSpeed: 2
+  range: 7
+  bulletPrefab: {fileID: 3824452743231026403, guid: 59044da8fbf8d4e46862be06223b732a, type: 3}
+--- !u!1 &7452209634765511549
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3297860845126029996}
+  m_Layer: 0
+  m_Name: Spawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3297860845126029996
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7452209634765511549}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.05, y: 0.93, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5754858782466493095}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6899296050029992749
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -176,9 +235,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -6027276154162841821, guid: cbb995769562985449ce7a88a31aa0ba, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3297860845126029996}
+    - targetCorrespondingSourceObject: {fileID: -6027276154162841821, guid: cbb995769562985449ce7a88a31aa0ba, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2390080802676781868}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cbb995769562985449ce7a88a31aa0ba, type: 3}
+--- !u!4 &5754858782466493095 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -6027276154162841821, guid: cbb995769562985449ce7a88a31aa0ba, type: 3}
+  m_PrefabInstance: {fileID: 7171856890438303108}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7209476485390686831 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: cbb995769562985449ce7a88a31aa0ba, type: 3}
