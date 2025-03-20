@@ -1,11 +1,58 @@
 using UnityEngine;
+
 public class Sniper : Ennemi
 {
-    void Start() {
-        health = 150;
-        moveSpeed = 0.5f;
-        shootInterval = 3f; // Tire lentement
-        shootRange = 25f; // Tire de loin
-        timeBeforeBeingCible = 1.5f;
+    bool canAttack = true;
+    protected override void Start()
+    {
+        // Appeler la méthode Start de la classe parente
+        base.Start();
+
+
+    }
+
+
+    protected override void MoveTowardsPlayer(float distanceToPlayer)
+    {
+
+        canAttack = true;
+
+        if (distanceToPlayer > 80f)
+        {
+
+            Vector3 direction = (player.position - transform.position).normalized;
+            // Déplacer l'ennemi dans cette direction
+            transform.position += direction * moveSpeed * Time.deltaTime;
+
+
+        }
+
+        if (distanceToPlayer < 30f)
+        {
+            Debug.Log("Fuir");
+
+            // Faire fuir l'ennemi en s'éloignant du joueur
+            Vector3 fleeDirection = (transform.position - player.position).normalized;
+            transform.position += fleeDirection * moveSpeed * Time.deltaTime;
+
+            // Empêcher l'ennemi d'attaquer
+            canAttack = false;
+        }
+
+    }
+
+            
+    
+    
+
+    protected override void ShootAtPlayer()
+    {
+        if (canAttack)
+        {
+            base.ShootAtPlayer();
+        }
+        // Appeler la méthode parente pour conserver le comportement de base
+
+
     }
 }

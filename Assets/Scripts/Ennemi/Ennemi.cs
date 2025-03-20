@@ -40,18 +40,14 @@ public class Ennemi : MonoBehaviour
     {
         if (player)
         {
-            Vector3 enemyPosition = new Vector3(transform.position.x, 0, transform.position.z);
-            Vector3 playerPosition = new Vector3(player.transform.position.x, 0, player.transform.position.z);
-            float distanceToPlayer = Vector3.Distance(enemyPosition, playerPosition);
             
-            Debug.Log(playerPosition + " " + enemyPosition + " " + distanceToPlayer);
+            float distance = Vector3.Distance(transform.position, player.position);
+
 
             // Déplacement vers le joueur
-            MoveTowardsPlayer(distanceToPlayer);
+            MoveTowardsPlayer(distance);
 
-            // Tirer sur le joueur si proche et si dans la portée de tir
-            Debug.Log(distanceToPlayer+ " "+ shootRange);
-            if (distanceToPlayer <= shootRange && Time.time > lastShootTime + shootInterval)
+            if (distance <= shootRange && lastShootTime + shootInterval < Time.time)
             {
                 ShootAtPlayer();
                 lastShootTime = Time.time;
@@ -63,7 +59,7 @@ public class Ennemi : MonoBehaviour
     }
 
     protected virtual void MoveTowardsPlayer(float distanceToPlayer)
-    {  }
+    { }
 
     protected virtual void ShootAtPlayer()
     {
@@ -72,7 +68,7 @@ public class Ennemi : MonoBehaviour
 
             Vector3 playerPosition = player.transform.position;
             // Calculer la direction vers la position actuelle du joueur
-            Vector3 direction = (playerPosition - shootPoint.position).normalized;
+            Vector3 direction = (playerPosition - transform.position).normalized;
             // Instancier le projectile au niveau de shootPoint
             GameObject obj = Instantiate(projectilePrefab, shootPoint.position, Quaternion.LookRotation(direction));
 
@@ -82,12 +78,7 @@ public class Ennemi : MonoBehaviour
                 rb.linearVelocity = direction * 10f; // Ajuste la vitesse selon besoin
             }
 
-            // Assigner l'ennemi comme créateur du projectile
-            Tire tireComponent = obj.GetComponent<Tire>();
-            if (tireComponent != null)
-            {
-                tireComponent.creator = gameObject;
-            }
+            
         }
     }
 

@@ -2,27 +2,43 @@ using UnityEngine;
 
 public class Tire : MonoBehaviour
 {
-    public GameObject creator; // Qui a tiré ce projectile ?
-    public float speed = 10f; // Vitesse de déplacement
-    public int damage = 50; // Dégâts infligés
+    public GameObject creator; 
+    [SerializeField] public float speed = 10f; // Vitesse de déplacement
+    [SerializeField] public int damage = 50; // Dégâts infligés
 
-    void Update() {
+    private void Start() {
+        // Ignorer les collisions entre le projectile et le créateur
+        if (creator != null) {
+            Collider creatorCollider = creator.GetComponent<Collider>();
+            Collider projectileCollider = GetComponent<Collider>();
+            if (creatorCollider != null && projectileCollider != null) {
+                Physics.IgnoreCollision(projectileCollider, creatorCollider);
+            }
+        }
+
+        // Détruire le projectile après 3 secondes
+        Destroy(gameObject, 3f);
+    }
+
+    private void Update() {
+        // Déplacer le projectile vers l'avant
         transform.position += transform.forward * speed * Time.deltaTime;
     }
 
-    void OnTriggerEnter(Collider other) {
-        if (other.gameObject != creator) { // Évite de toucher celui qui a tiré
-            Ennemi ennemi = other.GetComponent<Ennemi>();
-            if (ennemi) {
-                ennemi.TakeDamage(damage);
-            }
-            Destroy(gameObject); // Détruit le projectile
+    private void OnTriggerEnter(Collider other) {
+        // Vérifier si l'objet touché n'est pas le créateur
+        if (other.gameObject == creator) {
+            return; // Ignorer la collision avec le créateur
         }
+
+        // Appliquer des dégâts si l'objet touché est un vaisseau
+        Vaisseau vaisseau = other.GetComponent<Vaisseau>();
+        if (vaisseau != null) {
+            vaisseau.TakeDamage(damage); // Appliquer les dégâts au vaisseau
+            Destroy(gameObject);
+        }
+
+        
+        
     }
-    //Détruit le projectile après 5 seccondes
-    void Start()
-    {
-        Destroy(gameObject, 3f);
-    }
-    
 }
