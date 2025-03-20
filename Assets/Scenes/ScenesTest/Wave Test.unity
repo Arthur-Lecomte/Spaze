@@ -353,8 +353,8 @@ MonoBehaviour:
   - {fileID: 6678552142946204890, guid: 4afd05e75fca1c64ca89b2e4891e749f, type: 3}
   - {fileID: 7608657205703832402, guid: ced381ca6b1c8ef458b1cfda72aa1894, type: 3}
   - {fileID: 490205668530039360, guid: abe1e379bf72f334d8f1c952421aa851, type: 3}
-  spawnRadius: 10
-  spawnSpread: 3
+  spawnRadius: 40
+  spawnSpread: 5
   timeBetweenWaves: 60
   startEnemies: 3
   waveInfoText: {fileID: 1638217100}
