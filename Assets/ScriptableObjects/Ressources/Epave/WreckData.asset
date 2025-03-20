@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75f97a682492c65459dd09adfcd6a80a, type: 3}
+  m_Name: WreckData
+  m_EditorClassIdentifier: 
+  variants:
+  - {fileID: 11400000, guid: 4ee1ad1efa1bfdc438fed1f4ebed734d, type: 2}
+  - {fileID: 11400000, guid: 20b98ecb5cb00d04fb859ceacbe97bdb, type: 2}
+  - {fileID: 11400000, guid: c72619f3dafcdbf4aa607bf1cf292afc, type: 2}
+  - {fileID: 11400000, guid: 003be814040dd3d47b76e1c56f4b04c6, type: 2}
+  - {fileID: 11400000, guid: f7133baac70932c4c8e43b47269d9ccc, type: 2}
