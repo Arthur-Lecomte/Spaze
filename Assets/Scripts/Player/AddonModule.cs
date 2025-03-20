@@ -38,6 +38,7 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
 
     private void Start() {
         objectCollider.enabled = false;
+        objectCollider.isTrigger = true;
         objectRenderer.enabled = false;
     }
 
@@ -83,6 +84,7 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
                 isActivate = true;
                 ChangeAlpha(1f);
                 objectRenderer.enabled = true;
+                objectCollider.isTrigger = false;
                 objectCollider.enabled = true;
 
                 CanActivateNeighbors();

@@ -25,10 +25,12 @@ public class Tir : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
-        ICanTakeDamage hit = other.GetComponent<ICanTakeDamage>();
-        if (hit != null && hit.WhoAmI() != creator) {
-            hit.TakeDamage(damage);
-            Destroy(gameObject);
+        if (!other.isTrigger) {
+            ICanTakeDamage hit = other.GetComponent<ICanTakeDamage>();
+            if (hit != null && hit.WhoAmI() != creator) {
+                hit.TakeDamage(damage);
+                Destroy(gameObject);
+            }
         }
     }
 }
