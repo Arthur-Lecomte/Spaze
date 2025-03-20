@@ -9,8 +9,8 @@ public class GenerationStructure : MonoBehaviour {
 
     [Header("Generation Settings")]
     [SerializeField] private int cellSize = 50; // Taille des cellules de la grille
-    [SerializeField] private int spawnRadius = 3; // Nombre de cellules autour du joueur à charger
-    [SerializeField] private int seed; // Seed aléatoire pour générer les structures
+    [SerializeField] private int spawnRadius = 3; // Nombre de cellules autour du joueur Ã  charger
+    [SerializeField] private int seed; // Seed alÃ©atoire pour gÃ©nÃ©rer les structures
 
     [Header("Player")]
     [SerializeField] private Transform player;
@@ -25,17 +25,17 @@ public class GenerationStructure : MonoBehaviour {
     private System.Random random;
 
     void Start() {
-        // Génération d'une seed unique
+        // GÃ©nÃ©ration d'une seed unique
         seed = Random.Range(0, 100000);
         random = new System.Random(seed);
 
-        // Création des parents dynamiquement
+        // CrÃ©ation des parents dynamiquement
         Transform structureParent = new GameObject("STRUCTURE").transform;
         asteroidParent = new GameObject("ASTEROIDE").transform;
         wreckParent = new GameObject("EPAVE").transform;
         shopParent = new GameObject("SHOP").transform;
 
-        // Assigner les parents à STRUCTURE
+        // Assigner les parents Ã  STRUCTURE
         asteroidParent.parent = structureParent;
         wreckParent.parent = structureParent;
         shopParent.parent = structureParent;
@@ -69,7 +69,7 @@ public class GenerationStructure : MonoBehaviour {
             DestroyCell(cell);
         }
 
-        // Mettre à jour la liste des cellules chargées
+        // Mettre Ã  jour la liste des cellules chargÃ©es
         loadedCells = newLoadedCells;
     }
 
@@ -84,11 +84,11 @@ public class GenerationStructure : MonoBehaviour {
         Vector3 cellCenter = new Vector3(cellCoord.x * cellSize, 0, cellCoord.y * cellSize);
         List<GameObject> objectsInCell = new List<GameObject>();
 
-        // Limiter à une seule structure par cellule
-        if (asteroidChance < 0.5f) // 50% de chance d'apparition d'un astéroïde
+        // Limiter Ã  une seule structure par cellule
+        if (asteroidChance < 0.5f) // 50% de chance d'apparition d'un astÃ©roide
         {
             TryInstantiateVariant(asteroidData.variants, cellCenter, asteroidParent, objectsInCell, cellSeed);
-        } else if (wreckChance < 0.2f) // 20% de chance pour une épave
+        } else if (wreckChance < 0.2f) // 20% de chance pour une Ã©pave
           {
             TryInstantiateVariant(wreckData.variants, cellCenter, wreckParent, objectsInCell, cellSeed);
         } else if (shopChance < 0.1f) // 10% de chance pour un magasin
@@ -98,8 +98,7 @@ public class GenerationStructure : MonoBehaviour {
 
         spawnedObjects[cellCoord] = objectsInCell;
         loadedCells.Add(cellCoord);
-
-        Debug.Log($"Cell generated at {cellCoord}");
+        //Debug.Log($"Cell generated at {cellCoord}");
     }
 
     void TryInstantiateVariant(List<VariantData> variants, Vector3 cellCenter, Transform parent, List<GameObject> objectsInCell, int cellSeed) {
@@ -112,6 +111,7 @@ public class GenerationStructure : MonoBehaviour {
                 TryInstantiateObject(variant.prefab, cellCenter, parent, objectsInCell, cellSeed, variant.ressourceType);
                 break;
             }
+            Extracteur.Instance.GetStructureVariantAndSeed(variant, cellSeed);
         }
     }
 
@@ -126,10 +126,10 @@ public class GenerationStructure : MonoBehaviour {
         GameObject obj = Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
         objectsInCell.Add(obj);
 
-        // Assigner une ressource à la structure si applicable
+        // Assigner une ressource Ã  la structure si applicable
         Structure structure = obj.GetComponent<Structure>();
         if (structure != null) {
-            int quantite = random.Next(1, 101); // Quantité aléatoire entre 1 et 100
+            int quantite = random.Next(1, 101); // QuantitÃ© alÃ©atoire entre 1 et 100
             structure.Ressource = new Ressource(ressourceType, quantite);
         }
     }
@@ -148,7 +148,7 @@ public class GenerationStructure : MonoBehaviour {
             spawnedObjects.Remove(cellCoord);
         }
 
-        Debug.Log($"Cell destroyed at {cellCoord}");
+        //Debug.Log($"Cell destroyed at {cellCoord}");
     }
 
     Vector2Int GetCellCoordinates(Vector3 position) {

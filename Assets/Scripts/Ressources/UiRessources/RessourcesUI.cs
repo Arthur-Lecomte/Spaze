@@ -4,7 +4,6 @@ using TMPro;
 
 public class RessourcesUI : MonoBehaviour {
 
-    public static RessourcesUI Instance;
     [SerializeField] private Vaisseau vaisseau;
     [SerializeField] private Transform conteneurRessources;
     [SerializeField] private GameObject prefabElementRessource;
@@ -23,26 +22,27 @@ public class RessourcesUI : MonoBehaviour {
     }
     
     void Start() {
-
+/*
         if (vaisseau == null) {
             Debug.LogError("Vaisseau n'est pas assigné dans l'inspecteur.");
             return;
         }
-
+*/
         CreateElementsUI();
         UpdateUI();
     }
     
     public void AddRessourceByType(TypeRessource ressourceType, int quantity) {
         Inventory.Instance.AddRessource(ressourceType, quantity);
+        UpdateUI();
     }
 
     public void AddRessource(int quantity) {
-        if (vaisseau == null || Inventory.Instance == null) {
+/*        if (vaisseau == null || Inventory.Instance == null) {
             Debug.LogError("Vaisseau ou inventaire n'est pas assigné.");
             return;
         }
-
+*/
         Inventory.Instance.AddRessource(TypeRessource.Cuivre, quantity);
         Inventory.Instance.AddRessource(TypeRessource.Argent, quantity);
         Inventory.Instance.AddRessource(TypeRessource.Or, quantity);
@@ -62,11 +62,11 @@ public class RessourcesUI : MonoBehaviour {
     }
 
     public void UpdateUI() {
-        if (vaisseau == null || Inventory.Instance == null) {
+/*        if (vaisseau == null || Inventory.Instance == null) {
             Debug.LogError("Vaisseau ou inventaire n'est pas assigné.");
             return;
         }
-
+*/
 
         // Mettre à jour le texte de quantité pour chaque ressource
         foreach(var res in texteRessources) {
