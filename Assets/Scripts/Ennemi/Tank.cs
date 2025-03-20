@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Tank : Ennemi
+public class Tank : Enemy
 {
     protected override void Start()
     {

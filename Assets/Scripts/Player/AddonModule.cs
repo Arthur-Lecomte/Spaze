@@ -110,7 +110,7 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
         }
     }
 
-    public void TakeDamage(float damage) {
+    public void TakeDamage(int damage) {
         Vaisseau.Instance.TakeDamage(damage);
     }
     

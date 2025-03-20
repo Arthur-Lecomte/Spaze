@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Assaillant : Ennemi
+public class Assaillant : Enemy
 {
     private int seed; // Seed aléatoire pour les déplacements
     private System.Random random; // Générateur pseudo-aléatoire basé sur la seed

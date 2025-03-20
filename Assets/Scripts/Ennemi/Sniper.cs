@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Sniper : Ennemi
+public class Sniper : Enemy
 {
     bool canAttack = true;
     protected override void Start()

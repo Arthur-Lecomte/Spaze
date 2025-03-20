@@ -70,7 +70,7 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
         }
     }
 
-    public void TakeDamage(float damage) {
+    public void TakeDamage(int damage) {
         //DEBUG!!! Appliquer les dégâts
     }
     

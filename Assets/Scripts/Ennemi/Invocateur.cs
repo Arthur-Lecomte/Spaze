@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Invocateur : Ennemi
+public class Invocateur : Enemy
 {
     [SerializeField] public Assaillant minionPrefab; // Préfabriqué du sbire (de type Assaillant)
 

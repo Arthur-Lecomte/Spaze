@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class Tire : MonoBehaviour
-{
+{ //DEBUG!!! à supprimer et remplacer par Fight/Tir
     public GameObject creator; 
     [SerializeField] public float speed = 10f; // Vitesse de déplacement
 
@@ -34,8 +34,8 @@ public class Tire : MonoBehaviour
         // Appliquer des dégâts si l'objet touché est un vaisseau
         Vaisseau vaisseau = other.GetComponent<Vaisseau>();
         if (vaisseau != null) {
-            Ennemi ennemi = creator.GetComponent<Ennemi>();
-            vaisseau.TakeDamage(ennemi.GetDamage()); // Appliquer les dégâts au vaisseau
+            Enemy enemy = creator.GetComponent<Enemy>();
+            vaisseau.TakeDamage(enemy.GetDamage()); // Appliquer les dégâts au vaisseau
             Destroy(gameObject);
         }
 
