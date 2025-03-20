@@ -11,7 +11,7 @@ public class Assaillant : Ennemi
 
     protected override void MoveTowardsPlayer(float distanceToPlayer)
     {
-        if (distanceToPlayer > 20f)
+        if (distanceToPlayer > shootRange)
         {
             // Calculer la direction vers le joueur
             Vector3 direction = (player.position - transform.position).normalized;

@@ -1,20 +1,57 @@
 using UnityEngine;
+
 public class Invocateur : Ennemi
 {
-    public GameObject minionPrefab; // Préfabriqué du sbire
+    [SerializeField] public Assaillant minionPrefab; // Préfabriqué du sbire (de type Assaillant)
 
-    void Start() {
-        health = 300;
-        moveSpeed = 0.7f;
-        shootInterval = 4f;
-        shootRange = 8f;
-        timeBeforeBeingCible = 2f;
+    protected override void Start()
+    {
+        // Appeler la méthode Start de la classe parente
+        base.Start();
     }
 
-    void ShootAtPlayer() {
-        if (minionPrefab) {
-            GameObject minion = Instantiate(minionPrefab, transform.position + transform.right * 1.5f, Quaternion.identity);
-            minion.GetComponent<Ennemi>().getPlayer(); // Le sbire attaque aussi le joueur
+    protected override void Update()
+    {
+        if (player)
+        {
+            // Calculer la distance entre l'invocateur et le joueur
+            float distance = Vector3.Distance(transform.position, player.position);
+
+            // Déplacement vers le joueur
+            MoveTowardsPlayer(distance);
+
+            // Si le joueur est à portée, invoquer un sbire
+            if (distance <= shootRange && Time.time > lastShootTime + shootInterval)
+            {
+                SpawnMinion();
+                lastShootTime = Time.time;
+            }
         }
+
+        // Réduire le temps avant d'être une cible
+        timeBeforeBeingCible -= Time.deltaTime;
+    }
+
+
+
+    protected override void MoveTowardsPlayer(float distanceToPlayer)
+    {
+        if (distanceToPlayer > shootRange)
+        {
+            // Calculer la direction vers le joueur
+            Vector3 direction = (player.position - transform.position).normalized;
+
+            // Déplacer l'ennemi dans cette direction
+            transform.position += direction * moveSpeed * Time.deltaTime;
+        }
+    }
+
+    public void SpawnMinion()
+    {
+        
+        Assaillant minion = Instantiate(minionPrefab, transform.position, Quaternion.identity);
+
+        // Lui donner une référence au joueur
+        minion.setPlayer(player);
     }
 }

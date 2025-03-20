@@ -18,7 +18,7 @@ public class Tank : Ennemi
 
     protected override void MoveTowardsPlayer(float distanceToPlayer)
     {
-        if (distanceToPlayer > 1)
+        if (distanceToPlayer > shootRange)
         {
             // Calculer la direction vers le joueur
             Vector3 direction = (player.position - transform.position).normalized;

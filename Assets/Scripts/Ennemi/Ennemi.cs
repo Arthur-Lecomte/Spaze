@@ -11,7 +11,7 @@ public class Ennemi : MonoBehaviour
     [Header("Comportement de tir")]
     [SerializeField] public GameObject projectilePrefab; // Préfabriqué du projectile
     [SerializeField] public float shootInterval = 1.5f; // Intervalle de tir par défaut
-    private float lastShootTime;
+    public float lastShootTime;
     [SerializeField] public float shootRange = 8f; // Distance de tir par défaut
 
     protected Transform player; // Référence au joueur
@@ -92,8 +92,10 @@ public class Ennemi : MonoBehaviour
         }
     }
 
-    public Transform getPlayer()
+    public Transform setPlayer(Transform player)
     {
+        this.player = player;
         return player;
+  
     }
 }

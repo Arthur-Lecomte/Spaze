@@ -72,7 +72,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2698519837626061176}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 5060444177187149915, guid: 9cc947dff99bfee418741e8966e69ece, type: 3}
 --- !u!23 &7114814704953857864
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -186,9 +186,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 200
-  moveSpeed: 3
+  moveSpeed: 4
   timeBeforeBeingCible: 2
   projectilePrefab: {fileID: 6302220743199107413, guid: 425967fb4d768c948aed39a6a3a20132, type: 3}
   shootInterval: 0.2
-  shootRange: 30
+  lastShootTime: 0
+  shootRange: 20
   shootPoint: {fileID: 7952449355670288474}

@@ -17,7 +17,7 @@ public class Sniper : Ennemi
 
         canAttack = true;
 
-        if (distanceToPlayer > 80f)
+        if (distanceToPlayer > shootRange)
         {
 
             Vector3 direction = (player.position - transform.position).normalized;
@@ -27,9 +27,8 @@ public class Sniper : Ennemi
 
         }
 
-        if (distanceToPlayer < 30f)
+        if (distanceToPlayer < 30f) //Range pour fuir
         {
-            Debug.Log("Fuir");
 
             // Faire fuir l'ennemi en s'éloignant du joueur
             Vector3 fleeDirection = (transform.position - player.position).normalized;
