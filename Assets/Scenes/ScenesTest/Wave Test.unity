@@ -304,9 +304,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 310832086}
   enemyPrefabs:
-  - {fileID: 7820003459037310679, guid: 07a986ebb868dac47a683697c9413312, type: 3}
-  - {fileID: 8875886496037661072, guid: 4dedc0ee49431924fbe2019d4bcbd820, type: 3}
-  - {fileID: 512185805942302842, guid: 764ef6b0b0c9fe7458de8fced4c06222, type: 3}
+  - {fileID: 9199229856668647642, guid: dc5eea586dca3e043ad1bd4ca848f68d, type: 3}
+  - {fileID: 6678552142946204890, guid: 4afd05e75fca1c64ca89b2e4891e749f, type: 3}
+  - {fileID: 7608657205703832402, guid: ced381ca6b1c8ef458b1cfda72aa1894, type: 3}
+  - {fileID: 490205668530039360, guid: abe1e379bf72f334d8f1c952421aa851, type: 3}
   spawnRadius: 10
   spawnSpread: 3
   timeBetweenWaves: 5
