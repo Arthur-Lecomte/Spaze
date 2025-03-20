@@ -312,7 +312,6 @@ MonoBehaviour:
   spawnSpread: 3
   timeBetweenWaves: 60
   startEnemies: 3
-  enemiesIncrement: 2
 --- !u!4 &609600137
 Transform:
   m_ObjectHideFlags: 0

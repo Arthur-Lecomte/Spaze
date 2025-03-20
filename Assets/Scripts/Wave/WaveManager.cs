@@ -11,7 +11,6 @@ public class WaveManager : MonoBehaviour {
     [SerializeField] private float spawnSpread; // Écart possible entre les spawns
     [SerializeField] private float timeBetweenWaves; // Temps entre chaque vague
     [SerializeField] private int startEnemies; // Nombre d'ennemis de la première vague
-    [SerializeField] private int enemiesIncrement; // Combien d'ennemis en plus à chaque vague
 
     private int currentWave = 0; // Numéro de la vague actuelle
     private List<GameObject> activeEnemies = new(); // Liste des ennemis actifs
@@ -34,7 +33,7 @@ public class WaveManager : MonoBehaviour {
 
         while (true) {
             currentWave++;
-            int enemyCount = startEnemies + (currentWave - 1) * enemiesIncrement;
+            int enemyCount = startEnemies + (currentWave - 1) / 5; // Ajouter 1 ennemi toutes les 5 vagues
 
             Debug.Log($"Vague {currentWave} - {enemyCount} ennemis");
 
@@ -68,8 +67,8 @@ public class WaveManager : MonoBehaviour {
         activeEnemies.Add(enemy);
 
         // Ajouter un événement pour retirer l'ennemi de la liste lorsqu'il est détruit
-        Enemy enemyComponent = enemy.GetComponent<Enemy>();
-        if (enemyComponent != null) {
+        if (enemy.TryGetComponent<Enemy>(out var enemyComponent)) {
+            enemyComponent.Level = 1 + (currentWave - 1) / 2; // Augmenter le niveau toutes les 2 vagues
             enemyComponent.OnDestroyed += (destroyedEnemy) => activeEnemies.Remove(destroyedEnemy);
         }
     }
