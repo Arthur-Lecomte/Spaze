@@ -8,7 +8,7 @@ public class RessourcesUI : MonoBehaviour {
     [SerializeField] private GameObject prefabElementRessource;
 
     // Dictionnaire pour stocker les références aux éléments UI de chaque ressource
-    private Dictionary<TypeRessource, TextMeshProUGUI> texteRessources = new Dictionary<TypeRessource, TextMeshProUGUI>();
+    private Dictionary<TypeRessource, TextMeshProUGUI> texteRessources = new();
 
     public static RessourcesUI Instance { get; private set; }
 
@@ -36,13 +36,12 @@ public class RessourcesUI : MonoBehaviour {
             Debug.LogError("Vaisseau ou inventaire n'est pas assigné.");
             return;
         }
-
+        
         Inventory.Instance.AddRessource(TypeRessource.Cuivre, quantity);
         Inventory.Instance.AddRessource(TypeRessource.Argent, quantity);
         Inventory.Instance.AddRessource(TypeRessource.Or, quantity);
         Inventory.Instance.AddRessource(TypeRessource.Platine, quantity);
         Inventory.Instance.AddRessource(TypeRessource.PoussiereRadioactive, quantity);
-        UpdateUI();
     }
 
     private void CreateElementsUI() {

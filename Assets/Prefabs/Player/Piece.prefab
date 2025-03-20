@@ -301,9 +301,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coutRessources:
   - type: 0
-    quantite: 0
+    quantite: 50
   - type: 1
-    quantite: 0
+    quantite: 25
   onAddConstruction:
     m_PersistentCalls:
       m_Calls: []

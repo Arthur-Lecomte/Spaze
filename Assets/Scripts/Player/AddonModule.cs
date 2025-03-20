@@ -67,6 +67,7 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
     }
 
     public void OnPointerEnter(PointerEventData eventData) {
+        Debug.Log("OnPointerEnter");
         if (!isActivate) {
             //DEBUG!!! afficher over avec prix
             ChangeAlpha(0.5f);
@@ -78,9 +79,8 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
             if (Inventory.Instance.HaveEnoughRessources(coutRessources)) {
                 //DEBUG!!! Demander une verification
                 //DEBUG!!! enlever over avec prix si acheté
-
-                //DEBUG!!! Mettre un prix aux composants + décommenter la ligne d'après une fois sur developpe
-                //Inventory.Instance.RemoveRessources(coutRessources);
+                
+                Inventory.Instance.RemoveRessources(coutRessources);
 
                 isActivate = true;
                 ChangeAlpha(1f);

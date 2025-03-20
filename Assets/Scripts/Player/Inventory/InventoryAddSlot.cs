@@ -23,9 +23,8 @@ public class InventoryAddSlot : MonoBehaviour {
         if (Inventory.Instance.HaveEnoughRessources(coutRessources)) {
             //DEBUG!!! Demander une verification
             //DEBUG!!! enlever over avec prix si acheté
-
-            //DEBUG!!! Mettre un prix aux slots + décommenter la ligne d'après une fois sur developpe
-            //Inventory.Instance.RemoveRessources(coutRessources);
+            
+            Inventory.Instance.RemoveRessources(coutRessources);
 
             Inventory.Instance.AddInventorySlotsSize();
             IsBuy(true);

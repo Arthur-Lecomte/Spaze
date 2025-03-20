@@ -1,7 +1,7 @@
 using System;
 
 [Serializable]
-public struct Ressource {
+public class Ressource {
     public TypeRessource type;
     public int quantite;
     
