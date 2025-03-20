@@ -14,7 +14,8 @@ public class WaveManager : MonoBehaviour {
     [SerializeField] private int enemiesIncrement; // Combien d'ennemis en plus à chaque vague
 
     private int currentWave = 0; // Numéro de la vague actuelle
-    private List<GameObject> activeEnemies = new List<GameObject>(); // Liste des ennemis actifs
+    private List<GameObject> activeEnemies = new(); // Liste des ennemis actifs
+    private int nextEnemyIndex = 0; // Index du prochain ennemi à spawn
 
     void Start() {
         StartCoroutine(SpawnWaves());
@@ -58,7 +59,9 @@ public class WaveManager : MonoBehaviour {
             return;
         }
 
-        GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Count)]; // Choisir un ennemi aléatoire
+        // Choisir un ennemi de manière cyclique
+        GameObject enemyPrefab = enemyPrefabs[nextEnemyIndex];
+        nextEnemyIndex = (nextEnemyIndex + 1) % enemyPrefabs.Count;
 
         Vector3 spawnPosition = GetRandomSpawnPosition();
         GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
