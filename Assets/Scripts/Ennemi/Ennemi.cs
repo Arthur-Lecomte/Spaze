@@ -3,32 +3,56 @@ using UnityEngine;
 public class Ennemi : MonoBehaviour
 {
     [Header("Statistiques de base")]
-    public int health = 200;
-    public float moveSpeed = 1f; // Vitesse de déplacement de l'ennemi
-    public float timeBeforeBeingCible = 2f;
-    
+    [SerializeField] public int health = 200;
+    [SerializeField] public float moveSpeed = 1f; // Vitesse de déplacement de l'ennemi
+    [SerializeField] public float timeBeforeBeingCible = 2f;
+
 
     [Header("Comportement de tir")]
-    public GameObject projectilePrefab; // Préfabriqué du projectile
-    public float shootInterval = 1f; // Intervalle de tir en secondes
+    [SerializeField] public GameObject projectilePrefab; // Préfabriqué du projectile
+    [SerializeField] public float shootInterval = 1.5f; // Intervalle de tir par défaut
     private float lastShootTime;
-    public float shootRange = 10f; // Distance de tir spécifique à chaque ennemi
+    [SerializeField] public float shootRange = 8f; // Distance de tir par défaut
 
-    [Header("Références")]
-    public Transform player; // Référence au joueur
-    
+    protected Transform player; // Référence au joueur
+
     [Header("Point de tir")]
-    public Transform shootPoint; // L'endroit exact où les tirs spawnent
+    [SerializeField] public Transform shootPoint; // L'endroit exact où les tirs spawnent
 
-void Update() {
-        if(player) {
-            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+    protected virtual void Start()
+    {
+        // Trouver le joueur dans la scène
+        if (player == null)
+        {
+            GameObject playerObject = GameObject.FindWithTag("Player");
+            if (playerObject != null)
+            {
+                player = playerObject.transform;
+            }
+            else
+            {
+                Debug.LogError("Aucun joueur trouvé dans la scène ! Assurez-vous que le joueur a le tag 'Player'.");
+            }
+        }
+    }
+
+    protected virtual void Update()
+    {
+        if (player)
+        {
+            Vector3 enemyPosition = new Vector3(transform.position.x, 0, transform.position.z);
+            Vector3 playerPosition = new Vector3(player.transform.position.x, 0, player.transform.position.z);
+            float distanceToPlayer = Vector3.Distance(enemyPosition, playerPosition);
+            
+            Debug.Log(playerPosition + " " + enemyPosition + " " + distanceToPlayer);
 
             // Déplacement vers le joueur
             MoveTowardsPlayer(distanceToPlayer);
 
             // Tirer sur le joueur si proche et si dans la portée de tir
-            if(distanceToPlayer <= shootRange && Time.time > lastShootTime + shootInterval) {
+            Debug.Log(distanceToPlayer+ " "+ shootRange);
+            if (distanceToPlayer <= shootRange && Time.time > lastShootTime + shootInterval)
+            {
                 ShootAtPlayer();
                 lastShootTime = Time.time;
             }
@@ -38,54 +62,47 @@ void Update() {
         timeBeforeBeingCible -= Time.deltaTime;
     }
 
-    // Déplacement vers le joueur
-    void MoveTowardsPlayer(float distanceToPlayer)
+    protected virtual void MoveTowardsPlayer(float distanceToPlayer)
+    {  }
+
+    protected virtual void ShootAtPlayer()
     {
-        if (distanceToPlayer > 1f)
+        if (projectilePrefab && shootPoint && player)
         {
-            // Calculer la direction du joueur
-            Vector3 direction = (player.position - transform.position).normalized;
 
-            // Déplacer l'ennemi dans cette direction
-            transform.position += direction * moveSpeed * Time.deltaTime;
-            
-            //si le joueur se rapporche de l'ennemi, l'ennemi ne recule pas 
-            if (distanceToPlayer < 5f)
-            {
-                transform.position -= direction * moveSpeed * Time.deltaTime;
-            }
-        }
-
-    }
-
-    // Tirer un projectile
-    void ShootAtPlayer() {
-        if (projectilePrefab && shootPoint && player) {
-            // Calculer la direction du joueur
-            Vector3 direction = (player.position - shootPoint.position).normalized;
-
+            Vector3 playerPosition = player.transform.position;
+            // Calculer la direction vers la position actuelle du joueur
+            Vector3 direction = (playerPosition - shootPoint.position).normalized;
             // Instancier le projectile au niveau de shootPoint
             GameObject obj = Instantiate(projectilePrefab, shootPoint.position, Quaternion.LookRotation(direction));
 
-            // Si le projectile a un Rigidbody, applique une force
             Rigidbody rb = obj.GetComponent<Rigidbody>();
-            if (rb) {
+            if (rb)
+            {
                 rb.linearVelocity = direction * 10f; // Ajuste la vitesse selon besoin
             }
 
-            obj.GetComponent<Tire>().creator = gameObject;
+            // Assigner l'ennemi comme créateur du projectile
+            Tire tireComponent = obj.GetComponent<Tire>();
+            if (tireComponent != null)
+            {
+                tireComponent.creator = gameObject;
+            }
         }
     }
-    
-    // Prendre des dégâts
-    public void TakeDamage(int damage) {
+
+    public void TakeDamage(int damage)
+    {
         health = Mathf.Max(0, health - damage);
 
-        if(health <= 0) {
+        if (health <= 0)
+        {
             Destroy(gameObject);
         }
     }
 
-    
-    
+    public Transform getPlayer()
+    {
+        return player;
+    }
 }

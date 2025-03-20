@@ -186,10 +186,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 200
-  moveSpeed: 1
+  moveSpeed: 3
   timeBeforeBeingCible: 2
   projectilePrefab: {fileID: 6302220743199107413, guid: 425967fb4d768c948aed39a6a3a20132, type: 3}
   shootInterval: 1
-  shootRange: 10
-  player: {fileID: 0}
+  shootRange: 3
   shootPoint: {fileID: 7952449355670288474}

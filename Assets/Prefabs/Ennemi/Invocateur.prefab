@@ -25,8 +25,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2129366870274341334}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.22411409, y: -0.35188943, z: 0.02220973}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -51,7 +51,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 6302220743199107413, guid: 425967fb4d768c948aed39a6a3a20132, type: 3}
   shootInterval: 1
   shootRange: 10
-  player: {fileID: 0}
+  player: {fileID: 7049047942614454675, guid: 7b069f992e183dc46b11318c419e0537, type: 3}
   shootPoint: {fileID: 0}
   minionPrefab: {fileID: 0}
 --- !u!1 &4289969929030032260

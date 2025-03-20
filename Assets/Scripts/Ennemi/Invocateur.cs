@@ -14,7 +14,7 @@ public class Invocateur : Ennemi
     void ShootAtPlayer() {
         if (minionPrefab) {
             GameObject minion = Instantiate(minionPrefab, transform.position + transform.right * 1.5f, Quaternion.identity);
-            minion.GetComponent<Ennemi>().player = player; // Le sbire attaque aussi le joueur
+            minion.GetComponent<Ennemi>().getPlayer(); // Le sbire attaque aussi le joueur
         }
     }
 }
