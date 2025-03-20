@@ -60,7 +60,7 @@ public class WaveManager : MonoBehaviour {
 
         GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Count)]; // Choisir un ennemi aléatoire
 
-        Vector2 spawnPosition = GetRandomSpawnPosition();
+        Vector3 spawnPosition = GetRandomSpawnPosition();
         GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
         activeEnemies.Add(enemy);
 
@@ -74,17 +74,18 @@ public class WaveManager : MonoBehaviour {
     /// <summary>
     /// Calcule une position aléatoire de spawn d'un ennemie selon les paramètres de la class.
     /// </summary>
-    /// <returns>Renvoie un Vector2D pour le spawn d'un ennemie.</returns>
-    private Vector2 GetRandomSpawnPosition() {
+    /// <returns>Renvoie un Vector3 pour le spawn d'un ennemie.</returns>
+    private Vector3 GetRandomSpawnPosition() {
         float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
         float offsetX = Random.Range(-spawnSpread, spawnSpread);
-        float offsetY = Random.Range(-spawnSpread, spawnSpread);
+        float offsetZ = Random.Range(-spawnSpread, spawnSpread);
 
-        Vector2 basePosition = new(
+        Vector3 basePosition = new(
             player.transform.position.x + Mathf.Cos(angle) * spawnRadius,
-            player.transform.position.y + Mathf.Sin(angle) * spawnRadius
+            player.transform.position.y, // Garder la même hauteur que le joueur
+            player.transform.position.z + Mathf.Sin(angle) * spawnRadius
         );
 
-        return basePosition + new Vector2(offsetX, offsetY);
+        return basePosition + new Vector3(offsetX, 0, offsetZ);
     }
 }
