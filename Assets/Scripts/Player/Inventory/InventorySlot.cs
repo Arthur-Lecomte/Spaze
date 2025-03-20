@@ -11,6 +11,8 @@ public class InventorySlot : MonoBehaviour {
     
     private void Awake() {
         if (index == -1) {
+            transform.parent.GetComponent<Canvas>().worldCamera = Camera.main;
+            
             module = transform.parent.parent.GetComponent<AddonModule>();
             Initialisation(-1);
         }
