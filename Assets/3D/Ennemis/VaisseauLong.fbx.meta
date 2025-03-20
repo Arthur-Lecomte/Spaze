@@ -3,7 +3,22 @@ guid: c60fa78bdc7ffdc49b3ecc4e2ce5c4f3
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 07 - Default
+    second: {fileID: 824015559753126921, guid: eb98a38b349858e4d8841258dddc7e4c, type: 3}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 567
+    second: {fileID: 2100000, guid: 4cfa03c6fd99f9b45b57e6a9159222a0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: black mat for body.001
+    second: {fileID: -4352670348413930819, guid: 9cc947dff99bfee418741e8966e69ece, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
