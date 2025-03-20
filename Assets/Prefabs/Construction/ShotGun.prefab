@@ -55,7 +55,8 @@ MonoBehaviour:
   image: {fileID: 21300000, guid: eae3abe066f76fe4a85c1ae446195e4b, type: 3}
   damage: 15
   attackSpeed: 0.5
-  range: 4
+  bulletSpeed: 30
+  range: 8
   bulletPrefab: {fileID: 3824452743231026403, guid: 59044da8fbf8d4e46862be06223b732a, type: 3}
 --- !u!1 &9202711405572471801
 GameObject:
@@ -81,13 +82,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9202711405572471801}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.885, z: 0.39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5077657096617798075}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1001 &6060117653159268089
 PrefabInstance:
   m_ObjectHideFlags: 0

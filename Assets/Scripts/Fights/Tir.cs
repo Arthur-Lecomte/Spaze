@@ -16,7 +16,7 @@ public class Tir : MonoBehaviour {
 
     private void Update() {
         float distance = speed * Time.deltaTime;
-        transform.Translate(Vector3.forward * distance);
+        transform.Translate(Vector3.up * distance);
         distanceTraveled += distance;
 
         if (distanceTraveled >= range) {
@@ -25,10 +25,8 @@ public class Tir : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (other.GetComponent<GameObject>() == creator) return;
-
         ICanTakeDamage hit = other.GetComponent<ICanTakeDamage>();
-        if (hit != null) {
+        if (hit != null && hit.WhoAmI() != creator) {
             hit.TakeDamage(damage);
             Destroy(gameObject);
         }

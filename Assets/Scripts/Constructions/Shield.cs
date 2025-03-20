@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class Shield : Construction, ICanTakeDamage {
     [SerializeField] private float maxLife = 50;
-    [SerializeField] private float life = 0;
+    [SerializeField] private float life;
     private float regeneration = 5;
     [SerializeField] private float range = 3;
 
@@ -91,5 +91,9 @@ public class Shield : Construction, ICanTakeDamage {
         var stats = base.GetStats();
         stats.Add("Shield Quantity", maxLife.ToString());
         return stats;
+    }
+    
+    public GameObject WhoAmI() {
+        return Vaisseau.Instance.gameObject;
     }
 }

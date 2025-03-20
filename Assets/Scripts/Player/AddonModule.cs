@@ -112,4 +112,8 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
     public void TakeDamage(float damage) {
         Vaisseau.Instance.TakeDamage(damage);
     }
+    
+    public GameObject WhoAmI() {
+        return Vaisseau.Instance.gameObject;
+    }
 }
