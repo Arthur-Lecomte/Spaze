@@ -2,25 +2,69 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class Extracteur : Construction {
-    public static Extracteur Instance;
     [SerializeField] private float speed;
     [SerializeField] private float range;
     [SerializeField] private Transform extracteur;
-    public float Speed => speed;
-    public float Range => range;
+    
+    private float nextExtractTime;
+    private List<GameObject> structureInRange = new();
+    private Structure currentTarget;
 
     private Dictionary<int, VariantData> dictionaryVariant = new Dictionary<int, VariantData>();
     private Dictionary<int, int> dictionarySeed = new Dictionary<int, int>();
     private Dictionary<int, int> structureDictionaryData = new Dictionary<int, int>();
     int structureDictionaryInteration = 0;
+
     protected override void Awake() {
-        if (Instance == null) {
-            Instance = this;
-        } else {
-            Destroy(gameObject);
+        base.Awake();
+
+        SphereCollider rangeCollider = gameObject.AddComponent<SphereCollider>();
+        rangeCollider.isTrigger = true;
+        rangeCollider.radius = range;
+    }
+    
+    private void OnTriggerEnter(Collider other) {
+        if (other.GetComponent<Structure>() != null) {
+            structureInRange.Add(other.gameObject);
         }
     }
 
+    private void OnTriggerExit(Collider other) {
+        if (other.GetComponent<Structure>() != null) {
+            structureInRange.Remove(other.gameObject);
+        }
+    }
+    
+    private void Update() {
+        if (structureInRange.Count > 0) {
+            currentTarget = GetClosestStructure();
+            if (currentTarget) {
+                //RotateExtracteur(currentTarget.transform); //DEBUG!!! à faire
+                if (Time.time >= nextExtractTime) { //DEBUG!!! && IsAlignedWithTarget(currentTarget.transform)
+                    currentTarget.Extract();
+                    nextExtractTime = Time.time  + 1f / speed;
+                }
+            }
+        } else {
+            currentTarget = null;
+        }
+    }
+    
+    private Structure GetClosestStructure() {
+        GameObject closestStructure = null;
+        float closestDistance = range;
+
+        foreach (GameObject structure in structureInRange) {
+            float distance = Vector3.Distance(transform.position, structure.transform.position);
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestStructure = structure;
+            }
+        }
+
+        return closestStructure.GetComponent<Structure>();
+    }
+    
     protected override void PerformUpgrade() {
         Debug.LogWarning(GetType() +" PerformUpgrade Not Implemented"); // Augmenter le niveau de la construction (changer damage, attackSpeed...)
     }
@@ -31,22 +75,9 @@ public class Extracteur : Construction {
         stats.Add("Range", range.ToString("F2"));
         return stats;
     }
-
-    public void GetStructureVariantAndSeed(VariantData structureVariant, int structureSeed) {
-        dictionaryVariant.Add(structureDictionaryInteration, structureVariant);
-        dictionarySeed.Add(structureDictionaryInteration, structureSeed);
-        structureDictionaryData.Add(structureDictionaryInteration, structureDictionaryInteration);
-        structureDictionaryInteration++;
-
-        foreach (var strucDicData in structureDictionaryData) {
-            Debug.Log("VariantNumber: " + strucDicData.Key + " SeedNumber: " + strucDicData.Value);
-            foreach(var dicVariant in dictionaryVariant) {
-                if(strucDicData.Key == dicVariant.Key)
-                {
-                    Debug.Log("VariantKey: " + dicVariant.Key + " VariantValue: " + dicVariant.Value + " Seed: " + dictionarySeed[dicVariant.Key]);
-                    break;
-                }
-            }
-        }   
+    
+    public void OnDrawGizmos() {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, range);
     }
 }

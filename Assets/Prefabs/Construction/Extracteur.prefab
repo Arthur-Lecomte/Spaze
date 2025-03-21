@@ -59,8 +59,9 @@ MonoBehaviour:
     quantite: 25
   probability: 3
   image: {fileID: 21300000, guid: 38cd6d31ab3e70c4ba6d60e9325143bc, type: 3}
-  speed: 0
-  range: 0
+  speed: 2
+  range: 15
+  extracteur: {fileID: 0}
 --- !u!1001 &4465451738201041106
 PrefabInstance:
   m_ObjectHideFlags: 0
