@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public abstract class Construction : MonoBehaviour {
+public abstract class Construction : MonoBehaviour { //DEBUG!!! les constructions ont une rotation étrange.
     [SerializeField] protected string nom;
     [SerializeField] protected string description;
     [SerializeField] protected RarityConstruction rarity;
