@@ -82,13 +82,13 @@ public class GenerationStructure : MonoBehaviour {
         List<GameObject> objectsInCell = new List<GameObject>();
 
         // Limiter à une seule structure par cellule
-        if (asteroidChance < 0.5f) // 50% de chance d'apparition d'un astéroïde
+        if (asteroidChance < 0.7f) // 70% de chance d'apparition d'un astéroïde
         {
             TryInstantiateVariant(asteroidData.variants, cellCenter, asteroidParent, objectsInCell, cellSeed);
-        } else if (wreckChance < 0.2f) // 20% de chance pour une épave
+        } else if (wreckChance < 0.1f) // 10% de chance pour une épave
           {
             TryInstantiateVariant(wreckData.variants, cellCenter, wreckParent, objectsInCell, cellSeed);
-        } else if (shopChance < 0.1f) // 10% de chance pour un magasin
+        } else if (shopChance < 0.02f) // 2% de chance pour un magasin
           {
             TryInstantiateObject(shopPrefab, cellCenter, shopParent, objectsInCell, cellSeed);
         }
