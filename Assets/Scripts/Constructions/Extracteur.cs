@@ -10,11 +10,6 @@ public class Extracteur : Construction {
     private List<GameObject> structureInRange = new();
     private Structure currentTarget;
 
-    private Dictionary<int, VariantData> dictionaryVariant = new Dictionary<int, VariantData>();
-    private Dictionary<int, int> dictionarySeed = new Dictionary<int, int>();
-    private Dictionary<int, int> structureDictionaryData = new Dictionary<int, int>();
-    int structureDictionaryInteration = 0;
-
     protected override void Awake() {
         base.Awake();
 

@@ -96,7 +96,7 @@ public class GenerationStructure : MonoBehaviour {
         spawnedObjects[cellCoord] = objectsInCell;
         loadedCells.Add(cellCoord);
 
-        Debug.Log($"Cell generated at {cellCoord}");
+        //Debug.Log($"Cell generated at {cellCoord}");
     }
 
     void TryInstantiateVariant(List<VariantData> variants, Vector3 cellCenter, Transform parent, List<GameObject> objectsInCell, int cellSeed) {
@@ -145,7 +145,7 @@ public class GenerationStructure : MonoBehaviour {
             spawnedObjects.Remove(cellCoord);
         }
 
-        Debug.Log($"Cell destroyed at {cellCoord}");
+        //Debug.Log($"Cell destroyed at {cellCoord}");
     }
 
     Vector2Int GetCellCoordinates(Vector3 position) {

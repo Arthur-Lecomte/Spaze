@@ -1,13 +1,15 @@
 using UnityEngine;
 
-public class Asteroid : MonoBehaviour {
+public class Asteroid : Structure {
     private bool isCollecting;
     private float countdown;
 
-    private int RandomRessourcesValue(TypeRessource ressourceType) {
+    private void Awake() {
         int ramdomValue = Random.Range(0, 100 + 1);
+        System.Array values = System.Enum.GetValues(typeof(TypeRessource));
+        TypeRessource ressourceType = (TypeRessource)values.GetValue(Random.Range(0, values.Length));
         int returnRessourceValue;
-        switch (ressourceType) {
+        switch (ressourceType) {    
             case TypeRessource.Cuivre:
                 returnRessourceValue = ramdomValue <= 50 ? Random.Range(1, 30 + 1) : 0;
                 break;
@@ -24,6 +26,6 @@ public class Asteroid : MonoBehaviour {
                 returnRessourceValue = 0;
                 break;
         }
-        return returnRessourceValue;
+        Ressource.quantite = returnRessourceValue;
     }
 }

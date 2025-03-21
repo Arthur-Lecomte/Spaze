@@ -7,6 +7,6 @@ public class CameraHolderFollow : MonoBehaviour
     private void LateUpdate()
     {
         //Suit le joueur
-        transform.position = vaisseau.position;
+        transform.position = Vaisseau.Instance.transform.position;
     }
 }

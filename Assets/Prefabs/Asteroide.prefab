@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1213632602173631657}
   - component: {fileID: 3407828586987204283}
+  - component: {fileID: 6039516027746142511}
   m_Layer: 0
   m_Name: Asteroide
   m_TagString: Untagged
@@ -45,6 +46,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b0f600525fc04f4f8dc77d5355e347d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Ressource:
+    type: 0
+    quantite: 0
+--- !u!135 &6039516027746142511
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3740351344403343317}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 4.45
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &7676247677005870357
 PrefabInstance:
   m_ObjectHideFlags: 0
