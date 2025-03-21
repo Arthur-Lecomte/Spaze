@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class Vaisseau : MonoBehaviour, ICanTakeDamage {
     public static Vaisseau Instance;
+    
+    private int maxHealth;
+    private int actualHealth;
+    private RectTransform healthBar;
+    private float healthBarMaxWidth;
 
     [Header("Déplacement")]
     [SerializeField]
@@ -10,7 +15,7 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
     [SerializeField] private float rotationSpeed = 200f; // Vitesse de rotation
     [SerializeField] private float drag = 0.99f; // Ralentissement progressif (momentum)
 
-    [Header("Boost")] [SerializeField] private int speedSkillCount; // Nombre de points de vitesse appliqués 
+    [Header("Boost")] [SerializeField] private int speedSkillCount = 2; // Nombre de points de vitesse appliqués 
     [SerializeField] private float pourcentageBoost = 0.3f; // Pourcentage de boost appliqué par point 
 
     private Rigidbody rb;
@@ -23,13 +28,20 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
             Destroy(gameObject);
         }
         
-        speedSkillCount = 2; //DEBUG!!! Ne pas faire une initialisation manuelle
-    }
-
-    void Start() {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false; // Pas de gravité pour un vaisseau spatial
         rb.angularDamping = 5f; // Réduit l'effet de rotation excessive
+    }
+
+    private void Start() {
+        maxHealth = 100;
+        actualHealth = maxHealth;
+        healthBar = GameObject.Find("HealthBar").GetComponent<RectTransform>();
+        healthBarMaxWidth = healthBar.sizeDelta.x;
+    }
+
+    public void SetSpeedSkillCount(int points) {
+        speedSkillCount = points;
     }
 
     void Update() {
@@ -60,17 +72,17 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
         // Appliquer une légère friction pour l'inertie
         rb.linearVelocity *= drag;
     }
-    
-    //DEBUG!!! Le faire pour tous les types
-    public void UpgradePointsChanged(TypeUpgrade type, int points) {
-        switch (type) {
-            case TypeUpgrade.Speed:
-                speedSkillCount = points;
-                break;
-        }
-    }
 
-    public void TakeDamage(float damage) {
-        //DEBUG!!! Appliquer les dégâts
+    public void TakeDamage(int damage) {
+        actualHealth = Mathf.Max(0, actualHealth - damage);
+        if (actualHealth == 0) {
+            Debug.Log("GAME OVER"); //DEBUG!!! programmer la fin du jeu
+        }
+        
+        healthBar.sizeDelta = new Vector2(healthBarMaxWidth * actualHealth / maxHealth, healthBar.sizeDelta.y);
+    }
+    
+    public GameObject WhoAmI() {
+        return gameObject;
     }
 }

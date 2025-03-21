@@ -51,16 +51,19 @@ public abstract class Construction : MonoBehaviour {
         if (c.type == type && c.Niveau == Niveau && c.rarity == rarity) {
             return true;
         }
+
         return false;
     }
 
-    public bool Upgrade() { //DEBUG!!! Modifier l'UI ?
+    public bool Upgrade() {
+        //DEBUG!!! Modifier l'UI ?
         if (Niveau < NiveauMax) {
             Niveau++;
             SetChildOf(transform.parent);
             PerformUpgrade();
             return true;
         }
+
         return false;
     }
 
@@ -82,10 +85,8 @@ public abstract class Construction : MonoBehaviour {
     public virtual void AdjustStatsByRarity() {
         // Ajuster les coûts en fonction de la rareté
         for (int i = 0; i < coutRessources.Count; i++) {
-            coutRessources[i] = new Ressource {
-                type = coutRessources[i].type,
-                quantite = Mathf.RoundToInt(coutRessources[i].quantite * GetRarityMultiplier())
-            };
+            coutRessources[i] = new Ressource(coutRessources[i].type,
+                Mathf.RoundToInt(coutRessources[i].quantite * GetRarityMultiplier()));
         }
     }
 
@@ -102,8 +103,7 @@ public abstract class Construction : MonoBehaviour {
 
     public virtual Dictionary<string, string> GetStats() {
         return new Dictionary<string, string> {
-            { "Description", description },
-            { "Level", $"{Niveau} / {NiveauMax}" }
+            { "Description", description }
         };
     }
 }

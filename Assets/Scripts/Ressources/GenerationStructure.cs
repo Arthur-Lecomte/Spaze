@@ -12,9 +12,6 @@ public class GenerationStructure : MonoBehaviour {
     [SerializeField] private int spawnRadius = 3; // Nombre de cellules autour du joueur à charger
     [SerializeField] private int seed; // Seed aléatoire pour générer les structures
 
-    [Header("Player")]
-    [SerializeField] private Transform player;
-
     private HashSet<Vector2Int> loadedCells = new();
     private Dictionary<Vector2Int, List<GameObject>> spawnedObjects = new();
 
@@ -46,7 +43,7 @@ public class GenerationStructure : MonoBehaviour {
     }
 
     void UpdateLoadedCells() {
-        Vector2Int playerCell = GetCellCoordinates(player.position);
+        Vector2Int playerCell = GetCellCoordinates(Vaisseau.Instance.transform.position);
         HashSet<Vector2Int> newLoadedCells = new();
 
         // Charger les nouvelles cellules
@@ -85,7 +82,7 @@ public class GenerationStructure : MonoBehaviour {
         List<GameObject> objectsInCell = new List<GameObject>();
 
         // Limiter à une seule structure par cellule
-        if (asteroidChance < 0.5f) // 50% de chance d'apparition d'un astéroide
+        if (asteroidChance < 0.5f) // 50% de chance d'apparition d'un astéroïde
         {
             TryInstantiateVariant(asteroidData.variants, cellCenter, asteroidParent, objectsInCell, cellSeed);
         } else if (wreckChance < 0.2f) // 20% de chance pour une épave
@@ -98,7 +95,8 @@ public class GenerationStructure : MonoBehaviour {
 
         spawnedObjects[cellCoord] = objectsInCell;
         loadedCells.Add(cellCoord);
-        //Debug.Log($"Cell generated at {cellCoord}");
+
+        Debug.Log($"Cell generated at {cellCoord}");
     }
 
     void TryInstantiateVariant(List<VariantData> variants, Vector3 cellCenter, Transform parent, List<GameObject> objectsInCell, int cellSeed) {
@@ -111,7 +109,6 @@ public class GenerationStructure : MonoBehaviour {
                 TryInstantiateObject(variant.prefab, cellCenter, parent, objectsInCell, cellSeed, variant.ressourceType);
                 break;
             }
-            Extracteur.Instance.GetStructureVariantAndSeed(variant, cellSeed);
         }
     }
 
@@ -148,7 +145,7 @@ public class GenerationStructure : MonoBehaviour {
             spawnedObjects.Remove(cellCoord);
         }
 
-        //Debug.Log($"Cell destroyed at {cellCoord}");
+        Debug.Log($"Cell destroyed at {cellCoord}");
     }
 
     Vector2Int GetCellCoordinates(Vector3 position) {

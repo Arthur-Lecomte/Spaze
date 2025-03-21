@@ -12,18 +12,16 @@ public class UpgradeColumn : MonoBehaviour {
     
     private int level;
     
-    private void Awake() {
+    private void Start() {
         level = 2;
-        UpdateImages();
+        SendInformation();
     }
     
-    //DEBUG!!! Rendre Add et Remove "lent" (ne pas améliorer instantanément)
     public void Add() {
         if (level < 5) {
             if(UpgradeManager.Instance.CanUpgrade()) {
                 level++;
-                Vaisseau.Instance.UpgradePointsChanged(type, level);
-                UpdateImages();
+                SendInformation();
             }
         }
     }
@@ -32,12 +30,17 @@ public class UpgradeColumn : MonoBehaviour {
         if (level > 1) {
             level--;
             UpgradeManager.Instance.AddPoints();
-            Vaisseau.Instance.UpgradePointsChanged(type, level);
-            UpdateImages();
+            SendInformation();
         }
     }
     
-    private void UpdateImages() {
+    private void SendInformation() {
+        switch (type) {
+            case TypeUpgrade.Speed:
+                Vaisseau.Instance.SetSpeedSkillCount(level);
+                break;
+        }
+        
         image5.color = level >= 1 ? Color.green : Color.red;
         image4.color = level >= 2 ? Color.green : Color.red;
         image3.color = level >= 3 ? Color.green : Color.red;

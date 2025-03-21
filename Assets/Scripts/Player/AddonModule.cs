@@ -32,11 +32,13 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
             colors.Add(material.color);
         }
 
+        gameObject.name = "module";
         ChangeAlpha(0.25f);
     }
 
     private void Start() {
         objectCollider.enabled = false;
+        objectCollider.isTrigger = true;
         objectRenderer.enabled = false;
     }
 
@@ -68,7 +70,7 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
 
     public void OnPointerEnter(PointerEventData eventData) {
         if (!isActivate) {
-            //DEBUG!!! afficher over avec prix
+            BuyHoverUI.Instance.ShowHoverUI(name, coutRessources);
             ChangeAlpha(0.5f);
         }
     }
@@ -76,15 +78,13 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
     public void OnPointerDown(PointerEventData eventData) {
         if (!isActivate) {
             if (Inventory.Instance.HaveEnoughRessources(coutRessources)) {
-                //DEBUG!!! Demander une verification
-                //DEBUG!!! enlever over avec prix si acheté
-
-                //DEBUG!!! Mettre un prix aux composants + décommenter la ligne d'après une fois sur developpe
-                //Inventory.Instance.RemoveRessources(coutRessources);
+                BuyHoverUI.Instance.HideHoverUI();
+                Inventory.Instance.RemoveRessources(coutRessources);
 
                 isActivate = true;
                 ChangeAlpha(1f);
                 objectRenderer.enabled = true;
+                objectCollider.isTrigger = false;
                 objectCollider.enabled = true;
 
                 CanActivateNeighbors();
@@ -97,7 +97,7 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
 
     public void OnPointerExit(PointerEventData eventData) {
         if (!isActivate) {
-            //DEBUG!!! enlever over avec prix
+            BuyHoverUI.Instance.HideHoverUI();
             ChangeAlpha(0.25f);
         }
     }
@@ -110,7 +110,11 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
         }
     }
 
-    public void TakeDamage(float damage) {
+    public void TakeDamage(int damage) {
         Vaisseau.Instance.TakeDamage(damage);
+    }
+    
+    public GameObject WhoAmI() {
+        return Vaisseau.Instance.gameObject;
     }
 }

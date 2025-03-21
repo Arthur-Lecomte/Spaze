@@ -28,9 +28,7 @@ public class UpgradeManager : MonoBehaviour {
             module.DisplayModule(value);
         }
     }
-
-    //DEBUG!!! Récupérer le point après un certain temps
-    //DEBUG!!! Ajouter un bouton pour acheter des points pour les noyaux d'énergies
+    
     public void AddPoints() {
         pointsLevel += 1;
         pointsText.text = "Points: " + pointsLevel;
