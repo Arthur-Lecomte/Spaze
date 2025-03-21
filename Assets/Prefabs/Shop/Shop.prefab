@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2336606997748645093}
   - component: {fileID: 1300345589173839447}
   - component: {fileID: 3857872071500406965}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,7 +149,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8748016758275232248}
-  - component: {fileID: 3186517284825860683}
   m_Layer: 0
   m_Name: Shop
   m_TagString: Untagged
@@ -174,27 +173,6 @@ Transform:
   - {fileID: 6656611996235309414}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &3186517284825860683
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4116979557059156809}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 30
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5107662713501489144
 GameObject:
   m_ObjectHideFlags: 0

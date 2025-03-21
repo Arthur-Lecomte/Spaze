@@ -328,6 +328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 2925442109458474522}
+  camShield: {fileID: 0}
   zoomSpeed: 10
   minZoom: 5
   maxZoom: 50
@@ -345,5 +346,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_EventMask:
     serializedVersion: 2
-    m_Bits: 96
+    m_Bits: 608
   m_MaxRayIntersections: 0

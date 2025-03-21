@@ -19,23 +19,26 @@ public class BuyHoverUI : MonoBehaviour {
     }
 
     public void ShowHoverUI(string objectName, List<Ressource> price) {
-        UpdateHoverUI(objectName, price);
+        UpdateUI(transform, objectName, price);
         gameObject.SetActive(true);
     }
 
     public void HideHoverUI() {
         gameObject.SetActive(false);
     }
+    
+    public void ShowConstructionUI(Transform parent, string objectName, List<Ressource> price) {
+        UpdateUI(parent, objectName, price);
+    }
 
-    private void UpdateHoverUI(string objectName, List<Ressource> price) {
-        TextMeshProUGUI nameText = transform.Find("Name").GetComponent<TextMeshProUGUI>();
-        nameText.text = "Acheter " +objectName + " ?";
+    private void UpdateUI(Transform parent, string objectName, List<Ressource> price) {
+        TextMeshProUGUI nameText = parent.Find("Name").GetComponent<TextMeshProUGUI>();
+        nameText.text = parent == transform ? "Acheter " +objectName + " ?" : objectName;
 
-        Transform priceContainer = transform.Find("PriceContainer");
+        Transform priceContainer = parent.Find("PriceContainer");
         foreach (Transform child in priceContainer) {
             Destroy(child.gameObject);
         }
-
         foreach (Ressource ressource in price) {
             GameObject element = Instantiate(prefabElement, priceContainer);
 

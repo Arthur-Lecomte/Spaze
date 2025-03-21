@@ -43,9 +43,7 @@ public class Inventory : MonoBehaviour {
         InventoryUI.Instance.ChangeNumberSlots(size);
 
         //DEBUG!!! TEST TURRET !
-        AddRessource(TypeRessource.Cuivre, 1000);
-        AddRessource(TypeRessource.Argent, 1000);
-        AddRessource(TypeRessource.Or, 1000);
+        /*
         GameObject go;
         for (int i = 0; i < 1; i++) {
             go = Instantiate(prefab);
@@ -59,6 +57,7 @@ public class Inventory : MonoBehaviour {
             go = Instantiate(prefab3);
             AddConstruction(go.GetComponent<Construction>());
         }
+        */
     }
 
     public void AddRessource(TypeRessource type, int quantity) {

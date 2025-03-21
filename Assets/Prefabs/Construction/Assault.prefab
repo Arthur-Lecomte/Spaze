@@ -81,7 +81,11 @@ MonoBehaviour:
   description: 
   rarity: 0
   type: 1
-  coutRessources: []
+  coutRessources:
+  - type: 0
+    quantite: 100
+  - type: 1
+    quantite: 50
   probability: 5
   image: {fileID: 21300000, guid: 71374107c8ea7734c9d98d5155d4346c, type: 3}
   damage: 5

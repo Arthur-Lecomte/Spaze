@@ -11,6 +11,7 @@ using Random = UnityEngine.Random;
 public class ShopUI : MonoBehaviour {
     public static ShopUI Instance;
     private ShopOption currentOption;
+    private bool freeReset = true;
 
     [SerializeField] private GameObject[] prefabsConstructions;
     
@@ -32,14 +33,22 @@ public class ShopUI : MonoBehaviour {
         
         DisplayShop(false);
     }
-
-    private void Start() {
-        // Appeler la fonction pour sélectionner et afficher les constructions
-        SelectionnerEtAfficherConstructions();
-    }
     
     public void DisplayShop(bool value) {
+        if (value && freeReset) {
+            ResetConstructions();
+            freeReset = false;
+        }
+        
         shopPanel.SetActive(value);
+    }
+    
+    public void FreeReset() {
+        freeReset = true;
+        
+        if (currentOption == ShopOption.PurchaseConstruction) {
+            DisplayShop(true);
+        }
     }
 
     private void SelectionnerEtAfficherConstructions() {
@@ -142,33 +151,15 @@ public class ShopUI : MonoBehaviour {
         constructionItem.transform.localPosition = new Vector3(index * 600, 0, 0);
 
         // Configurer l'élément UI
-        TextMeshProUGUI nom = constructionItem.transform.Find("PanelConstruction").Find("Name")?.GetComponent<TextMeshProUGUI>();
         Image sprite = constructionItem.transform.Find("PanelConstruction").Find("Sprite")?.GetComponent<Image>();
         TextMeshProUGUI rarity = constructionItem.transform.Find("PanelConstruction").Find("Rarity Zone")?.GetComponent<TextMeshProUGUI>();
 
-        // Liste des champs de texte pour les ressources
-        TextMeshProUGUI[] resourceTexts = new TextMeshProUGUI[] {
-            constructionItem.transform.Find("PanelConstruction").Find("Cout Cuivre")?.GetComponent<TextMeshProUGUI>(),
-            constructionItem.transform.Find("PanelConstruction").Find("Cout Argent")?.GetComponent<TextMeshProUGUI>(),
-            constructionItem.transform.Find("PanelConstruction").Find("Cout Or")?.GetComponent<TextMeshProUGUI>(),
-            constructionItem.transform.Find("PanelConstruction").Find("Cout Platine")?.GetComponent<TextMeshProUGUI>(),
-            constructionItem.transform.Find("PanelConstruction").Find("Cout Noyau Energie")?.GetComponent<TextMeshProUGUI>()
-        };
-
         if (construction != null) {
-            nom.text = construction.GetNom();
+            BuyHoverUI.Instance.ShowConstructionUI(constructionItem.transform.Find("PanelConstruction"), construction.GetNom(), construction.GetCoutRessources());
+            
             sprite.sprite = construction.GetSprite();
             rarity.text = Enum.GetName(typeof(RarityConstruction), construction.GetRarity());
             rarity.color = GetColorForRarity(construction.GetRarity());
-
-            // Mettre à jour les coûts des ressources //DEBUG!!! à faire attention, si on met une ressource, toutes les ressources inférieures doivent être présentes !!!
-            for (int i = 0; i < resourceTexts.Length; i++) {
-                if (i < construction.GetCoutRessources().Count) {
-                    resourceTexts[i].text = construction.GetCoutRessources()[i].quantite.ToString();
-                } else {
-                    resourceTexts[i].text = "0"; // Valeur par défaut si aucune ressource
-                }
-            }
 
             // Configurer le bouton d'achat
             Button acheterButton = constructionItem.transform.Find("PanelConstruction").Find("AcheterButton")?.GetComponent<Button>();
@@ -228,6 +219,8 @@ public class ShopUI : MonoBehaviour {
             }
         }
     }
+    
+    #region SubPanel
 
     private void OpenSubPanel(GameObject constructionItem) {
         // Vérifier si le panneau est déjà ouvert ou en transition
@@ -329,15 +322,18 @@ public class ShopUI : MonoBehaviour {
             panelTransitions[constructionItem] = false;
         }
     }
+    
+    #endregion
 
     // Méthode pour acheter une construction
     private void BuyConstruction(Construction construction) {
         // Vérifiez si le joueur à suffisamment de ressources pour acheter la construction
-        if (!Inventory.Instance.HaveEnoughRessources(construction.GetCoutRessources())) {
+        if (Inventory.Instance.HaveEnoughRessources(construction.GetCoutRessources())) {
             // Si on peut ajouter la construction au vaisseau
             if (Inventory.Instance.AddConstruction(construction)) {
                 // Retirer les ressources nécessaires
                 Inventory.Instance.RemoveRessources(construction.GetCoutRessources());
+                // DEBUG!!! Il faut supprimer la carte de la boutique
             }
         }
     }
@@ -400,6 +396,10 @@ public class ShopUI : MonoBehaviour {
     
     public bool IsShopOpen() {
         return currentOption != ShopOption.None;
+    }
+    
+    public void CloseShop() {
+        ChangeShopOption(ShopOption.None);
     }
 
     public void ChangeShopOption(ShopOption option) {
