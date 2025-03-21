@@ -52,7 +52,7 @@ public class Shield : Construction, ICanTakeDamage {
         range += 0.5f;
     }
     
-    public void TakeDamage(float damage) {
+    public void TakeDamage(int damage) {
         StopCoroutine(nameof(RegenerateShield));
         AddLife(-damage);
         if (life <= 0) {

@@ -63,7 +63,7 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
         rb.linearVelocity *= drag;
     }
 
-    public void TakeDamage(float damage) {
+    public void TakeDamage(int damage) {
         //DEBUG!!! Appliquer les dégâts
     }
     

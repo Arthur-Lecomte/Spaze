@@ -1,6 +1,6 @@
 using UnityEngine;
 
 public interface ICanTakeDamage {
-    public void TakeDamage(float damage);
+    public void TakeDamage(int damage);
     public GameObject WhoAmI();
 }
