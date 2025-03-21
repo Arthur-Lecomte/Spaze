@@ -19,12 +19,17 @@ public class RessourcesUI : MonoBehaviour {
             Destroy(gameObject);
         }
     }
-
+    
     void Start() {
         CreateElementsUI();
         UpdateUI();
     }
     
+    public void AddRessourceByType(TypeRessource ressourceType, int quantity) {
+        Inventory.Instance.AddRessource(ressourceType, quantity);
+        UpdateUI();
+    }
+
     public void AddRessource(int quantity) {
         Inventory.Instance.AddRessource(TypeRessource.Cuivre, quantity);
         Inventory.Instance.AddRessource(TypeRessource.Argent, quantity);
