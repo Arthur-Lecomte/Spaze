@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 941bc9fc4192c854186fad498817239f, type: 3}
   m_Name: EpaveOr
   m_EditorClassIdentifier: 
-  prefab: {fileID: 7968985632689774704, guid: 55e03d35e793e4240a111c5f7ceb2e05, type: 3}
+  prefab: {fileID: 919132149155446097, guid: 254366b943db1c64281a206729bdf0d1, type: 3}
   ressourceType: 2
   probability: 0.15

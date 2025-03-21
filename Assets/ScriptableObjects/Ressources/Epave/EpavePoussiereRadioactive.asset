@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 941bc9fc4192c854186fad498817239f, type: 3}
   m_Name: EpavePoussiereRadioactive
   m_EditorClassIdentifier: 
-  prefab: {fileID: 6352366339081161984, guid: 7951bc69841559d40824ea67e2de2d4b, type: 3}
+  prefab: {fileID: 919132149155446097, guid: f518a41127141ee49873b425b94c7ade, type: 3}
   ressourceType: 4
   probability: 0.01
