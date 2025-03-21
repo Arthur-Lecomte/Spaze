@@ -57,6 +57,8 @@ public class RessourcesUI : MonoBehaviour {
             } else {
                 texteElement.color = Color.white;
             }
+            
+            BuyHoverUI.Instance.UpdateColorUI();
         }
     }
 }

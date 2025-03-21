@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 247a798213f8a3142a7a5756a60f20b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nom: ShotGun
-  description: 
+  nom: "Tourelle courte port\xE9e"
+  description: "\xC0 de gros d\xE9g\xE2t mais \xE0 courte port\xE9e."
   rarity: 0
   type: 2
   coutRessources:

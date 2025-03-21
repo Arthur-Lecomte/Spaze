@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78e0d138936bf9142b25842e2f52e76c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nom: Slower
-  description: 
+  nom: Distordeur gravitationelle
+  description: Rallentit les tirs proche de vous.
   rarity: 0
   type: 7
   coutRessources:

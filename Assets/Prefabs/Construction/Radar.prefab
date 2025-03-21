@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nom: Radar
-  description: 
+  description: "Permet de d\xE9tecter de plus loin les ennemis et ressources."
   rarity: 0
   type: 9
   coutRessources:

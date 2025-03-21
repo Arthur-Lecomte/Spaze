@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 247a798213f8a3142a7a5756a60f20b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nom: Sniper
-  description: 
+  nom: Tourelle Sniper
+  description: "Grande port\xE9e d'attaque mais attaque lentement."
   rarity: 50
   type: 0
   coutRessources:

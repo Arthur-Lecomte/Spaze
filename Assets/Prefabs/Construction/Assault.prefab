@@ -77,8 +77,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 247a798213f8a3142a7a5756a60f20b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nom: Assault
-  description: 
+  nom: Tourelle d'assault
+  description: Tourelle d'attaque normale
   rarity: 0
   type: 1
   coutRessources:

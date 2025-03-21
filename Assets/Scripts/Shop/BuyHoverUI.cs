@@ -7,6 +7,7 @@ public class BuyHoverUI : MonoBehaviour {
     public static BuyHoverUI Instance;
     
     [SerializeField] private GameObject prefabElement;
+    private Dictionary<Ressource, TextMeshProUGUI> quantityTexts;
     
     private void Awake() {
         if(Instance == null) {
@@ -15,6 +16,7 @@ public class BuyHoverUI : MonoBehaviour {
             Destroy(gameObject);
         }
         
+        quantityTexts = new Dictionary<Ressource, TextMeshProUGUI>();
         HideHoverUI();
     }
 
@@ -39,6 +41,7 @@ public class BuyHoverUI : MonoBehaviour {
         foreach (Transform child in priceContainer) {
             Destroy(child.gameObject);
         }
+        quantityTexts = new Dictionary<Ressource, TextMeshProUGUI>();
         foreach (Ressource ressource in price) {
             GameObject element = Instantiate(prefabElement, priceContainer);
 
@@ -46,7 +49,14 @@ public class BuyHoverUI : MonoBehaviour {
             
             TextMeshProUGUI quantity = element.GetComponentInChildren<TextMeshProUGUI>();
             quantity.text = ressource.quantite.ToString();
-            quantity.color = Inventory.Instance.HaveEnoughRessource(ressource) ? Color.white : Color.red;
+            quantityTexts.Add(ressource, quantity);
+        }
+        UpdateColorUI();
+    }
+    
+    public void UpdateColorUI() {
+        foreach (KeyValuePair<Ressource, TextMeshProUGUI> quantity in quantityTexts) {
+            quantity.Value.color = Inventory.Instance.HaveEnoughRessource(quantity.Key) ? Color.white : Color.red;
         }
     }
 }

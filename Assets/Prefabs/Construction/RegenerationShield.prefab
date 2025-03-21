@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67b739625316eec48897aa4876fa5ec2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nom: RegenerationShield
-  description: 
+  nom: "R\xE9g\xE9n\xE9rateur de bouclier"
+  description: "R\xE9g\xE9n\xE8re continuellement vos bouclier proche."
   rarity: 0
   type: 5
   coutRessources:

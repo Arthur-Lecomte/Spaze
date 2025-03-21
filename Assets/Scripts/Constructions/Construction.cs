@@ -103,8 +103,7 @@ public abstract class Construction : MonoBehaviour {
 
     public virtual Dictionary<string, string> GetStats() {
         return new Dictionary<string, string> {
-            { "Description", description },
-            { "Level", $"{Niveau} / {NiveauMax}" }
+            { "Description", description }
         };
     }
 }

@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea6b61815fa23b14b8fe7707593decc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nom: Speed
-  description: 
+  nom: "Acc\xE9l\xE9rateur"
+  description: "Augmente votre vitesse de d\xE9placement."
   rarity: 0
   type: 6
   coutRessources:

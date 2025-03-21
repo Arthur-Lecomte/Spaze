@@ -50,8 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nom: Bouclier
-  description: "Permet de vous prot\xE9ger des attaques ennemis. Attention \xE0 ne
-    pas le cass\xE9 sous peine de devoir attendre sa r\xE9paration."
+  description: "Vous prot\xE9ge des attaques ennemis."
   rarity: 0
   type: 4
   coutRessources:
