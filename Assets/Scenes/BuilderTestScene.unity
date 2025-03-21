@@ -128,6 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 245663259}
+  - component: {fileID: 245663260}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -152,6 +153,19 @@ Transform:
   - {fileID: 832575519}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &245663260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 245663256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa063cb00d876b046b0f541f3f57ffa6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toggleBuildModeAction: {fileID: 2895860171232644047, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1000,9 +1014,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: ButtonBuy
       objectReference: {fileID: 0}
+    - target: {fileID: 5454547413146160426, guid: 0e25f0746b9f21347896a6b13a752a22, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -800
+      objectReference: {fileID: 0}
+    - target: {fileID: 5454547413146160426, guid: 0e25f0746b9f21347896a6b13a752a22, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6117351974623365239, guid: 0e25f0746b9f21347896a6b13a752a22, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6580112660653511369, guid: 0e25f0746b9f21347896a6b13a752a22, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7308061245202846664, guid: 0e25f0746b9f21347896a6b13a752a22, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 7865373462829062463, guid: 0e25f0746b9f21347896a6b13a752a22, type: 3}
       propertyPath: m_IsActive

@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class Vaisseau : MonoBehaviour, ICanTakeDamage {
     public static Vaisseau Instance;
+    
+    private int maxHealth;
+    private int actualHealth;
+    private RectTransform healthBar;
+    private float healthBarMaxWidth;
 
     [Header("Déplacement")]
     [SerializeField]
@@ -22,14 +27,19 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
         } else {
             Destroy(gameObject);
         }
-    }
-
-    void Start() {
+        
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false; // Pas de gravité pour un vaisseau spatial
         rb.angularDamping = 5f; // Réduit l'effet de rotation excessive
     }
-    
+
+    private void Start() {
+        maxHealth = 100;
+        actualHealth = maxHealth;
+        healthBar = GameObject.Find("HealthBar").GetComponent<RectTransform>();
+        healthBarMaxWidth = healthBar.sizeDelta.x;
+    }
+
     public void SetSpeedSkillCount(int points) {
         speedSkillCount = points;
     }
@@ -64,7 +74,12 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
     }
 
     public void TakeDamage(int damage) {
-        //DEBUG!!! Appliquer les dégâts
+        actualHealth = Mathf.Max(0, actualHealth - damage);
+        if (actualHealth == 0) {
+            Debug.Log("GAME OVER"); //DEBUG!!! programmer la fin du jeu
+        }
+        
+        healthBar.sizeDelta = new Vector2(healthBarMaxWidth * actualHealth / maxHealth, healthBar.sizeDelta.y);
     }
     
     public GameObject WhoAmI() {

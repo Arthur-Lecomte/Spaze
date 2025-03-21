@@ -20,8 +20,6 @@ public class InventoryUI : MonoBehaviour {
     private GameObject dragImage;
     private Image dragImageComponent;
 
-    [SerializeField] private Camera mainCamera;
-
     private void Awake() {
         if (Instance == null) {
             Instance = this;
