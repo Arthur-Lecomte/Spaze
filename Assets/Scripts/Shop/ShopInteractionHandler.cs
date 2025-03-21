@@ -12,7 +12,6 @@ public class ShopInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
         outline = GetComponent<Outline>();
         circleDrawer = transform.parent.GetComponentInChildren<CircleDrawer>();
     }
-    
 
     private void Update() {
         // Vérifier si la distance entre le joueur et le centre du CircleDrawer est inférieure au radius
