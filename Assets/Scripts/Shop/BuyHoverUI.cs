@@ -21,7 +21,7 @@ public class BuyHoverUI : MonoBehaviour {
     }
 
     public void ShowHoverUI(string objectName, List<Ressource> price) {
-        UpdateUI(transform, objectName, price);
+        quantityTexts = UpdateUI(transform, objectName, price);
         gameObject.SetActive(true);
     }
 
@@ -29,11 +29,11 @@ public class BuyHoverUI : MonoBehaviour {
         gameObject.SetActive(false);
     }
     
-    public void ShowConstructionUI(Transform parent, string objectName, List<Ressource> price) {
-        UpdateUI(parent, objectName, price);
+    public Dictionary<Ressource, TextMeshProUGUI> ShowConstructionUI(Transform parent, string objectName, List<Ressource> price) {
+        return UpdateUI(parent, objectName, price);
     }
 
-    private void UpdateUI(Transform parent, string objectName, List<Ressource> price) {
+    private Dictionary<Ressource, TextMeshProUGUI> UpdateUI(Transform parent, string objectName, List<Ressource> price) {
         TextMeshProUGUI nameText = parent.Find("Name").GetComponent<TextMeshProUGUI>();
         nameText.text = parent == transform ? "Acheter " +objectName + " ?" : objectName;
 
@@ -41,7 +41,7 @@ public class BuyHoverUI : MonoBehaviour {
         foreach (Transform child in priceContainer) {
             Destroy(child.gameObject);
         }
-        quantityTexts = new Dictionary<Ressource, TextMeshProUGUI>();
+        Dictionary<Ressource, TextMeshProUGUI> texts = new Dictionary<Ressource, TextMeshProUGUI>();
         foreach (Ressource ressource in price) {
             GameObject element = Instantiate(prefabElement, priceContainer);
 
@@ -49,13 +49,16 @@ public class BuyHoverUI : MonoBehaviour {
             
             TextMeshProUGUI quantity = element.GetComponentInChildren<TextMeshProUGUI>();
             quantity.text = ressource.quantite.ToString();
-            quantityTexts.Add(ressource, quantity);
+            texts.Add(ressource, quantity);
         }
-        UpdateColorUI();
+        UpdateColorUI(texts);
+        return texts;
     }
     
-    public void UpdateColorUI() {
-        foreach (KeyValuePair<Ressource, TextMeshProUGUI> quantity in quantityTexts) {
+    public void UpdateColorUI(Dictionary<Ressource, TextMeshProUGUI> texts = null) {
+        texts ??= quantityTexts;
+
+        foreach (KeyValuePair<Ressource, TextMeshProUGUI> quantity in texts) {
             quantity.Value.color = Inventory.Instance.HaveEnoughRessource(quantity.Key) ? Color.white : Color.red;
         }
     }

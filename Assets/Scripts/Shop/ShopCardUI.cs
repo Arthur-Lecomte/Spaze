@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,6 +11,8 @@ public class ShopCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private Construction construction;
     private int index;
+    
+    private Dictionary<Ressource, TextMeshProUGUI> texts;
 
     public void Initialisation(Construction constru, int i) {
         construction = constru;
@@ -20,8 +23,9 @@ public class ShopCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         Image sprite = transform.Find("PanelConstruction").Find("Sprite")?.GetComponent<Image>();
         TextMeshProUGUI rarity = transform.Find("PanelConstruction").Find("Rarity Zone")?.GetComponent<TextMeshProUGUI>();
         //DEBUG!!! seulement le dernier panel voit ces couleurs mise à jour !!!
-        BuyHoverUI.Instance.ShowConstructionUI(transform.Find("PanelConstruction"), construction.GetNom(), construction.GetCoutRessources());
-
+        texts = BuyHoverUI.Instance.ShowConstructionUI(transform.Find("PanelConstruction"), construction.GetNom(), construction.GetCoutRessources());
+        RessourcesUI.OnUIUpdated += UIUpdated;
+        
         sprite.sprite = construction.GetSprite();
         rarity.text = Enum.GetName(typeof(RarityConstruction), construction.GetRarity());
         rarity.color = GetColorForRarity(construction.GetRarity());
@@ -40,6 +44,10 @@ public class ShopCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             textComponent.text = $"{stat.Key}: {stat.Value}";
             textComponent.fontSize = 25;
         }
+    }
+    
+    private void UIUpdated() {
+        BuyHoverUI.Instance.UpdateColorUI(texts);
     }
 
     public void OnPointerEnter(PointerEventData eventData) {
@@ -117,5 +125,6 @@ public class ShopCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void OnDestroy() {
         StopAllCoroutines();
+        RessourcesUI.OnUIUpdated -= UIUpdated;
     }
 }

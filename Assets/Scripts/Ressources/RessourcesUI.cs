@@ -1,16 +1,19 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
 public class RessourcesUI : MonoBehaviour {
+    public static RessourcesUI Instance;
+    
     [SerializeField] private Transform conteneurRessources;
     [SerializeField] private GameObject prefabElementRessource;
 
     // Dictionnaire pour stocker les références aux éléments UI de chaque ressource
     private Dictionary<TypeRessource, TextMeshProUGUI> texteRessources = new();
-
-    public static RessourcesUI Instance { get; private set; }
+    
+    public static event Action OnUIUpdated;
 
     private void Awake() {
         if (Instance == null) {
@@ -57,13 +60,9 @@ public class RessourcesUI : MonoBehaviour {
             texteElement.text = quantity.ToString();
 
             // colorer les ressources dont la quantité est 0
-            if(quantity == 0) {
-                texteElement.color = Color.red;
-            } else {
-                texteElement.color = Color.white;
-            }
-            
-            BuyHoverUI.Instance.UpdateColorUI();
+            texteElement.color = quantity == 0 ? Color.red : Color.white;
         }
+        BuyHoverUI.Instance.UpdateColorUI();
+        OnUIUpdated?.Invoke();
     }
 }
