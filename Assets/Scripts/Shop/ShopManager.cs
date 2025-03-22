@@ -23,8 +23,6 @@ public class ShopManager : MonoBehaviour {
             Destroy(gameObject);
         }
         
-        
-
         DisplayShop(false);
     }
 
@@ -34,15 +32,34 @@ public class ShopManager : MonoBehaviour {
             freeReset = false;
         }
 
+        if (value) {
+            RestoreConstructionsVisibility();
+            foreach (Transform child in conteneurConstructions) {
+                child.GetComponent<ShopCardUI>().HideSubPanel();
+            }
+        }
+
         shopPanel.SetActive(value);
     }
-
+    
     public void FreeReset() {
         freeReset = true;
 
         if (currentOption == ShopOption.PurchaseConstruction) {
             DisplayShop(true);
         }
+    }
+    
+    public void ResetConstructions() {
+        // Supprimer toutes les constructions affichées
+        foreach (Transform child in conteneurConstructions) {
+            Destroy(child.gameObject);
+        }
+        foreach (Transform child in zoneForPrefab) {
+            Destroy(child.gameObject);
+        }
+        
+        ChooseThreeConstructions();
     }
 
     private void ChooseThreeConstructions() {
@@ -65,7 +82,7 @@ public class ShopManager : MonoBehaviour {
         for (int i = 0; i < gameObjects.Length; i++) {
             cumulativeWeight += constructions[i].GetProbability();
             if (randomValue < cumulativeWeight) {
-                ChooseRarety(gameObjects[i], index);
+                ChooseRarity(gameObjects[i], index);
                 return;
             }
         }
@@ -73,19 +90,15 @@ public class ShopManager : MonoBehaviour {
         throw new InvalidOperationException("Erreur au niveau de la liste pondérée");
     }
 
-    private void ChooseRarety(GameObject prefab, int index) {
+    private void ChooseRarity(GameObject prefab, int index) {
         Array values = Enum.GetValues(typeof(RarityConstruction));
-        Debug.Log(values);
         int[] weights = values.Cast<RarityConstruction>().Select(r => (int)r).ToArray();
         int totalWeight = weights.Sum();
-        Debug.Log(totalWeight);
         int randomValue = Random.Range(0, totalWeight);
-        Debug.Log(randomValue);
         int cumulativeWeight = 0;
 
         foreach (RarityConstruction rarity in values) {
             cumulativeWeight += (int)rarity;
-            Debug.Log(cumulativeWeight);
             if (randomValue < cumulativeWeight) {
                 CreateObject(prefab, rarity, index);
                 return;
@@ -105,29 +118,14 @@ public class ShopManager : MonoBehaviour {
     private void AfficherConstruction(Construction construction, int index) {
         // Instancier le prefab de l'élément UI
         GameObject constructionItem = Instantiate(prefabConstructionItem, conteneurConstructions);
-        constructionItem.GetComponent<ShopUI>().Initialisation(construction, index);
-    }
-
-    public void ResetConstructions() {
-        // Supprimer toutes les constructions affichées
-        foreach (Transform child in conteneurConstructions) {
-            Destroy(child.gameObject);
-        }
-        foreach (Transform child in zoneForPrefab) {
-            Destroy(child.gameObject);
-        }
-        
-        ChooseThreeConstructions();
+        constructionItem.GetComponent<ShopCardUI>().Initialisation(construction, index);
     }
 
     public void DimOtherConstructions(GameObject activeConstruction) {
         foreach (Transform child in conteneurConstructions) {
             if (child.gameObject != activeConstruction) {
-                CanvasGroup canvasGroup = child.GetComponent<CanvasGroup>();
-                if (canvasGroup == null) {
-                    canvasGroup = child.gameObject.AddComponent<CanvasGroup>();
-                }
-                canvasGroup.alpha = 0.1f; // Make less visible
+                child.GetComponent<ShopCardUI>().HideSubPanel();
+                child.GetComponent<CanvasGroup>().alpha = 0.25f; // Make less visible
             }
         }
 
@@ -159,6 +157,7 @@ public class ShopManager : MonoBehaviour {
     public void ChangeShopOption(ShopOption option) {
         if (currentOption == option) return;
 
+        BuyHoverUI.Instance.HideHoverUI();
         DisplayShop(false);
         UpgradeManager.Instance.DisplayUpgrade(false);
         InventoryUI.Instance.DisplayInventory(false);

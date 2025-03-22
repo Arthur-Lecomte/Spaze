@@ -52,6 +52,8 @@ public abstract class Construction : MonoBehaviour { //DEBUG!!! les construction
     public void SetChildOf(Transform parent) {
         transform.SetParent(parent);
         transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
+        transform.localScale = Vector3.one;
         float taille = 1f + (Niveau - 1) * (2f - 1f) / (NiveauMax - 1);
         constructionTransform.localPosition = new Vector3(0, -0.5f * (taille - 1f), 0);
         constructionTransform.localScale = new Vector3(taille, taille, taille);

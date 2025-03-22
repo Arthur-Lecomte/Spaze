@@ -926,6 +926,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2127054328363788837}
   - component: {fileID: 1909345515349890525}
+  - component: {fileID: 7649291810494395842}
   m_Layer: 0
   m_Name: ConstructionItem
   m_TagString: Untagged
@@ -966,6 +967,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02732a96ceb04b25ac1b884b16132f3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!225 &7649291810494395842
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5890795331791929511}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7269009375141895613
 GameObject:
   m_ObjectHideFlags: 0

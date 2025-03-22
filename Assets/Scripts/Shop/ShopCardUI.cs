@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ShopUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
+public class ShopCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
     private Transform subPanel;
 
     private Construction construction;
@@ -75,6 +75,13 @@ public class ShopUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
             if (targetPosition == Vector3.zero) {
                 subPanel.gameObject.SetActive(false); // Désactiver le panneau après l'animation
             }
+        }
+    }
+    
+    public void HideSubPanel() {
+        if (subPanel) {
+            subPanel.gameObject.SetActive(false);
+            subPanel.localPosition = Vector3.zero;
         }
     }
 

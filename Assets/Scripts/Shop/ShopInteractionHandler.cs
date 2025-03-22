@@ -5,7 +5,6 @@ public class ShopInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
     private Outline outline;
     private bool mouseOn;
     private bool isInShopRange;
-    private bool isShopOpen;
     private CircleDrawer circleDrawer;
 
     private void Start() {
@@ -18,7 +17,7 @@ public class ShopInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
         float distance = Vector3.Distance(Vaisseau.Instance.transform.position, circleDrawer.transform.position);
         isInShopRange = distance <= circleDrawer.radius;
 
-        if(isInShopRange && mouseOn) {
+        if(isInShopRange && mouseOn && !ShopManager.Instance.IsShopOpen()) {
             outline.enabled = true;
         } else {
             outline.enabled = false;
@@ -41,7 +40,7 @@ public class ShopInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnPointerDown(PointerEventData eventData) {
         // Vérifier si le joueur est dans le rayon et appeler ToggleShop()
-        if (isInShopRange) {
+        if (isInShopRange && !ShopManager.Instance.IsShopOpen()) {
             ShopManager.Instance.OpenShop();
         }
     }

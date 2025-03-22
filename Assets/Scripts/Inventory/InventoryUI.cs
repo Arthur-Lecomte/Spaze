@@ -42,6 +42,7 @@ public class InventoryUI : MonoBehaviour {
         foreach (InventorySlot slot in inventorySlots) {
             slot.SetActive(value);
         }
+        dragImage.SetActive(false);
     }
 
     public void AddInventorySlots(InventorySlot inventorySlot) {

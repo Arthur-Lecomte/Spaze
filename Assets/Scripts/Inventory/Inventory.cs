@@ -11,10 +11,6 @@ public class Inventory : MonoBehaviour {
     [SerializeField] private int size = 2;
     private Transform parentInInventory;
 
-    public GameObject prefab;
-    public GameObject prefab2;
-    public GameObject prefab3;
-
     private void Awake() {
         if (Instance == null) {
             Instance = this;
@@ -41,23 +37,6 @@ public class Inventory : MonoBehaviour {
 
     private void Start() {
         InventoryUI.Instance.ChangeNumberSlots(size);
-
-        //DEBUG!!! TEST TURRET !
-        /*
-        GameObject go;
-        for (int i = 0; i < 1; i++) {
-            go = Instantiate(prefab);
-            AddConstruction(go.GetComponent<Construction>());
-        }
-        for (int i = 0; i < 1; i++) {
-            go = Instantiate(prefab2);
-            AddConstruction(go.GetComponent<Construction>());
-        }
-        for (int i = 0; i < 1; i++) {
-            go = Instantiate(prefab3);
-            AddConstruction(go.GetComponent<Construction>());
-        }
-        */
     }
 
     public void AddRessource(TypeRessource type, int quantity) {
