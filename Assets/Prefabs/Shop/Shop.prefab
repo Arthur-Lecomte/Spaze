@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 6656611996235309414}
   - component: {fileID: 8466958980890397514}
   - component: {fileID: 1997654659133191380}
+  - component: {fileID: 5154978342328656804}
   m_Layer: 8
   m_Name: ForCircleDrawer
   m_TagString: Untagged
@@ -190,6 +191,27 @@ MonoBehaviour:
   segments: 500
   circleColor: {r: 0, g: 0.21875906, b: 1, a: 1}
   lineWidth: 0.4
+--- !u!135 &5154978342328656804
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5107662713501489144}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 30
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &2120248049255956269
 PrefabInstance:
   m_ObjectHideFlags: 0

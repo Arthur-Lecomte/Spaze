@@ -9,8 +9,8 @@ public class CircleDrawer : MonoBehaviour
     [SerializeField] private float lineWidth = 0.05f; // Largeur de la ligne
 
     private LineRenderer lineRenderer;
-    private float previousRadius; // Pour détecter les changements de rayon
-    private float previousLineWidth; // Pour détecter les changements de largeur
+
+    private ShopInteractionHandler shopInteractionHandler;
 
     private void Start()
     {
@@ -33,28 +33,8 @@ public class CircleDrawer : MonoBehaviour
 
         // Dessiner le cercle initial
         DrawCircle();
-
-        // Initialiser les valeurs précédentes
-        previousRadius = radius;
-        previousLineWidth = lineWidth;
-    }
-
-    private void Update() //DEBUG!!! Demander à Baptiste si la range du shop change, et si non pourquoi avoir fait ça ?
-    {
-        // Vérifier si le rayon a changé
-        if (Mathf.Abs(previousRadius - radius) > Mathf.Epsilon)
-        {
-            DrawCircle(); // Redessiner le cercle
-            previousRadius = radius; // Mettre à jour le rayon précédent
-        }
-
-        // Vérifier si la largeur a changé
-        if (Mathf.Abs(previousLineWidth - lineWidth) > Mathf.Epsilon)
-        {
-            lineRenderer.startWidth = lineWidth;
-            lineRenderer.endWidth = lineWidth;
-            previousLineWidth = lineWidth; // Mettre à jour la largeur précédente
-        }
+        
+        shopInteractionHandler = transform.parent.GetComponentInChildren<ShopInteractionHandler>();
     }
 
     private void DrawCircle()
@@ -69,5 +49,17 @@ public class CircleDrawer : MonoBehaviour
         }
 
         lineRenderer.SetPositions(positions);
+    }
+    
+    private void OnTriggerEnter(Collider other) {
+        if (other.CompareTag("Player")) {
+            shopInteractionHandler.SetIsInShopRange(true);
+        }
+    }
+
+    private void OnTriggerExit(Collider other) {
+        if (other.CompareTag("Player")) {
+            shopInteractionHandler.SetIsInShopRange(false);
+        }
     }
 }

@@ -11,35 +11,31 @@ public class ShopInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
         outline = GetComponent<Outline>();
         circleDrawer = transform.parent.GetComponentInChildren<CircleDrawer>();
     }
-
-    private void Update() {
-        // Vérifier si la distance entre le joueur et le centre du CircleDrawer est inférieure au radius
-        float distance = Vector3.Distance(Vaisseau.Instance.transform.position, circleDrawer.transform.position);
-        isInShopRange = distance <= circleDrawer.radius;
-
-        if(isInShopRange && mouseOn && !ShopManager.Instance.IsShopOpen()) {
-            outline.enabled = true;
-        } else {
-            outline.enabled = false;
-            if (!isInShopRange && ShopManager.Instance.IsShopOpen()) {
-                ShopManager.Instance.CloseShop();
-            }
+    
+    public void SetIsInShopRange(bool value) {
+        isInShopRange = value;
+        CheckOutline();
+        
+        if (!isInShopRange && ShopManager.Instance.IsShopOpen()) {
+            ShopManager.Instance.CloseShop();
         }
     }
 
     public void OnPointerEnter(PointerEventData eventData) {
-        if (isInShopRange) {
-            mouseOn = true;
-        }
+        mouseOn = true;
+        CheckOutline();
     }
 
     public void OnPointerExit(PointerEventData eventData) {
-        // Désactiver l'outline lorsque la souris quitte l'objet ou si le joueur n'est pas dans le rayon
         mouseOn = false;
+        CheckOutline();
+    }
+    
+    private void CheckOutline() {
+        outline.enabled = isInShopRange && mouseOn && !ShopManager.Instance.IsShopOpen();
     }
 
     public void OnPointerDown(PointerEventData eventData) {
-        // Vérifier si le joueur est dans le rayon et appeler ToggleShop()
         if (isInShopRange && !ShopManager.Instance.IsShopOpen()) {
             ShopManager.Instance.OpenShop();
         }
