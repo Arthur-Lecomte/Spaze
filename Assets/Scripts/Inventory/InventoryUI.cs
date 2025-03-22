@@ -90,6 +90,43 @@ public class InventoryUI : MonoBehaviour {
         inventorySlots.Find(slot => slot.GetIndex() == index).SetGameObject(construction);
     }
 
+    public void ConstructionHaveUpdate(Construction construction) {
+        List<InventorySlot> slots = new List<InventorySlot>();
+        foreach(InventorySlot slot in inventorySlots) {
+            if (slot.GetGameObject() != null && slot.GetGameObject().GetComponent<Construction>().IsSameConstruction(construction)) {
+                slots.Add(slot);
+            }
+        }
+        if (slots.Count == 2) {
+            InventorySlot toUpgrade;
+            InventorySlot toDestroy;
+            if (slots[0].GetIndex() == slots[1].GetIndex()) {
+                if (slots[0].GetGameObject().GetComponent<Construction>() != construction) {
+                    toUpgrade = slots[0];
+                    toDestroy = slots[1];
+                } else {
+                    toUpgrade = slots[1];
+                    toDestroy = slots[0];
+                }
+            } else {
+                if (slots[0].GetIndex() < slots[1].GetIndex()) {
+                    toUpgrade = slots[0];
+                    toDestroy = slots[1];
+                } else {
+                    toUpgrade = slots[1];
+                    toDestroy = slots[0];
+                }
+            }
+            Destroy(toDestroy.GetGameObject());
+            toDestroy.SetGameObject(null);
+            toUpgrade.GetGameObject().GetComponent<Construction>().Upgrade();
+        }
+        
+        foreach(InventorySlot slot in inventorySlots) {
+            slot.SetCorrectNiveau();
+        }
+    }
+
     public void OnPointerDown(PointerEventData eventData, InventorySlot inventorySlot) {
         if (inventorySlot.GetGameObject() == null) return;
         draggedSlot = inventorySlot;

@@ -14,8 +14,6 @@ public abstract class Construction : MonoBehaviour { //DEBUG!!! les construction
     [SerializeField] protected Sprite image;
     private Transform constructionTransform;
 
-    public Action OnUpgrade;
-
     public virtual void Initialisation(RarityConstruction rarityConstruction) {
         constructionTransform = transform.GetChild(0);
         rarity = rarityConstruction;
@@ -73,11 +71,11 @@ public abstract class Construction : MonoBehaviour { //DEBUG!!! les construction
 
     public bool Upgrade() {
         //DEBUG!!! Modifier l'UI ?
-        OnUpgrade?.Invoke();
         if (Niveau < NiveauMax) {
             Niveau++;
             SetChildOf(transform.parent);
             PerformUpgrade();
+            InventoryUI.Instance.ConstructionHaveUpdate(this);
             return true;
         }
 

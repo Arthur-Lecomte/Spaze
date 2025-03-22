@@ -52,11 +52,7 @@ public class InventorySlot : MonoBehaviour {
         if (module) {
             module.SetConstruction(construction);
         }
-        if (constructionObject) {
-            constructionObject.GetComponent<Construction>().OnUpgrade -= SetCorrectNiveau;
-        }
         if(construction) {
-            construction.OnUpgrade += SetCorrectNiveau;
             constructionObject = construction.gameObject;
             image.sprite = construction.GetSprite();
             imageColorRarity.color = construction.GetRarityColor();
@@ -68,7 +64,7 @@ public class InventorySlot : MonoBehaviour {
         imageColorRarity.enabled = construction;
     }
     
-    private void SetCorrectNiveau() {
+    public void SetCorrectNiveau() {
         textLevel.text = constructionObject ? constructionObject.GetComponent<Construction>().GetNiveau() + "/5" : "";
     }
     
