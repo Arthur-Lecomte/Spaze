@@ -1,15 +1,20 @@
 using System;
 using System.Linq;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class ShopManager : MonoBehaviour {
     public static ShopManager Instance;
     private ShopOption currentOption;
+    private ShopOption memoryOption;
     private bool freeReset = true;
 
     [SerializeField] private GameObject[] prefabsTurrets;
     [SerializeField] private GameObject[] prefabsConstructions;
+    
+    [SerializeField] private GameObject[] buttons;
 
     [SerializeField] private Transform conteneurConstructions;
     [SerializeField] private GameObject prefabConstructionItem;
@@ -22,8 +27,13 @@ public class ShopManager : MonoBehaviour {
         } else {
             Destroy(gameObject);
         }
-        
-        DisplayShop(false);
+    }
+    
+    private void Start() {
+        //Force l'interface à se désactiver
+        currentOption = ShopOption.PurchaseConstruction;
+        memoryOption = ShopOption.PurchaseConstruction;
+        ChangeShopOption(0);
     }
 
     private void DisplayShop(bool value) {
@@ -146,24 +156,21 @@ public class ShopManager : MonoBehaviour {
         return currentOption != ShopOption.None;
     }
 
-    public void OpenShop() {
-        ChangeShopOption(ShopOption.PurchaseConstruction);
-    }
+    public void ChangeShopOption(int option) {
+        ShopOption shopOption = option == -1 ? memoryOption : (ShopOption)option;
+        option = (int)shopOption;
+        
+        if (currentOption == shopOption) return;
+        currentOption = shopOption;
+        memoryOption = option != 0 ? shopOption : memoryOption;
 
-    public void CloseShop() {
-        ChangeShopOption(ShopOption.None);
-    }
-
-    public void ChangeShopOption(ShopOption option) {
-        if (currentOption == option) return;
-
-        BuyHoverUI.Instance.HideHoverUI();
+        gameObject.SetActive(option != 0);
+        ChangeAffichageButton(buttons[option]);
         DisplayShop(false);
         UpgradeManager.Instance.DisplayUpgrade(false);
         InventoryUI.Instance.DisplayInventory(false);
-
-        currentOption = option;
-        switch (option) {
+        
+        switch (shopOption) {
             case ShopOption.PurchaseConstruction:
                 DisplayShop(true);
                 break;
@@ -175,11 +182,21 @@ public class ShopManager : MonoBehaviour {
                 break;
         }
     }
+    
+    private void ChangeAffichageButton(GameObject button) {
+        Color visible = new Color(1f, 1f, 1f, 1f);
+        Color transparent = new Color(1f, 1f, 1f, 0.25f);
+        foreach(GameObject b in buttons) {
+            Color color = b == button ? transparent : visible;
+            b.GetComponent<Image>().color = color;
+            b.GetComponentInChildren<TextMeshProUGUI>().color = color;
+        }
+    }
 }
 
 public enum ShopOption {
-    None,
-    PurchaseConstruction,
-    UpgradeShip,
-    ManageInventory
+    None = 0,
+    PurchaseConstruction = 1,
+    UpgradeShip = 2,
+    ManageInventory = 3
 }

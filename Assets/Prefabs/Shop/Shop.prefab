@@ -385,7 +385,7 @@ PrefabInstance:
       addedObject: {fileID: 1336210067028892765}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f572370fa4b2b7a468b58fa5e82d73e4, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 9088756130421703171}
+      addedObject: {fileID: 3458875856147531794}
   m_SourcePrefab: {fileID: 100100000, guid: f572370fa4b2b7a468b58fa5e82d73e4, type: 3}
 --- !u!4 &7320292330203682296 stripped
 Transform:
@@ -450,8 +450,8 @@ CapsuleCollider:
   m_Height: 10.742916
   m_Direction: 1
   m_Center: {x: -0.11, y: 2.9715166, z: -0.85}
---- !u!136 &9088756130421703171
-CapsuleCollider:
+--- !u!64 &3458875856147531794
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -465,11 +465,10 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 2.94
-  m_Height: 13.36
-  m_Direction: 1
-  m_Center: {x: -0.107872486, y: 2.9715166, z: 0.4885584}
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 9113743562689292391, guid: f572370fa4b2b7a468b58fa5e82d73e4, type: 3}

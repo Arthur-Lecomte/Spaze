@@ -17,11 +17,6 @@ public class BuildManager : MonoBehaviour {
         toggleBuildModeAction.action.Disable();
     }
     
-    //DEBUG!!! Utilisation de ceci pour tester ShopOption
-    int currentOption;
     private void ToggleBuildMode(InputAction.CallbackContext obj) {
-        currentOption = (currentOption + 1) % 4;
-        
-        ShopManager.Instance.ChangeShopOption((ShopOption)currentOption);
     }
 }

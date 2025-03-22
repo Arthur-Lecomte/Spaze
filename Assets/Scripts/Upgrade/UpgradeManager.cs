@@ -4,6 +4,7 @@ using UnityEngine;
 public class UpgradeManager : MonoBehaviour {
     public static UpgradeManager Instance;
     [SerializeField] private GameObject panelInventory;
+    [SerializeField] private BuyHealth buyHealth;
 
     private int pointsLevel;
     [SerializeField] private TextMeshProUGUI pointsText;
@@ -18,12 +19,17 @@ public class UpgradeManager : MonoBehaviour {
         }
         
         allModules = FindObjectsByType<AddonModule>(FindObjectsSortMode.None);
+    }
+    
+    private void Start() {
         DisplayUpgrade(false);
     }
     
     public void DisplayUpgrade(bool value) {
         gameObject.SetActive(value);
         panelInventory.SetActive(value);
+        buyHealth.Activate(value);
+        BuyHoverUI.Instance.HideHoverUI();
         foreach(AddonModule module in allModules) {
             module.DisplayModule(value);
         }

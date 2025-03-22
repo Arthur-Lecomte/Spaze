@@ -19,7 +19,7 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
     [SerializeField] private float pourcentageBoost = 0.3f; // Pourcentage de boost appliqué par point 
 
     private Rigidbody rb;
-    private bool isAccelerating = false;
+    private bool isAccelerating;
 
     private void Awake() {
         if (Instance == null) {
@@ -31,10 +31,8 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false; // Pas de gravité pour un vaisseau spatial
         rb.angularDamping = 5f; // Réduit l'effet de rotation excessive
-    }
 
-    private void Start() {
-        maxHealth = 100;
+        maxHealth = 150;
         actualHealth = maxHealth;
         healthBar = GameObject.Find("HealthBar").GetComponent<RectTransform>();
         healthBarMaxWidth = healthBar.sizeDelta.x;
@@ -80,6 +78,15 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
         }
         
         healthBar.sizeDelta = new Vector2(healthBarMaxWidth * actualHealth / maxHealth, healthBar.sizeDelta.y);
+    }
+    
+    public void Regeneration() {
+        actualHealth = maxHealth;
+        healthBar.sizeDelta = new Vector2(healthBarMaxWidth, healthBar.sizeDelta.y);
+    }
+    
+    public int GetHealthForBeFull() {
+        return maxHealth - actualHealth;
     }
     
     public GameObject WhoAmI() {

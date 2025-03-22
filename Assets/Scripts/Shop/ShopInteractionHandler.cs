@@ -17,7 +17,7 @@ public class ShopInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
         CheckOutline();
         
         if (!isInShopRange && ShopManager.Instance.IsShopOpen()) {
-            ShopManager.Instance.CloseShop();
+            ShopManager.Instance.ChangeShopOption(0);
         }
     }
 
@@ -37,7 +37,7 @@ public class ShopInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnPointerDown(PointerEventData eventData) {
         if (isInShopRange && !ShopManager.Instance.IsShopOpen()) {
-            ShopManager.Instance.OpenShop();
+            ShopManager.Instance.ChangeShopOption(-1);
         }
     }
 }
