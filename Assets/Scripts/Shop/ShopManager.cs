@@ -121,7 +121,7 @@ public class ShopManager : MonoBehaviour {
     private void CreateObject(GameObject prefab, RarityConstruction rarity, int index) {
         GameObject go = Instantiate(prefab, zoneForPrefab);
         Construction construction = go.GetComponent<Construction>();
-        construction.SetRarity(rarity);
+        construction.Initialisation(rarity);
         AfficherConstruction(construction, index);
     }
 

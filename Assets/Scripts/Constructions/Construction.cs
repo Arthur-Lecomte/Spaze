@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,12 +13,11 @@ public abstract class Construction : MonoBehaviour { //DEBUG!!! les construction
     [SerializeField] protected int probability;
     [SerializeField] protected Sprite image;
     private Transform constructionTransform;
-
-    protected virtual void Awake() {
-        constructionTransform = transform.GetChild(0);
-    }
     
-    public void SetRarity(RarityConstruction rarityConstruction) {
+    public Action OnUpgrade;
+    
+    public virtual void Initialisation(RarityConstruction rarityConstruction) {
+        constructionTransform = transform.GetChild(0);
         rarity = rarityConstruction;
         
         foreach (Ressource ressource in coutRessources) {
@@ -48,6 +48,10 @@ public abstract class Construction : MonoBehaviour { //DEBUG!!! les construction
     public string GetNom() {
         return nom;
     }
+    
+    public int GetNiveau() {
+        return Niveau;
+    }
 
     public void SetChildOf(Transform parent) {
         transform.SetParent(parent);
@@ -69,6 +73,7 @@ public abstract class Construction : MonoBehaviour { //DEBUG!!! les construction
 
     public bool Upgrade() {
         //DEBUG!!! Modifier l'UI ?
+        OnUpgrade?.Invoke();
         if (Niveau < NiveauMax) {
             Niveau++;
             SetChildOf(transform.parent);

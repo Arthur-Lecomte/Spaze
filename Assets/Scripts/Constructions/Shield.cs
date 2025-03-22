@@ -14,8 +14,8 @@ public class Shield : Construction, ICanTakeDamage {
 
     private RawImage lifeBar;
 
-    protected override void Awake() {
-        base.Awake();
+    public override void Initialisation(RarityConstruction rarityConstruction) {
+        base.Initialisation(rarityConstruction);
 
         lifeBar = GetComponentInChildren<RawImage>();
         AddLife(maxLife);

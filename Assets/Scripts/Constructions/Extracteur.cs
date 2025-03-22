@@ -10,8 +10,8 @@ public class Extracteur : Construction {
     private List<GameObject> structureInRange = new();
     private Structure currentTarget;
 
-    protected override void Awake() {
-        base.Awake();
+    public override void Initialisation(RarityConstruction rarityConstruction) {
+        base.Initialisation(rarityConstruction);
 
         SphereCollider rangeCollider = gameObject.AddComponent<SphereCollider>();
         rangeCollider.isTrigger = true;

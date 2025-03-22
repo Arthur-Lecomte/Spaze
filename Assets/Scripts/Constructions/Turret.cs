@@ -16,8 +16,8 @@ public class Turret : Construction {
     private List<GameObject> enemiesInRange = new();
     private GameObject currentTarget;
 
-    protected override void Awake() {
-        base.Awake();
+    public override void Initialisation(RarityConstruction rarityConstruction) {
+        base.Initialisation(rarityConstruction);
         turretHead = transform.GetChild(0).GetChild(0);
         missileSpawnPoints = new Transform[turretHead.childCount];
         for (int i = 0; i < turretHead.childCount; i++) {
