@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public abstract class Construction : MonoBehaviour { //DEBUG!!! les constructions ont une rotation étrange.
     [SerializeField] protected string nom;
@@ -10,13 +9,25 @@ public abstract class Construction : MonoBehaviour { //DEBUG!!! les construction
     protected int NiveauMax = 5;
     protected int Niveau = 1;
     [SerializeField] protected List<Ressource> coutRessources = new List<Ressource>();
-    [SerializeField] protected float probability;
+    [SerializeField] protected int probability;
     [SerializeField] protected Sprite image;
     private Transform constructionTransform;
 
     protected virtual void Awake() {
         constructionTransform = transform.GetChild(0);
     }
+    
+    public void SetRarity(RarityConstruction rarityConstruction) {
+        rarity = rarityConstruction;
+        
+        foreach (Ressource ressource in coutRessources) {
+            ressource.quantite = (int)(ressource.quantite * GetRarityMultiplier());
+        }
+        
+        SetVariableForRarity(GetRarityMultiplier());
+    }
+
+    protected abstract void SetVariableForRarity(float multiplicator);
 
     public List<Ressource> GetCoutRessources() {
         return coutRessources;
@@ -30,14 +41,13 @@ public abstract class Construction : MonoBehaviour { //DEBUG!!! les construction
         return rarity;
     }
 
-    public float GetProbability() {
+    public int GetProbability() {
         return probability;
     }
 
     public string GetNom() {
         return nom;
     }
-
 
     public void SetChildOf(Transform parent) {
         transform.SetParent(parent);
@@ -69,34 +79,13 @@ public abstract class Construction : MonoBehaviour { //DEBUG!!! les construction
 
     protected abstract void PerformUpgrade();
 
-    public void AssignRandomRarity() {
-        int roll = Random.Range(0, 100);
-        if (roll < 25) {
-            rarity = RarityConstruction.Common;
-        } else if (roll < 50) {
-            rarity = RarityConstruction.Rare;
-        } else if (roll < 75) {
-            rarity = RarityConstruction.Epic;
-        } else {
-            rarity = RarityConstruction.Legendary;
-        }
-    }
-
-    public virtual void AdjustStatsByRarity() {
-        // Ajuster les coûts en fonction de la rareté
-        for (int i = 0; i < coutRessources.Count; i++) {
-            coutRessources[i] = new Ressource(coutRessources[i].type,
-                Mathf.RoundToInt(coutRessources[i].quantite * GetRarityMultiplier()));
-        }
-    }
-
     // Méthode pour obtenir un multiplicateur basé sur la rareté
     protected float GetRarityMultiplier() {
         switch (rarity) {
             case RarityConstruction.Common: return 1.0f;
-            case RarityConstruction.Rare: return 1.5f;
-            case RarityConstruction.Epic: return 2.0f;
-            case RarityConstruction.Legendary: return 3.0f;
+            case RarityConstruction.Rare: return 1.25f;
+            case RarityConstruction.Epic: return 1.5f;
+            case RarityConstruction.Legendary: return 2f;
             default: return 1.0f;
         }
     }

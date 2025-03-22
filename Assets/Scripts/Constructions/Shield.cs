@@ -11,27 +11,27 @@ public class Shield : Construction, ICanTakeDamage {
 
     private SphereCollider trigger;
     private LineRenderer lineRenderer;
-    
+
     private RawImage lifeBar;
-    
+
     protected override void Awake() {
         base.Awake();
-        
+
         lifeBar = GetComponentInChildren<RawImage>();
         AddLife(maxLife);
-        
+
         trigger = GetComponent<SphereCollider>();
         trigger.radius = range;
-        
+
         lineRenderer = gameObject.GetComponent<LineRenderer>();
         DrawCircle();
     }
-    
+
     private void AddLife(float quantity) {
         life = Mathf.Clamp(life + quantity, 0, maxLife);
         lifeBar.rectTransform.sizeDelta = new Vector2(life / maxLife * 150, 25);
     }
-    
+
     private void DrawCircle() {
         int segments = 100;
         lineRenderer.positionCount = segments;
@@ -45,13 +45,16 @@ public class Shield : Construction, ICanTakeDamage {
         }
     }
 
+    protected override void SetVariableForRarity(float multiplicator) {
+    }
+
     protected override void PerformUpgrade() {
         maxLife += 25;
         AddLife(25);
         regeneration += 5;
         range += 0.5f;
     }
-    
+
     public void TakeDamage(int damage) {
         StopCoroutine(nameof(RegenerateShield));
         AddLife(-damage);
@@ -61,7 +64,7 @@ public class Shield : Construction, ICanTakeDamage {
             StartCoroutine(nameof(RegenerateShield));
         }
     }
-    
+
     private IEnumerator RegenerateShield() {
         yield return new WaitForSeconds(3);
 
@@ -70,18 +73,18 @@ public class Shield : Construction, ICanTakeDamage {
             yield return null;
         }
     }
-    
+
     private IEnumerator Repair() {
         //DEBUG!!! play sound broken shield + animation destroy shield
         GetComponent<Collider>().enabled = false;
         lifeBar.color = Color.yellow;
         yield return new WaitForSeconds(1);
-        
+
         while (life < maxLife) {
             AddLife(2 * regeneration * Time.deltaTime);
             yield return null;
         }
-        
+
         lifeBar.color = Color.blue;
         GetComponent<Collider>().enabled = true;
         //DEBUG!!! play sound repair shield + animation repair shield
@@ -92,7 +95,7 @@ public class Shield : Construction, ICanTakeDamage {
         stats.Add("Shield Quantity", maxLife.ToString());
         return stats;
     }
-    
+
     public GameObject WhoAmI() {
         return Vaisseau.Instance.gameObject;
     }

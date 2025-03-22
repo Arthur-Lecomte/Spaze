@@ -96,10 +96,7 @@ public class Turret : Construction {
         Debug.LogWarning(GetType() + " PerformUpgrade Not Implemented"); // Augmenter le niveau de la construction (changer damage, attackSpeed...)
     }
 
-    public override void AdjustStatsByRarity() {
-        base.AdjustStatsByRarity();
-        damage = Mathf.RoundToInt(damage * GetRarityMultiplier());
-        attackSpeed *= GetRarityMultiplier();
+    protected override void SetVariableForRarity(float multiplicator) {
     }
 
     public override Dictionary<string, string> GetStats() {

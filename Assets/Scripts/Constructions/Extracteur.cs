@@ -63,6 +63,9 @@ public class Extracteur : Construction {
     protected override void PerformUpgrade() {
         Debug.LogWarning(GetType() +" PerformUpgrade Not Implemented"); // Augmenter le niveau de la construction (changer damage, attackSpeed...)
     }
+    
+    protected override void SetVariableForRarity(float multiplicator) {
+    }
 
     public override Dictionary<string, string> GetStats() {
         var stats = base.GetStats();

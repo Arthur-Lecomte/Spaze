@@ -22,8 +22,8 @@ public class ShopInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
             outline.enabled = true;
         } else {
             outline.enabled = false;
-            if (!isInShopRange && ShopUI.Instance.IsShopOpen()) {
-                ShopUI.Instance.ChangeShopOption(ShopOption.None);
+            if (!isInShopRange && ShopManager.Instance.IsShopOpen()) {
+                ShopManager.Instance.CloseShop();
             }
         }
     }
@@ -42,7 +42,7 @@ public class ShopInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
     public void OnPointerDown(PointerEventData eventData) {
         // Vérifier si le joueur est dans le rayon et appeler ToggleShop()
         if (isInShopRange) {
-            ShopUI.Instance.ChangeShopOption(ShopOption.PurchaseConstruction);
+            ShopManager.Instance.OpenShop();
         }
     }
 }

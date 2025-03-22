@@ -22,6 +22,6 @@ public class BuildManager : MonoBehaviour {
     private void ToggleBuildMode(InputAction.CallbackContext obj) {
         currentOption = (currentOption + 1) % 4;
         
-        ShopUI.Instance.ChangeShopOption((ShopOption)currentOption);
+        ShopManager.Instance.ChangeShopOption((ShopOption)currentOption);
     }
 }
