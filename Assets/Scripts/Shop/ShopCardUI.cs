@@ -27,8 +27,8 @@ public class ShopCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         RessourcesUI.OnUIUpdated += UIUpdated;
         
         sprite.sprite = construction.GetSprite();
-        rarity.text = Enum.GetName(typeof(RarityConstruction), construction.GetRarity());
-        rarity.color = GetColorForRarity(construction.GetRarity());
+        rarity.text = construction.GetRarityText();
+        rarity.color = construction.GetRarityColor();
 
         // Configurer le bouton d'achat
         transform.Find("PanelConstruction").Find("AcheterButton")?.GetComponent<Button>().onClick.AddListener(() => BuyConstruction());
@@ -90,22 +90,6 @@ public class ShopCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         if (subPanel) {
             subPanel.gameObject.SetActive(false);
             subPanel.localPosition = Vector3.zero;
-        }
-    }
-
-    // Méthode pour obtenir la couleur en fonction de la rareté
-    private Color GetColorForRarity(RarityConstruction rarity) {
-        switch (rarity) {
-            case RarityConstruction.Common:
-                return Color.white;
-            case RarityConstruction.Rare:
-                return Color.blue;
-            case RarityConstruction.Epic:
-                return new Color(0.5f, 0f, 0.5f); // Violet pour "Epic"
-            case RarityConstruction.Legendary:
-                return Color.yellow;
-            default:
-                return Color.gray;
         }
     }
 

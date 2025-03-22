@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -5,6 +6,8 @@ using UnityEngine.UI;
 public class InventorySlot : MonoBehaviour {
     private GameObject constructionObject;
     private Image image;
+    private TextMeshProUGUI textLevel;
+    private Image imageColorRarity;
     
     [SerializeField] private int index;
     private AddonModule module;
@@ -34,7 +37,9 @@ public class InventorySlot : MonoBehaviour {
         AddEventTrigger(trigger, EventTriggerType.Drag, (data) => InventoryUI.Instance.OnDrag((PointerEventData)data));
         AddEventTrigger(trigger, EventTriggerType.PointerUp, (data) => InventoryUI.Instance.OnPointerUp((PointerEventData)data));
         
-        image = transform.GetChild(0).GetComponent<Image>();
+        image = transform.GetChild(1).GetComponent<Image>();
+        textLevel = transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
+        imageColorRarity = transform.GetChild(0).GetComponent<Image>();
     }
     
     private void AddEventTrigger(EventTrigger trigger, EventTriggerType eventType, System.Action<BaseEventData> action) {
@@ -47,13 +52,24 @@ public class InventorySlot : MonoBehaviour {
         if (module) {
             module.SetConstruction(construction);
         }
+        if (constructionObject) {
+            constructionObject.GetComponent<Construction>().OnUpgrade -= SetCorrectNiveau;
+        }
         if(construction) {
+            construction.OnUpgrade += SetCorrectNiveau;
             constructionObject = construction.gameObject;
             image.sprite = construction.GetSprite();
+            imageColorRarity.color = construction.GetRarityColor();
         } else {
             constructionObject = null;
         }
+        SetCorrectNiveau();
         image.enabled = construction;
+        imageColorRarity.enabled = construction;
+    }
+    
+    private void SetCorrectNiveau() {
+        textLevel.text = constructionObject ? constructionObject.GetComponent<Construction>().GetNiveau() + "/5" : "";
     }
     
     public GameObject GetGameObject() {

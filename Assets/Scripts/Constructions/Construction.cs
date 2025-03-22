@@ -13,17 +13,17 @@ public abstract class Construction : MonoBehaviour { //DEBUG!!! les construction
     [SerializeField] protected int probability;
     [SerializeField] protected Sprite image;
     private Transform constructionTransform;
-    
+
     public Action OnUpgrade;
-    
+
     public virtual void Initialisation(RarityConstruction rarityConstruction) {
         constructionTransform = transform.GetChild(0);
         rarity = rarityConstruction;
-        
+
         foreach (Ressource ressource in coutRessources) {
             ressource.quantite = (int)(ressource.quantite * GetRarityMultiplier());
         }
-        
+
         SetVariableForRarity(GetRarityMultiplier());
     }
 
@@ -48,7 +48,7 @@ public abstract class Construction : MonoBehaviour { //DEBUG!!! les construction
     public string GetNom() {
         return nom;
     }
-    
+
     public int GetNiveau() {
         return Niveau;
     }
@@ -87,13 +87,34 @@ public abstract class Construction : MonoBehaviour { //DEBUG!!! les construction
     protected abstract void PerformUpgrade();
 
     // Méthode pour obtenir un multiplicateur basé sur la rareté
-    protected float GetRarityMultiplier() {
+    private float GetRarityMultiplier() {
         switch (rarity) {
             case RarityConstruction.Common: return 1.0f;
             case RarityConstruction.Rare: return 1.25f;
             case RarityConstruction.Epic: return 1.5f;
             case RarityConstruction.Legendary: return 2f;
             default: return 1.0f;
+        }
+    }
+
+    // Méthode pour obtenir la couleur en fonction de la rareté
+    public Color GetRarityColor() {
+        switch (rarity) {
+            case RarityConstruction.Common: return Color.gray;
+            case RarityConstruction.Rare: return Color.blue;
+            case RarityConstruction.Epic: return new Color(0.5f, 0f, 0.5f);
+            case RarityConstruction.Legendary: return Color.yellow;
+            default: return Color.gray;
+        }
+    }
+    
+    public string GetRarityText() {
+        switch (rarity) {
+            case RarityConstruction.Common: return "Commun";
+            case RarityConstruction.Rare: return "Rare";
+            case RarityConstruction.Epic: return "Épique";
+            case RarityConstruction.Legendary: return "Légendaire";
+            default: return "Commun";
         }
     }
 
