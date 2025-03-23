@@ -89,7 +89,7 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
         return maxHealth - actualHealth;
     }
     
-    public GameObject WhoAmI() {
-        return gameObject;
+    public bool AmIPlayer() {
+        return true;
     }
 }

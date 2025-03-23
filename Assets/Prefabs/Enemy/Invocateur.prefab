@@ -51,7 +51,7 @@ MonoBehaviour:
   moveSpeed: 3
   timeBeforeBeingCible: 2
   damageEnemy: 50
-  projectilePrefab: {fileID: 6302220743199107413, guid: 425967fb4d768c948aed39a6a3a20132, type: 3}
+  projectilePrefab: {fileID: 3824452743231026403, guid: 59044da8fbf8d4e46862be06223b732a, type: 3}
   shootInterval: 15
   lastShootTime: 0
   shootRange: 70

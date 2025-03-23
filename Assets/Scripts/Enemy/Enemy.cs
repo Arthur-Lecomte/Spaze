@@ -31,17 +31,10 @@ public class Enemy : MonoBehaviour, ICanTakeDamage
     protected virtual void Start()
     {
         // Trouver le joueur dans la scène
+        player = Vaisseau.Instance.transform;
         if (player == null)
         {
-            GameObject playerObject = GameObject.FindWithTag("Player");
-            if (playerObject != null)
-            {
-                player = playerObject.transform;
-            }
-            else
-            {
-                Debug.LogError("Aucun joueur trouvé dans la scène ! Assurez-vous que le joueur a le tag 'Player'.");
-            }
+            Debug.LogError("Aucun joueur trouvé dans la scène ! Assurez-vous que le joueur a le tag 'Player'.");
         }
 
         ScaleStats();
@@ -92,17 +85,12 @@ public class Enemy : MonoBehaviour, ICanTakeDamage
     {
         if (projectilePrefab && shootPoint && player)
         {
-            Vector3 playerPosition = player.transform.position;
             // Calculer la direction vers la position actuelle du joueur
-            Vector3 direction = (playerPosition - transform.position).normalized;
+            Vector3 direction = (player.transform.position - transform.position).normalized;
             // Instancier le projectile au niveau de shootPoint
-            GameObject obj = Instantiate(projectilePrefab, shootPoint.position, Quaternion.LookRotation(direction));
-
-            Rigidbody rb = obj.GetComponent<Rigidbody>();
-            if (rb)
-            {
-                rb.linearVelocity = direction * 10f; // Ajuste la vitesse selon besoin
-            }
+            
+            GameObject bullet = Instantiate(projectilePrefab, shootPoint.position, Quaternion.LookRotation(direction));
+            bullet.GetComponent<Tir>().SetInformations(false, damageEnemy, 20, shootRange); //DEBUG!!! Changer la vitesse du projectile en fonction de qui le tire
         }
     }
 
@@ -113,11 +101,6 @@ public class Enemy : MonoBehaviour, ICanTakeDamage
         damageEnemy = Mathf.RoundToInt(damageEnemy * (1 + (Level - 1) * 0.1f)); // Augmente de 10% par niveau
         shootInterval = Mathf.Max(0.1f, shootInterval * (1 - (Level - 1) * 0.05f)); // Diminue de 5% par niveau () Mini = 0.1f
         moveSpeed *= (1 + (Level - 1) * 0.05f); // Augmente de 5% par niveau
-    }
-    public Transform setPlayer(Transform player)
-    {
-        this.player = player;
-        return player;
     }
 
     public int GetDamage()
@@ -143,11 +126,12 @@ public class Enemy : MonoBehaviour, ICanTakeDamage
         if (health <= 0)
         {
             Destroy(gameObject);
+            Turret.onEnemyKilled?.Invoke(gameObject);
         }
     }
 
-    public GameObject WhoAmI()
+    public bool AmIPlayer()
     {
-        return gameObject;
+        return false;
     }
 }

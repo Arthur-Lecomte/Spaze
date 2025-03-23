@@ -90,7 +90,7 @@ public class Shield : Construction, ICanTakeDamage {
         }
     }
 
-    public GameObject WhoAmI() {
-        return Vaisseau.Instance.gameObject;
+    public bool AmIPlayer() {
+        return true;
     }
 }

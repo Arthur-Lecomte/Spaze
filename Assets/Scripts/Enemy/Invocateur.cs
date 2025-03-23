@@ -128,7 +128,6 @@ public class Invocateur : Enemy
     {
         Assaillant minion = Instantiate(minionPrefab, transform.position, Quaternion.identity);
         // Lui donner une référence au joueur
-        minion.setPlayer(player);
         waveManager.RegisterEnemy(minion.gameObject);
     }
 }
