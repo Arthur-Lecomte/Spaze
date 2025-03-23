@@ -114,7 +114,7 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
         Vaisseau.Instance.TakeDamage(damage);
     }
     
-    public GameObject WhoAmI() {
-        return Vaisseau.Instance.gameObject;
+    public bool AmIPlayer() {
+        return true;
     }
 }

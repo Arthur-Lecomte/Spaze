@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -9,6 +10,10 @@ public class Turret : SearchTag {
     private Transform turretHead;
     private Transform[] missileSpawnPoints;
     private int currentSpawnPointIndex;
+    
+    //public delegate void EnemyKilledHandler(GameObject enemy);
+    public static Action<GameObject> onEnemyKilled;
+
 
     public override void Initialisation(RarityConstruction rarityConstruction) {
         base.Initialisation(rarityConstruction);
@@ -18,6 +23,8 @@ public class Turret : SearchTag {
         for (int i = 0; i < turretHead.childCount; i++) {
             missileSpawnPoints[i] = turretHead.GetChild(i);
         }
+        
+        onEnemyKilled += CheckList;
     }
 
     protected override void Rotate(Transform target) {
@@ -32,13 +39,14 @@ public class Turret : SearchTag {
         return angle < 3f;
     }
 
-    protected override void DoAction(Transform target) { //DEBUG!!! viser l'ennemi où juste tirer devant ???
+    protected override void DoAction(Transform target) {
         Transform spawnPoint = missileSpawnPoints[currentSpawnPointIndex];
         currentSpawnPointIndex = (currentSpawnPointIndex + 1) % missileSpawnPoints.Length;
+        
+        Vector3 direction = (target.position - transform.position).normalized;
 
-        GameObject bullet = Instantiate(bulletPrefab, spawnPoint.position, spawnPoint.rotation);
-        Tir bulletScript = bullet.GetComponent<Tir>();
-        bulletScript.SetInformations(Vaisseau.Instance.gameObject, damage, bulletSpeed, range);
+        GameObject bullet = Instantiate(bulletPrefab, spawnPoint.position, Quaternion.LookRotation(direction));
+        bullet.GetComponent<Tir>().SetInformations(Vaisseau.Instance.gameObject, damage, bulletSpeed, range);
     }
 
     public override Dictionary<string, string> GetStats() {
@@ -46,6 +54,10 @@ public class Turret : SearchTag {
         stats.Add("Damage", damage.ToString());
         stats.Add("Attack Speed", speed.ToString("F2"));
         return stats;
+    }
+    
+    private void CheckList(GameObject enemy) {
+        InRange.Remove(enemy.GetComponent<Collider>());
     }
 
     public void OnDrawGizmos() {
