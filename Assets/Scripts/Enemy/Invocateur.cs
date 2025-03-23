@@ -9,15 +9,11 @@ public class Invocateur : Enemy
     private System.Random random; // Générateur pseudo-aléatoire basé sur la seed
     private int rotationDirection; // Sens de rotation basé sur la seed
     private float rotationSpeed; // Vitesse de rotation basée sur la seed
-    private WaveManager waveManager;
 
     protected override void Start()
     {
         // Appeler la méthode Start de la classe parente
         base.Start();
-
-        waveManager = GameObject.Find("GameManager").GetComponent<WaveManager>();
-        
 
         if (seed == 0)
         {
@@ -128,6 +124,6 @@ public class Invocateur : Enemy
     {
         Assaillant minion = Instantiate(minionPrefab, transform.position, Quaternion.identity);
         // Lui donner une référence au joueur
-        waveManager.RegisterEnemy(minion.gameObject);
+        WaveManager.Instance.RegisterEnemy(minion.gameObject);
     }
 }

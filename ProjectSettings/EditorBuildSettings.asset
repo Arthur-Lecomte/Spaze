@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Start-screen.unity
     guid: c0a69791e331d2f4c85e2689f330f272
   - enabled: 1
-    path: Assets/Scenes/ScenesTest/Ennemi Test.unity
-    guid: d13b84f2e67b9344496ebc363ce40e00
+    path: Assets/Scenes/GameScene.unity
+    guid: 7b739337a2293514e8979a1b4e5c6bd5
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
