@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEditor.UIElements;
 
-public class SearchTag : Construction {
+public abstract class SearchTag : Construction {
     [SerializeField] private string tagTarget;
     [SerializeField] protected float range;
     [SerializeField] protected float speed;
