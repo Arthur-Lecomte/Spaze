@@ -71,6 +71,8 @@ public class GenerationStructure : MonoBehaviour {
     }
 
     void GenerateCell(Vector2Int cellCoord) {
+        if (cellCoord == Vector2Int.zero) return; // Ne pas générer de structure à la position (0, 0)
+        
         int cellSeed = seed + cellCoord.x * 73856093 + cellCoord.y * 19349663; // Seed unique par cellule
         random = new System.Random(cellSeed);
 
@@ -85,10 +87,10 @@ public class GenerationStructure : MonoBehaviour {
         if (asteroidChance < 0.7f) // 70% de chance d'apparition d'un astéroïde
         {
             TryInstantiateVariant(asteroidData.variants, cellCenter, asteroidParent, objectsInCell, cellSeed);
-        } else if (wreckChance < 0.1f) // 10% de chance pour une épave
+        } else if (wreckChance < 0.34f) // 10% de chance pour une épave
           {
             TryInstantiateVariant(wreckData.variants, cellCenter, wreckParent, objectsInCell, cellSeed);
-        } else if (shopChance < 0.02f) // 2% de chance pour un magasin
+        } else if (shopChance < 0.26f) // 2% de chance pour un magasin
           {
             TryInstantiateObject(shopPrefab, cellCenter, shopParent, objectsInCell, cellSeed);
         }
