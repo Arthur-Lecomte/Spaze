@@ -976,6 +976,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player-19
       objectReference: {fileID: 0}
+    - target: {fileID: 9052794549780447704, guid: b0752ad7253bb114a9bc0bdac1c3c52c, type: 3}
+      propertyPath: gameOverManager
+      value: 
+      objectReference: {fileID: 7206004342110008331, guid: 5ef76a7ef3a0d16469299057eb06e102, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

@@ -1,8 +1,9 @@
 using UnityEngine;
 
-public class Vaisseau : MonoBehaviour, ICanTakeDamage {
+public class Vaisseau : MonoBehaviour, ICanTakeDamage
+{
     public static Vaisseau Instance;
-    
+
     private float maxHealth;
     private float actualHealth;
     private RectTransform healthBar;
@@ -15,19 +16,25 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
     [SerializeField] private float rotationSpeed = 200f; // Vitesse de rotation
     [SerializeField] private float drag = 0.99f; // Ralentissement progressif (momentum)
 
-    [Header("Boost")] [SerializeField] private int speedSkillCount = 2; // Nombre de points de vitesse appliqués 
+    [Header("Boost")][SerializeField] private int speedSkillCount = 2; // Nombre de points de vitesse appliqués 
     [SerializeField] private float pourcentageBoost = 0.3f; // Pourcentage de boost appliqué par point 
+
+    [SerializeField] private GameOverManager gameOverManager;
 
     private Rigidbody rb;
     private bool isAccelerating;
 
-    private void Awake() {
-        if (Instance == null) {
+    private void Awake()
+    {
+        if (Instance == null)
+        {
             Instance = this;
-        } else {
+        }
+        else
+        {
             Destroy(gameObject);
         }
-        
+
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false; // Pas de gravité pour un vaisseau spatial
         rb.angularDamping = 5f; // Réduit l'effet de rotation excessive
@@ -38,32 +45,38 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
         healthBarMaxWidth = healthBar.sizeDelta.x;
     }
 
-    public void SetSpeedSkillCount(int points) {
+    public void SetSpeedSkillCount(int points)
+    {
         speedSkillCount = points;
     }
 
-    void Update() {
+    void Update()
+    {
         // Récupérer l'input pour la rotation avec Q/D
         float rotationInput = Input.GetAxis("Horizontal");
         isAccelerating = Input.GetAxis("Vertical") > 0; // Avancer avec Z
 
         // Appliquer la rotation (tourne autour de l'axe Y)
-        if (rotationInput != 0) {
+        if (rotationInput != 0)
+        {
             transform.Rotate(Vector3.up * rotationInput * rotationSpeed * Time.deltaTime);
         }
     }
 
-    void FixedUpdate() {
+    void FixedUpdate()
+    {
         // Calcul de la vitesse max avec le boost
         float boostedMaxSpeed = maxSpeed * (1 + pourcentageBoost * speedSkillCount);
 
         // Appliquer une force vers l'avant seulement si le joueur accélère
-        if (isAccelerating) {
+        if (isAccelerating)
+        {
             rb.AddForce(transform.forward * acceleration, ForceMode.Acceleration);
         }
 
         // Limiter la vitesse
-        if (rb.linearVelocity.magnitude > boostedMaxSpeed) {
+        if (rb.linearVelocity.magnitude > boostedMaxSpeed)
+        {
             rb.linearVelocity = rb.linearVelocity.normalized * boostedMaxSpeed;
         }
 
@@ -71,25 +84,33 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
         rb.linearVelocity *= drag;
     }
 
-    public void TakeDamage(float damage) {
+    public void TakeDamage(float damage)
+    {
         actualHealth = Mathf.Max(0, actualHealth - damage);
-        if (actualHealth == 0) {
+        if (actualHealth == 0)
+        {
             Debug.Log("GAME OVER"); //DEBUG!!! programmer la fin du jeu
+            //Probablement temporaire
+            gameOverManager.GameOver();
+
         }
-        
+
         healthBar.sizeDelta = new Vector2(healthBarMaxWidth * actualHealth / maxHealth, healthBar.sizeDelta.y);
     }
-    
-    public void Regeneration() {
+
+    public void Regeneration()
+    {
         actualHealth = maxHealth;
         healthBar.sizeDelta = new Vector2(healthBarMaxWidth, healthBar.sizeDelta.y);
     }
-    
-    public float GetHealthForBeFull() {
+
+    public float GetHealthForBeFull()
+    {
         return maxHealth - actualHealth;
     }
-    
-    public GameObject WhoAmI() {
+
+    public GameObject WhoAmI()
+    {
         return gameObject;
     }
 }

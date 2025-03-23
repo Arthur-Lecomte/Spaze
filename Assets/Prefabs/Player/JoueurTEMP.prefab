@@ -571,6 +571,7 @@ MonoBehaviour:
   drag: 0.99
   speedSkillCount: 0
   pourcentageBoost: 0.3
+  gameOverManager: {fileID: 7206004342110008331, guid: 5ef76a7ef3a0d16469299057eb06e102, type: 3}
 --- !u!114 &1286724287908780391
 MonoBehaviour:
   m_ObjectHideFlags: 0
