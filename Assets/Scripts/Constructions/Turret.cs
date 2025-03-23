@@ -44,7 +44,7 @@ public class Turret : SearchTag {
     public override Dictionary<string, string> GetStats() {
         var stats = base.GetStats();
         stats.Add("Damage", damage.ToString());
-        stats.Add("Attack Speed", attackSpeed.ToString("F2"));
+        stats.Add("Attack Speed", speed.ToString("F2"));
         return stats;
     }
 
