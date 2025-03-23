@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1213632602173631657}
-  - component: {fileID: 3407828586987204283}
   - component: {fileID: 6039516027746142511}
   - component: {fileID: 8346301664720814088}
+  - component: {fileID: 5306939033482930480}
   m_Layer: 0
-  m_Name: Asteroide
+  m_Name: EmptyAsteroide
   m_TagString: Structure
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,21 +35,6 @@ Transform:
   - {fileID: 7858002801130427134}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3407828586987204283
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3740351344403343317}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b0f600525fc04f4f8dc77d5355e347d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ressource:
-    type: 0
-    quantite: 0
 --- !u!135 &6039516027746142511
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -98,6 +83,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &5306939033482930480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3740351344403343317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9906c2f29e71ebf43987f420d85d6412, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isAsteroid: 1
+  ressource:
+    type: 0
+    quantite: 0
 --- !u!1001 &7676247677005870357
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -163,7 +164,27 @@ PrefabInstance:
       value: Asteroid
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: -346642047233286542, guid: 8eb5873f80f09894d9fff8973f77ef88, type: 3}
+    - {fileID: 784848638548316577, guid: 8eb5873f80f09894d9fff8973f77ef88, type: 3}
+    - {fileID: 7012509476274988224, guid: 8eb5873f80f09894d9fff8973f77ef88, type: 3}
+    - {fileID: -4961241221372467197, guid: 8eb5873f80f09894d9fff8973f77ef88, type: 3}
+    - {fileID: -1640387438592477178, guid: 8eb5873f80f09894d9fff8973f77ef88, type: 3}
+    - {fileID: -4405099995303774716, guid: 8eb5873f80f09894d9fff8973f77ef88, type: 3}
+    - {fileID: -5042048040192068020, guid: 8eb5873f80f09894d9fff8973f77ef88, type: 3}
+    - {fileID: -3673334752102874116, guid: 8eb5873f80f09894d9fff8973f77ef88, type: 3}
+    - {fileID: 1797797537895704177, guid: 8eb5873f80f09894d9fff8973f77ef88, type: 3}
+    - {fileID: 4908888856049078515, guid: 8eb5873f80f09894d9fff8973f77ef88, type: 3}
+    - {fileID: 3881992704548618285, guid: 8eb5873f80f09894d9fff8973f77ef88, type: 3}
+    - {fileID: 8962635848729988843, guid: 8eb5873f80f09894d9fff8973f77ef88, type: 3}
+    - {fileID: 9208135887483320983, guid: 8eb5873f80f09894d9fff8973f77ef88, type: 3}
+    - {fileID: -5317621499353570459, guid: 8eb5873f80f09894d9fff8973f77ef88, type: 3}
+    - {fileID: -1410316370199355845, guid: 8eb5873f80f09894d9fff8973f77ef88, type: 3}
+    - {fileID: -241861608055726361, guid: 8eb5873f80f09894d9fff8973f77ef88, type: 3}
+    - {fileID: 8582293574316785276, guid: 8eb5873f80f09894d9fff8973f77ef88, type: 3}
+    - {fileID: 6443852219947562045, guid: 8eb5873f80f09894d9fff8973f77ef88, type: 3}
+    - {fileID: 117214286460000749, guid: 8eb5873f80f09894d9fff8973f77ef88, type: 3}
+    - {fileID: -5117700066308340382, guid: 8eb5873f80f09894d9fff8973f77ef88, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8eb5873f80f09894d9fff8973f77ef88, type: 3}

@@ -298,47 +298,47 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2740709053691613939, guid: c3434c037fa30f741b14a44d41b19906, type: 3}
+    - target: {fileID: 6702847476649104694, guid: c3434c037fa30f741b14a44d41b19906, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2740709053691613939, guid: c3434c037fa30f741b14a44d41b19906, type: 3}
+    - target: {fileID: 6702847476649104694, guid: c3434c037fa30f741b14a44d41b19906, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2740709053691613939, guid: c3434c037fa30f741b14a44d41b19906, type: 3}
+    - target: {fileID: 6702847476649104694, guid: c3434c037fa30f741b14a44d41b19906, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2740709053691613939, guid: c3434c037fa30f741b14a44d41b19906, type: 3}
+    - target: {fileID: 6702847476649104694, guid: c3434c037fa30f741b14a44d41b19906, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2740709053691613939, guid: c3434c037fa30f741b14a44d41b19906, type: 3}
+    - target: {fileID: 6702847476649104694, guid: c3434c037fa30f741b14a44d41b19906, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2740709053691613939, guid: c3434c037fa30f741b14a44d41b19906, type: 3}
+    - target: {fileID: 6702847476649104694, guid: c3434c037fa30f741b14a44d41b19906, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2740709053691613939, guid: c3434c037fa30f741b14a44d41b19906, type: 3}
+    - target: {fileID: 6702847476649104694, guid: c3434c037fa30f741b14a44d41b19906, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2740709053691613939, guid: c3434c037fa30f741b14a44d41b19906, type: 3}
+    - target: {fileID: 6702847476649104694, guid: c3434c037fa30f741b14a44d41b19906, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2740709053691613939, guid: c3434c037fa30f741b14a44d41b19906, type: 3}
+    - target: {fileID: 6702847476649104694, guid: c3434c037fa30f741b14a44d41b19906, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2740709053691613939, guid: c3434c037fa30f741b14a44d41b19906, type: 3}
+    - target: {fileID: 6702847476649104694, guid: c3434c037fa30f741b14a44d41b19906, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4400340405007138486, guid: c3434c037fa30f741b14a44d41b19906, type: 3}
+    - target: {fileID: 6950940976563390322, guid: c3434c037fa30f741b14a44d41b19906, type: 3}
       propertyPath: m_Name
       value: CameraHolder
       objectReference: {fileID: 0}

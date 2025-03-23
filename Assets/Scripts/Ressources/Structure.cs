@@ -1,6 +1,7 @@
 using UnityEngine;
 
 public class Structure : MonoBehaviour {
+    public bool isAsteroid;
     public Ressource ressource;
 
     public bool Extract() {

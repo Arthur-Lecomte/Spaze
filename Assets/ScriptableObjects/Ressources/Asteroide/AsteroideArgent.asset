@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 941bc9fc4192c854186fad498817239f, type: 3}
   m_Name: AsteroideArgent
   m_EditorClassIdentifier: 
-  prefab: {fileID: 3740351344403343317, guid: 6a72707d0b2916c4d99d598c6ec6d00e, type: 3}
+  prefab: {fileID: 3740351344403343317, guid: a4d673f3bca1bdc4386775eee21cc911, type: 3}
   ressourceType: 1
   probability: 0.3

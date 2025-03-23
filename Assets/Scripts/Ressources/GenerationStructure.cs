@@ -128,9 +128,69 @@ public class GenerationStructure : MonoBehaviour {
         // Assigner une ressource à la structure si applicable
         Structure structure = obj.GetComponent<Structure>();
         if (structure != null) {
-            int quantite = random.Next(1, 101); // Quantité aléatoire entre 1 et 100
-            structure.ressource = new Ressource(ressourceType, quantite);
+            if (structure.isAsteroid) {
+                ChoseQuantityAsteroid(structure, ressourceType);
+            } else {
+                ChoseQuantityEpave(structure, ressourceType);
+            }
         }
+    }
+    
+    private void ChoseQuantityAsteroid(Structure structure, TypeRessource ressourceType) {
+        int ramdomValue = Random.Range(0, 101);
+        Transform structureTransform = structure.transform;
+        int returnRessourceValue;
+        switch (ressourceType) {    
+            case TypeRessource.Cuivre:
+                returnRessourceValue = ramdomValue <= 90 ? Random.Range(0, 51) : 0;
+                structureTransform.localScale = new Vector3(1, 1, 1) * Mathf.Max(0.4f, returnRessourceValue / 25.0f);
+                break;
+            case TypeRessource.Argent:
+                returnRessourceValue = ramdomValue <= 80 ? Random.Range(0, 51) : 0;
+                structureTransform.localScale = new Vector3(1, 1, 1) * Mathf.Max(0.6f, returnRessourceValue / 25.0f);
+                break;
+            case TypeRessource.Or:
+                returnRessourceValue = ramdomValue <= 60 ? Random.Range(0, 26) : 0;
+                structureTransform.localScale = new Vector3(1, 1, 1) * Mathf.Max(0.7f, returnRessourceValue / 12.5f);
+                break;
+            case TypeRessource.Platine:
+                returnRessourceValue = ramdomValue <= 40 ? Random.Range(0, 11) : 0;
+                structureTransform.localScale = new Vector3(1, 1, 1) * Mathf.Max(0.8f, returnRessourceValue / 5.0f);
+                break;
+            default:
+                returnRessourceValue = 0;
+                structureTransform.localScale = new Vector3(1, 1, 1) * Random.Range(1f, 2f);
+                break;
+        }
+        
+        structure.ressource = new Ressource(ressourceType, returnRessourceValue);
+    }
+    
+    private void ChoseQuantityEpave(Structure structure, TypeRessource ressourceType) {
+        int ramdomValue = Random.Range(0, 101);
+        int returnRessourceValue;
+        switch (ressourceType) {    
+            case TypeRessource.Cuivre:
+                returnRessourceValue = ramdomValue <= 90 ? Random.Range(0, 51) : 0;
+                break;
+            case TypeRessource.Argent:
+                returnRessourceValue = ramdomValue <= 80 ? Random.Range(0, 51) : 0;
+                break;
+            case TypeRessource.Or:
+                returnRessourceValue = ramdomValue <= 60 ? Random.Range(0, 26) : 0;
+                break;
+            case TypeRessource.Platine:
+                returnRessourceValue = ramdomValue <= 40 ? Random.Range(0, 11) : 0;
+                break;
+            case TypeRessource.NoyauEnergie:
+                returnRessourceValue = ramdomValue <= 3 ? 2 : 1;
+                break;
+            default:
+                returnRessourceValue = 0;
+                break;
+        }
+        
+        structure.ressource = new Ressource(ressourceType, returnRessourceValue);
     }
 
     Vector3 GetRandomPositionInCell(Vector3 cellCenter, int cellSeed) {

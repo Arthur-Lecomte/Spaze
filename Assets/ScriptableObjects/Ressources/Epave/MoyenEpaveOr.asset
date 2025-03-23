@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 941bc9fc4192c854186fad498817239f, type: 3}
-  m_Name: AsteroideOr
+  m_Name: MoyenEpaveOr
   m_EditorClassIdentifier: 
-  prefab: {fileID: 3740351344403343317, guid: 852c50808c4aebb45bad4527c26dc5ca, type: 3}
+  prefab: {fileID: 6779163190323179354, guid: 9846afbaa1fba3b4bbdf8883f2ee2ff0, type: 3}
   ressourceType: 2
   probability: 0.15
