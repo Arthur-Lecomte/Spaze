@@ -252,6 +252,7 @@ GameObject:
   m_Component:
   - component: {fileID: 245663259}
   - component: {fileID: 245663260}
+  - component: {fileID: 245663261}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -298,6 +299,18 @@ MonoBehaviour:
   timeBetweenWaves: 60
   startEnemies: 3
   waveInfoText: {fileID: 1638217100}
+--- !u!114 &245663261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 245663256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e6c614499b5bec4e85504a0a99039c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &269284535
 PrefabInstance:
   m_ObjectHideFlags: 0
