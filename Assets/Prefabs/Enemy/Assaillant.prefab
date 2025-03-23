@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 5221452373541260420}
   - component: {fileID: 1833911173253535141}
   - component: {fileID: 2132487270300780012}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Assaillant
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -82,7 +82,7 @@ MonoBehaviour:
   health: 200
   moveSpeed: 4
   timeBeforeBeingCible: 2
-  damageEnemy: 50
+  damageEnemy: 15
   projectilePrefab: {fileID: 3824452743231026403, guid: 59044da8fbf8d4e46862be06223b732a, type: 3}
   shootInterval: 0.2
   lastShootTime: 0

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5906599231117731693}
   - component: {fileID: 720161712303454367}
   - component: {fileID: -3993993256796509600}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tank
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -51,7 +51,7 @@ MonoBehaviour:
   health: 200
   moveSpeed: 3
   timeBeforeBeingCible: 2
-  damageEnemy: 50
+  damageEnemy: 15
   projectilePrefab: {fileID: 3824452743231026403, guid: 59044da8fbf8d4e46862be06223b732a, type: 3}
   shootInterval: 4
   lastShootTime: 0

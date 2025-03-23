@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3669251367623011293}
   - component: {fileID: 5984891316166404111}
   - component: {fileID: 734397385704696496}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Invocateur
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -50,7 +50,7 @@ MonoBehaviour:
   health: 200
   moveSpeed: 3
   timeBeforeBeingCible: 2
-  damageEnemy: 50
+  damageEnemy: 15
   projectilePrefab: {fileID: 3824452743231026403, guid: 59044da8fbf8d4e46862be06223b732a, type: 3}
   shootInterval: 15
   lastShootTime: 0

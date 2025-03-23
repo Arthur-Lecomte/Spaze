@@ -364,6 +364,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4906802331263653515}
     m_Modifications:
+    - target: {fileID: -8878653712180213458, guid: 57806f65677c04a40a5dad0dcdab1cb7, type: 3}
+      propertyPath: lifeBar
+      value: 
+      objectReference: {fileID: 3885411768548260444}
     - target: {fileID: 1743659426873759118, guid: 57806f65677c04a40a5dad0dcdab1cb7, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -454,6 +458,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1920096480979386640, guid: 57806f65677c04a40a5dad0dcdab1cb7, type: 3}
   m_PrefabInstance: {fileID: 3360511382722161046}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3885411768548260444 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1966153456569766858, guid: 57806f65677c04a40a5dad0dcdab1cb7, type: 3}
+  m_PrefabInstance: {fileID: 3360511382722161046}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4869182589685608800
 PrefabInstance:
   m_ObjectHideFlags: 0

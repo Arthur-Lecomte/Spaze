@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour, ICanTakeDamage
     [SerializeField] public float health = 200;
     [SerializeField] public float moveSpeed = 1f; // Vitesse de déplacement de l'ennemi
     [SerializeField] public float timeBeforeBeingCible = 2f;
-    [SerializeField] public int damageEnemy = 50;
+    [SerializeField] public int damageEnemy = 15;
 
 
     [Header("Comportement de tir")]

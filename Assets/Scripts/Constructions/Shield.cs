@@ -12,13 +12,12 @@ public class Shield : Construction, ICanTakeDamage {
     private SphereCollider trigger;
     private LineRenderer lineRenderer;
 
-    private RawImage lifeBar;
+    [SerializeField] private RawImage lifeBar;
 
     public override void Initialisation(RarityConstruction rarityConstruction) {
         base.Initialisation(rarityConstruction);
-
-        lifeBar = GetComponentInChildren<RawImage>();
-        AddLife(maxLife);
+        
+        ChangeLife(maxLife);
 
         trigger = GetComponent<SphereCollider>();
         trigger.radius = range;
@@ -27,7 +26,7 @@ public class Shield : Construction, ICanTakeDamage {
         DrawCircle();
     }
 
-    private void AddLife(float quantity) {
+    private void ChangeLife(float quantity) {
         life = Mathf.Clamp(life + quantity, 0, maxLife);
         lifeBar.rectTransform.sizeDelta = new Vector2(life / maxLife * 150, 25);
     }
@@ -53,7 +52,7 @@ public class Shield : Construction, ICanTakeDamage {
         yield return new WaitForSeconds(3);
 
         while (life < maxLife) {
-            AddLife(regeneration * Time.deltaTime);
+            ChangeLife(regeneration * Time.deltaTime);
             yield return null;
         }
     }
@@ -61,16 +60,18 @@ public class Shield : Construction, ICanTakeDamage {
     private IEnumerator Repair() {
         //DEBUG!!! play sound broken shield + animation destroy shield
         GetComponent<Collider>().enabled = false;
+        lineRenderer.enabled = false;
         lifeBar.color = Color.yellow;
         yield return new WaitForSeconds(1);
 
         while (life < maxLife) {
-            AddLife(2 * regeneration * Time.deltaTime);
+            ChangeLife(regeneration / 2 * Time.deltaTime);
             yield return null;
         }
 
         lifeBar.color = Color.blue;
         GetComponent<Collider>().enabled = true;
+        lineRenderer.enabled = true;
         //DEBUG!!! play sound repair shield + animation repair shield
     }
 
@@ -82,9 +83,10 @@ public class Shield : Construction, ICanTakeDamage {
     
     public void TakeDamage(float damage) {
         StopCoroutine(nameof(RegenerateShield));
-        AddLife(-damage);
-        if (life <= 0) {
-            StopCoroutine(Repair());
+        ChangeLife(-damage);
+        if (life == 0) {
+            StopCoroutine(nameof(RegenerateShield));
+            StartCoroutine(Repair());
         } else {
             StartCoroutine(nameof(RegenerateShield));
         }
