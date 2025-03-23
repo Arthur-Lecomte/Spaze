@@ -12,15 +12,12 @@ public class Turret : SearchTag {
 
     public override void Initialisation(RarityConstruction rarityConstruction) {
         base.Initialisation(rarityConstruction);
+        
         turretHead = transform.GetChild(0).GetChild(0);
         missileSpawnPoints = new Transform[turretHead.childCount];
         for (int i = 0; i < turretHead.childCount; i++) {
             missileSpawnPoints[i] = turretHead.GetChild(i);
         }
-
-        SphereCollider rangeCollider = gameObject.AddComponent<SphereCollider>();
-        rangeCollider.isTrigger = true;
-        rangeCollider.radius = range;
     }
 
     protected override void Rotate(Transform target) {

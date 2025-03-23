@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5943518581970220289}
   - component: {fileID: 1161012321168262528}
   - component: {fileID: 654813177898147203}
-  - component: {fileID: 6611334937558457061}
   - component: {fileID: 6307375685279113907}
   m_Layer: 6
   m_Name: Vaisseau
@@ -92,18 +91,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6611334937558457061
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2433757472477473961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9620382e740342c4ae719ccdcbc983d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6307375685279113907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -481,7 +468,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d7a4a1b4f497eb748880fc74662cbe1a, type: 3}
       propertyPath: m_Name
-      value: Joueur 1
+      value: JoueurTEMP
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d7a4a1b4f497eb748880fc74662cbe1a, type: 3}
       propertyPath: m_Layer
@@ -597,9 +584,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: 3
-  prefab: {fileID: 4414696197551732868, guid: eaec36ff422a9a844b17d05072ddf17b, type: 3}
-  prefab2: {fileID: 3975518805115099631, guid: 94656846a6ae1b7409a8307a7ae0db4b, type: 3}
-  prefab3: {fileID: 1595409793775326100, guid: 8180d4771f1d96749aa374578cfb19e1, type: 3}
 --- !u!54 &6083987605835865793
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -9,7 +9,7 @@ public class SearchTag : Construction {
 
     private SphereCollider rangeCollider;
     private float nextActionTime;
-    protected readonly List<GameObject> InRange = new List<GameObject>();
+    protected readonly List<Collider> InRange = new List<Collider>();
     private GameObject currentTarget;
 
     public override void Initialisation(RarityConstruction rarityConstruction) {
@@ -26,13 +26,13 @@ public class SearchTag : Construction {
     
     private void OnTriggerEnter(Collider other) {
         if (other.CompareTag(tagTarget)) {
-            InRange.Add(other.gameObject);
+            InRange.Add(other);
         }
     }
 
     private void OnTriggerExit(Collider other) {
         if (other.CompareTag(tagTarget)) {
-            InRange.Remove(other.gameObject);
+            InRange.Remove(other);
         }
     }
     
@@ -52,24 +52,24 @@ public class SearchTag : Construction {
     }
     
     private GameObject GetClosest() {
-        GameObject closestStructure = null;
-        float closestDistance = range;
+        GameObject closestObject = null;
+        float closestDistance = Mathf.Infinity;
 
-        foreach (GameObject structure in InRange) {
-            float distance = Vector3.Distance(transform.position, structure.transform.position);
+        foreach (Collider c in InRange) {
+            float distance = Vector3.Distance(transform.position, c.ClosestPoint(transform.position));
             if (distance < closestDistance) {
                 closestDistance = distance;
-                closestStructure = structure;
+                closestObject = c.gameObject;
             }
         }
 
-        return closestStructure;
+        return closestObject;
     }
     
     protected virtual void Rotate(Transform target) {
         Vector3 direction = (target.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 2f);
     }
     
     protected virtual bool IsAlignedWithTarget(Transform target) {
