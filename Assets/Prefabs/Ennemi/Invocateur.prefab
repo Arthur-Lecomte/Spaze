@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Level: 1
   health: 200
-  moveSpeed: 6
+  moveSpeed: 3
   timeBeforeBeingCible: 2
   damageEnemy: 50
   projectilePrefab: {fileID: 6302220743199107413, guid: 425967fb4d768c948aed39a6a3a20132, type: 3}
