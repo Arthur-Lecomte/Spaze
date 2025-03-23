@@ -60,10 +60,11 @@ MonoBehaviour:
     quantite: 5
   probability: 1
   image: {fileID: 21300000, guid: b473a3bb8a617c34e977b8ccc197dde3, type: 3}
-  damage: 30
-  attackSpeed: 0.05
-  bulletSpeed: 10000
+  tagTarget: Enemy
   range: 15
+  speed: 0
+  damage: 30
+  bulletSpeed: 10000
   bulletPrefab: {fileID: 3824452743231026403, guid: 59044da8fbf8d4e46862be06223b732a, type: 3}
 --- !u!1001 &3198807567870417500
 PrefabInstance:

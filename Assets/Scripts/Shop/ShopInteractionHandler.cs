@@ -5,11 +5,9 @@ public class ShopInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
     private Outline outline;
     private bool mouseOn;
     private bool isInShopRange;
-    private CircleDrawer circleDrawer;
 
     private void Start() {
         outline = GetComponent<Outline>();
-        circleDrawer = transform.parent.GetComponentInChildren<CircleDrawer>();
     }
     
     public void SetIsInShopRange(bool value) {

@@ -1,70 +1,17 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Extracteur : Construction {
+public class Extracteur : SearchTag {
     [SerializeField] private float quantity;
-    [SerializeField] private float speed;
-    [SerializeField] private float range;
-    [SerializeField] private Transform extracteur;
     
-    private float nextExtractTime;
-    private List<GameObject> structureInRange = new();
-    private Structure currentTarget;
-
-    public override void Initialisation(RarityConstruction rarityConstruction) {
-        base.Initialisation(rarityConstruction);
-
-        SphereCollider rangeCollider = gameObject.AddComponent<SphereCollider>();
-        rangeCollider.isTrigger = true;
-        rangeCollider.radius = range;
-    }
-    
-    private void OnTriggerEnter(Collider other) {
-        if (other.GetComponent<Structure>() != null) {
-            structureInRange.Add(other.gameObject);
+    protected override void DoAction(Transform target) { //DEBUG Jouer animation d'extraction
+        if (!target.gameObject.GetComponent<Structure>().Extract()) {
+            InRange.Remove(target.gameObject.GetComponent<Collider>());
         }
-    }
-
-    private void OnTriggerExit(Collider other) {
-        if (other.GetComponent<Structure>() != null) {
-            structureInRange.Remove(other.gameObject);
-        }
-    }
-    
-    private void Update() {
-        if (structureInRange.Count > 0) {
-            currentTarget = GetClosestStructure();
-            if (currentTarget) {
-                //RotateExtracteur(currentTarget.transform); //DEBUG!!! à faire
-                if (Time.time >= nextExtractTime) { //DEBUG!!! && IsAlignedWithTarget(currentTarget.transform)
-                    currentTarget.Extract();
-                    nextExtractTime = Time.time  + 1f / speed;
-                }
-            }
-        } else {
-            currentTarget = null;
-        }
-    }
-    
-    private Structure GetClosestStructure() {
-        GameObject closestStructure = null;
-        float closestDistance = range;
-
-        foreach (GameObject structure in structureInRange) {
-            float distance = Vector3.Distance(transform.position, structure.transform.position);
-            if (distance < closestDistance) {
-                closestDistance = distance;
-                closestStructure = structure;
-            }
-        }
-
-        return closestStructure.GetComponent<Structure>();
     }
     
     public override Dictionary<string, string> GetStats() {
         var stats = base.GetStats();
-        stats.Add("Speed", speed.ToString("F2"));
-        stats.Add("Range", range.ToString("F2"));
         return stats;
     }
     

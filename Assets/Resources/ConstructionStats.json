@@ -6,7 +6,7 @@
       "levelMultipliers": [1.1, 1.2, 1.3, 1.4, 1.5],
       "rarityMultipliers": [1.0, 1.5, 2.0, 2.5]
     },
-    "attackSpeed": {
+    "speed": {
       "baseValue": 10,
       "levelValue": 2,
       "levelMultipliers": [1.05, 1.1, 1.15, 1.2, 1.25],
@@ -32,7 +32,7 @@
       "levelMultipliers": [1.1, 1.2, 1.3, 1.4, 1.5],
       "rarityMultipliers": [1.0, 1.5, 2.0, 2.5]
     },
-    "attackSpeed": {
+    "speed": {
       "baseValue": 10,
       "levelValue": 2,
       "levelMultipliers": [1.05, 1.1, 1.15, 1.2, 1.25],
@@ -58,7 +58,7 @@
       "levelMultipliers": [1.1, 1.2, 1.3, 1.4, 1.5],
       "rarityMultipliers": [1.0, 1.5, 2.0, 2.5]
     },
-    "attackSpeed": {
+    "speed": {
       "baseValue": 10,
       "levelValue": 2,
       "levelMultipliers": [1.05, 1.1, 1.15, 1.2, 1.25],
@@ -84,7 +84,7 @@
       "levelMultipliers": [1.1, 1.2, 1.3, 1.4, 1.5],
       "rarityMultipliers": [1.0, 1.5, 2.0, 2.5]
     },
-    "attackSpeed": {
+    "speed": {
       "baseValue": 10,
       "levelValue": 2,
       "levelMultipliers": [1.05, 1.1, 1.15, 1.2, 1.25],
@@ -179,8 +179,8 @@
       "rarityMultipliers": [1.0, 1.3, 1.6, 1.9]
     },
     "range": {
-      "baseValue": 100,
-      "levelValue": 20,
+      "baseValue": 10,
+      "levelValue": 2,
       "levelMultipliers": [1.0, 1.1, 1.2, 1.3, 1.4],
       "rarityMultipliers": [1.0, 1.2, 1.4, 1.6]
     }
