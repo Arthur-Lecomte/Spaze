@@ -127,7 +127,7 @@ public class GenerationStructure : MonoBehaviour {
         Structure structure = obj.GetComponent<Structure>();
         if (structure != null) {
             int quantite = random.Next(1, 101); // Quantité aléatoire entre 1 et 100
-            structure.Ressource = new Ressource(ressourceType, quantite);
+            structure.ressource = new Ressource(ressourceType, quantite);
         }
     }
 

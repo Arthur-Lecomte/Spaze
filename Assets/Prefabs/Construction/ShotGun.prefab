@@ -57,10 +57,11 @@ MonoBehaviour:
     quantite: 50
   probability: 7
   image: {fileID: 21300000, guid: eae3abe066f76fe4a85c1ae446195e4b, type: 3}
-  damage: 15
-  attackSpeed: 0.5
-  bulletSpeed: 45
+  tagTarget: Enemy
   range: 8
+  speed: 0
+  damage: 15
+  bulletSpeed: 45
   bulletPrefab: {fileID: 3824452743231026403, guid: 59044da8fbf8d4e46862be06223b732a, type: 3}
 --- !u!1 &9202711405572471801
 GameObject:
