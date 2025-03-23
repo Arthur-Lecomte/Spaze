@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 232334648409454479}
   - component: {fileID: 1569418862157956246}
+  - component: {fileID: -6324690297237194956}
   m_Layer: 0
   m_Name: Sniper
   m_TagString: Enemy
@@ -87,6 +88,27 @@ MonoBehaviour:
   lastShootTime: 0
   shootRange: 80
   shootPoint: {fileID: 892890398823576895}
+--- !u!65 &-6324690297237194956
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8027717516412659972}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 7.707486, y: 2.8707817, z: 8.137739}
+  m_Center: {x: 0.009414196, y: 0.93539083, z: 1.0229273}
 --- !u!1001 &5791613959851102096
 PrefabInstance:
   m_ObjectHideFlags: 0

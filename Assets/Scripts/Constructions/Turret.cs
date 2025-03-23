@@ -31,7 +31,9 @@ public class Turret : Construction {
     private void Update() {
         if (enemiesInRange.Count > 0) {
             currentTarget = GetClosestEnemy();
+
             if (currentTarget) {
+                Debug.Log("Current target : " + currentTarget.name);
                 RotateTurretHead(currentTarget.transform);
                 if (Time.time >= nextFireTime && IsAlignedWithTarget(currentTarget.transform)) {
                     Fire(currentTarget);
@@ -80,6 +82,7 @@ public class Turret : Construction {
         Vector3 direction = (target.position - turretHead.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
         turretHead.rotation = Quaternion.Slerp(turretHead.rotation, lookRotation, Time.deltaTime * 10f);
+        Debug.Log("Rotation : " + turretHead.rotation.eulerAngles);
     }
 
     private void Fire(GameObject target) {

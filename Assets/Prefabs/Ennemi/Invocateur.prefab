@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3669251367623011293}
   - component: {fileID: 5984891316166404111}
+  - component: {fileID: 734397385704696496}
   m_Layer: 0
   m_Name: Invocateur
   m_TagString: Enemy
@@ -47,15 +48,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Level: 1
   health: 200
-  moveSpeed: 1
+  moveSpeed: 6
   timeBeforeBeingCible: 2
   damageEnemy: 50
   projectilePrefab: {fileID: 6302220743199107413, guid: 425967fb4d768c948aed39a6a3a20132, type: 3}
   shootInterval: 15
   lastShootTime: 0
-  shootRange: 40
+  shootRange: 70
   shootPoint: {fileID: 0}
   minionPrefab: {fileID: 1833911173253535141, guid: 3341c6be42d22344face7d8fde7e0a67, type: 3}
+--- !u!65 &734397385704696496
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2129366870274341334}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1009715378828537467
 PrefabInstance:
   m_ObjectHideFlags: 0
