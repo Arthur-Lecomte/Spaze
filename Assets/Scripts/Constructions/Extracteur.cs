@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class Extracteur : Construction {
+    [SerializeField] private float quantity;
     [SerializeField] private float speed;
     [SerializeField] private float range;
     [SerializeField] private Transform extracteur;
@@ -60,13 +61,6 @@ public class Extracteur : Construction {
         return closestStructure.GetComponent<Structure>();
     }
     
-    protected override void PerformUpgrade() {
-        Debug.LogWarning(GetType() +" PerformUpgrade Not Implemented"); // Augmenter le niveau de la construction (changer damage, attackSpeed...)
-    }
-    
-    protected override void SetVariableForRarity(float multiplicator) {
-    }
-
     public override Dictionary<string, string> GetStats() {
         var stats = base.GetStats();
         stats.Add("Speed", speed.ToString("F2"));

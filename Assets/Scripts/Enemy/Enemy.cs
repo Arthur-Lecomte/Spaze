@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour, ICanTakeDamage {
     public event EnemyDestroyedHandler OnDestroyed;
     
     [Header("Statistiques de base")] public int Level = 1;
-    [SerializeField] public int health = 200;
+    [SerializeField] public float health = 200;
     [SerializeField] public float moveSpeed = 1f; // Vitesse de déplacement de l'ennemi
     [SerializeField] public float timeBeforeBeingCible = 2f;
     [SerializeField] public int damageEnemy = 50;
@@ -113,7 +113,7 @@ public class Enemy : MonoBehaviour, ICanTakeDamage {
         OnDestroyed?.Invoke(gameObject);
     }
     
-    public void TakeDamage(int damage) {
+    public void TakeDamage(float damage) {
         health = Mathf.Max(0, health - damage);
 
         if (health <= 0) {

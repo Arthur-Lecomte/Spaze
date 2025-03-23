@@ -1,9 +1,8 @@
-using System;
 using UnityEngine;
 using System.Collections.Generic;
 
 public class Turret : Construction {
-    [SerializeField] private int damage;
+    [SerializeField] private float damage;
     [SerializeField] private float attackSpeed;
     [SerializeField] private float bulletSpeed;
     [SerializeField] private float range;
@@ -90,13 +89,6 @@ public class Turret : Construction {
         GameObject bullet = Instantiate(bulletPrefab, spawnPoint.position, spawnPoint.rotation);
         Tir bulletScript = bullet.GetComponent<Tir>();
         bulletScript.SetInformations(Vaisseau.Instance.gameObject, damage, bulletSpeed, range);
-    }
-
-    protected override void PerformUpgrade() {
-        Debug.LogWarning(GetType() + " PerformUpgrade Not Implemented"); // Augmenter le niveau de la construction (changer damage, attackSpeed...)
-    }
-
-    protected override void SetVariableForRarity(float multiplicator) {
     }
 
     public override Dictionary<string, string> GetStats() {

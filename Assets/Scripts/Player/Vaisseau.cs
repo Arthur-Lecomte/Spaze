@@ -3,8 +3,8 @@ using UnityEngine;
 public class Vaisseau : MonoBehaviour, ICanTakeDamage {
     public static Vaisseau Instance;
     
-    private int maxHealth;
-    private int actualHealth;
+    private float maxHealth;
+    private float actualHealth;
     private RectTransform healthBar;
     private float healthBarMaxWidth;
 
@@ -71,7 +71,7 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
         rb.linearVelocity *= drag;
     }
 
-    public void TakeDamage(int damage) {
+    public void TakeDamage(float damage) {
         actualHealth = Mathf.Max(0, actualHealth - damage);
         if (actualHealth == 0) {
             Debug.Log("GAME OVER"); //DEBUG!!! programmer la fin du jeu
@@ -85,7 +85,7 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
         healthBar.sizeDelta = new Vector2(healthBarMaxWidth, healthBar.sizeDelta.y);
     }
     
-    public int GetHealthForBeFull() {
+    public float GetHealthForBeFull() {
         return maxHealth - actualHealth;
     }
     

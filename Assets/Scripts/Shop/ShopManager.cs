@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -20,6 +21,13 @@ public class ShopManager : MonoBehaviour {
     [SerializeField] private GameObject prefabConstructionItem;
     [SerializeField] private Transform zoneForPrefab;
     [SerializeField] private GameObject shopPanel;
+    
+    private Dictionary<RarityConstruction, int> rarityWeight = new Dictionary<RarityConstruction, int> {
+        {RarityConstruction.Common, 50},
+        {RarityConstruction.Rare, 30},
+        {RarityConstruction.Epic, 15},
+        {RarityConstruction.Legendary, 5}
+    };
 
     private void Awake() {
         if (Instance == null) {
@@ -101,16 +109,14 @@ public class ShopManager : MonoBehaviour {
     }
 
     private void ChooseRarity(GameObject prefab, int index) {
-        Array values = Enum.GetValues(typeof(RarityConstruction));
-        int[] weights = values.Cast<RarityConstruction>().Select(r => (int)r).ToArray();
-        int totalWeight = weights.Sum();
+        int totalWeight = rarityWeight.Values.Sum();
         int randomValue = Random.Range(0, totalWeight);
         int cumulativeWeight = 0;
 
-        foreach (RarityConstruction rarity in values) {
-            cumulativeWeight += (int)rarity;
+        foreach (var rarity in rarityWeight) {
+            cumulativeWeight += rarity.Value;
             if (randomValue < cumulativeWeight) {
-                CreateObject(prefab, rarity, index);
+                CreateObject(prefab, rarity.Key, index);
                 return;
             }
         }

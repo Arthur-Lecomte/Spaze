@@ -1,8 +1,10 @@
-using System;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
-public abstract class Construction : MonoBehaviour { //DEBUG!!! les constructions ont une rotation étrange.
+public abstract class Construction : MonoBehaviour {
+    private static ConstructionStatsManager stats;
+
     [SerializeField] protected string nom;
     [SerializeField] protected string description;
     [SerializeField] protected RarityConstruction rarity;
@@ -15,17 +17,15 @@ public abstract class Construction : MonoBehaviour { //DEBUG!!! les construction
     private Transform constructionTransform;
 
     public virtual void Initialisation(RarityConstruction rarityConstruction) {
+        stats = new ConstructionStatsManager();
         constructionTransform = transform.GetChild(0);
         rarity = rarityConstruction;
+        SetAllVariables();
 
         foreach (Ressource ressource in coutRessources) {
             ressource.quantite = (int)(ressource.quantite * GetRarityMultiplier());
         }
-
-        SetVariableForRarity(GetRarityMultiplier());
     }
-
-    protected abstract void SetVariableForRarity(float multiplicator);
 
     public List<Ressource> GetCoutRessources() {
         return coutRessources;
@@ -70,10 +70,10 @@ public abstract class Construction : MonoBehaviour { //DEBUG!!! les construction
     }
 
     public bool Upgrade() {
-        //DEBUG!!! Modifier l'UI ?
         if (Niveau < NiveauMax) {
             Niveau++;
             SetChildOf(transform.parent);
+            SetAllVariables();
             PerformUpgrade();
             InventoryUI.Instance.ConstructionHaveUpdate(this);
             return true;
@@ -82,7 +82,8 @@ public abstract class Construction : MonoBehaviour { //DEBUG!!! les construction
         return false;
     }
 
-    protected abstract void PerformUpgrade();
+    protected virtual void PerformUpgrade() {
+    }
 
     // Méthode pour obtenir un multiplicateur basé sur la rareté
     private float GetRarityMultiplier() {
@@ -105,7 +106,7 @@ public abstract class Construction : MonoBehaviour { //DEBUG!!! les construction
             default: return Color.gray;
         }
     }
-    
+
     public string GetRarityText() {
         switch (rarity) {
             case RarityConstruction.Common: return "Commun";
@@ -113,6 +114,16 @@ public abstract class Construction : MonoBehaviour { //DEBUG!!! les construction
             case RarityConstruction.Epic: return "Épique";
             case RarityConstruction.Legendary: return "Légendaire";
             default: return "Commun";
+        }
+    }
+
+    private void SetAllVariables() {
+        Dictionary<string, float> values = stats.GetDico(type, rarity, Niveau);
+        foreach (KeyValuePair<string, float> kvp in values) {
+            FieldInfo field = GetType().GetField(kvp.Key, BindingFlags.NonPublic | BindingFlags.Instance);
+            if (field != null) {
+                field.SetValue(this, kvp.Value);
+            }
         }
     }
 
@@ -124,10 +135,10 @@ public abstract class Construction : MonoBehaviour { //DEBUG!!! les construction
 }
 
 public enum RarityConstruction {
-    Common = 50,
-    Rare = 30,
-    Epic = 15,
-    Legendary = 5,
+    Common = 0,
+    Rare = 1,
+    Epic = 2,
+    Legendary = 3,
 }
 
 public enum TypeConstruction {
@@ -142,7 +153,3 @@ public enum TypeConstruction {
     Extracteur, //Augmente la quantité de ressources récoltées
     Radar, //Augmente la portée du radar (ennemis et/ou ressources)
 }
-/* Notes à voir avec l'équipe:
-- Choisir le mode d'attaque des armes (ennemi le plus proche, le plus faible, avec le plus de PV...)
-- Pouvoir sélectionner des ennemis pour les ciblés en priorité
-*/

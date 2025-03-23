@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class Shield : Construction, ICanTakeDamage {
     [SerializeField] private float maxLife = 50;
-    [SerializeField] private float life;
+    private float life;
     private float regeneration = 5;
     [SerializeField] private float range = 3;
 
@@ -45,24 +45,8 @@ public class Shield : Construction, ICanTakeDamage {
         }
     }
 
-    protected override void SetVariableForRarity(float multiplicator) {
-    }
-
     protected override void PerformUpgrade() {
-        maxLife += 25;
-        AddLife(25);
-        regeneration += 5;
-        range += 0.5f;
-    }
-
-    public void TakeDamage(int damage) {
-        StopCoroutine(nameof(RegenerateShield));
-        AddLife(-damage);
-        if (life <= 0) {
-            StopCoroutine(Repair());
-        } else {
-            StartCoroutine(nameof(RegenerateShield));
-        }
+        life = maxLife; //Régénère entièrement le shield en s'améliorant
     }
 
     private IEnumerator RegenerateShield() {
@@ -94,6 +78,16 @@ public class Shield : Construction, ICanTakeDamage {
         var stats = base.GetStats();
         stats.Add("Shield Quantity", maxLife.ToString());
         return stats;
+    }
+    
+    public void TakeDamage(float damage) {
+        StopCoroutine(nameof(RegenerateShield));
+        AddLife(-damage);
+        if (life <= 0) {
+            StopCoroutine(Repair());
+        } else {
+            StartCoroutine(nameof(RegenerateShield));
+        }
     }
 
     public GameObject WhoAmI() {

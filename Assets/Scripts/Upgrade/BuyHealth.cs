@@ -11,7 +11,7 @@ public class BuyHealth : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     }
     
     public void Activate(bool value) {
-        int missingHealth = Vaisseau.Instance.GetHealthForBeFull();
+        int missingHealth = (int)Vaisseau.Instance.GetHealthForBeFull();
         gameObject.SetActive(value && missingHealth > 0);
         if (value) {
             coutRessources.Clear();

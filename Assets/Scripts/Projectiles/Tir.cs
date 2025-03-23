@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class Tir : MonoBehaviour {
     private GameObject creator;
-    private int damage;
+    private float damage;
     private float speed;
     private float range;
     private float distanceTraveled;
 
-    public void SetInformations(GameObject objectCreator, int damageValue, float speedValue, float rangeValue) {
+    public void SetInformations(GameObject objectCreator, float damageValue, float speedValue, float rangeValue) {
         creator = objectCreator;
         damage = damageValue;
         speed = speedValue;

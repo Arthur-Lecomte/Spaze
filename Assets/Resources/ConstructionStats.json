@@ -1,0 +1,196 @@
+{
+  "Sniper": {
+    "damage": {
+      "baseValue": 15,
+      "levelValue": 3,
+      "levelMultipliers": [1.1, 1.2, 1.3, 1.4, 1.5],
+      "rarityMultipliers": [1.0, 1.5, 2.0, 2.5]
+    },
+    "attackSpeed": {
+      "baseValue": 10,
+      "levelValue": 2,
+      "levelMultipliers": [1.05, 1.1, 1.15, 1.2, 1.25],
+      "rarityMultipliers": [1.0, 1.2, 1.4, 1.6]
+    },
+    "bulletSpeed": {
+      "baseValue": 15,
+      "levelValue": 3,
+      "levelMultipliers": [1.1, 1.2, 1.3, 1.4, 1.5],
+      "rarityMultipliers": [1.0, 1.5, 2.0, 2.5]
+    },
+    "range": {
+      "baseValue": 15,
+      "levelValue": 2,
+      "levelMultipliers": [0, 1, 1.15, 1.2, 1.25],
+      "rarityMultipliers": [1.0, 1.2, 1.4, 2]
+    }
+  },
+  "Assault": {
+    "damage": {
+      "baseValue": 15,
+      "levelValue": 3,
+      "levelMultipliers": [1.1, 1.2, 1.3, 1.4, 1.5],
+      "rarityMultipliers": [1.0, 1.5, 2.0, 2.5]
+    },
+    "attackSpeed": {
+      "baseValue": 10,
+      "levelValue": 2,
+      "levelMultipliers": [1.05, 1.1, 1.15, 1.2, 1.25],
+      "rarityMultipliers": [1.0, 1.2, 1.4, 1.6]
+    },
+    "bulletSpeed": {
+      "baseValue": 15,
+      "levelValue": 3,
+      "levelMultipliers": [1.1, 1.2, 1.3, 1.4, 1.5],
+      "rarityMultipliers": [1.0, 1.5, 2.0, 2.5]
+    },
+    "range": {
+      "baseValue": 10,
+      "levelValue": 2,
+      "levelMultipliers": [1.05, 1.1, 1.15, 1.2, 1.25],
+      "rarityMultipliers": [1.0, 1.2, 1.4, 1.6]
+    }
+  },
+  "Shotgun": {
+    "damage": {
+      "baseValue": 15,
+      "levelValue": 3,
+      "levelMultipliers": [1.1, 1.2, 1.3, 1.4, 1.5],
+      "rarityMultipliers": [1.0, 1.5, 2.0, 2.5]
+    },
+    "attackSpeed": {
+      "baseValue": 10,
+      "levelValue": 2,
+      "levelMultipliers": [1.05, 1.1, 1.15, 1.2, 1.25],
+      "rarityMultipliers": [1.0, 1.2, 1.4, 1.6]
+    },
+    "bulletSpeed": {
+      "baseValue": 15,
+      "levelValue": 3,
+      "levelMultipliers": [1.1, 1.2, 1.3, 1.4, 1.5],
+      "rarityMultipliers": [1.0, 1.5, 2.0, 2.5]
+    },
+    "range": {
+      "baseValue": 10,
+      "levelValue": 2,
+      "levelMultipliers": [1.05, 1.1, 1.15, 1.2, 1.25],
+      "rarityMultipliers": [1.0, 1.2, 1.4, 1.6]
+    }
+  },
+  "Laser": {
+    "damage": {
+      "baseValue": 15,
+      "levelValue": 3,
+      "levelMultipliers": [1.1, 1.2, 1.3, 1.4, 1.5],
+      "rarityMultipliers": [1.0, 1.5, 2.0, 2.5]
+    },
+    "attackSpeed": {
+      "baseValue": 10,
+      "levelValue": 2,
+      "levelMultipliers": [1.05, 1.1, 1.15, 1.2, 1.25],
+      "rarityMultipliers": [1.0, 1.2, 1.4, 1.6]
+    },
+    "bulletSpeed": {
+      "baseValue": 15,
+      "levelValue": 3,
+      "levelMultipliers": [1.1, 1.2, 1.3, 1.4, 1.5],
+      "rarityMultipliers": [1.0, 1.5, 2.0, 2.5]
+    },
+    "range": {
+      "baseValue": 10,
+      "levelValue": 2,
+      "levelMultipliers": [1.05, 1.1, 1.15, 1.2, 1.25],
+      "rarityMultipliers": [1.0, 1.2, 1.4, 1.6]
+    }
+  },
+  "Shield": {
+    "maxLife": {
+      "baseValue": 10,
+      "levelValue": 2,
+      "levelMultipliers": [1.1, 1.2, 1.3, 1.4, 1.5],
+      "rarityMultipliers": [1.0, 1.5, 2.0, 2.5]
+    },
+    "regeneration": {
+      "baseValue": 5,
+      "levelValue": 1,
+      "levelMultipliers": [1.05, 1.1, 1.15, 1.2, 1.25],
+      "rarityMultipliers": [1.0, 1.2, 1.4, 1.6]
+    },
+    "range": {
+      "baseValue": 5,
+      "levelValue": 1,
+      "levelMultipliers": [1.05, 1.1, 1.15, 1.2, 1.25],
+      "rarityMultipliers": [1.0, 1.2, 1.4, 1.6]
+    }
+  },
+  "RegenerationShield": {
+    "capacity": {
+      "baseValue": 50,
+      "levelValue": 10,
+      "levelMultipliers": [1.0, 1.1, 1.2, 1.3, 1.4],
+      "rarityMultipliers": [1.0, 1.2, 1.4, 1.6]
+    },
+    "regeneration": {
+      "baseValue": 5,
+      "levelValue": 1,
+      "levelMultipliers": [1.05, 1.1, 1.15, 1.2, 1.25],
+      "rarityMultipliers": [1.0, 1.2, 1.4, 1.6]
+    },
+    "range": {
+      "baseValue": 5,
+      "levelValue": 1,
+      "levelMultipliers": [1.05, 1.1, 1.15, 1.2, 1.25],
+      "rarityMultipliers": [1.0, 1.2, 1.4, 1.6]
+    }
+  },
+  "Speed": {
+    "power": {
+      "baseValue": 0.5,
+      "levelValue": 0.05,
+      "levelMultipliers": [1.0, 1.05, 1.1, 1.15, 1.2],
+      "rarityMultipliers": [1.0, 1.1, 1.2, 1.3]
+    }
+  },
+  "Slower": {
+    "power": {
+      "baseValue": 0.2,
+      "levelValue": 0.05,
+      "levelMultipliers": [1.1, 1.2, 1.3, 1.4, 1.5],
+      "rarityMultipliers": [1.0, 1.3, 1.6, 1.9]
+    },
+    "range": {
+      "baseValue": 3,
+      "levelValue": 0.5,
+      "levelMultipliers": [1.0, 1.1, 1.2, 1.3, 1.4],
+      "rarityMultipliers": [1.0, 1.2, 1.4, 1.6]
+    }
+  },
+  "Extracteur": {
+    "quantity": {
+      "baseValue": 5,
+      "levelValue": 1,
+      "levelMultipliers": [1.1, 1.2, 1.3, 1.4, 1.5],
+      "rarityMultipliers": [1.0, 1.3, 1.6, 1.9]
+    },
+    "speed": {
+      "baseValue": 5,
+      "levelValue": 1,
+      "levelMultipliers": [1.1, 1.2, 1.3, 1.4, 1.5],
+      "rarityMultipliers": [1.0, 1.3, 1.6, 1.9]
+    },
+    "range": {
+      "baseValue": 100,
+      "levelValue": 20,
+      "levelMultipliers": [1.0, 1.1, 1.2, 1.3, 1.4],
+      "rarityMultipliers": [1.0, 1.2, 1.4, 1.6]
+    }
+  },
+  "Radar": {
+    "range": {
+      "baseValue": 50,
+      "levelValue": 10,
+      "levelMultipliers": [1.05, 1.1, 1.15, 1.2, 1.25],
+      "rarityMultipliers": [1.0, 1.2, 1.4, 1.6]
+    }
+  }
+}
