@@ -163,7 +163,7 @@ public class GenerationStructure : MonoBehaviour {
                 break;
         }
         
-        structure.ressource = new Ressource(ressourceType, returnRessourceValue);
+        structure.SetRessource(new Ressource(ressourceType, returnRessourceValue));
     }
     
     private void ChoseQuantityEpave(Structure structure, TypeRessource ressourceType) {

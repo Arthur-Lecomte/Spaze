@@ -54,8 +54,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 4.24
-  m_Center: {x: 0.39, y: 0, z: 0}
+  m_Radius: 2.2
+  m_Center: {x: -0.09, y: 0, z: -0.18}
 --- !u!54 &8346301664720814088
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -99,6 +99,7 @@ MonoBehaviour:
   ressource:
     type: 0
     quantite: 0
+  emptyAsteroid: {fileID: 5134832592836255891, guid: 7623e82596c0d8f41b70a3b821dafd23, type: 3}
 --- !u!1001 &7676247677005870357
 PrefabInstance:
   m_ObjectHideFlags: 0
