@@ -11,7 +11,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private float spawnSpread; // écart possible entre les spawns
     [SerializeField] private float timeBetweenWaves; // Temps entre chaque vague
     [SerializeField] private int startEnemies; // Nombre d'ennemis de la première vague
-    [SerializeField] private TextMeshProUGUI waveInfoText; // Référence au texte UI
+    private TextMeshProUGUI waveInfoText; // Référence au texte UI
 
     private int currentWave = 0; // Numéro de la vague actuelle
     private List<GameObject> activeEnemies = new(); // Liste des ennemis actifs
@@ -20,6 +20,7 @@ public class WaveManager : MonoBehaviour
 
     void Start()
     {
+        waveInfoText = GetComponent<TextMeshProUGUI>();
         StartCoroutine(SpawnWaves());
     }
 

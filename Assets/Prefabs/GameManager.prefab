@@ -58,7 +58,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5551235663978619115}
-  - component: {fileID: 5590910530839121245}
   - component: {fileID: 231966817067949987}
   - component: {fileID: 3013770914762338863}
   m_Layer: 0
@@ -85,27 +84,6 @@ Transform:
   - {fileID: 9181571825293108787}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5590910530839121245
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1948969600901052911}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac1397e11d3eb634987c6d9bfb339025, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyPrefabs:
-  - {fileID: 6023353615991927423, guid: 3341c6be42d22344face7d8fde7e0a67, type: 3}
-  - {fileID: 8027717516412659972, guid: 903bbf1b33adf35408423e73e8abcd3c, type: 3}
-  - {fileID: 3579862374581722119, guid: 0ea0212633651634ca1eda76568c9c8d, type: 3}
-  spawnRadius: 70
-  spawnSpread: 2
-  timeBetweenWaves: 5
-  startEnemies: 3
-  waveInfoText: {fileID: 0}
 --- !u!114 &231966817067949987
 MonoBehaviour:
   m_ObjectHideFlags: 0
