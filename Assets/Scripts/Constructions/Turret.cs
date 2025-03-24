@@ -5,37 +5,23 @@ public class Turret : SearchTag {
     [SerializeField] private float damage;
     [SerializeField] private float bulletSpeed;
     [SerializeField] private GameObject bulletPrefab;
-
-    private Transform turretHead;
+    
     private Transform[] missileSpawnPoints;
     private int currentSpawnPointIndex;
     
-    //public delegate void EnemyKilledHandler(GameObject enemy);
     public static Action<GameObject> onEnemyKilled;
-
-
+    
     public override void Initialisation(RarityConstruction rarityConstruction) {
         base.Initialisation(rarityConstruction);
+        turnTransform = transform.GetChild(0).GetChild(0);
+        turnSpeed = 10;
         
-        turretHead = transform.GetChild(0).GetChild(0);
-        missileSpawnPoints = new Transform[turretHead.childCount];
-        for (int i = 0; i < turretHead.childCount; i++) {
-            missileSpawnPoints[i] = turretHead.GetChild(i);
+        missileSpawnPoints = new Transform[turnTransform.childCount];
+        for (int i = 0; i < turnTransform.childCount; i++) {
+            missileSpawnPoints[i] = turnTransform.GetChild(i);
         }
         
         onEnemyKilled += CheckList;
-    }
-
-    protected override void Rotate(Transform target) {
-        Vector3 direction = (target.position - turretHead.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(direction);
-        turretHead.rotation = Quaternion.Slerp(turretHead.rotation, lookRotation, Time.deltaTime * 10f);
-    }
-    
-    protected override bool IsAlignedWithTarget(Transform target) {
-        Vector3 directionToTarget = (target.position - turretHead.position).normalized;
-        float angle = Vector3.Angle(turretHead.forward, directionToTarget);
-        return angle < 3f;
     }
 
     protected override void DoAction(Transform target) {
@@ -49,7 +35,10 @@ public class Turret : SearchTag {
     }
     
     private void CheckList(GameObject enemy) {
-        InRange.Remove(enemy.GetComponent<Collider>());
+        if (InRange.Contains(enemy.GetComponent<Collider>())) {
+            InRange.Remove(enemy.GetComponent<Collider>());
+            StopAction();
+        }
     }
 
     public void OnDrawGizmos() {

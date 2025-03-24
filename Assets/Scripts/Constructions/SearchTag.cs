@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -5,6 +6,9 @@ public abstract class SearchTag : Construction {
     [SerializeField] private string tagTarget;
     [SerializeField] protected float range;
     [SerializeField] protected float speed;
+
+    protected Transform turnTransform;
+    protected float turnSpeed = 2f;
 
     private SphereCollider rangeCollider;
     private float nextActionTime;
@@ -18,11 +22,11 @@ public abstract class SearchTag : Construction {
         rangeCollider.isTrigger = true;
         rangeCollider.radius = range;
     }
-    
+
     protected override void PerformUpgrade() {
         rangeCollider.radius = range;
     }
-    
+
     private void OnTriggerEnter(Collider other) {
         if (other.CompareTag(tagTarget)) {
             InRange.Add(other);
@@ -31,10 +35,14 @@ public abstract class SearchTag : Construction {
 
     private void OnTriggerExit(Collider other) {
         if (other.CompareTag(tagTarget)) {
+            if (currentTarget == other.gameObject) {
+                StopAction();
+            }
+
             InRange.Remove(other);
         }
     }
-    
+
     private void Update() {
         if (InRange.Count > 0) {
             currentTarget = GetClosest();
@@ -42,14 +50,15 @@ public abstract class SearchTag : Construction {
                 Rotate(currentTarget.transform);
                 if (Time.time >= nextActionTime && IsAlignedWithTarget(currentTarget.transform)) {
                     DoAction(currentTarget.transform);
-                    nextActionTime = Time.time  + 1f / speed;
+                    nextActionTime = Time.time + 1f / speed;
                 }
             }
         } else {
             currentTarget = null;
+            turnTransform.rotation = Quaternion.Slerp(turnTransform.rotation, transform.parent.rotation, Time.deltaTime * turnSpeed  / 4);
         }
     }
-    
+
     private GameObject GetClosest() {
         GameObject closestObject = null;
         float closestDistance = Mathf.Infinity;
@@ -64,19 +73,20 @@ public abstract class SearchTag : Construction {
 
         return closestObject;
     }
-    
-    protected virtual void Rotate(Transform target) {
-        Vector3 direction = (target.position - transform.position).normalized;
+
+    private void Rotate(Transform target) {
+        Vector3 direction = (target.position - turnTransform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 2f);
+        turnTransform.rotation = Quaternion.Slerp(turnTransform.rotation, lookRotation, Time.deltaTime * turnSpeed);
     }
-    
-    protected virtual bool IsAlignedWithTarget(Transform target) {
-        Vector3 directionToTarget = (target.position - transform.position).normalized;
-        float angle = Vector3.Angle(transform.forward, directionToTarget);
+
+    private bool IsAlignedWithTarget(Transform target) {
+        Vector3 directionToTarget = (target.position - turnTransform.position).normalized;
+        float angle = Vector3.Angle(turnTransform.forward, directionToTarget);
         return angle < 3f;
     }
-    
-    protected virtual void DoAction(Transform target) {
-    }
+
+    protected virtual void DoAction(Transform target) { }
+
+    protected virtual void StopAction() { }
 }
