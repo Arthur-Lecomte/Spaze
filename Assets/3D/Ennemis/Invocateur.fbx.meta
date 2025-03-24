@@ -3,7 +3,22 @@ guid: d129d175ac6d5b64eb40a9b23e62c446
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 07 - Default
+    second: {fileID: 824015559753126921, guid: eb98a38b349858e4d8841258dddc7e4c, type: 3}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 567
+    second: {fileID: 2100000, guid: 4cfa03c6fd99f9b45b57e6a9159222a0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: black mat for body.001
+    second: {fileID: -4352670348413930819, guid: 9cc947dff99bfee418741e8966e69ece, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -68,8 +83,8 @@ ModelImporter:
     useFileScale: 1
     strictVertexDataChecks: 0
   tangentSpace:
-    normalSmoothAngle: 60
-    normalImportMode: 0
+    normalSmoothAngle: 180
+    normalImportMode: 1
     tangentImportMode: 3
     normalCalculationMode: 4
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0

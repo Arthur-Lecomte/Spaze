@@ -1,83 +1,117 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering;
 
-public class WaveManager : MonoBehaviour
-{
+public class WaveManager : MonoBehaviour {
+    public static WaveManager Instance;
+
     [Header("Wave Settings")]
-    [SerializeField] private GameObject player; // Référence au joueur
-    [SerializeField] private List<GameObject> enemyPrefabs; // Liste des ennemis possibles
+    [SerializeField]
+    private List<GameObject> enemyPrefabs; // Liste des ennemis possibles
     [SerializeField] private float spawnRadius; // Distance autour du joueur pour spawn
-    [SerializeField] private float spawnSpread; // Écart possible entre les spawns
+    [SerializeField] private float spawnSpread; // Ã©cart possible entre les spawns
     [SerializeField] private float timeBetweenWaves; // Temps entre chaque vague
-    [SerializeField] private int startEnemies; // Nombre d'ennemis de la première vague
-    [SerializeField] private int enemiesIncrement; // Combien d'ennemis en plus à chaque vague
+    [SerializeField] private int startEnemies; // Nombre d'ennemis de la premiÃ¨re vague
+    private TextMeshProUGUI waveInfoText; // RÃ©fÃ©rence au texte UI
 
-    private int currentWave = 0; // Numéro de la vague actuelle
+    private int currentWave = 0; // NumÃ©ro de la vague actuelle
+    private List<GameObject> activeEnemies = new(); // Liste des ennemis actifs
+    private int nextEnemyIndex = 0; // Index du prochain ennemi Ã  spawn
+    private float timeUntilNextWave; // Temps restant avant la prochaine vague
 
-    void Start()
-    {
+    void Awake() {
+        if (Instance == null) {
+            Instance = this;
+        } else {
+            Destroy(gameObject);
+        }
+
+        waveInfoText = GetComponent<TextMeshProUGUI>();
+    }
+
+    void Start() {
         StartCoroutine(SpawnWaves());
     }
 
+    void Update() {
+        if (activeEnemies.Count > 0) {
+            waveInfoText.text = $"Ennemis restants : {activeEnemies.Count}";
+        } else {
+            waveInfoText.text = $"Prochaine vague : {Mathf.CeilToInt(timeUntilNextWave)} s";
+        }
+    }
+
     /// <summary>
-    /// Gère l'apparaition des vagues d'ennemies.
+    /// GÃ¨re l'apparaition des vagues d'ennemies.
     /// </summary>
     /// <returns></returns>
-    private IEnumerator SpawnWaves()
-    {
-        yield return new WaitForSeconds(timeBetweenWaves); // Délai avant la première vague
+    private IEnumerator SpawnWaves() {
+        while (true) {
+            timeUntilNextWave = timeBetweenWaves;
+            while (timeUntilNextWave > 0) {
+                yield return null;
+                timeUntilNextWave -= Time.deltaTime;
+            }
 
-        while (true)
-        {
             currentWave++;
-            int enemyCount = startEnemies + (currentWave - 1) * enemiesIncrement;
+            int enemyCount = startEnemies + (currentWave - 1) / 5; // Ajouter 1 ennemi toutes les 5 vagues
 
             Debug.Log($"Vague {currentWave} - {enemyCount} ennemis");
 
-            for (int i = 0; i < enemyCount; i++)
-            {
+            for (int i = 0; i < enemyCount; i++) {
                 SpawnEnemy();
-                yield return new WaitForSeconds(0.2f); // Petit délai entre chaque spawn
+                yield return new WaitForSeconds(0.2f); // Petit dÃ©lai entre chaque spawn
             }
 
-            yield return new WaitForSeconds(timeBetweenWaves); // Attente avant la prochaine vague
+            // Attendre que tous les ennemis soient dÃ©truits
+            yield return new WaitUntil(() => activeEnemies.Count == 0);
         }
     }
 
     /// <summary>
-    /// Instantie un ennemie aléatoire provénant de la liste d'ennemie si elle n'est pas vide et que le player n'est pas null.
+    /// Instantie un ennemi alÃ©atoire provenant de la liste d'ennemie si elle n'est pas vide et que le player n'est pas null.
     /// </summary>
-    private void SpawnEnemy()
-    {
-        if (enemyPrefabs.Count == 0 || player == null)
-        {
-            Debug.LogWarning("Aucun ennemi disponible ou joueur non défini !");
+    private void SpawnEnemy() {
+        if (enemyPrefabs.Count == 0 || Vaisseau.Instance.gameObject == null) {
+            Debug.LogWarning("Aucun ennemi disponible ou joueur non dÃ©fini !");
             return;
         }
 
-        GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Count)]; // Choisir un ennemi aléatoire
+        // Choisir un ennemi de maniÃ¨re cyclique
+        GameObject enemyPrefab = enemyPrefabs[nextEnemyIndex];
+        nextEnemyIndex = (nextEnemyIndex + 1) % enemyPrefabs.Count;
 
-        Vector2 spawnPosition = GetRandomSpawnPosition();
-        Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+        Vector3 spawnPosition = GetRandomSpawnPosition();
+        GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+        activeEnemies.Add(enemy);
+
+        // Ajouter un Ã©vÃ¨nement pour retirer l'ennemi de la liste lorsqu'il est dÃ©truit
+        if (enemy.TryGetComponent<Enemy>(out var enemyComponent)) {
+            enemyComponent.Level = 1 + (currentWave - 1) / 2; // Augmenter le niveau toutes les 2 vagues
+            enemyComponent.OnDestroyed += (destroyedEnemy) => activeEnemies.Remove(destroyedEnemy);
+        }
     }
 
     /// <summary>
-    /// Calcule une position aléatoire de spawn d'un ennemie selon les paramètres de la class.
+    /// Calcule une position alÃ©atoire de spawn d'un ennemi selon les paramÃ¨tres de la class.
     /// </summary>
-    /// <returns>Renvoie un Vector2D pour le spawn d'un ennemie.</returns>
-    private Vector2 GetRandomSpawnPosition()
-    {
+    /// <returns>Renvoie un Vector3 pour le spawn d'un ennemi.</returns>
+    private Vector3 GetRandomSpawnPosition() {
         float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
         float offsetX = Random.Range(-spawnSpread, spawnSpread);
-        float offsetY = Random.Range(-spawnSpread, spawnSpread);
+        float offsetZ = Random.Range(-spawnSpread, spawnSpread);
 
-        Vector2 basePosition = new(
-            player.transform.position.x + Mathf.Cos(angle) * spawnRadius,
-            player.transform.position.y + Mathf.Sin(angle) * spawnRadius
+        Vector3 basePosition = new(
+            Vaisseau.Instance.transform.position.x + Mathf.Cos(angle) * spawnRadius,
+            Vaisseau.Instance.transform.position.y, // Garder la mÃªme hauteur que le joueur
+            Vaisseau.Instance.transform.position.z + Mathf.Sin(angle) * spawnRadius
         );
 
-        return basePosition + new Vector2(offsetX, offsetY);
+        return basePosition + new Vector3(offsetX, 0, offsetZ);
+    }
+
+    public void RegisterEnemy(GameObject enemy) {
+        activeEnemies.Add(enemy);
     }
 }

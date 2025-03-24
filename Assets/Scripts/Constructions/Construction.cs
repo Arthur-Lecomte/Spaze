@@ -1,38 +1,144 @@
 using System.Collections.Generic;
-using System.Linq;
+using System.Reflection;
 using UnityEngine;
-using UnityEngine.UI;
 
 public abstract class Construction : MonoBehaviour {
+    private static ConstructionStatsManager stats;
+
     [SerializeField] protected string nom;
     [SerializeField] protected string description;
     [SerializeField] protected RarityConstruction rarity;
-    [SerializeField] protected int niveauMax;
-    protected int Niveau;
-    protected Dictionary<TypeRessource, int> CoutRessources;
-    [SerializeField] protected float probability;
-    [SerializeField] protected RawImage image;
-    
-    public Dictionary<TypeRessource, int> GetCoutRessources() {
-        return CoutRessources;
+    [SerializeField] protected TypeConstruction type;
+    protected int NiveauMax = 5;
+    protected int Niveau = 1;
+    [SerializeField] protected List<Ressource> coutRessources = new List<Ressource>();
+    [SerializeField] protected int probability;
+    [SerializeField] protected Sprite image;
+    private Transform constructionTransform;
+
+    public virtual void Initialisation(RarityConstruction rarityConstruction) {
+        stats = new ConstructionStatsManager();
+        constructionTransform = transform.GetChild(0);
+        rarity = rarityConstruction;
+        SetAllVariables();
+
+        foreach (Ressource ressource in coutRessources) {
+            ressource.quantite = (int)(ressource.quantite * GetRarityMultiplier());
+        }
     }
 
-    public override string ToString() {
-        string couts = string.Join("\n", CoutRessources.Select(kv => $"{kv.Key}: {kv.Value}"));
-        return $"Nom: {nom}\nCoût:\n{couts}";
+    public List<Ressource> GetCoutRessources() {
+        return coutRessources;
+    }
+
+    public Sprite GetSprite() {
+        return image;
+    }
+
+    public RarityConstruction GetRarity() {
+        return rarity;
+    }
+
+    public int GetProbability() {
+        return probability;
+    }
+
+    public string GetNom() {
+        return nom;
+    }
+
+    public int GetNiveau() {
+        return Niveau;
+    }
+
+    public void SetChildOf(Transform parent) {
+        transform.SetParent(parent);
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
+        transform.localScale = Vector3.one;
+        float taille = 1f + (Niveau - 1) * (2f - 1f) / (NiveauMax - 1);
+        constructionTransform.localPosition = new Vector3(0, -0.5f * (taille - 1f), 0);
+        constructionTransform.localScale = new Vector3(taille, taille, taille);
     }
 
     public bool IsSameConstruction(Construction c) {
-        return false; // Vérifier la class, le niveau et la rareté
+        if (c.type == type && c.Niveau == Niveau && c.rarity == rarity) {
+            return true;
+        }
+
+        return false;
     }
-    public abstract void Upgrade();
+
+    public bool Upgrade() {
+        if (Niveau < NiveauMax) {
+            Niveau++;
+            SetChildOf(transform.parent);
+            SetAllVariables();
+            PerformUpgrade();
+            InventoryUI.Instance.ConstructionHaveUpdate(this);
+            return true;
+        }
+
+        return false;
+    }
+
+    protected virtual void PerformUpgrade() {
+    }
+
+    // Méthode pour obtenir un multiplicateur basé sur la rareté
+    private float GetRarityMultiplier() {
+        switch (rarity) {
+            case RarityConstruction.Common: return 1.0f;
+            case RarityConstruction.Rare: return 1.25f;
+            case RarityConstruction.Epic: return 1.5f;
+            case RarityConstruction.Legendary: return 2f;
+            default: return 1.0f;
+        }
+    }
+
+    // Méthode pour obtenir la couleur en fonction de la rareté
+    public Color GetRarityColor() {
+        switch (rarity) {
+            case RarityConstruction.Common: return Color.gray;
+            case RarityConstruction.Rare: return Color.blue;
+            case RarityConstruction.Epic: return new Color(0.5f, 0f, 0.5f);
+            case RarityConstruction.Legendary: return Color.yellow;
+            default: return Color.gray;
+        }
+    }
+
+    public string GetRarityText() {
+        switch (rarity) {
+            case RarityConstruction.Common: return "Commun";
+            case RarityConstruction.Rare: return "Rare";
+            case RarityConstruction.Epic: return "Épique";
+            case RarityConstruction.Legendary: return "Légendaire";
+            default: return "Commun";
+        }
+    }
+
+    private void SetAllVariables() {
+        Dictionary<string, float> values = stats.GetDico(type, rarity, Niveau);
+        foreach (KeyValuePair<string, float> kvp in values) {
+            FieldInfo field = GetType().GetField(kvp.Key, BindingFlags.NonPublic | BindingFlags.Instance);
+            if (field != null) {
+                field.SetValue(this, kvp.Value);
+            }
+        }
+    }
+
+    public virtual Dictionary<string, string> GetStats() {
+        return new Dictionary<string, string> {
+            { "Description", description }
+        };
+    }
 }
 
 public enum RarityConstruction {
-    Common,
-    Rare,
-    Epic,
-    Legendary
+    Common = 0,
+    Rare = 1,
+    Epic = 2,
+    Legendary = 3,
 }
 
 public enum TypeConstruction {
@@ -44,10 +150,6 @@ public enum TypeConstruction {
     RegenerationShield, //Augmente la régénération du bouclier du joueur
     Speed, //Augmente la vitesse de déplacement du joueur
     Slower, //Ralenti les ennemis proches
-    Extraction, //Augmente la quantité de ressources récoltées
+    Extracteur, //Augmente la quantité de ressources récoltées
     Radar, //Augmente la portée du radar (ennemis et/ou ressources)
 }
-/* Notes à voir avec l'équipe:
-- Choisir le mode d'attaque des armes (ennemi le plus proche, le plus faible, avec le plus de PV...)
-- Pouvoir sélectionner des ennemis pour les ciblés en priorité
-*/
