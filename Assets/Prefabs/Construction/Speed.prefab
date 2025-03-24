@@ -61,7 +61,9 @@ MonoBehaviour:
     quantite: 50
   probability: 3
   image: {fileID: 21300000, guid: 9596e40a5a85531418d570e14e68c705, type: 3}
-  additionalSpeed: 0
+  power: 0
+  maxSpeed: 0
+  onAModule: 0
 --- !u!1001 &3594275550996967905
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -15,8 +15,7 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
     [SerializeField] private float rotationSpeed = 200f; // Vitesse de rotation
     [SerializeField] private float drag = 0.99f; // Ralentissement progressif (momentum)
 
-    [Header("Boost")][SerializeField] private int speedSkillCount = 2; // Nombre de points de vitesse appliqués 
-    [SerializeField] private float pourcentageBoost = 0.3f; // Pourcentage de boost appliqué par point 
+    [Header("Boost")][SerializeField] private float speedSkillPercentage = 2; // Nombre de points de vitesse appliqués 
 
     private Rigidbody rb;
     private bool isAccelerating;
@@ -38,8 +37,8 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
         healthBarMaxWidth = healthBar.sizeDelta.x;
     }
 
-    public void SetSpeedSkillCount(int points) {
-        speedSkillCount = points;
+    public void SetSpeedSkillPercentage(float percentage) {
+        speedSkillPercentage = percentage;
     }
 
     void Update() {
@@ -55,11 +54,11 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
 
     void FixedUpdate() {
         // Calcul de la vitesse max avec le boost
-        float boostedMaxSpeed = maxSpeed * (1 + pourcentageBoost * speedSkillCount);
+        float boostedMaxSpeed = maxSpeed + (Speed.AllMaxSpeed * speedSkillPercentage);
 
         // Appliquer une force vers l'avant seulement si le joueur accélère
         if (isAccelerating) {
-            rb.AddForce(transform.forward * acceleration, ForceMode.Acceleration);
+            rb.AddForce(transform.forward * (acceleration + (Speed.AllPower * speedSkillPercentage)), ForceMode.Acceleration);
         }
 
         // Limiter la vitesse

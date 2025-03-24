@@ -37,7 +37,7 @@ public class UpgradeColumn : MonoBehaviour {
     private void SendInformation() {
         switch (type) {
             case TypeUpgrade.Speed:
-                Vaisseau.Instance.SetSpeedSkillCount(level);
+                Vaisseau.Instance.SetSpeedSkillPercentage(level/5f);
                 break;
         }
         
