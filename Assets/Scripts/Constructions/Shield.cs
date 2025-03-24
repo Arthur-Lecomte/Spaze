@@ -35,7 +35,7 @@ public class Shield : SearchShield, ICanTakeDamage {
 
     private void ChangeLife(float quantity) {
         life = Mathf.Clamp(life + quantity, 0, maxLife);
-        lifeBar.rectTransform.sizeDelta = new Vector2(life / maxLife * 150, 25);
+        lifeBar.rectTransform.sizeDelta = new Vector2(life / maxLife * 100, 20);
     }
 
     private void DrawCircle() {
