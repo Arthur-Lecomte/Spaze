@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class ShopCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
     private Transform subPanel;
+    [SerializeField] private TMP_FontAsset fontAsset;
 
     private Construction construction;
     private int index;
@@ -42,7 +43,8 @@ public class ShopCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
             TextMeshProUGUI textComponent = statText.GetComponent<TextMeshProUGUI>();
             textComponent.text = $"{stat.Key}: {stat.Value}";
-            textComponent.fontSize = 25;
+            textComponent.font = fontAsset;
+            textComponent.fontSize = 20;
         }
     }
     

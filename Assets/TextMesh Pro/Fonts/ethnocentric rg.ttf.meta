@@ -11,7 +11,7 @@ TrueTypeFontImporter:
   fontNames:
   - Ethnocentric
   fallbackFontReferences: []
-  customCharacters: 
+  customCharacters: "\xE9"
   fontRenderingMode: 0
   ascentCalculationMode: 1
   useLegacyBoundsCalculation: 0
