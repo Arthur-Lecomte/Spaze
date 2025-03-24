@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class Shield : Construction, ICanTakeDamage {
     [SerializeField] private float maxLife = 50;
@@ -73,12 +72,6 @@ public class Shield : Construction, ICanTakeDamage {
         GetComponent<Collider>().enabled = true;
         lineRenderer.enabled = true;
         //DEBUG!!! play sound repair shield + animation repair shield
-    }
-
-    public override Dictionary<string, string> GetStats() {
-        var stats = base.GetStats();
-        stats.Add("Shield Quantity", maxLife.ToString());
-        return stats;
     }
     
     public void TakeDamage(float damage) {

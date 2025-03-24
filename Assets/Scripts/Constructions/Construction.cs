@@ -128,9 +128,15 @@ public abstract class Construction : MonoBehaviour {
     }
 
     public virtual Dictionary<string, string> GetStats() {
-        return new Dictionary<string, string> {
+        Dictionary<string, string> dico = new Dictionary<string, string> {
             { "Description", description }
         };
+        Dictionary<string, float> values = stats.GetDico(type, rarity, Niveau);
+        foreach (KeyValuePair<string, float> kvp in values) {
+            dico.Add(kvp.Key, kvp.Value.ToString("F2"));
+        }
+
+        return dico;
     }
 }
 

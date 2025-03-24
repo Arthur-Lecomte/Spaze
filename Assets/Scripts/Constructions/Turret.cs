@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using System.Collections.Generic;
 
 public class Turret : SearchTag {
     [SerializeField] private float damage;
@@ -47,13 +46,6 @@ public class Turret : SearchTag {
 
         GameObject bullet = Instantiate(bulletPrefab, spawnPoint.position, Quaternion.LookRotation(direction)  * Quaternion.Euler(90, 0, 0));
         bullet.GetComponent<Tir>().SetInformations(Vaisseau.Instance.gameObject, damage, bulletSpeed, range);
-    }
-
-    public override Dictionary<string, string> GetStats() {
-        var stats = base.GetStats();
-        stats.Add("Damage", damage.ToString());
-        stats.Add("Attack Speed", speed.ToString("F2"));
-        return stats;
     }
     
     private void CheckList(GameObject enemy) {

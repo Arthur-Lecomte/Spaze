@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEditor.UIElements;
 
 public abstract class SearchTag : Construction {
     [SerializeField] private string tagTarget;
@@ -79,11 +78,5 @@ public abstract class SearchTag : Construction {
     }
     
     protected virtual void DoAction(Transform target) {
-    }
-    
-    public override Dictionary<string, string> GetStats() {
-        var stats = base.GetStats();
-        stats.Add("Range", range.ToString("F2"));
-        return stats;
     }
 }
