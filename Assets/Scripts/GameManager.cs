@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void GameOver() {
+        Vaisseau.Instance.gameObject.SetActive(false);
         foreach (var obj in objectsToDisable) {
             if (obj != null)
                 obj.SetActive(false);

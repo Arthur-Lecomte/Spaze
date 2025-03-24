@@ -98,8 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8068a4b3a39b734438072f9c3aaa4085, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectsToDisable:
-  - {fileID: 0}
+  objectsToDisable: []
   objectsToEnable:
   - {fileID: 0}
 --- !u!114 &231966817067949987

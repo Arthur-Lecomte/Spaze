@@ -34,7 +34,6 @@ Transform:
   m_Children:
   - {fileID: 8304729413808920440}
   - {fileID: 1403268955864436532}
-  - {fileID: 3381714765786008827}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &-8878653712180213458
@@ -62,6 +61,7 @@ MonoBehaviour:
   image: {fileID: 21300000, guid: bd7d2c8f6670c9e4d9a626181ab04874, type: 3}
   maxLife: 50
   range: 3
+  lifeBar: {fileID: 0}
 --- !u!135 &2422897042971175221
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -295,14 +295,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4498585769012647541}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_LocalScale: {x: 0.01, y: 0.009999999, z: 0.009999999}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 667140890539446656}
   - {fileID: 7862719391595721670}
-  m_Father: {fileID: 1920096480979386640}
+  m_Father: {fileID: 8304729413808920440}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -560,7 +560,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 227f90dd43cb86649a1c3f020b9b0e60, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3381714765786008827}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 227f90dd43cb86649a1c3f020b9b0e60, type: 3}
 --- !u!4 &8304729413808920440 stripped
