@@ -9,8 +9,8 @@ public abstract class Construction : MonoBehaviour {
     [SerializeField] protected string description;
     [SerializeField] protected RarityConstruction rarity;
     [SerializeField] protected TypeConstruction type;
-    protected int NiveauMax = 5;
-    protected int Niveau = 1;
+    private const int NiveauMax = 5;
+    private int niveau = 1;
     [SerializeField] protected List<Ressource> coutRessources = new List<Ressource>();
     [SerializeField] protected int probability;
     [SerializeField] protected Sprite image;
@@ -18,7 +18,7 @@ public abstract class Construction : MonoBehaviour {
     private GameObject[] pieces;
 
     public virtual void Initialisation(RarityConstruction rarityConstruction) {
-        stats = new ConstructionStatsManager();
+        stats ??= new ConstructionStatsManager();
         constructionTransform = transform.GetChild(0);
         pieces = new GameObject[5];
         if (transform.childCount == 2) {
@@ -57,43 +57,40 @@ public abstract class Construction : MonoBehaviour {
     }
 
     public int GetNiveau() {
-        return Niveau;
+        return niveau;
     }
 
-    public void SetChildOf(Transform parent) {
+    public virtual void SetChildOf(Transform parent, bool onModule = true) {
         transform.SetParent(parent);
-        transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.identity;
-        transform.localScale = Vector3.one;
         
-        float taille = 1f + (Niveau - 1) * (2f - 1f) / (NiveauMax - 1);
-        constructionTransform.localPosition = new Vector3(0, -0.5f * (taille - 1f), 0);
-        constructionTransform.localScale = new Vector3(taille, taille, taille);
+        if (onModule) {
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.identity;
+            transform.localScale = Vector3.one;
         
-        for (int i = 0; i < pieces.Length; i++) {
-            pieces[i].SetActive(i < Niveau);
+            float taille = 1f + (niveau - 1) * (2f - 1f) / (NiveauMax - 1);
+            constructionTransform.localPosition = new Vector3(0, -0.5f * (taille - 1f), 0);
+            constructionTransform.localScale = new Vector3(taille, taille, taille);
+        
+            for (int i = 0; i < pieces.Length; i++) {
+                pieces[i].SetActive(i < niveau);
+            }
         }
     }
 
     public bool IsSameConstruction(Construction c) {
-        if (c.type == type && c.Niveau == Niveau && c.rarity == rarity) {
-            return true;
-        }
-
-        return false;
+        return c.type == type && c.niveau == niveau && c.rarity == rarity;
     }
 
     public bool Upgrade() {
-        if (Niveau < NiveauMax) {
-            Niveau++;
-            SetChildOf(transform.parent);
-            SetAllVariables();
-            PerformUpgrade();
-            InventoryUI.Instance.ConstructionHaveUpdate(this);
-            return true;
-        }
-
-        return false;
+        if (niveau >= NiveauMax) return false;
+        
+        niveau++;
+        SetChildOf(transform.parent);
+        SetAllVariables();
+        PerformUpgrade();
+        InventoryUI.Instance.ConstructionHaveUpdate(this);
+        return true;
     }
 
     protected virtual void PerformUpgrade() {
@@ -132,20 +129,22 @@ public abstract class Construction : MonoBehaviour {
     }
 
     private void SetAllVariables() {
-        Dictionary<string, float> values = stats.GetDico(type, rarity, Niveau);
+        Dictionary<string, float> values = stats.GetDico(type, rarity, niveau);
         foreach (KeyValuePair<string, float> kvp in values) {
             FieldInfo field = GetType().GetField(kvp.Key, BindingFlags.NonPublic | BindingFlags.Instance);
             if (field != null) {
                 field.SetValue(this, kvp.Value);
+            } else {
+                Debug.LogError("Field " + kvp.Key + " not found in " + GetType().Name);
             }
         }
     }
 
-    public virtual Dictionary<string, string> GetStats() {
+    public Dictionary<string, string> GetStats() {
         Dictionary<string, string> dico = new Dictionary<string, string> {
             { "Description", description }
         };
-        Dictionary<string, float> values = stats.GetDico(type, rarity, Niveau);
+        Dictionary<string, float> values = stats.GetDico(type, rarity, niveau);
         foreach (KeyValuePair<string, float> kvp in values) {
             dico.Add(kvp.Key, kvp.Value.ToString("F2"));
         }

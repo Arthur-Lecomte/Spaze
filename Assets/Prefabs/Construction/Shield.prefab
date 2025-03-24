@@ -57,11 +57,10 @@ MonoBehaviour:
     quantite: 100
   - type: 2
     quantite: 10
-  probability: 1
+  probability: 10
   image: {fileID: 21300000, guid: bd7d2c8f6670c9e4d9a626181ab04874, type: 3}
   maxLife: 50
-  range: 3
-  lifeBar: {fileID: 0}
+  lifeBar: {fileID: 1966153456569766858}
 --- !u!135 &2422897042971175221
 SphereCollider:
   m_ObjectHideFlags: 0

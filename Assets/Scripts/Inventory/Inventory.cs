@@ -94,7 +94,7 @@ public class Inventory : MonoBehaviour {
     public void SetInventorySlot(int index, Construction construction) {
         constructionsInventory[index] = construction;
         if (construction) {
-            construction.transform.SetParent(parentInInventory);
+            construction.SetChildOf(parentInInventory, false);
         }
         InventoryUI.Instance.SetInventorySlot(index, constructionsInventory[index]);
     }
@@ -140,7 +140,7 @@ public class Inventory : MonoBehaviour {
 
         // Si on a un module libre, on lui ajoute la construction
         if (libre) {
-            libre.onAddConstruction.Invoke(newConstruction);
+            libre.onAddConstruction?.Invoke(newConstruction);
             return true;
         }
 

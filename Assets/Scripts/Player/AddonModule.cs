@@ -12,9 +12,7 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
     private Collider objectCollider;
     private Renderer objectRenderer;
     private List<Color> colors;
-    private Construction construction;
     private Image constructionImage;
-
     private GameObject previewInstance;
     private Transform parentPreview;
     private Vector3 localPositionPreview;
@@ -54,18 +52,18 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
     }
 
     public void SetConstruction(Construction c) {
-        construction = c;
-        if (construction) {
-            construction.SetChildOf(transform);
+        Construction = c;
+        if (Construction) {
+            Construction.SetChildOf(transform);
         }
     }
 
     public Construction GetConstruction() {
-        return construction;
+        return Construction;
     }
 
     public bool IsEmpty() {
-        return construction == null;
+        return Construction == null;
     }
 
     public void OnPointerEnter(PointerEventData eventData) {

@@ -2,11 +2,11 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Shield : Construction, ICanTakeDamage {
-    [SerializeField] private float maxLife = 50;
+public class Shield : SearchShield, ICanTakeDamage {
+    [SerializeField] private float maxLife;
     private float life;
-    private float regeneration = 5;
-    [SerializeField] private float range = 3;
+    private float regeneration;
+    private float range;
 
     private SphereCollider trigger;
     private LineRenderer lineRenderer;
@@ -15,7 +15,7 @@ public class Shield : Construction, ICanTakeDamage {
 
     public override void Initialisation(RarityConstruction rarityConstruction) {
         base.Initialisation(rarityConstruction);
-        
+
         ChangeLife(maxLife);
 
         trigger = GetComponent<SphereCollider>();
@@ -23,6 +23,14 @@ public class Shield : Construction, ICanTakeDamage {
 
         lineRenderer = gameObject.GetComponent<LineRenderer>();
         DrawCircle();
+
+        TypeToSearch = typeof(RegenerationShield);
+    }
+    
+    public override void SetChildOf(Transform parent, bool onModule = true) {
+        base.SetChildOf(parent, onModule);
+
+        NewShield?.Invoke();
     }
 
     private void ChangeLife(float quantity) {
@@ -45,15 +53,43 @@ public class Shield : Construction, ICanTakeDamage {
 
     protected override void PerformUpgrade() {
         life = maxLife; //Régénère entièrement le shield en s'améliorant
+        trigger.radius = range; //Augmente la portée du shield
+        DrawCircle(); //Redessine le cercle
     }
 
     private IEnumerator RegenerateShield() {
-        yield return new WaitForSeconds(3);
+        float elapsedTime = 0f;
 
-        while (life < maxLife) {
-            ChangeLife(regeneration * Time.deltaTime);
+        while (elapsedTime < 3f && life < maxLife) {
+            FirstPhaseRegenerateShield();
+            elapsedTime += Time.deltaTime;
             yield return null;
         }
+        
+        while (life < maxLife) {
+            SecondePhaseRegenerateShield();
+            yield return null;
+        }
+    }
+
+    private void FirstPhaseRegenerateShield() {
+        float regenerationBonus = 0;
+        foreach (SearchShield searchShield in NearbySearchShields) {
+            RegenerationShield regenerationShield = (RegenerationShield)searchShield;
+            regenerationBonus += regenerationShield.RegenerationPerShield;
+        }
+
+        ChangeLife(regenerationBonus * Time.deltaTime);
+    }
+
+    private void SecondePhaseRegenerateShield() {
+        float regenerationBonus = 0;
+        foreach (SearchShield searchShield in NearbySearchShields) {
+            RegenerationShield regenerationShield = (RegenerationShield)searchShield;
+            regenerationBonus += regenerationShield.RegenerationPerShield;
+        }
+
+        ChangeLife((regeneration + regenerationBonus) * Time.deltaTime);
     }
 
     private IEnumerator Repair() {
@@ -73,7 +109,7 @@ public class Shield : Construction, ICanTakeDamage {
         lineRenderer.enabled = true;
         //DEBUG!!! play sound repair shield + animation repair shield
     }
-    
+
     public void TakeDamage(float damage) {
         StopCoroutine(nameof(RegenerateShield));
         ChangeLife(-damage);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,6 +6,8 @@ public abstract class Module : MonoBehaviour {
     protected List<Module> Neighbors;
     private const float Scale = 2f;
     protected bool CanBeActivate;
+    
+    protected Construction Construction;
 
     protected virtual void Awake() {
         Neighbors = new List<Module>();
@@ -41,5 +44,40 @@ public abstract class Module : MonoBehaviour {
     }
 
     public virtual void DisplayModule(bool value) {
+    }
+    
+    public List<SearchShield> GetSearchShieldAtDistance(Type type, int distance) {
+        List<SearchShield> shields = new List<SearchShield>();
+        List<Module> neighbors = GetNeighborsAtDistance(distance);
+        Debug.Log(neighbors.Count); // DEBUG !!!
+        foreach (Module neighbor in neighbors) {
+            if (type.IsInstanceOfType(neighbor.Construction)) {
+                shields.Add((SearchShield)neighbor.Construction);
+            }
+        }
+        
+        return shields;
+    }
+    
+    private List<Module> GetNeighborsAtDistance(int distance) {
+        if (distance < 1) return new List<Module>();
+        if (distance == 1) return new List<Module>(Neighbors);
+
+        HashSet<Module> visited = new HashSet<Module>(Neighbors);
+        Queue<Module> queue = new Queue<Module>(Neighbors);
+
+        for (int i = 1; i < distance; i++) {
+            int levelSize = queue.Count;
+            for (int j = 0; j < levelSize; j++) {
+                Module current = queue.Dequeue();
+                foreach (Module neighbor in current.Neighbors) {
+                    if (visited.Add(neighbor)) {
+                        queue.Enqueue(neighbor);
+                    }
+                }
+            }
+        }
+
+        return new List<Module>(visited);
     }
 }
