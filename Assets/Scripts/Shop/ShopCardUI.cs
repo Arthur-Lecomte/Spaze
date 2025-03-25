@@ -8,7 +8,11 @@ using UnityEngine.UI;
 
 public class ShopCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
     private Transform subPanel;
+    private Coroutine subPanelCoroutine;
     [SerializeField] private TMP_FontAsset fontAsset;
+
+    private GameObject noSpace;
+    private Coroutine noMoreSpaceCoroutine;
 
     private Construction construction;
     private int index;
@@ -33,6 +37,8 @@ public class ShopCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         // Configurer le bouton d'achat
         transform.Find("PanelConstruction").Find("AcheterButton")?.GetComponent<Button>().onClick.AddListener(() => BuyConstruction());
+        
+        noSpace = transform.Find("PanelConstruction").Find("NoMoreSpaZe").gameObject;
 
         // Affiche les valeurs des statistiques
         subPanel = transform.Find("SubPanel");
@@ -54,16 +60,20 @@ public class ShopCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void OnPointerEnter(PointerEventData eventData) {
         // Démarrer une coroutine pour ouvrir le panneau
-        StopAllCoroutines();
+        if (subPanelCoroutine != null) {
+            StopCoroutine(subPanelCoroutine);
+        }
         subPanel.gameObject.SetActive(true); // Activer le panneau avant de lancer l'animation
-        StartCoroutine(SubPanelCoroutine(new Vector3(index == 1 ? -370 : 370, 0, 0)));
+        subPanelCoroutine = StartCoroutine(SubPanelCoroutine(new Vector3(index == 1 ? -370 : 370, 0, 0)));
         ShopManager.Instance.DimOtherConstructions(gameObject); // Dim other constructions
     }
     
     public void OnPointerExit(PointerEventData eventData) {
         // Démarrer une coroutine pour fermer le panneau
-        StopAllCoroutines();
-        StartCoroutine(SubPanelCoroutine(Vector3.zero));
+        if (subPanelCoroutine != null) {
+            StopCoroutine(subPanelCoroutine);
+        }
+        subPanelCoroutine = StartCoroutine(SubPanelCoroutine(Vector3.zero));
         ShopManager.Instance.RestoreConstructionsVisibility(); // Restore visibility
     }
 
@@ -105,8 +115,19 @@ public class ShopCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 Inventory.Instance.RemoveRessources(construction.GetCoutRessources());
                 Destroy(gameObject);
                 ShopManager.Instance.RestoreConstructionsVisibility(); // Restore visibility
+            } else {
+                if (noMoreSpaceCoroutine != null) {
+                    StopCoroutine(noMoreSpaceCoroutine);
+                }
+                noMoreSpaceCoroutine = StartCoroutine(NoMoreSpaZe());
             }
         }
+    }
+    
+    private IEnumerator NoMoreSpaZe() {
+        noSpace.SetActive(true);
+        yield return new WaitForSeconds(5);
+        noSpace.SetActive(false);
     }
 
     public void OnDestroy() {
