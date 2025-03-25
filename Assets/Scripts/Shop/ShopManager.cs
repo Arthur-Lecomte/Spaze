@@ -8,19 +8,24 @@ using Random = UnityEngine.Random;
 
 public class ShopManager : MonoBehaviour {
     public static ShopManager Instance;
+    
     private ShopOption currentOption;
     private ShopOption memoryOption;
-    private bool freeReset = true;
+    private Shop currentShop;
+    private bool forceUpdate;
 
     [SerializeField] private GameObject[] prefabsTurrets;
     [SerializeField] private GameObject[] prefabsConstructions;
     
     [SerializeField] private GameObject[] buttons;
-
+    
     [SerializeField] private Transform conteneurConstructions;
+    private readonly List<ShopCardUI> shopCards = new List<ShopCardUI>();
     [SerializeField] private GameObject prefabConstructionItem;
     [SerializeField] private Transform zoneForPrefab;
     [SerializeField] private GameObject shopPanel;
+    
+    private Dictionary<Shop, Construction[]> shopConstructions = new Dictionary<Shop, Construction[]>();
     
     private Dictionary<RarityConstruction, int> rarityWeight = new Dictionary<RarityConstruction, int> {
         {RarityConstruction.Common, 50},
@@ -41,52 +46,69 @@ public class ShopManager : MonoBehaviour {
         //Force l'interface à se désactiver
         currentOption = ShopOption.PurchaseConstruction;
         memoryOption = ShopOption.PurchaseConstruction;
-        ChangeShopOption(0);
+        ChangeShopOption(0, null);
+        
+        for(int index = 0; index < 3; index++) {
+            GameObject constructionItem = Instantiate(prefabConstructionItem, conteneurConstructions);
+            shopCards.Add(constructionItem.GetComponent<ShopCardUI>());
+            shopCards[index].Create(index);
+        }
     }
 
-    private void DisplayShop(bool value) {
-        if (value && freeReset) {
-            ResetConstructions();
-            freeReset = false;
-        }
-
+    private void DisplayShop(bool value, Shop shop) {
         if (value) {
-            RestoreConstructionsVisibility();
-            foreach (Transform child in conteneurConstructions) {
-                child.GetComponent<ShopCardUI>().HideSubPanel();
+            if (shop != currentShop || forceUpdate) {
+                if (!shopConstructions.TryGetValue(shop, out Construction[] constructions)) {
+                    constructions = ChooseThreeConstructions();
+                    shopConstructions[shop] = constructions;
+                }
+                
+                for (int index = 0; index < shopCards.Count; index++) {
+                    if (constructions[index]) {
+                        shopCards[index].Initialisation(constructions[index]);
+                        shopCards[index].gameObject.SetActive(true);
+                    } else {
+                        shopCards[index].gameObject.SetActive(false);
+                    }
+                }
             }
+            
+            foreach (ShopCardUI child in shopCards) {
+                child.HideSubPanel();
+            }
+            RestoreConstructionsVisibility(shop);
         }
 
         shopPanel.SetActive(value);
     }
-    
-    public void FreeReset() {
-        freeReset = true;
 
-        if (currentOption == ShopOption.PurchaseConstruction) {
-            DisplayShop(true);
-        }
+    public void IsBuy(int index) {
+        shopConstructions[currentShop][index] = null;
     }
     
-    public void ResetConstructions() {
-        // Supprimer toutes les constructions affichées
-        foreach (Transform child in conteneurConstructions) {
-            Destroy(child.gameObject);
-        }
+    public void NewWave() {
+        shopConstructions.Clear();
         foreach (Transform child in zoneForPrefab) {
             Destroy(child.gameObject);
         }
+
+        forceUpdate = true;
+        if (currentOption == ShopOption.PurchaseConstruction) {
+            DisplayShop(true, currentShop);
+        }
+    }
+
+    private Construction[] ChooseThreeConstructions() {
+        Construction[] constructions = new Construction[3];
         
-        ChooseThreeConstructions();
+        constructions[0] = SelectRandomConstruction(prefabsTurrets);
+        constructions[1] = SelectRandomConstruction(prefabsConstructions);
+        constructions[2] = SelectRandomConstruction(prefabsConstructions);
+
+        return constructions;
     }
 
-    private void ChooseThreeConstructions() {
-        SelectRandomConstruction(prefabsTurrets, -1);
-        SelectRandomConstruction(prefabsConstructions, 0);
-        SelectRandomConstruction(prefabsConstructions, 1);
-    }
-
-    private void SelectRandomConstruction(GameObject[] gameObjects, int index) {
+    private Construction SelectRandomConstruction(GameObject[] gameObjects) {
         Construction[] constructions = new Construction[gameObjects.Length];
         int totalWeight = 0;
         for (int i = 0; i < gameObjects.Length; i++) {
@@ -100,15 +122,14 @@ public class ShopManager : MonoBehaviour {
         for (int i = 0; i < gameObjects.Length; i++) {
             cumulativeWeight += constructions[i].GetProbability();
             if (randomValue < cumulativeWeight) {
-                ChooseRarity(gameObjects[i], index);
-                return;
+                return ChooseRarity(gameObjects[i]);
             }
         }
         
         throw new InvalidOperationException("Erreur au niveau de la liste pondérée");
     }
 
-    private void ChooseRarity(GameObject prefab, int index) {
+    private Construction ChooseRarity(GameObject prefab) {
         int totalWeight = rarityWeight.Values.Sum();
         int randomValue = Random.Range(0, totalWeight);
         int cumulativeWeight = 0;
@@ -116,32 +137,25 @@ public class ShopManager : MonoBehaviour {
         foreach (var rarity in rarityWeight) {
             cumulativeWeight += rarity.Value;
             if (randomValue < cumulativeWeight) {
-                CreateObject(prefab, rarity.Key, index);
-                return;
+                return CreateObject(prefab, rarity.Key);
             }
         }
 
         throw new InvalidOperationException("Erreur au niveau du choix de la rareté");
     }
     
-    private void CreateObject(GameObject prefab, RarityConstruction rarity, int index) {
+    private Construction CreateObject(GameObject prefab, RarityConstruction rarity) {
         GameObject go = Instantiate(prefab, zoneForPrefab);
         Construction construction = go.GetComponent<Construction>();
         construction.Initialisation(rarity);
-        AfficherConstruction(construction, index);
+        return construction;
     }
 
-    private void AfficherConstruction(Construction construction, int index) {
-        // Instancier le prefab de l'élément UI
-        GameObject constructionItem = Instantiate(prefabConstructionItem, conteneurConstructions);
-        constructionItem.GetComponent<ShopCardUI>().Initialisation(construction, index);
-    }
-
-    public void DimOtherConstructions(GameObject activeConstruction) {
-        foreach (Transform child in conteneurConstructions) {
-            if (child.gameObject != activeConstruction) {
-                child.GetComponent<ShopCardUI>().HideSubPanel();
-                child.GetComponent<CanvasGroup>().alpha = 0.25f; // Make less visible
+    public void DimOtherConstructions(ShopCardUI activeConstruction) {
+        for (int index = 0; index < shopCards.Count; index++) {
+            if (shopConstructions[currentShop][index] && shopCards[index] != activeConstruction) {
+                shopCards[index].SetCanvasGroup(0.25f);
+                shopCards[index].HideSubPanel();
             }
         }
 
@@ -149,11 +163,12 @@ public class ShopManager : MonoBehaviour {
         activeConstruction.transform.SetAsLastSibling();
     }
 
-    public void RestoreConstructionsVisibility() {
-        foreach (Transform child in conteneurConstructions) {
-            CanvasGroup canvasGroup = child.GetComponent<CanvasGroup>();
-            if (canvasGroup) {
-                canvasGroup.alpha = 1f; // Restore visibility
+    public void RestoreConstructionsVisibility(Shop shop) {
+        shop ??= currentShop; // Si aucun shop n'est donné, utilisé le shop actuel
+        
+        for (int index = 0; index < shopCards.Count; index++) {
+            if (shopConstructions[shop][index]) {
+                shopCards[index].SetCanvasGroup(1f);
             }
         }
     }
@@ -162,23 +177,33 @@ public class ShopManager : MonoBehaviour {
         return currentOption != ShopOption.None;
     }
 
-    public void ChangeShopOption(int option) {
-        ShopOption shopOption = option == -1 ? memoryOption : (ShopOption)option;
-        option = (int)shopOption;
+    public void ChangeShopOptionButton(int option) {
+        ChangeShopOption(option, currentShop);
+    }
+
+    public void ChangeShopOption(int option, Shop shop) {
+        if (option == 0 && currentShop != shop) return;
+
+        ShopOption shopOption;
+        if (currentShop != shop) {
+            shopOption = ShopOption.PurchaseConstruction;
+        } else {
+            shopOption = option == -1 ? memoryOption : (ShopOption)option;
+            if (currentOption == shopOption) return;
+        }
         
-        if (currentOption == shopOption) return;
         currentOption = shopOption;
         memoryOption = option != 0 ? shopOption : memoryOption;
 
         gameObject.SetActive(option != 0);
-        ChangeAffichageButton(buttons[option]);
-        DisplayShop(false);
+        ChangeAffichageButton(buttons[(int)shopOption]);
+        DisplayShop(false, currentShop);
         UpgradeManager.Instance.DisplayUpgrade(false);
         InventoryUI.Instance.DisplayInventory(false);
         
         switch (shopOption) {
             case ShopOption.PurchaseConstruction:
-                DisplayShop(true);
+                DisplayShop(true, shop);
                 break;
             case ShopOption.UpgradeShip:
                 UpgradeManager.Instance.DisplayUpgrade(true);
@@ -187,6 +212,8 @@ public class ShopManager : MonoBehaviour {
                 InventoryUI.Instance.DisplayInventory(true);
                 break;
         }
+
+        currentShop = shop;
     }
     
     private void ChangeAffichageButton(GameObject button) {

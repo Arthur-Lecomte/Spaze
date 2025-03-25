@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ShopInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler {
+public class Shop : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler {
     private Outline outline;
     private bool mouseOn;
     private bool isInShopRange;
@@ -15,7 +15,7 @@ public class ShopInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
         CheckOutline();
         
         if (!isInShopRange && ShopManager.Instance.IsShopOpen()) {
-            ShopManager.Instance.ChangeShopOption(0);
+            ShopManager.Instance.ChangeShopOption(0, this);
         }
     }
 
@@ -35,7 +35,7 @@ public class ShopInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnPointerDown(PointerEventData eventData) {
         if (isInShopRange && !ShopManager.Instance.IsShopOpen()) {
-            ShopManager.Instance.ChangeShopOption(-1);
+            ShopManager.Instance.ChangeShopOption(-1, this);
         }
     }
 }

@@ -10,7 +10,7 @@ public class CircleDrawer : MonoBehaviour
 
     private LineRenderer lineRenderer;
 
-    private ShopInteractionHandler shopInteractionHandler;
+    private Shop shop;
 
     private void Start()
     {
@@ -34,7 +34,7 @@ public class CircleDrawer : MonoBehaviour
         // Dessiner le cercle initial
         DrawCircle();
         
-        shopInteractionHandler = transform.parent.GetComponentInChildren<ShopInteractionHandler>();
+        shop = transform.parent.GetComponentInChildren<Shop>();
     }
 
     private void DrawCircle()
@@ -53,13 +53,13 @@ public class CircleDrawer : MonoBehaviour
     
     private void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Player")) {
-            shopInteractionHandler.SetIsInShopRange(true);
+            shop.SetIsInShopRange(true);
         }
     }
 
     private void OnTriggerExit(Collider other) {
         if (other.CompareTag("Player")) {
-            shopInteractionHandler.SetIsInShopRange(false);
+            shop.SetIsInShopRange(false);
         }
     }
 }

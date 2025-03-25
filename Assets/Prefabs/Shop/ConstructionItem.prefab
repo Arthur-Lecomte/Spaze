@@ -546,7 +546,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6610793910484985671}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1909345515349890525}
+        m_TargetAssemblyTypeName: ShopCardUI, Assembly-CSharp
+        m_MethodName: BuyConstruction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1809131653195310000
 GameObject:
   m_ObjectHideFlags: 0
@@ -1008,7 +1020,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02732a96ceb04b25ac1b884b16132f3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subPanel: {fileID: 5058198051920599481}
+  subPanelContainer: {fileID: 2973425290814713119}
   fontAsset: {fileID: 11400000, guid: 67a17254de5cffa488d8ee152e0790fa, type: 2}
+  noSpace: {fileID: 3775058986563462232}
+  spritePlace: {fileID: 7313937246260174936}
+  rarityText: {fileID: 5023803638413749902}
+  panelConstruction: {fileID: 4193852182810000101}
 --- !u!225 &7649291810494395842
 CanvasGroup:
   m_ObjectHideFlags: 0

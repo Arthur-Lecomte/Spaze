@@ -3151,7 +3151,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2067443074256847544}
         m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
-        m_MethodName: FreeReset
+        m_MethodName: NewWave
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,44 +6,52 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class ShopCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
-    private Transform subPanel;
-    private Coroutine subPanelCoroutine;
-    [SerializeField] private TMP_FontAsset fontAsset;
-
-    private GameObject noSpace;
-    private Coroutine noMoreSpaceCoroutine;
-
     private Construction construction;
     private int index;
     
     private Dictionary<Ressource, TextMeshProUGUI> texts;
+        
+    [SerializeField] private Transform subPanel;
+    [SerializeField] private Transform subPanelContainer;
+    private Coroutine subPanelCoroutine;
+    [SerializeField] private TMP_FontAsset fontAsset;
 
-    public void Initialisation(Construction constru, int i) {
-        construction = constru;
+    [SerializeField] private GameObject noSpace;
+    private Coroutine noMoreSpaceCoroutine;
+    
+    [SerializeField] private Image spritePlace;
+    [SerializeField] private TextMeshProUGUI rarityText;
+    [SerializeField] private Transform panelConstruction;
+    
+    private CanvasGroup canvasGroup;
+    
+    public void Create(int i) {
         index = i;
-        transform.localPosition = new Vector3(index * 600, 0, 0);
+        transform.localPosition = new Vector3((index - 1) * 600, 0, 0);
+        canvasGroup = GetComponent<CanvasGroup>();
+    }
+    
+    public void SetCanvasGroup(float alpha) {
+        canvasGroup.alpha = alpha;
+    }
 
-        // Configurer l'élément UI
-        Image sprite = transform.Find("PanelConstruction").Find("Sprite")?.GetComponent<Image>();
-        TextMeshProUGUI rarity = transform.Find("PanelConstruction").Find("Rarity Zone")?.GetComponent<TextMeshProUGUI>();
+    public void Initialisation(Construction constru) {
+        construction = constru;
+
         //DEBUG!!! seulement le dernier panel voit ces couleurs mise à jour !!!
-        texts = BuyHoverUI.Instance.ShowConstructionUI(transform.Find("PanelConstruction"), construction.GetNom(), construction.GetCoutRessources());
+        texts = BuyHoverUI.Instance.ShowConstructionUI(panelConstruction, construction.GetNom(), construction.GetCoutRessources());
         RessourcesUI.OnUIUpdated += UIUpdated;
         
-        sprite.sprite = construction.GetSprite();
-        rarity.text = construction.GetRarityText();
-        rarity.color = construction.GetRarityColor();
-
-        // Configurer le bouton d'achat
-        transform.Find("PanelConstruction").Find("AcheterButton")?.GetComponent<Button>().onClick.AddListener(() => BuyConstruction());
+        spritePlace.sprite = construction.GetSprite();
+        rarityText.text = construction.GetRarityText();
+        rarityText.color = construction.GetRarityColor();
         
-        noSpace = transform.Find("PanelConstruction").Find("NoMoreSpaZe").gameObject;
-
-        // Affiche les valeurs des statistiques
-        subPanel = transform.Find("SubPanel");
+        foreach (Transform child in subPanelContainer) {
+            Destroy(child.gameObject);
+        }
         foreach (var stat in construction.GetStats()) {
             GameObject statText = new GameObject(stat.Key, typeof(TextMeshProUGUI));
-            statText.transform.SetParent(subPanel.Find("ContainerStats"));
+            statText.transform.SetParent(subPanelContainer);
             statText.transform.localScale = Vector3.one;
 
             TextMeshProUGUI textComponent = statText.GetComponent<TextMeshProUGUI>();
@@ -64,8 +71,8 @@ public class ShopCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             StopCoroutine(subPanelCoroutine);
         }
         subPanel.gameObject.SetActive(true); // Activer le panneau avant de lancer l'animation
-        subPanelCoroutine = StartCoroutine(SubPanelCoroutine(new Vector3(index == 1 ? -370 : 370, 0, 0)));
-        ShopManager.Instance.DimOtherConstructions(gameObject); // Dim other constructions
+        subPanelCoroutine = StartCoroutine(SubPanelCoroutine(new Vector3(index == 2 ? -370 : 370, 0, 0)));
+        ShopManager.Instance.DimOtherConstructions(this); // Dim other constructions
     }
     
     public void OnPointerExit(PointerEventData eventData) {
@@ -74,7 +81,7 @@ public class ShopCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             StopCoroutine(subPanelCoroutine);
         }
         subPanelCoroutine = StartCoroutine(SubPanelCoroutine(Vector3.zero));
-        ShopManager.Instance.RestoreConstructionsVisibility(); // Restore visibility
+        ShopManager.Instance.RestoreConstructionsVisibility(null); // Restore visibility
     }
 
     private IEnumerator SubPanelCoroutine(Vector3 targetPosition ) {
@@ -99,22 +106,22 @@ public class ShopCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     }
     
     public void HideSubPanel() {
-        if (subPanel) {
-            subPanel.gameObject.SetActive(false);
-            subPanel.localPosition = Vector3.zero;
-        }
+        subPanel.gameObject.SetActive(false);
+        subPanel.localPosition = Vector3.zero;
     }
 
     // Méthode pour acheter une construction
-    private void BuyConstruction() {
+    public void BuyConstruction() {
         // Vérifiez si le joueur à suffisamment de ressources pour acheter la construction
         if (Inventory.Instance.HaveEnoughRessources(construction.GetCoutRessources())) {
             // Si on peut ajouter la construction au vaisseau
             if (Inventory.Instance.AddConstruction(construction)) {
                 // Retirer les ressources nécessaires
                 Inventory.Instance.RemoveRessources(construction.GetCoutRessources());
-                Destroy(gameObject);
-                ShopManager.Instance.RestoreConstructionsVisibility(); // Restore visibility
+                StopAllCoroutines();
+                gameObject.SetActive(false);
+                ShopManager.Instance.IsBuy(index);
+                ShopManager.Instance.RestoreConstructionsVisibility(null); // Restore visibility
             } else {
                 if (noMoreSpaceCoroutine != null) {
                     StopCoroutine(noMoreSpaceCoroutine);
@@ -128,10 +135,5 @@ public class ShopCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         noSpace.SetActive(true);
         yield return new WaitForSeconds(5);
         noSpace.SetActive(false);
-    }
-
-    public void OnDestroy() {
-        StopAllCoroutines();
-        RessourcesUI.OnUIUpdated -= UIUpdated;
     }
 }

@@ -64,6 +64,7 @@ public class WaveManager : MonoBehaviour {
 
             // Attendre que tous les ennemis soient détruits
             yield return new WaitUntil(() => activeEnemies.Count == 0);
+            ShopManager.Instance.NewWave();
         }
     }
 
