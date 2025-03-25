@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Invocateur : Enemy
 {
-    [SerializeField] public Assaillant minionPrefab; // Préfabriqué du sbire (de type Assaillant)
+    [SerializeField] public GameObject minionPrefab; // Préfabriqué du sbire
 
     
     private int seed; // Seed aléatoire pour les déplacements
@@ -30,8 +30,6 @@ public class Invocateur : Enemy
 
         // Générer une vitesse de rotation aléatoire (entre -5 et +5)
         rotationSpeed = (float)(random.NextDouble() * 10 - 5); // Variation de ±5
-
-        Debug.Log($"Assaillant avec seed : {seed}, ShootRange : {shootRange}, RotationDirection : {rotationDirection}, RotationSpeed : {rotationSpeed}");
     }
 
     protected override void Update()
@@ -122,8 +120,8 @@ public class Invocateur : Enemy
 
     public void SpawnMinion()
     {
-        Assaillant minion = Instantiate(minionPrefab, transform.position, Quaternion.identity);
+        GameObject minion = Instantiate(minionPrefab, transform.position, Quaternion.identity);
         // Lui donner une référence au joueur
-        WaveManager.Instance.RegisterEnemy(minion.gameObject);
+        WaveManager.Instance.RegisterEnemy(minion);
     }
 }

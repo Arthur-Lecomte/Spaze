@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3669251367623011293}
   - component: {fileID: 5984891316166404111}
-  - component: {fileID: 734397385704696496}
+  - component: {fileID: 3335862637506314227}
   m_Layer: 10
   m_Name: Invocateur
   m_TagString: Enemy
@@ -56,8 +56,8 @@ MonoBehaviour:
   lastShootTime: 0
   shootRange: 70
   shootPoint: {fileID: 0}
-  minionPrefab: {fileID: 1833911173253535141, guid: 3341c6be42d22344face7d8fde7e0a67, type: 3}
---- !u!65 &734397385704696496
+  minionPrefab: {fileID: 2129366870274341334, guid: 7a7a048a37fd27a4ebf30696f2a85cf2, type: 3}
+--- !u!65 &3335862637506314227
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -76,8 +76,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 7.76, y: 3.9, z: 16.16}
+  m_Center: {x: 0.18, y: 1.9, z: 1.3}
 --- !u!1001 &1009715378828537467
 PrefabInstance:
   m_ObjectHideFlags: 0

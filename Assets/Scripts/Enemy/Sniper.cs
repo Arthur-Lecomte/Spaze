@@ -3,14 +3,6 @@ using UnityEngine;
 public class Sniper : Enemy
 {
     bool canAttack = true;
-    protected override void Start()
-    {
-        // Appeler la méthode Start de la classe parente
-        base.Start();
-
-
-    }
-
 
     protected override void MoveTowardsPlayer(float distanceToPlayer)
     {

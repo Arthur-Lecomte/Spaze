@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Assaillant : Enemy
+public class Minion : Enemy
 {
     private int seed; // Seed aléatoire pour les déplacements
     private System.Random random; // Générateur pseudo-aléatoire basé sur la seed
@@ -22,11 +22,11 @@ public class Assaillant : Enemy
         // Générer un sens de rotation aléatoire (-1 pour antihoraire, 1 pour horaire)
         rotationDirection = random.Next(0, 2) == 0 ? -1 : 1;
 
-        // Ajouter une variation aléatoire à shootRange (entre shootRange - 5 et shootRange + 5)
-        shootRange += (float)(random.NextDouble() * 10 - 5); // Variation de ±5
+        // Ajouter une variation aléatoire à shootRange (entre shootRange - 0.5 et shootRange + 0.5)
+        shootRange += (float)(random.NextDouble() - 0.5f); // Variation de ±0.5
 
-        // Générer une vitesse de rotation aléatoire (entre -5 et +5)
-        rotationSpeed = (float)(random.NextDouble() * 10 - 5); // Variation de ±5
+        // Générer une vitesse de rotation aléatoire (entre -1 et +1)
+        rotationSpeed = (float)(random.NextDouble() * 2 - 1); // Variation de ±1
     }
 
     protected override void MoveTowardsPlayer(float distanceToPlayer)

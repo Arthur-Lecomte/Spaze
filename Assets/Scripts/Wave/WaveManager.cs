@@ -57,8 +57,6 @@ public class WaveManager : MonoBehaviour {
             currentWave++;
             int enemyCount = startEnemies + (currentWave - 1) / 5; // Ajouter 1 ennemi toutes les 5 vagues
 
-            Debug.Log($"Vague {currentWave} - {enemyCount} ennemis");
-
             for (int i = 0; i < enemyCount; i++) {
                 SpawnEnemy();
                 yield return new WaitForSeconds(0.2f); // Petit délai entre chaque spawn
@@ -113,5 +111,9 @@ public class WaveManager : MonoBehaviour {
 
     public void RegisterEnemy(GameObject enemy) {
         activeEnemies.Add(enemy);
+        if (enemy.TryGetComponent<Enemy>(out var enemyComponent)) {
+            enemyComponent.Level = 1 + (currentWave - 1) / 2; // Augmenter le niveau toutes les 2 vagues
+            enemyComponent.OnDestroyed += (destroyedEnemy) => activeEnemies.Remove(destroyedEnemy);
+        }
     }
 }

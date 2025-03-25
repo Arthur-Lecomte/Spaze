@@ -2,19 +2,6 @@ using UnityEngine;
 
 public class Tank : Enemy
 {
-    protected override void Start()
-    {
-        // Appeler la méthode Start de la classe parente
-        base.Start();
-    }
-
-     protected override void ShootAtPlayer()
-    {
-        // Appeler la méthode parente pour conserver le comportement de base
-        base.ShootAtPlayer();
-
-    }
-
 
     protected override void MoveTowardsPlayer(float distanceToPlayer)
     {
