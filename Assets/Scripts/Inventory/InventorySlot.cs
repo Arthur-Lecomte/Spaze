@@ -3,8 +3,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InventorySlot : MonoBehaviour {
-    private GameObject constructionObject;
+public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
+    private Construction constructionObject;
     private Image image;
     private TextMeshProUGUI textLevel;
     private Image imageColorRarity;
@@ -53,7 +53,7 @@ public class InventorySlot : MonoBehaviour {
             module.SetConstruction(construction);
         }
         if(construction) {
-            constructionObject = construction.gameObject;
+            constructionObject = construction;
             image.sprite = construction.GetSprite();
             imageColorRarity.color = construction.GetRarityColor();
         } else {
@@ -65,10 +65,10 @@ public class InventorySlot : MonoBehaviour {
     }
     
     public void SetCorrectNiveau() {
-        textLevel.text = constructionObject ? constructionObject.GetComponent<Construction>().GetNiveau() + "/5" : "";
+        textLevel.text = constructionObject ? constructionObject.GetNiveau() + "/5" : "";
     }
     
-    public GameObject GetGameObject() {
+    public Construction GetConstruction() {
         return constructionObject;
     }
     
@@ -108,6 +108,18 @@ public class InventorySlot : MonoBehaviour {
     public void SetActive(bool value) {
         if (module) {
             gameObject.SetActive(value && module.IsActivate());
+        }
+    }
+    
+    public void OnPointerEnter(PointerEventData eventData) {
+        if (constructionObject) {
+            ConstructionInformationsUI.Instance.ShowHoverUI(constructionObject);
+        }
+    }
+    
+    public void OnPointerExit(PointerEventData eventData) {
+        if (constructionObject) {
+            ConstructionInformationsUI.Instance.HideHoverUI();
         }
     }
 }

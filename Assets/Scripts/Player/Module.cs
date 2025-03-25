@@ -49,7 +49,7 @@ public abstract class Module : MonoBehaviour {
     public List<SearchShield> GetSearchShieldAtDistance(Type type, int distance) {
         List<SearchShield> shields = new List<SearchShield>();
         List<Module> neighbors = GetNeighborsAtDistance(distance);
-        Debug.Log(neighbors.Count); // DEBUG !!!
+
         foreach (Module neighbor in neighbors) {
             if (type.IsInstanceOfType(neighbor.Construction)) {
                 shields.Add((SearchShield)neighbor.Construction);

@@ -70,6 +70,8 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
         if (!isActivate) {
             BuyHoverUI.Instance.ShowHoverUI(name, coutRessources);
             ChangeAlpha(0.5f);
+        } else if (Construction) {
+            ConstructionInformationsUI.Instance.ShowHoverUI(Construction);
         }
     }
 
@@ -97,6 +99,8 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
         if (!isActivate) {
             BuyHoverUI.Instance.HideHoverUI();
             ChangeAlpha(0.25f);
+        } else if (Construction) {
+            ConstructionInformationsUI.Instance.HideHoverUI();
         }
     }
 

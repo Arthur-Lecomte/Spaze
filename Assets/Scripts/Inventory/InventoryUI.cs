@@ -93,7 +93,7 @@ public class InventoryUI : MonoBehaviour {
     public void ConstructionHaveUpdate(Construction construction) {
         List<InventorySlot> slots = new List<InventorySlot>();
         foreach(InventorySlot slot in inventorySlots) {
-            if (slot.GetGameObject() != null && slot.GetGameObject().GetComponent<Construction>().IsSameConstruction(construction)) {
+            if (slot.GetConstruction() != null && slot.GetConstruction().IsSameConstruction(construction)) {
                 slots.Add(slot);
             }
         }
@@ -101,7 +101,7 @@ public class InventoryUI : MonoBehaviour {
             InventorySlot toUpgrade;
             InventorySlot toDestroy;
             if (slots[0].GetIndex() == slots[1].GetIndex()) {
-                if (slots[0].GetGameObject().GetComponent<Construction>() != construction) {
+                if (slots[0].GetConstruction() != construction) {
                     toUpgrade = slots[0];
                     toDestroy = slots[1];
                 } else {
@@ -117,9 +117,9 @@ public class InventoryUI : MonoBehaviour {
                     toDestroy = slots[0];
                 }
             }
-            Destroy(toDestroy.GetGameObject());
+            Destroy(toDestroy.GetConstruction().gameObject);
             toDestroy.SetGameObject(null);
-            toUpgrade.GetGameObject().GetComponent<Construction>().Upgrade();
+            toUpgrade.GetConstruction().Upgrade();
         }
         
         foreach(InventorySlot slot in inventorySlots) {
@@ -128,7 +128,7 @@ public class InventoryUI : MonoBehaviour {
     }
 
     public void OnPointerDown(PointerEventData eventData, InventorySlot inventorySlot) {
-        if (inventorySlot.GetGameObject() == null) return;
+        if (inventorySlot.GetConstruction() == null) return;
         draggedSlot = inventorySlot;
 
         dragImageComponent.sprite = inventorySlot.GetSprite();

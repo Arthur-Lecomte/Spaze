@@ -37,8 +37,7 @@ public class ShopCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void Initialisation(Construction constru) {
         construction = constru;
-
-        //DEBUG!!! seulement le dernier panel voit ces couleurs mise à jour !!!
+        
         texts = BuyHoverUI.Instance.ShowConstructionUI(panelConstruction, construction.GetNom(), construction.GetCoutRessources());
         RessourcesUI.OnUIUpdated += UIUpdated;
         
