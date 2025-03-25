@@ -58,7 +58,7 @@ MonoBehaviour:
   probability: 2
   image: {fileID: 21300000, guid: 0a2cc76ef548b85428a63c3f87c35fcb, type: 3}
   range: 0
-  speed: 0
+  power: 0
 --- !u!1001 &473275839277911129
 PrefabInstance:
   m_ObjectHideFlags: 0

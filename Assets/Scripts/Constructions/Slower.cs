@@ -9,7 +9,7 @@ public class Slower : Construction {
     public override void Initialisation(RarityConstruction rarityConstruction) {
         base.Initialisation(rarityConstruction);
 
-        trigger = GetComponent<SphereCollider>();
+        trigger = gameObject.AddComponent<SphereCollider>();
         trigger.radius = range;
     }
     

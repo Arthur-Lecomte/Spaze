@@ -146,8 +146,7 @@ MonoBehaviour:
   maxSpeed: 8
   rotationSpeed: 90
   drag: 0.99
-  speedSkillCount: 2
-  pourcentageBoost: 0.3
+  speedSkillPercentage: 2
 --- !u!114 &1417199936730369500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -730,7 +729,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1661398866715541562, guid: d0359fe900e7b2443abef3c9ecd2d00e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.765
+      value: -0.7
       objectReference: {fileID: 0}
     - target: {fileID: 1661398866715541562, guid: d0359fe900e7b2443abef3c9ecd2d00e, type: 3}
       propertyPath: m_LocalRotation.w
