@@ -129,7 +129,7 @@ public abstract class Construction : MonoBehaviour {
     }
 
     private void SetAllVariables() {
-        Dictionary<string, float> values = stats.GetDico(type, rarity, niveau);
+        Dictionary<string, float> values = stats.GetDico(type, rarity, niveau-1);
         foreach (KeyValuePair<string, float> kvp in values) {
             FieldInfo field = GetType().GetField(kvp.Key, BindingFlags.NonPublic | BindingFlags.Instance);
             if (field != null) {
@@ -144,7 +144,7 @@ public abstract class Construction : MonoBehaviour {
         Dictionary<string, string> dico = new Dictionary<string, string> {
             { "Description", description }
         };
-        Dictionary<string, float> values = stats.GetDico(type, rarity, niveau);
+        Dictionary<string, float> values = stats.GetDico(type, rarity, niveau-1);
         foreach (KeyValuePair<string, float> kvp in values) {
             dico.Add(kvp.Key, kvp.Value.ToString("F2"));
         }
