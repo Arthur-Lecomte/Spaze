@@ -15,14 +15,14 @@ public abstract class Construction : MonoBehaviour {
     [SerializeField] protected List<Ressource> coutRessources = new List<Ressource>();
     [SerializeField] protected int probability;
     [SerializeField] protected Sprite image;
-    private Transform constructionTransform;
+    protected Transform ConstructionTransform;
     private GameObject[] pieces;
     
     public static Action<TypeUpgrade, float> onPercentChanged;
 
     public virtual void Initialisation(RarityConstruction rarityConstruction) {
         stats ??= new ConstructionStatsManager();
-        constructionTransform = transform.GetChild(0);
+        ConstructionTransform = transform.GetChild(0);
         pieces = new GameObject[5];
         if (transform.childCount == 2) {
             Transform allPieces = transform.GetChild(1);
@@ -74,8 +74,8 @@ public abstract class Construction : MonoBehaviour {
             transform.localScale = Vector3.one;
         
             float taille = 1f + (niveau - 1) * (2f - 1f) / (NiveauMax - 1);
-            constructionTransform.localPosition = new Vector3(0, -0.5f * (taille - 1f), 0);
-            constructionTransform.localScale = new Vector3(taille, taille, taille);
+            ConstructionTransform.localPosition = new Vector3(0, -0.5f * (taille - 1f), 0);
+            ConstructionTransform.localScale = new Vector3(taille, taille, taille);
         
             for (int i = 0; i < pieces.Length; i++) {
                 pieces[i].SetActive(i < niveau);
