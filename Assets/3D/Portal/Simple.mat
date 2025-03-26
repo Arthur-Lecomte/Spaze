@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_PortalShader
+  m_Name: Simple
   m_Shader: {fileID: -6465566751694194690, guid: 34d5bab0bccb4384ca2b3a86f9a4027e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -42,14 +42,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DissolveAmount: 5.2
+    - _DissolveAmount: 0.03
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Scale: 1.98
-    - _Speed: 0.2
-    - _TwirlStrength: 2.52
+    - _Scale: 3.02
+    - _Speed: 0.17
+    - _TwirlStrength: 3.35
     m_Colors:
-    - _Color: {r: 24.45039, g: 21.950394, b: 43.490494, a: 38.172855}
+    - _Color: {r: 0.32602978, g: 0.20799357, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &8247995759964409870

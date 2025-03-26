@@ -27,6 +27,7 @@ public class Enemy : MonoBehaviour, ICanTakeDamage
     public Transform shootPoint; // L'endroit exact où les tirs spawnent
 
     protected bool isFleeing = false; // Indique si l'ennemi est en mode fuite
+    [SerializeField] private GameObject portal; // Référence au portail
 
     protected virtual void Start()
     {
@@ -88,7 +89,7 @@ public class Enemy : MonoBehaviour, ICanTakeDamage
             // Calculer la direction vers la position actuelle du joueur
             Vector3 direction = (player.transform.position - transform.position).normalized;
             // Instancier le projectile au niveau de shootPoint
-            
+
             GameObject bullet = Instantiate(projectilePrefab, shootPoint.position, Quaternion.LookRotation(direction) * Quaternion.Euler(90, 0, 0));
             bullet.GetComponent<Tir>().SetInformations(false, damageEnemy, 20, shootRange); //DEBUG!!! Changer la vitesse du projectile en fonction de qui le tire
         }
@@ -134,4 +135,48 @@ public class Enemy : MonoBehaviour, ICanTakeDamage
     {
         return false;
     }
+
+    // DEBUG
+    protected virtual void OnValidate()
+    {
+        ScaleStats();
+        UpdatePortalEffect();
+    }
+
+
+    private int lastColorLevel = 0;
+
+    public void UpdatePortalEffect()
+    {
+        if (portal.TryGetComponent<Renderer>(out Renderer renderer))
+        {
+            // Utiliser renderer.material pour modifier uniquement l'instance
+            Material material = renderer.material;
+            if (material != null && material.shader != null)
+            {
+                // Vérifier si un nouveau palier est franchi
+                if (Level > 20 && lastColorLevel < 20)
+                {
+                    material.SetColor("_Color", Color.red); // Appliquer la couleur rouge
+                    lastColorLevel = 20; // Mettre à jour le dernier palier franchi
+                }
+                else if (Level > 10 && lastColorLevel < 10)
+                {
+                    material.SetColor("_Color", Color.yellow); // Appliquer la couleur jaune
+                    lastColorLevel = 10; // Mettre à jour le dernier palier franchi
+                }
+
+                if (Level <= 30)
+                {
+                    Color hdrColor = material.GetColor("_Color");
+                    hdrColor *= 1.3f; // Augmenter légèrement l'intensité
+                    material.SetColor("_Color", hdrColor);
+                    float baseSpeed = material.GetFloat("_Speed");
+                    material.SetFloat("_Speed", baseSpeed * 1.1f);
+                }
+            }
+        }
+    }
+
+
 }

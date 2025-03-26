@@ -88,6 +88,7 @@ MonoBehaviour:
   lastShootTime: 0
   shootRange: 80
   shootPoint: {fileID: 892890398823576895}
+  portal: {fileID: 5475920863392985631}
 --- !u!65 &-6324690297237194956
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -109,6 +110,85 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 7.707486, y: 2.8707817, z: 8.137739}
   m_Center: {x: 0.009414196, y: 0.93539083, z: 1.0229273}
+--- !u!1001 &4269718014643920653
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6329047638706694267}
+    m_Modifications:
+    - target: {fileID: 994048253091375359, guid: 73ccde4db18891c45b2229a78fbe5f79, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.91
+      objectReference: {fileID: 0}
+    - target: {fileID: 994048253091375359, guid: 73ccde4db18891c45b2229a78fbe5f79, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 994048253091375359, guid: 73ccde4db18891c45b2229a78fbe5f79, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 994048253091375359, guid: 73ccde4db18891c45b2229a78fbe5f79, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.652
+      objectReference: {fileID: 0}
+    - target: {fileID: 994048253091375359, guid: 73ccde4db18891c45b2229a78fbe5f79, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 994048253091375359, guid: 73ccde4db18891c45b2229a78fbe5f79, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 994048253091375359, guid: 73ccde4db18891c45b2229a78fbe5f79, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 994048253091375359, guid: 73ccde4db18891c45b2229a78fbe5f79, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 994048253091375359, guid: 73ccde4db18891c45b2229a78fbe5f79, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 994048253091375359, guid: 73ccde4db18891c45b2229a78fbe5f79, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 994048253091375359, guid: 73ccde4db18891c45b2229a78fbe5f79, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 994048253091375359, guid: 73ccde4db18891c45b2229a78fbe5f79, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1836871127040376654, guid: 73ccde4db18891c45b2229a78fbe5f79, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e19d0a3405f283e49a4777bfc67897b0, type: 2}
+    - target: {fileID: 8124340804012453138, guid: 73ccde4db18891c45b2229a78fbe5f79, type: 3}
+      propertyPath: m_Name
+      value: Portal
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 73ccde4db18891c45b2229a78fbe5f79, type: 3}
+--- !u!4 &3930099271586822130 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 994048253091375359, guid: 73ccde4db18891c45b2229a78fbe5f79, type: 3}
+  m_PrefabInstance: {fileID: 4269718014643920653}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5475920863392985631 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8124340804012453138, guid: 73ccde4db18891c45b2229a78fbe5f79, type: 3}
+  m_PrefabInstance: {fileID: 4269718014643920653}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5791613959851102096
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -163,7 +243,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: e26b68279f43dce49b511a8bbaa3b027, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3930099271586822130}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e26b68279f43dce49b511a8bbaa3b027, type: 3}
 --- !u!4 &6329047638706694267 stripped
