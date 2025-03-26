@@ -1,4 +1,5 @@
 using System.Collections;
+using SmallHedge.SoundManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -94,6 +95,7 @@ public class Shield : SearchShield, ICanTakeDamage {
 
     private IEnumerator Repair() {
         //DEBUG!!! play sound broken shield + animation destroy shield
+        SoundManager.PlaySound(SoundType.BREAKSHIELD);
         GetComponent<Collider>().enabled = false;
         lineRenderer.enabled = false;
         lifeBar.color = Color.yellow;
@@ -107,6 +109,7 @@ public class Shield : SearchShield, ICanTakeDamage {
         lifeBar.color = Color.blue;
         GetComponent<Collider>().enabled = true;
         lineRenderer.enabled = true;
+        SoundManager.PlaySound(SoundType.SHIELDRECHARGE);
         //DEBUG!!! play sound repair shield + animation repair shield
     }
 

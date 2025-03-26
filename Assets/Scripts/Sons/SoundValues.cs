@@ -6,6 +6,7 @@ namespace SmallHedge.SoundManager
         BUILDING,
         CLICK,
         SHIELDRECHARGE,
+        BREAKSHIELD,
         COMBAT,
         EXPLORATION,
     }

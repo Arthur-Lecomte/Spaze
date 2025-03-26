@@ -33,6 +33,11 @@ MonoBehaviour:
     mixer: {fileID: 24300002, guid: 4bc8afeac87abc740ac950002cc59f2e, type: 2}
     sounds:
     - {fileID: 8300000, guid: 38ef590874ea18e49a1ad17447d56279, type: 3}
+  - name: BREAKSHIELD
+    volume: 1
+    mixer: {fileID: 24300002, guid: 4bc8afeac87abc740ac950002cc59f2e, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: 74e5b418224cda24188561beba0ee060, type: 3}
   - name: COMBAT
     volume: 0.507
     mixer: {fileID: 24300002, guid: 4bc8afeac87abc740ac950002cc59f2e, type: 2}
