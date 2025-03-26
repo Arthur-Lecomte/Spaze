@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using SmallHedge.SoundManager;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -80,6 +81,7 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
             if (Inventory.Instance.HaveEnoughRessources(coutRessources)) {
                 BuyHoverUI.Instance.HideHoverUI();
                 Inventory.Instance.RemoveRessources(coutRessources);
+                SoundManager.PlaySound(SoundType.BUY);
 
                 isActivate = true;
                 ChangeAlpha(1f);

@@ -1,3 +1,4 @@
+using SmallHedge.SoundManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,6 +22,7 @@ public class UpgradeColumn : MonoBehaviour {
         if (level < 5) {
             if(UpgradeManager.Instance.CanUpgrade()) {
                 level++;
+                SoundManager.PlaySound(SoundType.CLICK);
                 SendInformation();
             }
         }
@@ -30,6 +32,7 @@ public class UpgradeColumn : MonoBehaviour {
         if (level > 1) {
             level--;
             UpgradeManager.Instance.AddPoints();
+            SoundManager.PlaySound(SoundType.CLICK);
             SendInformation();
         }
     }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using SmallHedge.SoundManager;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -19,6 +20,7 @@ public class BuyUpgrade : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             Inventory.Instance.RemoveRessources(coutRessources);
             UpgradeManager.Instance.AddPoints();
             BuyHoverUI.Instance.ShowHoverUI(name, coutRessources); //On réactualise l'UI
+            SoundManager.PlaySound(SoundType.BUY);
             
             canBuy -= 1;
             if (canBuy == 0) {

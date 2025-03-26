@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SmallHedge.SoundManager;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -179,6 +180,7 @@ public class ShopManager : MonoBehaviour {
 
     public void ChangeShopOptionButton(int option) {
         ChangeShopOption(option, currentShop);
+        SoundManager.PlaySound(SoundType.CLICK);
     }
 
     public void ChangeShopOption(int option, Shop shop) {
