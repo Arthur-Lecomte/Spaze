@@ -67,7 +67,7 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
     public void TakeDamage(float damage) {
         actualHealth = Mathf.Max(0, actualHealth - damage);
         if (actualHealth == 0) {
-            //GameManager.Instance.GameOver();
+            //DeathManager.Instance.GameOver();
         }
         healthBar.sizeDelta = new Vector2(healthBarMaxWidth * actualHealth / maxHealth, healthBar.sizeDelta.y);
     }
