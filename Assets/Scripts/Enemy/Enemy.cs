@@ -9,7 +9,6 @@ public class Enemy : MonoBehaviour, ICanTakeDamage
     [Header("Statistiques de base")] public int Level = 1;
     [SerializeField] public float health = 200;
     [SerializeField] public float moveSpeed = 1f; // Vitesse de déplacement de l'ennemi
-    [SerializeField] public float timeBeforeBeingCible = 2f;
     [SerializeField] public int damageEnemy = 15;
 
 
@@ -28,10 +27,15 @@ public class Enemy : MonoBehaviour, ICanTakeDamage
 
     protected bool isFleeing = false; // Indique si l'ennemi est en mode fuite
     [SerializeField] private GameObject portal; // Référence au portail
+    
+    private Renderer portalRenderer;
 
     protected virtual void Start()
     {
         // Trouver le joueur dans la scène
+        if (portal) {
+            portalRenderer = portal.GetComponent<Renderer>();
+        }
         player = Vaisseau.Instance.transform;
         if (player == null)
         {
@@ -72,9 +76,6 @@ public class Enemy : MonoBehaviour, ICanTakeDamage
             // Déplacement vers le joueur
             MoveTowardsPlayer(distance);
         }
-
-        // Réduire le temps avant d'être une cible
-        timeBeforeBeingCible -= Time.deltaTime;
     }
 
 
@@ -148,10 +149,10 @@ public class Enemy : MonoBehaviour, ICanTakeDamage
 
     public void UpdatePortalEffect()
     {
-        if (portal.TryGetComponent<Renderer>(out Renderer renderer))
+        if (portalRenderer)
         {
             // Utiliser renderer.material pour modifier uniquement l'instance
-            Material material = renderer.material;
+            Material material = portalRenderer.material;
             if (material != null && material.shader != null)
             {
                 // Vérifier si un nouveau palier est franchi
@@ -177,6 +178,4 @@ public class Enemy : MonoBehaviour, ICanTakeDamage
             }
         }
     }
-
-
 }
