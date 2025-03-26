@@ -228,16 +228,6 @@ public class GenerationStructure : MonoBehaviour {
     void DestroyCell(Vector2Int cellCoord) {
         if (loadedCells.TryGetValue(cellCoord, out var obj)) {
             if (obj != null) {
-                Structure structure = obj.GetComponent<Structure>();
-                if (structure != null) {
-                    cellStates[cellCoord] = new CellState {
-                        Position = obj.transform.position,
-                        IsAsteroid = structure.isAsteroid,
-                        Ressource = structure.ressource,
-                        IsMined = structure.isAsteroid && structure.ressource.quantite == 0,
-                        IsScavenged = !structure.isAsteroid && structure.ressource.quantite == 0
-                    };
-                }
                 Destroy(obj);
             }
         }
