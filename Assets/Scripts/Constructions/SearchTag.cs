@@ -8,7 +8,7 @@ public abstract class SearchTag : Construction {
     [SerializeField] protected float speed;
 
     protected Transform turnTransform;
-    protected float turnSpeed = 2f;
+    protected float turnSpeed = 5f;
 
     private SphereCollider rangeCollider;
     private float nextActionTime;
@@ -55,7 +55,7 @@ public abstract class SearchTag : Construction {
             }
         } else {
             currentTarget = null;
-            turnTransform.rotation = Quaternion.Slerp(turnTransform.rotation, transform.parent.rotation, Time.deltaTime * turnSpeed  / 4);
+            turnTransform.rotation = Quaternion.Slerp(turnTransform.rotation, transform.parent.rotation, Time.deltaTime * turnSpeed  / 10);
         }
     }
 

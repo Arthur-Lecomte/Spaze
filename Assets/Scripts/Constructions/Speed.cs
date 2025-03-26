@@ -3,6 +3,7 @@ using UnityEngine;
 public class Speed : Construction {
     public static float AllPower { get; private set; }
     public static float AllMaxSpeed { get; private set; }
+    private static float percent;
     
     [SerializeField] private float power;
     [SerializeField] private float maxSpeed;
@@ -13,7 +14,12 @@ public class Speed : Construction {
         base.SetChildOf(parent, onModule);
 
         onAModule = onModule;
-        CalculSpeedBonus();
+        
+        OnPercentChanged(TypeUpgrade.Speed, percent);
+    }
+    
+    protected override void PerformUpgrade() {
+        OnPercentChanged(TypeUpgrade.Speed, percent);
     }
     
     private static void CalculSpeedBonus() {
@@ -23,6 +29,21 @@ public class Speed : Construction {
         foreach (Speed speed in speedComponents) {
             AllPower += speed.power;
             AllMaxSpeed += speed.maxSpeed;
+        }
+        
+        AllPower *= percent;
+        AllMaxSpeed *= percent;
+    }
+    
+    protected override void OnPercentChanged(TypeUpgrade typeUpgrade, float value) {
+        if (value == 0) {
+            UpgradeColumn.getValue(typeUpgrade);
+            return;
+        }
+        
+        if (typeUpgrade == TypeUpgrade.Speed) {
+            percent = value;
+            CalculSpeedBonus();
         }
     }
 }
