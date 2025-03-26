@@ -29,8 +29,7 @@ public class AddonModule : Module, ICanTakeDamage, IPointerEnterHandler, IPointe
         foreach (Material material in objectRenderer.materials) {
             colors.Add(material.color);
         }
-
-        gameObject.name = "module";
+        
         ChangeAlpha(0.25f);
     }
 

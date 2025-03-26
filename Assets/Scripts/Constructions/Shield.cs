@@ -36,7 +36,7 @@ public class Shield : SearchShield {
         OnPercentChanged(TypeUpgrade.Shield, percent);
         ChangeLife(maxLifeWithPercent);
         
-        trigger.localScale = Vector3.one * (range * 2 * (1/ConstructionTransform.localScale.x));
+        trigger.localScale = Vector3.one * (range * 2 / ConstructionTransform.localScale.x);
 
         TypeToSearch = typeof(RegenerationShield);
     }
@@ -56,7 +56,7 @@ public class Shield : SearchShield {
         OnPercentChanged(TypeUpgrade.Shield, percent);
         life = maxLifeWithPercent; //Régénère entièrement le shield en s'améliorant
         ChangeLife(0);
-        trigger.localScale = Vector3.one * (range * 2 * (1/ConstructionTransform.localScale.x)); //Augmente la portée du shield
+        trigger.localScale = Vector3.one * (range * 2 / ConstructionTransform.localScale.x); //Augmente la portée du shield
     }
     
     protected override void OnPercentChanged(TypeUpgrade typeUpgrade, float value) {

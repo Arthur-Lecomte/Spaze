@@ -24,7 +24,7 @@ public abstract class Construction : MonoBehaviour {
         stats ??= new ConstructionStatsManager();
         ConstructionTransform = transform.GetChild(0);
         pieces = new GameObject[5];
-        if (transform.childCount == 2) {
+        if (transform.childCount >= 2 && transform.GetChild(1).childCount == 5) {
             Transform allPieces = transform.GetChild(1);
             for (int i = 0; i < allPieces.childCount; i++) {
                 pieces[i] = allPieces.GetChild((i+4)%5).gameObject;
