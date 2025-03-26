@@ -5,7 +5,7 @@ public class Extracteur : SearchTag {
     [SerializeField] private float quantityWithPercent;
     private static float percent;
 
-    private LaserBeamExtractor laserBeamExtractor;
+    private LaserBeam laserBeam;
 
     private Animator animator;
     private static readonly int Extract = Animator.StringToHash("Extract");
@@ -15,34 +15,28 @@ public class Extracteur : SearchTag {
         turnTransform = transform.GetChild(0);
 
         animator = GetComponentInChildren<Animator>();
-        laserBeamExtractor = GetComponentInChildren<LaserBeamExtractor>();
+        laserBeam = GetComponentInChildren<LaserBeam>();
         OnPercentChanged(TypeUpgrade.Extraction, percent);
-    }
-    
-    public new void Update() {
-        base.Update();
-
-        // Vérifier si l'animation d'extraction est active
-        if (animator.GetBool(Extract) && laserBeamExtractor && laserBeamExtractor.IsLaserEnabled()) {
-            laserBeamExtractor.UpdateLaser();
-        }
     }
 
     protected override void DoAction(Transform target) {
-        if (!target.gameObject.GetComponent<Structure>().Extract(quantityWithPercent)) {
-            InRange.Remove(target.gameObject.GetComponent<Collider>());
-            StopAnimation();
+        if (laserBeam.IsLaserEnabled()) { // Si le laser est activé, on extrait les ressources
+            if (!target.gameObject.GetComponent<Structure>().Extract(quantityWithPercent)) {
+                //Il n'y a plus de ressource à extraire
+                InRange.Remove(target.gameObject.GetComponent<Collider>());
+                StopAnimation();
+            }
         }
     }
     
     protected override void DoAnimation(Transform target) {
         animator.SetBool(Extract, true);
-        laserBeamExtractor.EnableLaser();
+        laserBeam.EnableLaser(target);
     }
 
     protected override void StopAnimation() {
         animator.SetBool(Extract, false);
-        laserBeamExtractor.DisableLaser();
+        laserBeam.DisableLaser();
     }
 
     protected override void PerformUpgrade() {

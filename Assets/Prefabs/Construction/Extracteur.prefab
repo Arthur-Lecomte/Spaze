@@ -82,7 +82,8 @@ MonoBehaviour:
   laserGrowthSpeed: 50
   collisionMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 3073
+  correctTarget: 0
   hitEffectPrefab: {fileID: 3369190009993254851, guid: 19099257147e8ca4ca6c205cd392b283, type: 3}
 --- !u!1 &4856658298876889090
 GameObject:
