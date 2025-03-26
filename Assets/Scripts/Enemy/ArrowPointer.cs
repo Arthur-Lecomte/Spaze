@@ -2,10 +2,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ArrowPointer : MonoBehaviour {
-    public GameObject arrowPrefab; // Le prefab de la flèche
+    private Transform playerTransform;
+    [SerializeField] private GameObject arrowPrefab; // Le prefab de la flèche
     public float distanceFromPlayer = 2.0f; // Distance des flèches par rapport au joueur
     private List<GameObject> arrows = new();
-    [SerializeField] private Transform playerTransform;
+
+    private void Start() {
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+    }
 
     void Update() {
         UpdateArrows();
