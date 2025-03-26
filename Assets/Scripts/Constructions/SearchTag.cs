@@ -43,7 +43,7 @@ public abstract class SearchTag : Construction {
         }
     }
 
-    private void Update() {
+    public void Update() {
         if (InRange.Count > 0) {
             currentTarget = GetClosest();
             if (currentTarget) {

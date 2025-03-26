@@ -78,6 +78,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   laserPrefab: {fileID: 815561624109339590, guid: 2a60c7160c4ad054480df1a896a84b32, type: 3}
   firePoint: {fileID: 4856658298876889090}
+  laserGrowthSpeed: 50
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 17
+  hitEffectPrefab: {fileID: 3369190009993254851, guid: 19099257147e8ca4ca6c205cd392b283, type: 3}
 --- !u!1 &4856658298876889090
 GameObject:
   m_ObjectHideFlags: 0

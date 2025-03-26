@@ -15,24 +15,14 @@ public class Extracteur : SearchTag
         turnTransform = transform.GetChild(0);
 
         animator = GetComponentInChildren<Animator>();
-
-        // Récupérer le composant LaserBeam
         laserBeamExtractor = GetComponentInChildren<LaserBeamExtractor>();
-        if (laserBeamExtractor == null)
-        {
-            Debug.LogError("LaserBeam introuvable sur l'Extracteur ou ses enfants !");
-        }
+
     }
 
     protected override void DoAction(Transform target)
     {
         animator.SetBool(Extract, true);
-
-        
         laserBeamExtractor.EnableLaser();
-        laserBeamExtractor.UpdateLaser(); // Met à jour la position et la rotation du laser
-        
-
 
         if (!target.gameObject.GetComponent<Structure>().Extract())
         {
@@ -40,6 +30,19 @@ public class Extracteur : SearchTag
             StopAction();
         }
     }
+
+
+    public new void Update()
+    {
+        base.Update();
+
+        // Vérifier si l'animation d'extraction est active
+        if (animator.GetBool(Extract) && laserBeamExtractor != null && laserBeamExtractor.IsLaserEnabled())
+        {
+            laserBeamExtractor.UpdateLaser();
+        }
+    }
+
 
     protected override void StopAction()
     {
@@ -52,4 +55,6 @@ public class Extracteur : SearchTag
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, range);
     }
+
+
 }
