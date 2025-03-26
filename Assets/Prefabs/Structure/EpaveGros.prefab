@@ -65,7 +65,7 @@ PrefabInstance:
       addedObject: {fileID: 5883059924269432854}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 279c713f03959624aad96b1cc3a49ae1, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -2941417679871376397}
+      addedObject: {fileID: 671271736413155314}
   m_SourcePrefab: {fileID: 100100000, guid: 279c713f03959624aad96b1cc3a49ae1, type: 3}
 --- !u!1 &4646869933424889874 stripped
 GameObject:
@@ -88,8 +88,9 @@ MonoBehaviour:
   ressource:
     type: 0
     quantite: 0
---- !u!64 &-2941417679871376397
-MeshCollider:
+  emptyAsteroid: {fileID: 0}
+--- !u!65 &671271736413155314
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -106,7 +107,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -6669894129302406666, guid: 279c713f03959624aad96b1cc3a49ae1, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 7.13, y: 9.595383, z: 12.71}
+  m_Center: {x: 0.67, y: 1.1605275, z: 0.3}
