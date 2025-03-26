@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,10 +13,9 @@ public class GenerationStructure : MonoBehaviour {
     [Header("Generation Settings")]
     [SerializeField] private int cellSize = 50; // Taille des cellules de la grille
     [SerializeField] private int spawnRadius = 3; // Nombre de cellules autour du joueur à charger
-    [SerializeField] private int seed; // Seed aléatoire pour générer les structures
+    [SerializeField] private int seed = 0; // Seed aléatoire pour générer les structures
 
-    private HashSet<Vector2Int> loadedCells = new();
-    private Dictionary<Vector2Int, List<GameObject>> spawnedObjects = new();
+    private Dictionary<Vector2Int, GameObject> loadedCells = new();
     private Dictionary<Vector2Int, CellState> cellStates = new();
 
     private Transform asteroidParent;
@@ -34,8 +34,9 @@ public class GenerationStructure : MonoBehaviour {
     }
 
     void Start() {
-        // Génération d'une seed unique
-        seed = Random.Range(0, 100000);
+        if (seed == 0) {
+            seed = Random.Range(0, 100000);
+        }
         random = new System.Random(seed);
 
         // Création des parents dynamiquement
@@ -61,17 +62,17 @@ public class GenerationStructure : MonoBehaviour {
         // Charger les nouvelles cellules
         for (int x = -spawnRadius; x <= spawnRadius; x++) {
             for (int y = -spawnRadius; y <= spawnRadius; y++) {
-                Vector2Int cellCoord = new Vector2Int(playerCell.x + x, playerCell.y + y);
+                Vector2Int cellCoord = new(playerCell.x + x, playerCell.y + y);
                 newLoadedCells.Add(cellCoord);
 
-                if (!loadedCells.Contains(cellCoord)) {
-                    GenerateCell(cellCoord);
+                if (!loadedCells.ContainsKey(cellCoord)) {
+                    StartCoroutine(GenerateCell(cellCoord));
                 }
             }
         }
 
         // Supprimer les anciennes cellules qui ne sont plus dans la zone de spawn
-        HashSet<Vector2Int> cellsToRemove = new HashSet<Vector2Int>(loadedCells);
+        HashSet<Vector2Int> cellsToRemove = new HashSet<Vector2Int>(loadedCells.Keys);
         cellsToRemove.ExceptWith(newLoadedCells);
 
         foreach (Vector2Int cell in cellsToRemove) {
@@ -79,24 +80,24 @@ public class GenerationStructure : MonoBehaviour {
         }
 
         // Mettre à jour la liste des cellules chargées
-        loadedCells = newLoadedCells;
+        foreach (var cell in cellsToRemove) {
+            loadedCells.Remove(cell);
+        }
     }
 
-    void GenerateCell(Vector2Int cellCoord) {
-        if (cellCoord == Vector2Int.zero) return; // Ne pas générer de structure à la position (0, 0)
+    IEnumerator GenerateCell(Vector2Int cellCoord) {
+        if (cellCoord == Vector2Int.zero) yield break; // Ne pas générer de structure à la position (0, 0)
 
         if (cellStates.TryGetValue(cellCoord, out var cellState)) {
-            // Restaurer l'état des structures dans la cellule
-            foreach (var structureState in cellState.Structures) {
-                GameObject prefab = structureState.IsAsteroid ? asteroidData.variants.Find(v => v.ressourceType == structureState.Ressource.type).prefab : wreckData.variants.Find(v => v.ressourceType == structureState.Ressource.type).prefab;
-                GameObject obj = Instantiate(prefab, structureState.Position, Quaternion.identity, structureState.IsAsteroid ? asteroidParent : wreckParent);
-                Structure structure = obj.GetComponent<Structure>();
-                structure.SetRessource(structureState.Ressource);
-                if (structureState.IsMined || structureState.IsScavenged) {
-                    Destroy(obj);
-                }
-                spawnedObjects[cellCoord].Add(obj);
+            // Restaurer l'état de la structure dans la cellule
+            GameObject prefab = cellState.IsAsteroid ? asteroidData.variants.Find(v => v.ressourceType == cellState.Ressource.type).prefab : wreckData.variants.Find(v => v.ressourceType == cellState.Ressource.type).prefab;
+            GameObject obj = Instantiate(prefab, cellState.Position, Quaternion.identity, cellState.IsAsteroid ? asteroidParent : wreckParent);
+            Structure structure = obj.GetComponent<Structure>();
+            structure.SetRessource(cellState.Ressource);
+            if (cellState.IsMined || cellState.IsScavenged) {
+                Destroy(obj);
             }
+            loadedCells[cellCoord] = obj;
         } else {
             int cellSeed = seed + cellCoord.x * 73856093 + cellCoord.y * 19349663; // Seed unique par cellule
             random = new System.Random(cellSeed);
@@ -105,74 +106,74 @@ public class GenerationStructure : MonoBehaviour {
             float wreckChance = (float)random.NextDouble();
             float shopChance = (float)random.NextDouble();
 
-            Vector3 cellCenter = new Vector3(cellCoord.x * cellSize, 0, cellCoord.y * cellSize);
-            List<GameObject> objectsInCell = new List<GameObject>();
+            Vector3 cellCenter = new(cellCoord.x * cellSize, 0, cellCoord.y * cellSize);
+            GameObject obj = null;
 
             // Limiter à une seule structure par cellule
             if (asteroidChance < 0.7f) // 70% de chance d'apparition d'un astéroïde
             {
-                TryInstantiateVariant(asteroidData.variants, cellCenter, asteroidParent, objectsInCell, cellSeed);
+                obj = TryInstantiateVariant(asteroidData.variants, cellCenter, asteroidParent, cellSeed);
             } else if (wreckChance < 0.34f) // 10% de chance pour une épave
             {
-                TryInstantiateVariant(wreckData.variants, cellCenter, wreckParent, objectsInCell, cellSeed);
+                obj = TryInstantiateVariant(wreckData.variants, cellCenter, wreckParent, cellSeed);
             } else if (shopChance < 0.26f) // 2% de chance pour un magasin
             {
-                TryInstantiateObject(shopPrefab, cellCenter, shopParent, objectsInCell, cellSeed);
+                obj = TryInstantiateObject(shopPrefab, cellCenter, shopParent, cellSeed);
             }
 
-            spawnedObjects[cellCoord] = objectsInCell;
-            loadedCells.Add(cellCoord);
+            if (obj != null) {
+                loadedCells[cellCoord] = obj;
+            }
         }
+
+        yield return null;
     }
 
-    void TryInstantiateVariant(List<VariantData> variants, Vector3 cellCenter, Transform parent, List<GameObject> objectsInCell, int cellSeed) {
+    GameObject TryInstantiateVariant(List<VariantData> variants, Vector3 cellCenter, Transform parent, int cellSeed) {
         float randomValue = (float)random.NextDouble();
         float cumulativeProbability = 0f;
 
         foreach (var variant in variants) {
             cumulativeProbability += variant.probability;
             if (randomValue < cumulativeProbability) {
-                TryInstantiateObject(variant.prefab, cellCenter, parent, objectsInCell, cellSeed, variant.ressourceType);
-                break;
+                return TryInstantiateObject(variant.prefab, cellCenter, parent, cellSeed, variant.ressourceType);
             }
         }
+        return null;
     }
 
-    void TryInstantiateObject(GameObject prefab, Vector3 cellCenter, Transform parent, List<GameObject> objectsInCell, int cellSeed) {
+    GameObject TryInstantiateObject(GameObject prefab, Vector3 cellCenter, Transform parent, int cellSeed) {
         Vector3 spawnPosition = GetRandomPositionInCell(cellCenter, cellSeed);
-        GameObject obj = Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
-        objectsInCell.Add(obj);
+        return Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
     }
 
-    void TryInstantiateObject(GameObject prefab, Vector3 cellCenter, Transform parent, List<GameObject> objectsInCell, int cellSeed, TypeRessource ressourceType) {
+    GameObject TryInstantiateObject(GameObject prefab, Vector3 cellCenter, Transform parent, int cellSeed, TypeRessource ressourceType) {
         Vector3 spawnPosition = GetRandomPositionInCell(cellCenter, cellSeed);
         GameObject obj = Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
-        objectsInCell.Add(obj);
 
         // Assigner une ressource à la structure si applicable
-        Structure structure = obj.GetComponent<Structure>();
-        if (structure != null) {
+        if (obj.TryGetComponent<Structure>(out var structure)) {
             if (structure.isAsteroid) {
                 ChoseQuantityAsteroid(structure, ressourceType);
             } else {
                 ChoseQuantityEpave(structure, ressourceType);
             }
         }
+        return obj;
     }
 
-    void SaveCellState(Vector2Int cellCoord, GameObject obj) {
+    public void SaveCellState(GameObject obj) {
+        Vector2Int cellCoord = GetCellCoordinates(obj.transform.position);
         // Sauvegarder l'état de la structure
-        if (!cellStates.ContainsKey(cellCoord)) {
-            cellStates[cellCoord] = new CellState();
+        if (obj.TryGetComponent<Structure>(out var structure)) {
+            cellStates[cellCoord] = new CellState {
+                Position = obj.transform.position,
+                IsAsteroid = structure.isAsteroid,
+                Ressource = structure.ressource,
+                IsMined = structure.isAsteroid && structure.ressource.quantite == 0,
+                IsScavenged = !structure.isAsteroid && structure.ressource.quantite == 0
+            };
         }
-        Structure structure = obj.GetComponent<Structure>();
-        cellStates[cellCoord].Structures.Add(new StructureState {
-            Position = obj.transform.position,
-            IsAsteroid = structure.isAsteroid,
-            Ressource = structure.ressource,
-            IsMined = false,
-            IsScavenged = false
-        });
     }
 
     private void ChoseQuantityAsteroid(Structure structure, TypeRessource ressourceType) {
@@ -207,56 +208,38 @@ public class GenerationStructure : MonoBehaviour {
 
     private void ChoseQuantityEpave(Structure structure, TypeRessource ressourceType) {
         int ramdomValue = Random.Range(0, 101);
-        int returnRessourceValue;
-        switch (ressourceType) {
-            case TypeRessource.Cuivre:
-                returnRessourceValue = ramdomValue <= 90 ? Random.Range(0, 51) : 0;
-                break;
-            case TypeRessource.Argent:
-                returnRessourceValue = ramdomValue <= 80 ? Random.Range(0, 51) : 0;
-                break;
-            case TypeRessource.Or:
-                returnRessourceValue = ramdomValue <= 60 ? Random.Range(0, 26) : 0;
-                break;
-            case TypeRessource.Platine:
-                returnRessourceValue = ramdomValue <= 40 ? Random.Range(0, 11) : 0;
-                break;
-            case TypeRessource.NoyauEnergie:
-                returnRessourceValue = ramdomValue <= 3 ? 2 : 1;
-                break;
-            default:
-                returnRessourceValue = 0;
-                break;
-        }
-
+        var returnRessourceValue = ressourceType switch {
+            TypeRessource.Cuivre => ramdomValue <= 90 ? Random.Range(0, 51) : 0,
+            TypeRessource.Argent => ramdomValue <= 80 ? Random.Range(0, 51) : 0,
+            TypeRessource.Or => ramdomValue <= 60 ? Random.Range(0, 26) : 0,
+            TypeRessource.Platine => ramdomValue <= 40 ? Random.Range(0, 11) : 0,
+            TypeRessource.NoyauEnergie => ramdomValue <= 3 ? 2 : 1,
+            _ => 0,
+        };
         structure.ressource = new Ressource(ressourceType, returnRessourceValue);
     }
 
     Vector3 GetRandomPositionInCell(Vector3 cellCenter, int cellSeed) {
         System.Random positionRandom = new System.Random(cellSeed);
-        Vector3 randomOffset = new Vector3((float)positionRandom.NextDouble() * cellSize - cellSize / 2, 0, (float)positionRandom.NextDouble() * cellSize - cellSize / 2);
+        Vector3 randomOffset = new((float)positionRandom.NextDouble() * cellSize - cellSize / 2, 0, (float)positionRandom.NextDouble() * cellSize - cellSize / 2);
         return cellCenter + randomOffset;
     }
 
     void DestroyCell(Vector2Int cellCoord) {
-        if (spawnedObjects.ContainsKey(cellCoord)) {
-            foreach (GameObject obj in spawnedObjects[cellCoord]) {
-                if (obj != null) {
-                    Structure structure = obj.GetComponent<Structure>();
-                    if (structure != null) {
-                        if (!cellStates.ContainsKey(cellCoord)) {
-                            cellStates[cellCoord] = new CellState();
-                        }
-                        var structureState = cellStates[cellCoord].Structures.Find(s => s.Position == obj.transform.position);
-                        if (structureState != null) {
-                            structureState.IsMined = structure.isAsteroid && structure.ressource.quantite == 0;
-                            structureState.IsScavenged = !structure.isAsteroid && structure.ressource.quantite == 0;
-                        }
-                    }
-                    Destroy(obj);
+        if (loadedCells.TryGetValue(cellCoord, out var obj)) {
+            if (obj != null) {
+                Structure structure = obj.GetComponent<Structure>();
+                if (structure != null) {
+                    cellStates[cellCoord] = new CellState {
+                        Position = obj.transform.position,
+                        IsAsteroid = structure.isAsteroid,
+                        Ressource = structure.ressource,
+                        IsMined = structure.isAsteroid && structure.ressource.quantite == 0,
+                        IsScavenged = !structure.isAsteroid && structure.ressource.quantite == 0
+                    };
                 }
+                Destroy(obj);
             }
-            spawnedObjects.Remove(cellCoord);
         }
     }
 
@@ -268,7 +251,7 @@ public class GenerationStructure : MonoBehaviour {
         if (loadedCells == null) return;
 
         Gizmos.color = Color.green;
-        foreach (Vector2Int cell in loadedCells) {
+        foreach (Vector2Int cell in loadedCells.Keys) {
             Vector3 cellCenter = new Vector3(cell.x * cellSize, 0, cell.y * cellSize);
             Gizmos.DrawWireCube(cellCenter, new Vector3(cellSize, 1, cellSize));
         }
