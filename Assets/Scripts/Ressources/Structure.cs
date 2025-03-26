@@ -16,6 +16,8 @@ public class Structure : MonoBehaviour {
         ressource.quantite -= number;
         Inventory.Instance.AddRessource(ressource.type, number);
 
+        GenerationStructure.Instance.SaveCellState(gameObject);
+
         if (ressource.quantite <= 0) {
             CheckQuantity();
             return false;
