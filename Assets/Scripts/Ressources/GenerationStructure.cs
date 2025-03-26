@@ -154,9 +154,9 @@ public class GenerationStructure : MonoBehaviour {
         // Assigner une ressource à la structure si applicable
         if (obj.TryGetComponent<Structure>(out var structure)) {
             if (structure.isAsteroid) {
-                ChoseQuantityAsteroid(structure, ressourceType);
+                ChoseQuantityAsteroid(structure, ressourceType, cellSeed);
             } else {
-                ChoseQuantityEpave(structure, ressourceType);
+                ChoseQuantityEpave(structure, ressourceType, cellSeed);
             }
         }
         return obj;
@@ -176,44 +176,46 @@ public class GenerationStructure : MonoBehaviour {
         }
     }
 
-    private void ChoseQuantityAsteroid(Structure structure, TypeRessource ressourceType) {
-        int ramdomValue = Random.Range(0, 101);
+    private void ChoseQuantityAsteroid(Structure structure, TypeRessource ressourceType, int cellSeed) {
+        System.Random random = new(cellSeed);
+        int randomValue = random.Next(0, 101);
         Transform structureTransform = structure.transform;
         int returnRessourceValue;
         switch (ressourceType) {
             case TypeRessource.Cuivre:
-                returnRessourceValue = ramdomValue <= 90 ? Random.Range(0, 51) : 0;
+                returnRessourceValue = randomValue <= 90 ? random.Next(0, 51) : 0;
                 structureTransform.localScale = new Vector3(1, 1, 1) * Mathf.Max(0.4f, returnRessourceValue / 25.0f);
                 break;
             case TypeRessource.Argent:
-                returnRessourceValue = ramdomValue <= 80 ? Random.Range(0, 51) : 0;
+                returnRessourceValue = randomValue <= 80 ? random.Next(0, 51) : 0;
                 structureTransform.localScale = new Vector3(1, 1, 1) * Mathf.Max(0.6f, returnRessourceValue / 25.0f);
                 break;
             case TypeRessource.Or:
-                returnRessourceValue = ramdomValue <= 60 ? Random.Range(0, 26) : 0;
+                returnRessourceValue = randomValue <= 60 ? random.Next(0, 26) : 0;
                 structureTransform.localScale = new Vector3(1, 1, 1) * Mathf.Max(0.7f, returnRessourceValue / 12.5f);
                 break;
             case TypeRessource.Platine:
-                returnRessourceValue = ramdomValue <= 40 ? Random.Range(0, 11) : 0;
+                returnRessourceValue = randomValue <= 40 ? random.Next(0, 11) : 0;
                 structureTransform.localScale = new Vector3(1, 1, 1) * Mathf.Max(0.8f, returnRessourceValue / 5.0f);
                 break;
             default:
                 returnRessourceValue = 0;
-                structureTransform.localScale = new Vector3(1, 1, 1) * Random.Range(1f, 2f);
+                structureTransform.localScale = new Vector3(1, 1, 1) * random.Next(1, 2);
                 break;
         }
 
         structure.SetRessource(new Ressource(ressourceType, returnRessourceValue));
     }
 
-    private void ChoseQuantityEpave(Structure structure, TypeRessource ressourceType) {
-        int ramdomValue = Random.Range(0, 101);
+    private void ChoseQuantityEpave(Structure structure, TypeRessource ressourceType, int cellSeed) {
+        System.Random random = new(cellSeed);
+        int randomValue = random.Next(0, 101);
         var returnRessourceValue = ressourceType switch {
-            TypeRessource.Cuivre => ramdomValue <= 90 ? Random.Range(0, 51) : 0,
-            TypeRessource.Argent => ramdomValue <= 80 ? Random.Range(0, 51) : 0,
-            TypeRessource.Or => ramdomValue <= 60 ? Random.Range(0, 26) : 0,
-            TypeRessource.Platine => ramdomValue <= 40 ? Random.Range(0, 11) : 0,
-            TypeRessource.NoyauEnergie => ramdomValue <= 3 ? 2 : 1,
+            TypeRessource.Cuivre => randomValue <= 90 ? random.Next(0, 51) : 0,
+            TypeRessource.Argent => randomValue <= 80 ? random.Next(0, 51) : 0,
+            TypeRessource.Or => randomValue <= 60 ? random.Next(0, 26) : 0,
+            TypeRessource.Platine => randomValue <= 40 ? random.Next(0, 11) : 0,
+            TypeRessource.NoyauEnergie => randomValue <= 3 ? 2 : 1,
             _ => 0,
         };
         structure.ressource = new Ressource(ressourceType, returnRessourceValue);
