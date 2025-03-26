@@ -5,8 +5,8 @@ using UnityEngine.UI;
 public class Shield : SearchShield, ICanTakeDamage {
     [SerializeField] private float maxLife;
     [SerializeField] private float maxLifeWithPercent;
-    private float percent;
-    private float life;
+    private static float percent;
+    [SerializeField] private float life;
     private float regeneration;
     private float range;
 
@@ -18,6 +18,7 @@ public class Shield : SearchShield, ICanTakeDamage {
     public override void Initialisation(RarityConstruction rarityConstruction) {
         base.Initialisation(rarityConstruction);
 
+        OnPercentChanged(TypeUpgrade.Shield, percent);
         ChangeLife(maxLifeWithPercent);
 
         trigger = GetComponent<SphereCollider>();
@@ -27,8 +28,6 @@ public class Shield : SearchShield, ICanTakeDamage {
         DrawCircle();
 
         TypeToSearch = typeof(RegenerationShield);
-        
-        OnPercentChanged(TypeUpgrade.Shield, percent);
     }
     
     public override void SetChildOf(Transform parent, bool onModule = true) {
@@ -117,6 +116,11 @@ public class Shield : SearchShield, ICanTakeDamage {
     }
     
     protected override void OnPercentChanged(TypeUpgrade typeUpgrade, float value) {
+        if (value == 0) {
+            UpgradeColumn.getValue(typeUpgrade);
+            return;
+        }
+        
         if (typeUpgrade == TypeUpgrade.Shield) {
             percent = value;
             maxLifeWithPercent = maxLife * percent;

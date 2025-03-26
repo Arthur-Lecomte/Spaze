@@ -36,6 +36,11 @@ public class Speed : Construction {
     }
     
     protected override void OnPercentChanged(TypeUpgrade typeUpgrade, float value) {
+        if (value == 0) {
+            UpgradeColumn.getValue(typeUpgrade);
+            return;
+        }
+        
         if (typeUpgrade == TypeUpgrade.Speed) {
             percent = value;
             CalculSpeedBonus();

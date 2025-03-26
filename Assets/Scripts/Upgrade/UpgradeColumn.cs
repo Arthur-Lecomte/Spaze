@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,9 +13,11 @@ public class UpgradeColumn : MonoBehaviour {
     
     private int level;
     
-    private void Start() {
+    public static Action<TypeUpgrade> getValue;
+    
+    private void Awake() {
         level = 2;
-        SendInformation();
+        getValue += WantValue;
     }
     
     public void Add() {
@@ -34,8 +37,14 @@ public class UpgradeColumn : MonoBehaviour {
         }
     }
     
+    private void WantValue(TypeUpgrade typeUpgrade) {
+        if (typeUpgrade == type) {
+            SendInformation();
+        }
+    }
+    
     private void SendInformation() {
-        Construction.onPercentChanged?.Invoke(type, level/5f);
+        Construction.onPercentChanged?.Invoke(type, 0.5f + level / 10.0f);
         
         image5.color = level >= 1 ? Color.green : Color.red;
         image4.color = level >= 2 ? Color.green : Color.red;

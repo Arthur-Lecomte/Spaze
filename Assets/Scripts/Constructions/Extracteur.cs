@@ -34,6 +34,11 @@ public class Extracteur : SearchTag {
     }
     
     protected override void OnPercentChanged(TypeUpgrade typeUpgrade, float value) {
+        if (value == 0) {
+            UpgradeColumn.getValue(typeUpgrade);
+            return;
+        }
+        
         if (typeUpgrade == TypeUpgrade.Extraction) {
             percent = value;
             quantityWithPercent = quantity * percent;
