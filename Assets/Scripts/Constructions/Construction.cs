@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
@@ -16,6 +17,8 @@ public abstract class Construction : MonoBehaviour {
     [SerializeField] protected Sprite image;
     private Transform constructionTransform;
     private GameObject[] pieces;
+    
+    public static Action<TypeUpgrade, float> onPercentChanged;
 
     public virtual void Initialisation(RarityConstruction rarityConstruction) {
         stats ??= new ConstructionStatsManager();
@@ -34,6 +37,8 @@ public abstract class Construction : MonoBehaviour {
         foreach (Ressource ressource in coutRessources) {
             ressource.quantite = (int)(ressource.quantite * GetRarityMultiplier());
         }
+        
+        onPercentChanged += OnPercentChanged;
     }
 
     public List<Ressource> GetCoutRessources() {
@@ -126,6 +131,13 @@ public abstract class Construction : MonoBehaviour {
             case RarityConstruction.Legendary: return "Légendaire";
             default: return "Commun";
         }
+    }
+    
+    protected virtual void OnPercentChanged(TypeUpgrade typeUpgrade, float percent) {
+    }
+
+    private void OnDestroy() {
+        onPercentChanged -= OnPercentChanged;
     }
 
     private void SetAllVariables() {

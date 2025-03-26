@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class Shield : SearchShield, ICanTakeDamage {
     [SerializeField] private float maxLife;
+    [SerializeField] private float maxLifeWithPercent;
+    private float percent;
     private float life;
     private float regeneration;
     private float range;
@@ -16,7 +18,7 @@ public class Shield : SearchShield, ICanTakeDamage {
     public override void Initialisation(RarityConstruction rarityConstruction) {
         base.Initialisation(rarityConstruction);
 
-        ChangeLife(maxLife);
+        ChangeLife(maxLifeWithPercent);
 
         trigger = GetComponent<SphereCollider>();
         trigger.radius = range;
@@ -25,6 +27,8 @@ public class Shield : SearchShield, ICanTakeDamage {
         DrawCircle();
 
         TypeToSearch = typeof(RegenerationShield);
+        
+        OnPercentChanged(TypeUpgrade.Shield, percent);
     }
     
     public override void SetChildOf(Transform parent, bool onModule = true) {
@@ -34,8 +38,8 @@ public class Shield : SearchShield, ICanTakeDamage {
     }
 
     private void ChangeLife(float quantity) {
-        life = Mathf.Clamp(life + quantity, 0, maxLife);
-        lifeBar.rectTransform.sizeDelta = new Vector2(life / maxLife * 100, 20);
+        life = Mathf.Clamp(life + quantity, 0, maxLifeWithPercent);
+        lifeBar.rectTransform.sizeDelta = new Vector2(life / maxLifeWithPercent * 100, 20);
     }
 
     private void DrawCircle() {
@@ -52,7 +56,9 @@ public class Shield : SearchShield, ICanTakeDamage {
     }
 
     protected override void PerformUpgrade() {
-        life = maxLife; //Régénère entièrement le shield en s'améliorant
+        OnPercentChanged(TypeUpgrade.Shield, percent);
+        life = maxLifeWithPercent; //Régénère entièrement le shield en s'améliorant
+        ChangeLife(0);
         trigger.radius = range; //Augmente la portée du shield
         DrawCircle(); //Redessine le cercle
     }
@@ -60,13 +66,13 @@ public class Shield : SearchShield, ICanTakeDamage {
     private IEnumerator RegenerateShield() {
         float elapsedTime = 0f;
 
-        while (elapsedTime < 3f && life < maxLife) {
+        while (elapsedTime < 3f && life < maxLifeWithPercent) {
             FirstPhaseRegenerateShield();
             elapsedTime += Time.deltaTime;
             yield return null;
         }
         
-        while (life < maxLife) {
+        while (life < maxLifeWithPercent) {
             SecondePhaseRegenerateShield();
             yield return null;
         }
@@ -99,7 +105,7 @@ public class Shield : SearchShield, ICanTakeDamage {
         lifeBar.color = Color.yellow;
         yield return new WaitForSeconds(1);
 
-        while (life < maxLife) {
+        while (life < maxLifeWithPercent) {
             ChangeLife(regeneration / 2 * Time.deltaTime);
             yield return null;
         }
@@ -108,6 +114,14 @@ public class Shield : SearchShield, ICanTakeDamage {
         GetComponent<Collider>().enabled = true;
         lineRenderer.enabled = true;
         //DEBUG!!! play sound repair shield + animation repair shield
+    }
+    
+    protected override void OnPercentChanged(TypeUpgrade typeUpgrade, float value) {
+        if (typeUpgrade == TypeUpgrade.Shield) {
+            percent = value;
+            maxLifeWithPercent = maxLife * percent;
+            ChangeLife(0);
+        }
     }
 
     public void TakeDamage(float damage) {

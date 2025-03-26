@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class Turret : SearchTag {
     [SerializeField] private float damage;
+    [SerializeField] private float damageWithPercent;
+    private static float percent;
+    
     [SerializeField] private float bulletSpeed;
     [SerializeField] private GameObject bulletPrefab;
     
@@ -22,6 +25,8 @@ public class Turret : SearchTag {
         }
         
         onEnemyKilled += CheckList;
+        
+        OnPercentChanged(TypeUpgrade.Attack, percent);
     }
 
     protected override void DoAction(Transform target) {
@@ -31,13 +36,24 @@ public class Turret : SearchTag {
         Vector3 direction = (target.position - transform.position).normalized;
 
         GameObject bullet = Instantiate(bulletPrefab, spawnPoint.position, Quaternion.LookRotation(direction)  * Quaternion.Euler(90, 0, 0));
-        bullet.GetComponent<Tir>().SetInformations(Vaisseau.Instance.gameObject, damage, bulletSpeed, range);
+        bullet.GetComponent<Tir>().SetInformations(Vaisseau.Instance.gameObject, damageWithPercent, bulletSpeed, range);
     }
     
     private void CheckList(GameObject enemy) {
         if (InRange.Contains(enemy.GetComponent<Collider>())) {
             InRange.Remove(enemy.GetComponent<Collider>());
             StopAction();
+        }
+    }
+    
+    protected override void PerformUpgrade() {
+        OnPercentChanged(TypeUpgrade.Attack, percent);
+    }
+    
+    protected override void OnPercentChanged(TypeUpgrade typeUpgrade, float value) {
+        if (typeUpgrade == TypeUpgrade.Attack) {
+            percent = value;
+            damageWithPercent = damage * percent;
         }
     }
 

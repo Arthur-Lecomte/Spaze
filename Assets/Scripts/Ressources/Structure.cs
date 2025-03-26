@@ -10,9 +10,8 @@ public class Structure : MonoBehaviour {
         CheckQuantity();
     }
 
-    public bool Extract() {
-        int amountToExtract = 10;
-        int number = Mathf.Min(ressource.quantite, amountToExtract);
+    public bool Extract(float amount) {
+        int number = Mathf.Min(ressource.quantite, (int)amount);
         ressource.quantite -= number;
         Inventory.Instance.AddRessource(ressource.type, number);
 

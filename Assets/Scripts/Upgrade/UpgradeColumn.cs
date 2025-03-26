@@ -35,11 +35,7 @@ public class UpgradeColumn : MonoBehaviour {
     }
     
     private void SendInformation() {
-        switch (type) {
-            case TypeUpgrade.Speed:
-                Vaisseau.Instance.SetSpeedSkillPercentage(level/5f);
-                break;
-        }
+        Construction.onPercentChanged?.Invoke(type, level/5f);
         
         image5.color = level >= 1 ? Color.green : Color.red;
         image4.color = level >= 2 ? Color.green : Color.red;
