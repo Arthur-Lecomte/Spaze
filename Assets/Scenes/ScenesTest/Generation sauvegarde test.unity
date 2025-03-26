@@ -127,6 +127,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 231966817067949987, guid: 5ef76a7ef3a0d16469299057eb06e102, type: 3}
+      propertyPath: asteroidVidePrefab
+      value: 
+      objectReference: {fileID: 5134832592836255891, guid: 7623e82596c0d8f41b70a3b821dafd23, type: 3}
     - target: {fileID: 1948969600901052911, guid: 5ef76a7ef3a0d16469299057eb06e102, type: 3}
       propertyPath: m_Name
       value: GameManager

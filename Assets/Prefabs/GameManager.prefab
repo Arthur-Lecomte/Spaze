@@ -116,6 +116,7 @@ MonoBehaviour:
   asteroidData: {fileID: 11400000, guid: 7d923515d1431fd49ac17bd8b8ab2ec9, type: 2}
   wreckData: {fileID: 11400000, guid: 591ebb168d4dce849aabffe4fff6bd90, type: 2}
   shopPrefab: {fileID: 4116979557059156809, guid: c5ff1404a214cf64cb3aef71a8d1e33c, type: 3}
+  asteroidVidePrefab: {fileID: 5134832592836255891, guid: 7623e82596c0d8f41b70a3b821dafd23, type: 3}
   cellSize: 50
   spawnRadius: 3
   seed: 0

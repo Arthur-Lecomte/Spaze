@@ -9,6 +9,7 @@ public class GenerationStructure : MonoBehaviour {
     [SerializeField] private AsteroidData asteroidData;
     [SerializeField] private WreckData wreckData;
     [SerializeField] private GameObject shopPrefab;
+    [SerializeField] private GameObject asteroidVidePrefab;
 
     [Header("Generation Settings")]
     [SerializeField] private int cellSize = 50; // Taille des cellules de la grille
@@ -90,8 +91,14 @@ public class GenerationStructure : MonoBehaviour {
 
         if (cellStates.TryGetValue(cellCoord, out var cellState)) {
             // Restaurer l'état de la structure dans la cellule
-            GameObject prefab = cellState.IsAsteroid ? asteroidData.variants.Find(v => v.ressourceType == cellState.Ressource.type).prefab : wreckData.variants.Find(v => v.ressourceType == cellState.Ressource.type).prefab;
+            GameObject prefab;
+            if (cellState.IsAsteroid && cellState.Ressource.quantite == 0) {
+                prefab = asteroidVidePrefab;
+            } else {
+                prefab = cellState.IsAsteroid ? asteroidData.variants.Find(v => v.ressourceType == cellState.Ressource.type).prefab : wreckData.variants.Find(v => v.ressourceType == cellState.Ressource.type).prefab;
+            }
             GameObject obj = Instantiate(prefab, cellState.Position, Quaternion.identity, cellState.IsAsteroid ? asteroidParent : wreckParent);
+            obj.transform.localScale = cellState.Scale;
             Structure structure = obj.GetComponent<Structure>();
             structure.SetRessource(cellState.Ressource);
             if (cellState.IsMined || cellState.IsScavenged) {
@@ -168,6 +175,7 @@ public class GenerationStructure : MonoBehaviour {
         if (obj.TryGetComponent<Structure>(out var structure)) {
             cellStates[cellCoord] = new CellState {
                 Position = obj.transform.position,
+                Scale = obj.transform.localScale,
                 IsAsteroid = structure.isAsteroid,
                 Ressource = structure.ressource,
                 IsMined = structure.isAsteroid && structure.ressource.quantite == 0,
@@ -242,10 +250,20 @@ public class GenerationStructure : MonoBehaviour {
     void OnDrawGizmos() {
         if (loadedCells == null) return;
 
+        // Dessiner les cellules chargées
         Gizmos.color = Color.green;
         foreach (Vector2Int cell in loadedCells.Keys) {
             Vector3 cellCenter = new Vector3(cell.x * cellSize, 0, cell.y * cellSize);
             Gizmos.DrawWireCube(cellCenter, new Vector3(cellSize, 1, cellSize));
+        }
+
+        // Dessiner les cellules sauvegardées
+        Gizmos.color = Color.blue;
+        foreach (Vector2Int cell in cellStates.Keys) {
+            if (!loadedCells.ContainsKey(cell)) {
+                Vector3 cellCenter = new Vector3(cell.x * cellSize, 0, cell.y * cellSize);
+                Gizmos.DrawWireCube(cellCenter, new Vector3(cellSize, 1, cellSize));
+            }
         }
     }
 }
