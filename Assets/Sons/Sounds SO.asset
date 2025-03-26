@@ -34,7 +34,7 @@ MonoBehaviour:
     sounds:
     - {fileID: 8300000, guid: 38ef590874ea18e49a1ad17447d56279, type: 3}
   - name: COMBAT
-    volume: 1
+    volume: 0.507
     mixer: {fileID: 24300002, guid: 4bc8afeac87abc740ac950002cc59f2e, type: 2}
     sounds:
     - {fileID: 8300000, guid: 0b3cd5936cb2abe4aa83a55147ce1ccb, type: 3}
