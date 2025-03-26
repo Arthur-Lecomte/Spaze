@@ -101,7 +101,7 @@ public class GenerationStructure : MonoBehaviour {
             obj.transform.localScale = cellState.Scale;
             Structure structure = obj.GetComponent<Structure>();
             structure.SetRessource(cellState.Ressource);
-            if (cellState.IsMined || cellState.IsScavenged) {
+            if (cellState.IsScavenged) {
                 Destroy(obj);
             }
             loadedCells[cellCoord] = obj;
@@ -118,19 +118,16 @@ public class GenerationStructure : MonoBehaviour {
 
             // Limiter à une seule structure par cellule
             if (asteroidChance < 0.7f) // 70% de chance d'apparition d'un astéroïde
-            {
                 obj = TryInstantiateVariant(asteroidData.variants, cellCenter, asteroidParent, cellSeed);
-            } else if (wreckChance < 0.34f) // 10% de chance pour une épave
-            {
+            else if (wreckChance < 0.34f)  // 10% de chance pour une épave
                 obj = TryInstantiateVariant(wreckData.variants, cellCenter, wreckParent, cellSeed);
-            } else if (shopChance < 0.26f) // 2% de chance pour un magasin
-            {
+            else if (shopChance < 0.26f)  // 2% de chance pour un magasin
                 obj = TryInstantiateObject(shopPrefab, cellCenter, shopParent, cellSeed);
-            }
+            
 
-            if (obj != null) {
+            if (obj != null) 
                 loadedCells[cellCoord] = obj;
-            }
+            
         }
 
         yield return null;
@@ -142,9 +139,8 @@ public class GenerationStructure : MonoBehaviour {
 
         foreach (var variant in variants) {
             cumulativeProbability += variant.probability;
-            if (randomValue < cumulativeProbability) {
+            if (randomValue < cumulativeProbability) 
                 return TryInstantiateObject(variant.prefab, cellCenter, parent, cellSeed, variant.ressourceType);
-            }
         }
         return null;
     }
