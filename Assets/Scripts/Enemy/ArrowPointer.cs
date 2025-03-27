@@ -34,7 +34,12 @@ public class ArrowPointer : MonoBehaviour {
         for (int i = 0; i < arrows.Count; i++) {
             Transform enemy = activeEnemies[i].transform;
             Vector3 direction = (enemy.position - playerTransform.position).normalized;
-            arrows[i].transform.SetPositionAndRotation(playerTransform.position + direction * distanceFromPlayer, Quaternion.LookRotation(Vector3.forward, direction));
+            Vector3 arrowPosition = playerTransform.position + new Vector3(direction.x, 0, direction.z) * distanceFromPlayer;
+            arrows[i].transform.position = arrowPosition;
+
+            // Ajuster la rotation pour que les flèches pointent vers les ennemis
+            float angle = Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg;
+            arrows[i].transform.rotation = Quaternion.Euler(90, 90, angle);
         }
     }
 }
