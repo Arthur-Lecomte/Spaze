@@ -105,6 +105,11 @@ public class ShopCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         }
     }
     
+    public void HideStoppedCoroutine() {
+        noSpace.SetActive(false);
+        HideSubPanel();
+    }
+    
     public void HideSubPanel() {
         subPanel.gameObject.SetActive(false);
         subPanel.localPosition = Vector3.zero;

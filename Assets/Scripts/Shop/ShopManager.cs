@@ -75,7 +75,7 @@ public class ShopManager : MonoBehaviour {
             }
             
             foreach (ShopCardUI child in shopCards) {
-                child.HideSubPanel();
+                child.HideStoppedCoroutine();
             }
             RestoreConstructionsVisibility(shop);
         }
