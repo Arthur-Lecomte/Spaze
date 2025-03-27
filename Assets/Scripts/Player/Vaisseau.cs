@@ -64,11 +64,11 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
         if (isAccelerating) {
             rb.AddForce(transform.forward * (acceleration + (Speed.AllPower * speedSkillPercentage)), ForceMode.Acceleration);
             if(!ReactorAudioSource.isPlaying){
-                SoundManager.PlaySoundWithFade(SoundType.REACTOR,ReactorAudioSource, 1f, 0.3f);
+                SoundManager.PlaySoundWithFade(SoundType.REACTOR,ReactorAudioSource,0.3f);
             }
             
         } else{
-            SoundManager.StopSoundWithFade(ReactorAudioSource,1f);
+            SoundManager.StopSoundWithFade(ReactorAudioSource,0.2f);
         }
 
         
@@ -85,6 +85,7 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
         actualHealth = Mathf.Max(0, actualHealth - damage);
         if (actualHealth == 0) {
             //GameManager.Instance.GameOver();
+            
         }
         healthBar.sizeDelta = new Vector2(healthBarMaxWidth * actualHealth / maxHealth, healthBar.sizeDelta.y);
     }

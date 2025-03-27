@@ -130,6 +130,7 @@ public class Enemy : MonoBehaviour, ICanTakeDamage
         {
             Destroy(gameObject);
             Turret.onEnemyKilled?.Invoke(gameObject);
+            SoundManager.PlaySound(SoundType.EXPLOSIONVAISSEAU);
         }
     }
 

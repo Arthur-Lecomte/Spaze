@@ -41,7 +41,7 @@ namespace SmallHedge.SoundManager
             }
         }
 
-        public static void PlaySoundWithFade(SoundType sound, AudioSource source, float targetVolume, float fadeDuration)
+        public static void PlaySoundWithFade(SoundType sound, AudioSource source, float fadeDuration, float volume = 1)
         {
 
             SoundList soundList = instance.SO.sounds[(int)sound];
@@ -55,7 +55,7 @@ namespace SmallHedge.SoundManager
             source.Play();
 
             // Lancer le fondu
-            instance.StartCoroutine(FadeAudio(source, targetVolume * soundList.volume, fadeDuration));
+            instance.StartCoroutine(FadeAudio(source, volume * soundList.volume, fadeDuration));
         }
 
         private static IEnumerator FadeAudio(AudioSource audioSource, float targetVolume, float duration)
