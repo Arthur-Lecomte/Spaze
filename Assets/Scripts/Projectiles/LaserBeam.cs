@@ -8,6 +8,7 @@ public class LaserBeam : MonoBehaviour {
     public GameObject laser;
     public LayerMask collisionMask; // Masque pour détecter les collisions
     public bool ignoreObjectInFront;
+    private Transform parentTransform;
 
     private AudioSource extractorAudioSource;
 
@@ -18,6 +19,7 @@ public class LaserBeam : MonoBehaviour {
 
     private void Awake() {
         extractorAudioSource = gameObject.AddComponent<AudioSource>();
+        parentTransform = transform.GetChild(0);
     }
 
     void Start() {
@@ -68,7 +70,7 @@ public class LaserBeam : MonoBehaviour {
                 // Ajuster la taille du laser
                 maxLaserLength = Vector3.Distance(transform.position, target.transform.position + new Vector3(0f, 0.5f, 0f));
                 Vector3 newScale = laser.transform.localScale;
-                newScale.z = maxLaserLength;
+                newScale.z = maxLaserLength / parentTransform.localScale.z;
                 laser.transform.localScale = newScale;
             } else {
                 Vector3 rayDirection = (target.transform.position - firePoint.transform.position).normalized;
