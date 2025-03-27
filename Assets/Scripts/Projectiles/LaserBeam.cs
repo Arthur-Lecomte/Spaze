@@ -50,18 +50,18 @@ public class LaserBeam : MonoBehaviour {
         
         while (true) {
             laser.transform.position = firePoint.transform.position;
-            Vector3 rayDirection = (target.transform.position - firePoint.transform.position).normalized;
-            laser.transform.rotation = Quaternion.LookRotation(rayDirection);
             if (ignoreObjectInFront) {
-                Vector3 targetPos = target.transform.position + new Vector3(0f, 0.5f, 0f);
+                Vector3 rayDirection = (target.transform.position + new Vector3(0f, 0.5f, 0f) - firePoint.transform.position);
                 laser.transform.rotation = Quaternion.LookRotation(rayDirection);
 
                 // Ajuster la taille du laser
-                maxLaserLength = Vector3.Distance(transform.position, targetPos);
+                maxLaserLength = Vector3.Distance(transform.position, target.transform.position + new Vector3(0f, 0.5f, 0f));
                 Vector3 newScale = laser.transform.localScale;
                 newScale.z = maxLaserLength;
                 laser.transform.localScale = newScale;
             } else {
+                Vector3 rayDirection = (target.transform.position - firePoint.transform.position).normalized;
+                laser.transform.rotation = Quaternion.LookRotation(rayDirection);
                 // Si le Raycast touche un objet, ajuster la longueur du laser à la distance de l'objet touché + marge
                 if (Physics.Raycast(firePoint.transform.position, rayDirection, out RaycastHit hit, maxLaserLength, collisionMask)) {
                     if (hit.collider.gameObject != target) {
