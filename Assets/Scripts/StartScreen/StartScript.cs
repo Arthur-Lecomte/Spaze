@@ -6,14 +6,14 @@ public class StartScript : MonoBehaviour {
     private GameObject canvasStartMenu;
 
     
+
+    
     private AudioSource musicAudioSource;
 
     public void Awake() {
         canvasParametre = GameObject.Find("Canvas-Parametres");
         canvasStartMenu = GameObject.Find("Canvas-StartMenu");
-
         musicAudioSource = gameObject.AddComponent<AudioSource>();
-        
         
     }
 
@@ -26,6 +26,7 @@ public class StartScript : MonoBehaviour {
 
     public void LoadScene(string sceneName) {
         SoundManager.PlaySound(SoundType.CLICK);
+        musicAudioSource.Stop();
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
     }
 
