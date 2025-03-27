@@ -70,14 +70,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Level: 1
   health: 200
-  moveSpeed: 1
-  timeBeforeBeingCible: 2
+  moveSpeed: 2
   damageEnemy: 5
   projectilePrefab: {fileID: 3824452743231026403, guid: 59044da8fbf8d4e46862be06223b732a, type: 3}
   shootInterval: 1.5
   lastShootTime: 0
   shootRange: 8
   shootPoint: {fileID: 3166261862344219036}
+  portal: {fileID: 0}
 --- !u!1 &3345544540168025527
 GameObject:
   m_ObjectHideFlags: 0

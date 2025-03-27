@@ -49,7 +49,6 @@ MonoBehaviour:
   Level: 1
   health: 200
   moveSpeed: 3
-  timeBeforeBeingCible: 2
   damageEnemy: 15
   projectilePrefab: {fileID: 7993188006615409297, guid: 0ab68db2f97263948bb01160bcc4a754, type: 3}
   shootInterval: 15
@@ -133,7 +132,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: [{targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: d129d175ac6d5b64eb40a9b23e62c446, type: 3}, insertIndex: -1, addedObject: {fileID: 6202302166986323185}}]
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: d129d175ac6d5b64eb40a9b23e62c446, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6202302166986323185}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d129d175ac6d5b64eb40a9b23e62c446, type: 3}
 --- !u!4 &687225231327070608 stripped
@@ -198,7 +200,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1836871127040376654, guid: 73ccde4db18891c45b2229a78fbe5f79, type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: e19d0a3405f283e49a4777bfc67897b0, type: 2}
     - target: {fileID: 8124340804012453138, guid: 73ccde4db18891c45b2229a78fbe5f79, type: 3}
