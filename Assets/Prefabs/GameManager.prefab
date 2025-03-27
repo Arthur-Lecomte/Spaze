@@ -116,8 +116,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa063cb00d876b046b0f541f3f57ffa6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvasParametre: {fileID: 7341628542368823687, guid: 93b95ddfdd5ed6446ae334aa1b8f1b5f, type: 3}
-  toggleMenuPause: {fileID: 0}
+  canvasParametre: {fileID: 0}
+  toggleMenuPause: {fileID: 2895860171232644047, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!1 &3120808753880431499
 GameObject:
   m_ObjectHideFlags: 0
