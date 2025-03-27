@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using SmallHedge.SoundManager;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -32,6 +33,7 @@ public class BuyHealth : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
             Inventory.Instance.RemoveRessources(coutRessources);
             Vaisseau.Instance.Regeneration();
             gameObject.SetActive(false);
+            SoundManager.PlaySound(SoundType.BUY);
         }
     }
 

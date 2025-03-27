@@ -1,3 +1,4 @@
+using SmallHedge.SoundManager;
 using UnityEngine;
 
 public class DeathManager : MonoBehaviour {
@@ -12,6 +13,7 @@ public class DeathManager : MonoBehaviour {
         } else {
             Destroy(gameObject);
         }
+        
     }
 
     public void GameOver() {

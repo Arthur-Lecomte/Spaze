@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using SmallHedge.SoundManager;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -117,6 +118,7 @@ public class ShopCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             if (Inventory.Instance.AddConstruction(construction)) {
                 // Retirer les ressources nécessaires
                 Inventory.Instance.RemoveRessources(construction.GetCoutRessources());
+                SoundManager.PlaySound(SoundType.BUY);
                 StopAllCoroutines();
                 gameObject.SetActive(false);
                 ShopManager.Instance.IsBuy(index);

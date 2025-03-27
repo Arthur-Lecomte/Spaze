@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using SmallHedge.SoundManager;
 using UnityEngine;
 using UnityEngine.UI;
 

@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using SmallHedge.SoundManager;
 using TMPro;
 using UnityEngine;
 
-public class WaveManager : MonoBehaviour {
+public class WaveManager : MonoBehaviour
+{
     public static WaveManager Instance;
 
     [Header("Wave Settings")]
@@ -20,24 +22,38 @@ public class WaveManager : MonoBehaviour {
     private int nextEnemyIndex = 0; // Index du prochain ennemi à spawn
     private float timeUntilNextWave; // Temps restant avant la prochaine vague
 
-    void Awake() {
-        if (Instance == null) {
+    private AudioSource explorationAudioSource;
+    private AudioSource combatAudioSource;
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
             Instance = this;
-        } else {
+            explorationAudioSource = gameObject.AddComponent<AudioSource>();
+            combatAudioSource = gameObject.AddComponent<AudioSource>();
+        }
+        else
+        {
             Destroy(gameObject);
         }
 
         waveInfoText = GetComponent<TextMeshProUGUI>();
     }
 
-    void Start() {
+    void Start()
+    {
         StartCoroutine(SpawnWaves());
     }
 
-    void Update() {
-        if (activeEnemies.Count > 0) {
+    void Update()
+    {
+        if (activeEnemies.Count > 0)
+        {
             waveInfoText.text = $"Ennemis restants : {activeEnemies.Count}";
-        } else {
+        }
+        else
+        {
             waveInfoText.text = $"Prochaine vague : {Mathf.CeilToInt(timeUntilNextWave)} s";
         }
     }
@@ -46,33 +62,51 @@ public class WaveManager : MonoBehaviour {
     /// Gère l'apparaition des vagues d'ennemies.
     /// </summary>
     /// <returns></returns>
-    private IEnumerator SpawnWaves() {
-        while (true) {
+    private IEnumerator SpawnWaves()
+    {
+        while (true)
+        {
             timeUntilNextWave = timeBetweenWaves;
-            while (timeUntilNextWave > 0) {
-                yield return null;
-                timeUntilNextWave -= Time.deltaTime;
+
+
+            if (!explorationAudioSource.isPlaying)
+            {
+                
+                SoundManager.PlaySoundWithFade(SoundType.EXPLORATION, explorationAudioSource, 1f, 10f); //Lancer le son d'exploration
+                SoundManager.StopSoundWithFade(combatAudioSource, 2f);
+
+                while (timeUntilNextWave > 0)
+                {
+                    yield return null;
+                    timeUntilNextWave -= Time.deltaTime;
+                }
+                
+                SoundManager.PlaySoundWithFade(SoundType.COMBAT, combatAudioSource, 1f, 10f); //Lancer le son de combat
+                SoundManager.StopSoundWithFade(explorationAudioSource, 1f);
+
+                currentWave++;
+                int enemyCount = startEnemies + (currentWave - 1) / 5; // Ajouter 1 ennemi toutes les 5 vagues
+
+                for (int i = 0; i < enemyCount; i++)
+                {
+                    SpawnEnemy();
+                    yield return new WaitForSeconds(0.2f); // Petit délai entre chaque spawn
+                }
+
+                // Attendre que tous les ennemis soient détruits
+                yield return new WaitUntil(() => activeEnemies.Count == 0);
+                ShopManager.Instance.NewWave();
             }
-
-            currentWave++;
-            int enemyCount = startEnemies + (currentWave - 1) / 5; // Ajouter 1 ennemi toutes les 5 vagues
-
-            for (int i = 0; i < enemyCount; i++) {
-                SpawnEnemy();
-                yield return new WaitForSeconds(0.2f); // Petit délai entre chaque spawn
-            }
-
-            // Attendre que tous les ennemis soient détruits
-            yield return new WaitUntil(() => activeEnemies.Count == 0);
-            ShopManager.Instance.NewWave();
         }
     }
 
     /// <summary>
     /// Instantie un ennemi aléatoire provenant de la liste d'ennemie si elle n'est pas vide et que le player n'est pas null.
     /// </summary>
-    private void SpawnEnemy() {
-        if (enemyPrefabs.Count == 0 || Vaisseau.Instance.gameObject == null) {
+    private void SpawnEnemy()
+    {
+        if (enemyPrefabs.Count == 0 || Vaisseau.Instance.gameObject == null)
+        {
             Debug.LogWarning("Aucun ennemi disponible ou joueur non défini !");
             return;
         }
@@ -86,7 +120,8 @@ public class WaveManager : MonoBehaviour {
         activeEnemies.Add(enemy);
 
         // Ajouter un évènement pour retirer l'ennemi de la liste lorsqu'il est détruit
-        if (enemy.TryGetComponent<Enemy>(out var enemyComponent)) {
+        if (enemy.TryGetComponent<Enemy>(out var enemyComponent))
+        {
             enemyComponent.Level = 1 + (currentWave - 1) / 2; // Augmenter le niveau toutes les 2 vagues
             enemyComponent.OnDestroyed += (destroyedEnemy) => activeEnemies.Remove(destroyedEnemy);
         }
@@ -96,7 +131,8 @@ public class WaveManager : MonoBehaviour {
     /// Calcule une position aléatoire de spawn d'un ennemi selon les paramètres de la class.
     /// </summary>
     /// <returns>Renvoie un Vector3 pour le spawn d'un ennemi.</returns>
-    private Vector3 GetRandomSpawnPosition() {
+    private Vector3 GetRandomSpawnPosition()
+    {
         float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
         float offsetX = Random.Range(-spawnSpread, spawnSpread);
         float offsetZ = Random.Range(-spawnSpread, spawnSpread);
@@ -110,9 +146,11 @@ public class WaveManager : MonoBehaviour {
         return basePosition + new Vector3(offsetX, 0, offsetZ);
     }
 
-    public void RegisterEnemy(GameObject enemy) {
+    public void RegisterEnemy(GameObject enemy)
+    {
         activeEnemies.Add(enemy);
-        if (enemy.TryGetComponent<Enemy>(out var enemyComponent)) {
+        if (enemy.TryGetComponent<Enemy>(out var enemyComponent))
+        {
             enemyComponent.Level = 1 + (currentWave - 1) / 2; // Augmenter le niveau toutes les 2 vagues
             enemyComponent.OnDestroyed += (destroyedEnemy) => activeEnemies.Remove(destroyedEnemy);
         }

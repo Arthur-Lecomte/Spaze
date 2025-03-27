@@ -38,6 +38,7 @@ public class UpgradeManager : MonoBehaviour {
     public void AddPoints() {
         pointsLevel += 1;
         pointsText.text = "Points: " + pointsLevel;
+        
     }
 
     public bool CanUpgrade() {

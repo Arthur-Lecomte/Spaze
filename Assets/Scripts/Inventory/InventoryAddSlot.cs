@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using SmallHedge.SoundManager;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -25,7 +26,7 @@ public class InventoryAddSlot : MonoBehaviour, IPointerEnterHandler, IPointerDow
             BuyHoverUI.Instance.HideHoverUI();
             
             Inventory.Instance.RemoveRessources(coutRessources);
-
+            SoundManager.PlaySound(SoundType.BUY);
             Inventory.Instance.AddInventorySlotsSize();
             IsBuy(true);
         }

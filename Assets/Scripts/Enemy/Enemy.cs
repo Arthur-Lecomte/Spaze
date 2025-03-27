@@ -1,3 +1,4 @@
+using SmallHedge.SoundManager;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -10,6 +11,7 @@ public class Enemy : MonoBehaviour, ICanTakeDamage
     [SerializeField] public float health = 200;
     [SerializeField] public float moveSpeed = 1f; // Vitesse de déplacement de l'ennemi
     [SerializeField] public int damageEnemy = 15;
+    
 
 
     [Header("Comportement de tir")]
@@ -85,6 +87,7 @@ public class Enemy : MonoBehaviour, ICanTakeDamage
 
     protected virtual void ShootAtPlayer()
     {
+
         if (projectilePrefab && shootPoint && player)
         {
             // Calculer la direction vers la position actuelle du joueur

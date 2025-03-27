@@ -1,3 +1,4 @@
+using SmallHedge.SoundManager;
 using UnityEngine;
 
 public class Vaisseau : MonoBehaviour, ICanTakeDamage {
@@ -15,6 +16,8 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
     [SerializeField] private float rotationSpeed = 200f; // Vitesse de rotation
     [SerializeField] private float drag = 0.99f; // Ralentissement progressif (momentum)
 
+    private AudioSource ReactorAudioSource;
+    
     private Rigidbody rb;
     private bool isAccelerating;
 
@@ -24,6 +27,8 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
         } else {
             Destroy(gameObject);
         }
+
+        ReactorAudioSource = gameObject.AddComponent<AudioSource>();
         
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false; // Pas de gravité pour un vaisseau spatial
@@ -53,6 +58,12 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
         // Appliquer une force vers l'avant seulement si le joueur accélère
         if (isAccelerating) {
             rb.AddForce(transform.forward * (acceleration + Speed.AllPower), ForceMode.Acceleration);
+            if(!ReactorAudioSource.isPlaying){
+                SoundManager.PlaySoundWithFade(SoundType.REACTOR,ReactorAudioSource, 1f, 0.3f);
+            }
+            
+        } else{
+            SoundManager.StopSoundWithFade(ReactorAudioSource,1f);
         }
 
         // Limiter la vitesse

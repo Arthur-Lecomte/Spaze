@@ -1,3 +1,4 @@
+using SmallHedge.SoundManager;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -81,6 +82,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     }
     
     public void Exchange(InventorySlot inventorySlot) {
+        SoundManager.PlaySound(SoundType.BUILDING);
         Construction construction1;
         Construction construction2;
         
