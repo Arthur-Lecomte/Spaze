@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using SmallHedge.SoundManager;
 
 public class EnergyShield : MonoBehaviour, ICanTakeDamage {
     [SerializeField] private Shield shield;
@@ -52,7 +53,7 @@ public class EnergyShield : MonoBehaviour, ICanTakeDamage {
         gameObject.layer = 2;
         meshRenderer.enabled = false;
         lifeBar.color = Color.yellow;
-        //DEBUG!!! play sound broken shield + animation destroy shield
+        SoundManager.PlaySound(SoundType.BREAKSHIELD);
         
         yield return new WaitForSeconds(1);
 
@@ -64,7 +65,7 @@ public class EnergyShield : MonoBehaviour, ICanTakeDamage {
         gameObject.layer = 7;
         meshRenderer.enabled = true;
         lifeBar.color = Color.blue;
-        //DEBUG!!! play sound repair shield + animation repair shield
+        SoundManager.PlaySound(SoundType.SHIELDRECHARGE);
     }
     
     public void TakeDamage(float damage) {
