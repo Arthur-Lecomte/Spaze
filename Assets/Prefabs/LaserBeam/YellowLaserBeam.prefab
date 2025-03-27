@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8846500821769435031}
   m_Layer: 0
-  m_Name: RedLaserBeam
+  m_Name: YellowLaserBeam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -151,8 +151,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.99709225, g: 0.04385715, b: 0, a: 1}
-      key1: {r: 0.83137256, g: 0.22336511, b: 0, a: 1}
+      key0: {r: 0.99709225, g: 1, b: 0, a: 1}
+      key1: {r: 0.8301887, g: 0.60812354, b: 0, a: 1}
       key2: {r: 0.8301887, g: 0.60812354, b: 0, a: 1}
       key3: {r: 0.8301887, g: 0.60812354, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -241,6 +241,10 @@ PrefabInstance:
     - target: {fileID: 7489299839712256666, guid: b16f92053b35ab14fb819750b6dd6cd7, type: 3}
       propertyPath: m_Name
       value: Particle System
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817504414592458903, guid: b16f92053b35ab14fb819750b6dd6cd7, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

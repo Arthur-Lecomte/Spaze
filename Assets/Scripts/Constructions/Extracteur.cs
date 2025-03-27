@@ -15,7 +15,7 @@ public class Extracteur : SearchTag {
         turnTransform = transform.GetChild(0);
 
         animator = GetComponentInChildren<Animator>();
-        laserBeam = GetComponentInChildren<LaserBeam>();
+        laserBeam = GetComponent<LaserBeam>();
         OnPercentChanged(TypeUpgrade.Extraction, percent);
     }
 

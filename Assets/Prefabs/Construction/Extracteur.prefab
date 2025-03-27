@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b2aff86fc4c2104996afafe86304c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laserPrefab: {fileID: 815561624109339590, guid: 2a60c7160c4ad054480df1a896a84b32, type: 3}
+  laserPrefab: {fileID: 815561624109339590, guid: 40064621850053c4ea88e97fe01e1b73, type: 3}
   firePoint: {fileID: 4856658298876889090}
   laser: {fileID: 0}
   collisionMask:

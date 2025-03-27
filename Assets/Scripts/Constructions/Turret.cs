@@ -7,6 +7,7 @@ public class Turret : SearchTag {
     private static float percent;
     
     [SerializeField] private GameObject bulletPrefab;
+    private LaserBeam laserBeam;
     
     private Transform[] missileSpawnPoints;
     private int currentSpawnPointIndex;
@@ -25,17 +26,37 @@ public class Turret : SearchTag {
         
         onEnemyKilled += CheckList;
         
+        laserBeam = GetComponent<LaserBeam>();
         OnPercentChanged(TypeUpgrade.Attack, percent);
     }
 
     protected override void DoAction(Transform target) {
-        Transform spawnPoint = missileSpawnPoints[currentSpawnPointIndex];
-        currentSpawnPointIndex = (currentSpawnPointIndex + 1) % missileSpawnPoints.Length;
-        
-        Vector3 direction = (target.position - transform.position).normalized;
+        if (laserBeam) {
+            if (laserBeam.IsLaserEnabled()) { // Si le laser est activé, on fait des dégâts à l'ennemi
+                target.gameObject.GetComponent<Enemy>().TakeDamage(damageWithPercent);
 
-        GameObject bullet = Instantiate(bulletPrefab, spawnPoint.position, Quaternion.LookRotation(direction));
-        bullet.GetComponent<Tir>().SetInformations(Vaisseau.Instance.gameObject, damageWithPercent, range);
+            }
+        } else {
+            Transform spawnPoint = missileSpawnPoints[currentSpawnPointIndex];
+            currentSpawnPointIndex = (currentSpawnPointIndex + 1) % missileSpawnPoints.Length;
+        
+            Vector3 direction = (target.position - transform.position).normalized;
+
+            GameObject bullet = Instantiate(bulletPrefab, spawnPoint.position, Quaternion.LookRotation(direction));
+            bullet.GetComponent<Tir>().SetInformations(Vaisseau.Instance.gameObject, damageWithPercent, range);
+        }
+    }
+    
+    protected override void DoAnimation(Transform target) {
+        if (laserBeam) {
+            laserBeam.EnableLaser(target);
+        }
+    }
+
+    protected override void StopAnimation() {
+        if (laserBeam) {
+            laserBeam.DisableLaser();
+        }
     }
     
     private void CheckList(GameObject enemy) {
