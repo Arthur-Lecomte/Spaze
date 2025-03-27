@@ -4,11 +4,13 @@ using UnityEngine;
 public class ArrowPointer : MonoBehaviour {
     private Transform playerTransform;
     [SerializeField] private GameObject arrowPrefab; // Le prefab de la flèche
-    public float distanceFromPlayer = 2.0f; // Distance des flèches par rapport au joueur
+    [SerializeField] private float distanceFromPlayer; // Distance des flèches par rapport au joueur
     private List<GameObject> arrows = new();
+    private GameObject arrowContainer;
 
     private void Start() {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        arrowContainer = new GameObject("ARROW POINTER");
     }
 
     void Update() {
@@ -26,7 +28,7 @@ public class ArrowPointer : MonoBehaviour {
 
         // Ajouter des flèches si nécessaire
         while (arrows.Count < activeEnemies.Count) {
-            GameObject arrow = Instantiate(arrowPrefab, playerTransform.position, Quaternion.identity);
+            GameObject arrow = Instantiate(arrowPrefab, playerTransform.position, Quaternion.identity, arrowContainer.transform);
             arrows.Add(arrow);
         }
 

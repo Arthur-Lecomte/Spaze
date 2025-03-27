@@ -1070,7 +1070,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrowPrefab: {fileID: 808012391976598012, guid: a796a3c41c92d4c498c8aee55f0ebaa2, type: 3}
-  distanceFromPlayer: 2
+  distanceFromPlayer: 10
 --- !u!4 &2104171463294473118 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4629671137536350067, guid: b0752ad7253bb114a9bc0bdac1c3c52c, type: 3}
