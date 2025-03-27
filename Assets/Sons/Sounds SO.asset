@@ -68,3 +68,8 @@ MonoBehaviour:
     mixer: {fileID: 5725332460555330383, guid: 4bc8afeac87abc740ac950002cc59f2e, type: 2}
     sounds:
     - {fileID: 8300000, guid: 2598c1c93d66db140935497c60300548, type: 3}
+  - name: EXTRACTOR
+    volume: 1
+    mixer: {fileID: 5224331280196430767, guid: 4bc8afeac87abc740ac950002cc59f2e, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: 12bc9a51e6a143540aa1b1c95bbf43ab, type: 3}

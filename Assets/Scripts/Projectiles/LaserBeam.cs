@@ -1,58 +1,87 @@
 using System.Collections;
+using SmallHedge.SoundManager;
 using UnityEngine;
 
-public class LaserBeam : MonoBehaviour {
+public class LaserBeam : MonoBehaviour
+{
     public GameObject laserPrefab;
     public GameObject firePoint;
     public GameObject laser;
     public LayerMask collisionMask; // Masque pour détecter les collisions
     public bool ignoreObjectInFront;
 
+    private AudioSource extractorAudioSource;
+
     private GameObject target;
 
     public ParticleSystem hitEffectPrefab;
     private ParticleSystem currentHitEffect;
 
-    void Start() {
-        if (laserPrefab) {
+    private void Awake()
+    {
+        extractorAudioSource = gameObject.AddComponent<AudioSource>();
+    }
+
+    void Start()
+    {
+
+
+        if (laserPrefab)
+        {
+
+
             laser = Instantiate(laserPrefab, firePoint.transform);
-            if (hitEffectPrefab) {
+            if (hitEffectPrefab)
+            {
                 currentHitEffect = Instantiate(hitEffectPrefab);
             }
             DisableLaser();
         }
     }
 
-    public void EnableLaser(Transform cible) {
+    public void EnableLaser(Transform cible)
+    {
         target = cible.gameObject;
 
-        if (firePoint) {
-            if (ignoreObjectInFront) {
+        if (firePoint)
+        {
+            if (ignoreObjectInFront)
+            {
                 StopAllCoroutines();
                 laser.SetActive(true);
             }
-            
+
             StartCoroutine(UpdateLaser());
         }
     }
 
-    public void DisableLaser() {
+    public void DisableLaser()
+    {
         StopAllCoroutines();
         laser.SetActive(false);
-        if (hitEffectPrefab) {
+        if (hitEffectPrefab)
+        {
             currentHitEffect.Stop();
+        }
+
+        if (extractorAudioSource.isPlaying)
+        {
+            SoundManager.StopSoundWithFade(extractorAudioSource, 0.3f);
         }
     }
 
-    private IEnumerator UpdateLaser() {
+    private IEnumerator UpdateLaser()
+    {
         float maxLaserLength = 300f; // Longueur maximale du laser si rien n'est touché
         float laserMargin = 2f;
-        
-        while (true) {
+
+        while (true)
+        {
             laser.transform.position = firePoint.transform.position;
             Vector3 rayDirection = (target.transform.position - firePoint.transform.position).normalized;
             laser.transform.rotation = Quaternion.LookRotation(rayDirection);
-            if (ignoreObjectInFront) {
+            if (ignoreObjectInFront)
+            {
                 Vector3 targetPos = target.transform.position + new Vector3(0f, 0.5f, 0f);
                 laser.transform.rotation = Quaternion.LookRotation(rayDirection);
 
@@ -61,50 +90,75 @@ public class LaserBeam : MonoBehaviour {
                 Vector3 newScale = laser.transform.localScale;
                 newScale.z = maxLaserLength;
                 laser.transform.localScale = newScale;
-            } else {
+            }
+            else
+            {
                 // Si le Raycast touche un objet, ajuster la longueur du laser à la distance de l'objet touché + marge
-                if (Physics.Raycast(firePoint.transform.position, rayDirection, out RaycastHit hit, maxLaserLength, collisionMask)) {
-                    if (hit.collider.gameObject != target) {
+                if (Physics.Raycast(firePoint.transform.position, rayDirection, out RaycastHit hit, maxLaserLength, collisionMask))
+                {
+                    if (hit.collider.gameObject != target)
+                    {
                         laser.SetActive(false);
                         currentHitEffect.Stop();
-                    } else {
+                    }
+                    else
+                    {
                         maxLaserLength = hit.distance + laserMargin;
 
                         // Ajuster la taille du laser
                         Vector3 newScale = laser.transform.localScale;
                         newScale.z = maxLaserLength;
                         laser.transform.localScale = newScale;
-                        
+
                         //Particules
-                        if (hitEffectPrefab) {
+                        if (hitEffectPrefab)
+                        {
                             currentHitEffect.transform.position = hit.point;
                             currentHitEffect.transform.forward = hit.normal;
-                            if (!currentHitEffect.isPlaying) {
+                            if (!currentHitEffect.isPlaying)
+                            {
                                 currentHitEffect.Play();
                             }
                         }
-                    
-                        if (laser.activeSelf == false) {
+
+                        //Son
+                        if (!extractorAudioSource.isPlaying)
+                        {
+                            SoundManager.PlaySoundWithFade(SoundType.EXTRACTOR, extractorAudioSource, 0.5f);
+                        }
+
+
+
+
+                        if (laser.activeSelf == false)
+                        {
                             laser.SetActive(true);
                         }
                     }
-                } else {
+                }
+                else
+                {
                     // Si le Raycast ne touche rien, désactiver le laser
                     DisableLaser();
+
                 }
             }
             yield return null;
         }
     }
 
-    public bool IsLaserEnabled() {
+    public bool IsLaserEnabled()
+    {
         return laser.activeSelf;
     }
-    
-    private void OnDrawGizmos() {
-        if (firePoint != null) {
+
+    private void OnDrawGizmos()
+    {
+        if (firePoint != null)
+        {
             Gizmos.color = Color.magenta;
-            if (target) {
+            if (target)
+            {
                 Vector3 rayDirection = (target.transform.position - firePoint.transform.position).normalized;
                 Gizmos.DrawRay(firePoint.transform.position, rayDirection * 300);
             }

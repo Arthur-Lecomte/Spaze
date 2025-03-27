@@ -13,5 +13,6 @@ namespace SmallHedge.SoundManager
         EXPLOSIONVAISSEAU,
         GAMEOVER,
         STARTSCREEN,
+        EXTRACTOR,
     }
 }

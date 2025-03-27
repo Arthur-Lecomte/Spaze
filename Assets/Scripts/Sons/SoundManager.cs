@@ -75,7 +75,7 @@ namespace SmallHedge.SoundManager
         {
             if (audioSource == null)
             {
-                yield break; 
+                yield break;
             }
 
             float startVolume = audioSource.volume;
@@ -83,9 +83,9 @@ namespace SmallHedge.SoundManager
 
             while (elapsedTime < duration)
             {
-                if (audioSource == null) 
+                if (audioSource == null)
                 {
-                    yield break; 
+                    yield break;
                 }
 
                 elapsedTime += Time.deltaTime;
@@ -114,7 +114,6 @@ namespace SmallHedge.SoundManager
             // Lancer le fondu pour réduire le volume à 0
             instance.StartCoroutine(FadeAudio(source, 0f, fadeDuration));
         }
-
 
     }
 
