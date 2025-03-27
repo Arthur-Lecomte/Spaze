@@ -73,7 +73,6 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
 
         // Appliquer une légère friction pour l'inertie
         rb.linearVelocity *= drag;
-        Debug.Log(rb.linearVelocity);
     }
 
     public void TakeDamage(float damage) {
