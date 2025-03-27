@@ -12,5 +12,6 @@ namespace SmallHedge.SoundManager
         REACTOR,
         EXPLOSIONVAISSEAU,
         GAMEOVER,
+        STARTSCREEN,
     }
 }

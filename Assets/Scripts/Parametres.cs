@@ -1,0 +1,99 @@
+using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.UI;
+
+public class Parametres : MonoBehaviour
+{
+    [Header("Sliders")]
+    private Slider soundEffectsSlider;
+    private Slider musicSlider;
+
+    private const string SoundEffectsVolumeParam = "SoundEffectsVolume";
+    private const string MusicVolumeParam = "MusicVolume";
+
+    private const string SoundEffectsPrefKey = "SoundEffectsVolume";
+    private const string MusicPrefKey = "MusicVolume";
+
+    private AudioMixer audioMixer;
+    private GameObject startMenu;
+
+    private void Start()
+    {
+        startMenu = GameObject.Find("Canvas-StartMenu");
+
+        // Trouver tous les sliders dans les enfants
+        Slider[] sliders = GetComponentsInChildren<Slider>(true);
+
+        foreach (Slider slider in sliders)
+        {
+            if (slider.name.Contains("SoundEffect"))
+            {
+                soundEffectsSlider = slider;
+            }
+            else if (slider.name.Contains("Musique"))
+            {
+                musicSlider = slider;
+            }
+        }
+
+        audioMixer = SmallHedge.SoundManager.SoundManager.instance.audioMixer;
+
+        
+        InitializeSliders();
+    }
+
+    private void InitializeSliders()
+    {
+        float soundEffectsVolume = PlayerPrefs.GetFloat(SoundEffectsPrefKey, 1f); 
+        float musicVolume = PlayerPrefs.GetFloat(MusicPrefKey, 1f); 
+
+        soundEffectsSlider.value = soundEffectsVolume;
+        musicSlider.value = musicVolume;
+
+        SetSoundEffectsVolume(soundEffectsVolume);
+        SetMusicVolume(musicVolume);
+
+        soundEffectsSlider.onValueChanged.AddListener(SetSoundEffectsVolume);
+        musicSlider.onValueChanged.AddListener(SetMusicVolume);
+    }
+
+    public void SetSoundEffectsVolume(float value)
+    {
+        if (value <= 0.01f)
+        {
+            audioMixer.SetFloat(SoundEffectsVolumeParam, -80f);
+        }
+        else
+        {
+            float volumeInDb = Mathf.Log10(value) * 20;
+            audioMixer.SetFloat(SoundEffectsVolumeParam, volumeInDb);
+        }
+
+        PlayerPrefs.SetFloat(SoundEffectsPrefKey, value); // Sauvegarder la valeur
+    }
+
+    public void SetMusicVolume(float value)
+    {
+        if (value <= 0.01f)
+        {
+            audioMixer.SetFloat(MusicVolumeParam, -80f);
+        }
+        else
+        {
+            float volumeInDb = Mathf.Log10(value) * 20;
+            audioMixer.SetFloat(MusicVolumeParam, volumeInDb);
+        }
+
+        PlayerPrefs.SetFloat(MusicPrefKey, value); // Sauvegarder la valeur
+    }
+
+    public void closeSettings()
+    {
+        gameObject.SetActive(false);
+        if (startMenu != null)
+        {
+            startMenu.SetActive(true);
+        }
+    }
+    
+}

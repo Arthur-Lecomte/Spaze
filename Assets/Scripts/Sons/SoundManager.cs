@@ -9,15 +9,28 @@ namespace SmallHedge.SoundManager
     public class SoundManager : MonoBehaviour
     {
         [SerializeField] private SoundsSO SO;
-        private static SoundManager instance = null;
+        [SerializeField] public AudioMixer audioMixer; // Référence à l'Audio Mixer
+        [SerializeField] private AudioMixerGroup soundEffectsGroup; // Groupe pour les effets sonores
+        [SerializeField] private AudioMixerGroup musicGroup;
+
+
+        public static SoundManager instance = null;
         private AudioSource audioSource;
 
         private void Awake()
         {
-            if (!instance)
+            if (instance == null)
             {
                 instance = this;
-                audioSource = GetComponent<AudioSource>();
+                DontDestroyOnLoad(gameObject); // Rendre le SoundManager persistant
+                if (audioSource == null)
+                {
+                    audioSource = gameObject.AddComponent<AudioSource>();
+                }
+            }
+            else
+            {
+                Destroy(gameObject); // Détruire les instances supplémentaires
             }
         }
 
@@ -60,22 +73,33 @@ namespace SmallHedge.SoundManager
 
         private static IEnumerator FadeAudio(AudioSource audioSource, float targetVolume, float duration)
         {
+            if (audioSource == null)
+            {
+                yield break; 
+            }
+
             float startVolume = audioSource.volume;
             float elapsedTime = 0f;
 
             while (elapsedTime < duration)
             {
+                if (audioSource == null) 
+                {
+                    yield break; 
+                }
+
                 elapsedTime += Time.deltaTime;
                 audioSource.volume = Mathf.Lerp(startVolume, targetVolume, elapsedTime / duration);
                 yield return null;
             }
-
-            audioSource.volume = targetVolume;
-
-            // Si le volume cible est 0, arrêter l'AudioSource
-            if (targetVolume == 0)
+            if (audioSource != null)
             {
-                audioSource.Stop();
+                audioSource.volume = targetVolume;
+
+                if (targetVolume == 0)
+                {
+                    audioSource.Stop();
+                }
             }
         }
 

@@ -2,21 +2,22 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class BuildManager : MonoBehaviour {
-    //DEBUG!!! Script gardé pour avoir une utilisation de InputActionReference sous la main.
-    //À supprimer du Canvas une fois le code copié
+    
+    [SerializeField] public GameObject canvasParametre; //Référence du canvas
 
-    public InputActionReference toggleBuildModeAction; //Référence de la touche
+    public InputActionReference toggleMenuPause; //Référence de la touche
 
     void OnEnable() {
-        toggleBuildModeAction.action.performed += ToggleBuildMode;
-        toggleBuildModeAction.action.Enable();
+        toggleMenuPause.action.performed += ToggleMenuPause;
+        toggleMenuPause.action.Enable();
     }
 
     void OnDisable() {
-        toggleBuildModeAction.action.performed -= ToggleBuildMode;
-        toggleBuildModeAction.action.Disable();
+        toggleMenuPause.action.performed -= ToggleMenuPause;
+        toggleMenuPause.action.Disable();
     }
     
-    private void ToggleBuildMode(InputAction.CallbackContext obj) {
+    private void ToggleMenuPause(InputAction.CallbackContext obj) {
+        canvasParametre.SetActive(!canvasParametre.activeSelf);
     }
 }

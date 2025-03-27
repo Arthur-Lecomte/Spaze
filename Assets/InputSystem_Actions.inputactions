@@ -996,7 +996,7 @@
             "id": "37f845d1-3de9-487a-8a33-1dc458003d26",
             "actions": [
                 {
-                    "name": "ToggleBuildMode",
+                    "name": "ToggleMenuPause",
                     "type": "Button",
                     "id": "e8f3febe-e199-4af9-84a5-26b6d8f072e6",
                     "expectedControlType": "",
@@ -1009,11 +1009,11 @@
                 {
                     "name": "",
                     "id": "a8bc53dc-2030-44ab-891f-fae63d1596c3",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ToggleBuildMode",
+                    "action": "ToggleMenuPause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
