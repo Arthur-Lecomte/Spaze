@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public abstract class SearchTag : Construction {
     [SerializeField] private string tagTarget;
@@ -68,7 +69,12 @@ public abstract class SearchTag : Construction {
         GameObject closestObject = null;
         float closestDistance = Mathf.Infinity;
 
-        foreach (Collider c in InRange) {
+        foreach (Collider c in InRange.ToList()) {
+            if (!c) {
+                InRange.Remove(c);
+                continue;
+            }
+            
             float distance = Vector3.Distance(transform.position, c.ClosestPoint(transform.position));
             if (distance < closestDistance) {
                 closestDistance = distance;
