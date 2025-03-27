@@ -53,6 +53,10 @@ PrefabInstance:
       value: EpaveGros
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 279c713f03959624aad96b1cc3a49ae1, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 279c713f03959624aad96b1cc3a49ae1, type: 3}
       propertyPath: m_TagString
       value: Structure
       objectReference: {fileID: 0}

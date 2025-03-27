@@ -53,6 +53,10 @@ PrefabInstance:
       value: EpaveMoyen
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 254366b943db1c64281a206729bdf0d1, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 254366b943db1c64281a206729bdf0d1, type: 3}
       propertyPath: m_TagString
       value: Structure
       objectReference: {fileID: 0}
@@ -88,6 +92,7 @@ MonoBehaviour:
   ressource:
     type: 0
     quantite: 0
+  emptyAsteroid: {fileID: 0}
 --- !u!64 &2874621334296322522
 MeshCollider:
   m_ObjectHideFlags: 0

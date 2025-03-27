@@ -50,13 +50,11 @@ public class LaserBeam : MonoBehaviour {
         
         while (true) {
             laser.transform.position = firePoint.transform.position;
-            RaycastHit hit;
-            Vector3 rayDirection = firePoint.transform.forward;
-
+            Vector3 rayDirection = (target.transform.position - firePoint.transform.position).normalized;
+            laser.transform.rotation = Quaternion.LookRotation(rayDirection);
             if (ignoreObjectInFront) {
                 Vector3 targetPos = target.transform.position + new Vector3(0f, 0.5f, 0f);
-                
-                laser.transform.rotation = Quaternion.LookRotation(targetPos - firePoint.transform.position);
+                laser.transform.rotation = Quaternion.LookRotation(rayDirection);
 
                 // Ajuster la taille du laser
                 maxLaserLength = Vector3.Distance(transform.position, targetPos);
@@ -65,7 +63,7 @@ public class LaserBeam : MonoBehaviour {
                 laser.transform.localScale = newScale;
             } else {
                 // Si le Raycast touche un objet, ajuster la longueur du laser à la distance de l'objet touché + marge
-                if (Physics.Raycast(firePoint.transform.position, rayDirection, out hit, maxLaserLength, collisionMask)) {
+                if (Physics.Raycast(firePoint.transform.position, rayDirection, out RaycastHit hit, maxLaserLength, collisionMask)) {
                     if (hit.collider.gameObject != target) {
                         laser.SetActive(false);
                         currentHitEffect.Stop();
@@ -101,5 +99,15 @@ public class LaserBeam : MonoBehaviour {
 
     public bool IsLaserEnabled() {
         return laser.activeSelf;
+    }
+    
+    private void OnDrawGizmos() {
+        if (firePoint != null) {
+            Gizmos.color = Color.red;
+            if (target) {
+                Vector3 rayDirection = (target.transform.position - firePoint.transform.position).normalized;
+                Gizmos.DrawRay(firePoint.transform.position, rayDirection * 300);
+            }
+        }
     }
 }
