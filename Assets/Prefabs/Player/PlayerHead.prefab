@@ -265,7 +265,7 @@ MonoBehaviour:
   damage: 5
   damageWithPercent: 0
   bulletSpeed: 35
-  bulletPrefab: {fileID: 3824452743231026403, guid: 59044da8fbf8d4e46862be06223b732a, type: 3}
+  bulletPrefab: {fileID: 7993188006615409297, guid: 0ab68db2f97263948bb01160bcc4a754, type: 3}
 --- !u!1 &7891754927442277139
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,8 +448,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 1743659426873759118, guid: 57806f65677c04a40a5dad0dcdab1cb7, type: 3}
+    m_RemovedGameObjects: [{fileID: 1743659426873759118, guid: 57806f65677c04a40a5dad0dcdab1cb7, type: 3}]
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 57806f65677c04a40a5dad0dcdab1cb7, type: 3}
@@ -689,9 +688,8 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 4822471151671175001, guid: 8b2c4980d71d4dd49888625ec653eeae, type: 3}
-    - {fileID: 3700498971831900844, guid: 8b2c4980d71d4dd49888625ec653eeae, type: 3}
+    m_RemovedGameObjects: [{fileID: 4822471151671175001, guid: 8b2c4980d71d4dd49888625ec653eeae, type: 3},
+      {fileID: 3700498971831900844, guid: 8b2c4980d71d4dd49888625ec653eeae, type: 3}]
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b2c4980d71d4dd49888625ec653eeae, type: 3}
@@ -793,8 +791,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 4404528423771737264, guid: d0359fe900e7b2443abef3c9ecd2d00e, type: 3}
+    m_RemovedGameObjects: [{fileID: 4404528423771737264, guid: d0359fe900e7b2443abef3c9ecd2d00e, type: 3}]
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0359fe900e7b2443abef3c9ecd2d00e, type: 3}

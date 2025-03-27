@@ -62,7 +62,7 @@ MonoBehaviour:
   speed: 0
   damage: 15
   bulletSpeed: 45
-  bulletPrefab: {fileID: 3824452743231026403, guid: 59044da8fbf8d4e46862be06223b732a, type: 3}
+  bulletPrefab: {fileID: 6703487588107487122, guid: f5c79ff063dbd5a448307898b92cfca1, type: 3}
 --- !u!1 &9202711405572471801
 GameObject:
   m_ObjectHideFlags: 0
