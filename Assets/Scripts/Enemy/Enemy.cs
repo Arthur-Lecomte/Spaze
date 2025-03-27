@@ -113,6 +113,7 @@ public class Enemy : MonoBehaviour, ICanTakeDamage
     public void SetLevel(int newLevel)
     {
         Level = newLevel;
+        UpdatePortalEffect();
         ScaleStats();
     }
 
