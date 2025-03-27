@@ -122,11 +122,11 @@ public class GenerationStructure : MonoBehaviour {
                 obj = TryInstantiateVariant(wreckData.variants, cellCenter, wreckParent, cellSeed);
             else if (shopChance < 0.26f)  // 2% de chance pour un magasin
                 obj = TryInstantiateObject(shopPrefab, cellCenter, shopParent, cellSeed);
-            
 
-            if (obj != null) 
+
+            if (obj != null)
                 loadedCells[cellCoord] = obj;
-            
+
         }
 
         yield return null;
@@ -138,19 +138,21 @@ public class GenerationStructure : MonoBehaviour {
 
         foreach (var variant in variants) {
             cumulativeProbability += variant.probability;
-            if (randomValue < cumulativeProbability) 
+            if (randomValue < cumulativeProbability)
                 return TryInstantiateObject(variant.prefab, cellCenter, parent, cellSeed, variant.ressourceType);
         }
         return null;
     }
 
     GameObject TryInstantiateObject(GameObject prefab, Vector3 cellCenter, Transform parent, int cellSeed) {
-        Vector3 spawnPosition = GetRandomPositionInCell(cellCenter, cellSeed);
+        // Appliquer un décalage aléatoire
+        Vector3 spawnPosition = cellCenter + GetRandomOffset(cellSeed);
         return Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
     }
 
     GameObject TryInstantiateObject(GameObject prefab, Vector3 cellCenter, Transform parent, int cellSeed, TypeRessource ressourceType) {
-        Vector3 spawnPosition = GetRandomPositionInCell(cellCenter, cellSeed);
+        // Appliquer un décalage aléatoire
+        Vector3 spawnPosition = cellCenter + GetRandomOffset(cellSeed);
         GameObject obj = Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
 
         // Assigner une ressource à la structure si applicable
@@ -162,6 +164,14 @@ public class GenerationStructure : MonoBehaviour {
             }
         }
         return obj;
+    }
+
+    Vector3 GetRandomOffset(int cellSeed) {
+        System.Random random = new System.Random(cellSeed);
+        float maxOffset = cellSize / 3f;
+        float offsetX = (float)(random.NextDouble() * 2 - 1) * maxOffset;
+        float offsetZ = (float)(random.NextDouble() * 2 - 1) * maxOffset;
+        return new Vector3(offsetX, 0, offsetZ);
     }
 
     public void SaveCellState(GameObject obj) {
@@ -224,12 +234,6 @@ public class GenerationStructure : MonoBehaviour {
         structure.ressource = new Ressource(ressourceType, returnRessourceValue);
     }
 
-    Vector3 GetRandomPositionInCell(Vector3 cellCenter, int cellSeed) {
-        System.Random positionRandom = new System.Random(cellSeed);
-        Vector3 randomOffset = new((float)positionRandom.NextDouble() * cellSize - cellSize / 2, 0, (float)positionRandom.NextDouble() * cellSize - cellSize / 2);
-        return cellCenter + randomOffset;
-    }
-
     void DestroyCell(Vector2Int cellCoord) {
         if (loadedCells.TryGetValue(cellCoord, out var obj)) {
             if (obj != null) {
@@ -239,7 +243,13 @@ public class GenerationStructure : MonoBehaviour {
     }
 
     Vector2Int GetCellCoordinates(Vector3 position) {
-        return new Vector2Int(Mathf.FloorToInt(position.x / cellSize), Mathf.FloorToInt(position.z / cellSize));
+        // Calculer le point central de la cellule la plus proche
+        float halfCellSize = cellSize / 2f;
+        float closestX = Mathf.Round(position.x / cellSize) * cellSize;
+        float closestZ = Mathf.Round(position.z / cellSize) * cellSize;
+
+        // Utiliser les coordonnées du point central pour calculer le Vector2Int
+        return new Vector2Int(Mathf.FloorToInt((closestX + halfCellSize) / cellSize), Mathf.FloorToInt((closestZ + halfCellSize) / cellSize));
     }
 
     void OnDrawGizmos() {
@@ -255,10 +265,8 @@ public class GenerationStructure : MonoBehaviour {
         // Dessiner les cellules sauvegardées
         Gizmos.color = Color.blue;
         foreach (Vector2Int cell in cellStates.Keys) {
-            if (!loadedCells.ContainsKey(cell)) {
-                Vector3 cellCenter = new Vector3(cell.x * cellSize, 0, cell.y * cellSize);
-                Gizmos.DrawWireCube(cellCenter, new Vector3(cellSize, 1, cellSize));
-            }
+            Vector3 cellCenter = new Vector3(cell.x * cellSize, 0, cell.y * cellSize);
+            Gizmos.DrawWireCube(cellCenter, new Vector3(cellSize, 1, cellSize));
         }
     }
 }
