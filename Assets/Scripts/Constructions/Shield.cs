@@ -30,6 +30,13 @@ public class Shield : SearchShield {
         return NearbySearchShields;
     }
     
+    public void ActiveLaserBeam(bool active) {
+        foreach (SearchShield searchShield in NearbySearchShields) {
+            RegenerationShield rs = (RegenerationShield)searchShield;
+            rs.ActiveLaserBeam(this, active);
+        }
+    }
+    
     public override void Initialisation(RarityConstruction rarityConstruction) {
         base.Initialisation(rarityConstruction);
 
@@ -44,7 +51,7 @@ public class Shield : SearchShield {
     public override void SetChildOf(Transform parent, bool onModule = true) {
         base.SetChildOf(parent, onModule);
 
-        NewShield?.Invoke();
+        newShield?.Invoke();
     }
 
     public void ChangeLife(float quantity) {

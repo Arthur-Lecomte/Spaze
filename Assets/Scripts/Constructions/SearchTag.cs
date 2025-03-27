@@ -8,7 +8,7 @@ public abstract class SearchTag : Construction {
     [SerializeField] protected float speed;
 
     protected Transform turnTransform;
-    protected float turnSpeed = 5f;
+    protected float turnSpeed = 10f;
 
     private SphereCollider rangeCollider;
     private float nextActionTime;
@@ -36,7 +36,7 @@ public abstract class SearchTag : Construction {
     private void OnTriggerExit(Collider other) {
         if (other.CompareTag(tagTarget)) {
             if (currentTarget == other.gameObject) {
-                StopAction();
+                StopAnimation();
             }
 
             InRange.Remove(other);
@@ -48,9 +48,14 @@ public abstract class SearchTag : Construction {
             currentTarget = GetClosest();
             if (currentTarget) {
                 Rotate(currentTarget.transform);
-                if (Time.time >= nextActionTime && IsAlignedWithTarget(currentTarget.transform)) {
-                    DoAction(currentTarget.transform);
-                    nextActionTime = Time.time + 1f / speed;
+                if (IsAlignedWithTarget(currentTarget.transform)) {
+                    DoAnimation(currentTarget.transform);
+                    if (Time.time >= nextActionTime) {
+                        DoAction(currentTarget.transform);
+                        nextActionTime = Time.time + 1f / speed;
+                    }
+                } else {
+                    StopAnimation();
                 }
             }
         } else {
@@ -83,10 +88,12 @@ public abstract class SearchTag : Construction {
     private bool IsAlignedWithTarget(Transform target) {
         Vector3 directionToTarget = (target.position - turnTransform.position).normalized;
         float angle = Vector3.Angle(turnTransform.forward, directionToTarget);
-        return angle < 3f;
+        return angle < 10f;
     }
 
     protected virtual void DoAction(Transform target) { }
+    
+    protected virtual void DoAnimation(Transform target) { }
 
-    protected virtual void StopAction() { }
+    protected virtual void StopAnimation() { }
 }

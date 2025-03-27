@@ -241,6 +241,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 504886325081889762, guid: 751823941b2742c4294dfc325da27831, type: 3}
+      propertyPath: m_Name
+      value: Module-2-6
+      objectReference: {fileID: 0}
     - target: {fileID: 1703715678489945742, guid: 751823941b2742c4294dfc325da27831, type: 3}
       propertyPath: m_Name
       value: Player-19
@@ -284,6 +288,22 @@ PrefabInstance:
     - target: {fileID: 2104171463294473118, guid: 751823941b2742c4294dfc325da27831, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2234605885204041546, guid: 751823941b2742c4294dfc325da27831, type: 3}
+      propertyPath: m_Name
+      value: Module-1-1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2927836143668704180, guid: 751823941b2742c4294dfc325da27831, type: 3}
+      propertyPath: m_Name
+      value: Module-3-1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4188491799836220076, guid: 751823941b2742c4294dfc325da27831, type: 3}
+      propertyPath: m_Name
+      value: Module-3-2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7927486573341470511, guid: 751823941b2742c4294dfc325da27831, type: 3}
+      propertyPath: m_Name
+      value: Shield-B
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

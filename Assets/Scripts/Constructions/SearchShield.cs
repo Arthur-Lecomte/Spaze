@@ -5,7 +5,7 @@ public class SearchShield : Construction {
     protected Type TypeToSearch;
     protected List<SearchShield> NearbySearchShields;
 
-    protected Action NewShield;
+    protected static Action newShield;
 
     public override void Initialisation(RarityConstruction rarityConstruction) {
         base.Initialisation(rarityConstruction);

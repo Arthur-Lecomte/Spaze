@@ -42,7 +42,7 @@ public class Turret : SearchTag {
     private void CheckList(GameObject enemy) {
         if (InRange.Contains(enemy.GetComponent<Collider>())) {
             InRange.Remove(enemy.GetComponent<Collider>());
-            StopAction();
+            StopAnimation();
         }
     }
     
