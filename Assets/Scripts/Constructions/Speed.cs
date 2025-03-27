@@ -8,12 +8,14 @@ public class Speed : Construction {
     [SerializeField] private float power;
     [SerializeField] private float maxSpeed;
     
-    [SerializeField] private bool onAModule;
+    public override void Initialisation(RarityConstruction rarityConstruction) {
+        base.Initialisation(rarityConstruction);
+        
+        OnPercentChanged(TypeUpgrade.Speed, percent);
+    }
 
     public override void SetChildOf(Transform parent, bool onModule = true) {
         base.SetChildOf(parent, onModule);
-
-        onAModule = onModule;
         
         OnPercentChanged(TypeUpgrade.Speed, percent);
     }

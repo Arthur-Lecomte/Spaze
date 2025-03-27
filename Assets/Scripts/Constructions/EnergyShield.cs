@@ -9,8 +9,11 @@ public class EnergyShield : MonoBehaviour, ICanTakeDamage {
     private MeshRenderer meshRenderer;
     [SerializeField] private RawImage lifeBar;
     
+    private Collider trigger;
+    
     private void Awake() {
         meshRenderer = GetComponent<MeshRenderer>();
+        trigger = GetComponent<Collider>();
     }
     
     public IEnumerator RegenerateShield() {
@@ -50,7 +53,6 @@ public class EnergyShield : MonoBehaviour, ICanTakeDamage {
     }
 
     public IEnumerator Repair() {
-        gameObject.layer = 2;
         meshRenderer.enabled = false;
         lifeBar.color = Color.yellow;
         SoundManager.PlaySound(SoundType.BREAKSHIELD);
@@ -62,7 +64,7 @@ public class EnergyShield : MonoBehaviour, ICanTakeDamage {
             yield return null;
         }
         
-        gameObject.layer = 7;
+        trigger.enabled = true;
         meshRenderer.enabled = true;
         lifeBar.color = Color.blue;
         SoundManager.PlaySound(SoundType.SHIELDRECHARGE);
@@ -73,6 +75,7 @@ public class EnergyShield : MonoBehaviour, ICanTakeDamage {
         shield.ChangeLife(-damage);
         if (shield.GetLife() == 0) {
             shield.ActiveLaserBeam(false);
+            trigger.enabled = false;
             StopCoroutine(nameof(RegenerateShield));
             StartCoroutine(nameof(Repair));
         } else {
