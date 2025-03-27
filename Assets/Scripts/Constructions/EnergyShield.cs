@@ -5,17 +5,24 @@ using SmallHedge.SoundManager;
 
 public class EnergyShield : MonoBehaviour, ICanTakeDamage {
     [SerializeField] private Shield shield;
-    
+
     private MeshRenderer meshRenderer;
     [SerializeField] private RawImage lifeBar;
-    
+
     private Collider trigger;
-    
+
+    /// <summary>
+    /// Méthode appelée lors de l'initialisation de l'objet. Initialise les composants nécessaires.
+    /// </summary>
     private void Awake() {
         meshRenderer = GetComponent<MeshRenderer>();
         trigger = GetComponent<Collider>();
     }
-    
+
+    /// <summary>
+    /// Coroutine pour régénérer le bouclier.
+    /// </summary>
+    /// <returns>IEnumerator pour la coroutine.</returns>
     public IEnumerator RegenerateShield() {
         float elapsedTime = 0f;
 
@@ -24,7 +31,7 @@ public class EnergyShield : MonoBehaviour, ICanTakeDamage {
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        
+
         while (shield.GetLife() < shield.GetMaxLife()) {
             SecondePhaseRegenerateShield();
             yield return null;
@@ -32,6 +39,9 @@ public class EnergyShield : MonoBehaviour, ICanTakeDamage {
         shield.ActiveLaserBeam(false);
     }
 
+    /// <summary>
+    /// Première phase de régénération du bouclier.
+    /// </summary>
     private void FirstPhaseRegenerateShield() {
         float regenerationBonus = 0;
         foreach (SearchShield searchShield in shield.GetNearbySearchShields()) {
@@ -42,6 +52,9 @@ public class EnergyShield : MonoBehaviour, ICanTakeDamage {
         shield.ChangeLife(regenerationBonus * Time.deltaTime);
     }
 
+    /// <summary>
+    /// Seconde phase de régénération du bouclier.
+    /// </summary>
     private void SecondePhaseRegenerateShield() {
         float regenerationBonus = 0;
         foreach (SearchShield searchShield in shield.GetNearbySearchShields()) {
@@ -52,24 +65,32 @@ public class EnergyShield : MonoBehaviour, ICanTakeDamage {
         shield.ChangeLife((shield.GetRegeneration() + regenerationBonus) * Time.deltaTime);
     }
 
+    /// <summary>
+    /// Coroutine pour réparer le bouclier.
+    /// </summary>
+    /// <returns>IEnumerator pour la coroutine.</returns>
     public IEnumerator Repair() {
         meshRenderer.enabled = false;
         lifeBar.color = Color.yellow;
         SoundManager.PlaySound(SoundType.BREAKSHIELD);
-        
+
         yield return new WaitForSeconds(1);
 
         while (shield.GetLife() < shield.GetMaxLife()) {
             shield.ChangeLife(shield.GetRegeneration() / 2 * Time.deltaTime);
             yield return null;
         }
-        
+
         trigger.enabled = true;
         meshRenderer.enabled = true;
         lifeBar.color = Color.blue;
         SoundManager.PlaySound(SoundType.SHIELDRECHARGE);
     }
-    
+
+    /// <summary>
+    /// Applique des dégâts au bouclier.
+    /// </summary>
+    /// <param name="damage">La quantité de dégâts à appliquer.</param>
     public void TakeDamage(float damage) {
         StopCoroutine(nameof(RegenerateShield));
         shield.ChangeLife(-damage);
@@ -84,6 +105,10 @@ public class EnergyShield : MonoBehaviour, ICanTakeDamage {
         }
     }
 
+    /// <summary>
+    /// Indique si l'objet est contrôlé par le joueur.
+    /// </summary>
+    /// <returns>True si l'objet est contrôlé par le joueur, sinon False.</returns>
     public bool AmIPlayer() {
         return true;
     }

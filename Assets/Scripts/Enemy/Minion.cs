@@ -1,24 +1,24 @@
 using UnityEngine;
 
-public class Minion : Enemy
-{
+public class Minion : Enemy {
     private int seed; // Seed aléatoire pour les déplacements
     private System.Random random; // Générateur pseudo-aléatoire basé sur la seed
     private int rotationDirection; // Sens de rotation basé sur la seed
     private float rotationSpeed; // Vitesse de rotation basée sur la seed
 
-    protected override void Start()
-    {
+    /// <summary>
+    /// Méthode appelée au démarrage. Initialise les paramètres du sbire.
+    /// </summary>
+    protected override void Start() {
         // Appeler la méthode Start de la classe parente
         base.Start();
 
-        if (seed == 0)
-        {
+        if (seed == 0) {
             seed = Random.Range(1, int.MaxValue); // Générer une seed aléatoire
         }
         // Initialiser le générateur pseudo-aléatoire avec la seed
         random = new System.Random(seed);
-       
+
         // Générer un sens de rotation aléatoire (-1 pour antihoraire, 1 pour horaire)
         rotationDirection = random.Next(0, 2) == 0 ? -1 : 1;
 
@@ -29,18 +29,18 @@ public class Minion : Enemy
         rotationSpeed = (float)(random.NextDouble() * 2 - 1); // Variation de ±1
     }
 
-    protected override void MoveTowardsPlayer(float distanceToPlayer)
-    {
-        if (distanceToPlayer > shootRange)
-        {
+    /// <summary>
+    /// Déplace le sbire vers le joueur ou le fait tourner autour du joueur.
+    /// </summary>
+    /// <param name="distanceToPlayer">La distance entre le sbire et le joueur.</param>
+    protected override void MoveTowardsPlayer(float distanceToPlayer) {
+        if (distanceToPlayer > shootRange) {
             // Calculer la direction vers le joueur
             Vector3 direction = (player.position - transform.position).normalized;
 
             // Déplacer l'ennemi dans cette direction
             transform.position += direction * moveSpeed * Time.deltaTime;
-        }
-        else
-        {
+        } else {
             // Faire tourner l'ennemi autour du joueur avec des variations basées sur la seed
             Vector3 orbitDirection = Vector3.Cross(Vector3.up, (player.position - transform.position).normalized) * rotationDirection;
 

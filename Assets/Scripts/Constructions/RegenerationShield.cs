@@ -13,6 +13,10 @@ public class RegenerationShield : SearchShield {
     [SerializeField] private GameObject laserPrefab;
     [SerializeField] private GameObject firePoint;
 
+    /// <summary>
+    /// Initialise le bouclier de régénération avec les paramètres de rareté spécifiés.
+    /// </summary>
+    /// <param name="rarityConstruction">La rareté de la construction.</param>
     public override void Initialisation(RarityConstruction rarityConstruction) {
         base.Initialisation(rarityConstruction);
         range = 1; // DEBUG !!!
@@ -21,12 +25,20 @@ public class RegenerationShield : SearchShield {
         newShield += ListSearchShields;
     }
 
+    /// <summary>
+    /// Définit le parent de cette construction et ajuste sa position et son échelle.
+    /// </summary>
+    /// <param name="parent">Le parent à définir.</param>
+    /// <param name="onModule">Indique si la construction est sur un module.</param>
     public override void SetChildOf(Transform parent, bool onModule = true) {
         base.SetChildOf(parent, onModule);
 
         ListSearchShields();
     }
 
+    /// <summary>
+    /// Liste les boucliers à proximité et configure les faisceaux laser.
+    /// </summary>
     private void ListSearchShields() {
         foreach (LaserBeam laserBeam in laserBeams.Values) {
             laserBeam.DisableLaser();
@@ -44,7 +56,7 @@ public class RegenerationShield : SearchShield {
                 Destroy(child.gameObject);
             }
         }
-        
+
         if (this == null) {
             Debug.Log("BUG");
             newShield -= ListSearchShields;
@@ -71,16 +83,24 @@ public class RegenerationShield : SearchShield {
         }
     }
 
+    /// <summary>
+    /// Effectue des actions spécifiques lors de l'amélioration du bouclier de régénération.
+    /// </summary>
     protected override void PerformUpgrade() {
         ListSearchShields();
     }
 
+    /// <summary>
+    /// Active ou désactive le faisceau laser pour un bouclier spécifique.
+    /// </summary>
+    /// <param name="shield">Le bouclier cible.</param>
+    /// <param name="active">Indique si le faisceau laser doit être activé ou désactivé.</param>
     public void ActiveLaserBeam(Shield shield, bool active) {
         if (this == null) {
             Debug.Log("BUG2");
             return;
         }
-        
+
         if (active) {
             laserBeams[shield].EnableLaser(shield.transform);
         } else {
@@ -88,9 +108,12 @@ public class RegenerationShield : SearchShield {
         }
     }
 
+    /// <summary>
+    /// Méthode appelée lors de la destruction de l'objet.
+    /// </summary>
     private void OnDestroy() {
         newShield -= ListSearchShields;
-        
+
         foreach (LaserBeam laserBeam in laserBeams.Values) {
             laserBeam.DisableLaser();
             Destroy(laserBeam);

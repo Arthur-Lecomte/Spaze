@@ -1,10 +1,12 @@
 using UnityEngine;
 
-public class FollowUV : MonoBehaviour
-{
+public class FollowUV : MonoBehaviour {
     [SerializeField] public float parallax = 2f;
-    void Update()
-    {
+
+    /// <summary>
+    /// Appelé à chaque frame. Met à jour le décalage de texture pour créer un effet de parallaxe.
+    /// </summary>
+    void Update() {
         MeshRenderer mr = GetComponent<MeshRenderer>();
         Material mat = mr.material;
 
@@ -12,10 +14,6 @@ public class FollowUV : MonoBehaviour
         offset.x = transform.position.x / transform.localScale.x / parallax;
         offset.y = transform.position.z / transform.localScale.y / parallax;
 
-        mat.mainTextureOffset = offset; 
-
-
-
-
+        mat.mainTextureOffset = offset;
     }
 }

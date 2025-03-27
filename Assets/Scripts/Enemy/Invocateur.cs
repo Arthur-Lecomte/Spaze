@@ -1,22 +1,21 @@
 using UnityEngine;
 
-public class Invocateur : Enemy
-{
+public class Invocateur : Enemy {
     [SerializeField] public GameObject minionPrefab; // Préfabriqué du sbire
 
-    
     private int seed; // Seed aléatoire pour les déplacements
     private System.Random random; // Générateur pseudo-aléatoire basé sur la seed
     private int rotationDirection; // Sens de rotation basé sur la seed
     private float rotationSpeed; // Vitesse de rotation basée sur la seed
 
-    protected override void Start()
-    {
+    /// <summary>
+    /// Méthode appelée au démarrage. Initialise les paramètres de l'invocateur.
+    /// </summary>
+    protected override void Start() {
         // Appeler la méthode Start de la classe parente
         base.Start();
 
-        if (seed == 0)
-        {
+        if (seed == 0) {
             seed = Random.Range(1, int.MaxValue); // Générer une seed aléatoire
         }
         // Initialiser le générateur pseudo-aléatoire avec la seed
@@ -32,61 +31,48 @@ public class Invocateur : Enemy
         rotationSpeed = (float)(random.NextDouble() * 10 - 5); // Variation de ±5
     }
 
-    protected override void Update()
-    {
-        if (player)
-        {
+    /// <summary>
+    /// Méthode appelée à chaque frame pour mettre à jour l'état de l'invocateur.
+    /// </summary>
+    protected override void Update() {
+        if (player) {
             // Calculer la distance entre l'invocateur et le joueur
             float distance = Vector3.Distance(transform.position, player.position);
 
-            if (!isFleeing)
-            {
+            if (!isFleeing) {
                 // Calculer la direction vers le joueur
                 Vector3 directionToPlayer = (player.position - transform.position).normalized;
 
- 
                 // Effectuer la rotation vers le joueur
-
                 Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0, directionToPlayer.z));
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
             }
 
-
             // Déplacement vers le joueur
             MoveTowardsPlayer(distance);
 
-
             // Si le joueur est à portée, invoquer un sbire
-            if (distance <= shootRange && Time.time > lastShootTime + shootInterval)
-            {
-
+            if (distance <= shootRange && Time.time > lastShootTime + shootInterval) {
                 SpawnMinion();
                 lastShootTime = Time.time;
             }
         }
     }
 
-
-
-    protected override void MoveTowardsPlayer(float distanceToPlayer)
-    {
+    /// <summary>
+    /// Déplace l'invocateur vers le joueur ou le fait fuir si trop proche.
+    /// </summary>
+    /// <param name="distanceToPlayer">La distance entre l'invocateur et le joueur.</param>
+    protected override void MoveTowardsPlayer(float distanceToPlayer) {
         isFleeing = false;
 
-        if (distanceToPlayer > shootRange)
-        {
-
+        if (distanceToPlayer > shootRange) {
             // Se déplacer vers le joueur
             Vector3 direction = (player.position - transform.position).normalized;
             transform.position += direction * moveSpeed * Time.deltaTime;
-            /*
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-            */
-
         }
 
-        if (distanceToPlayer < shootRange / 1.5) // Range pour fuir
-        {
+        if (distanceToPlayer < shootRange / 1.5) { // Range pour fuir
             isFleeing = true; // Activer le mode fuite
 
             // Faire fuir l'ennemi en s'éloignant du joueur
@@ -96,11 +82,7 @@ public class Invocateur : Enemy
             // Faire regarder dans la direction de fuite
             Quaternion fleeRotation = Quaternion.LookRotation(fleeDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, fleeRotation, Time.deltaTime * 5f);
-
-
-        }
-        else
-        {
+        } else {
             // Faire tourner l'ennemi autour du joueur avec des variations basées sur la seed
             Vector3 orbitDirection = Vector3.Cross(Vector3.up, (player.position - transform.position).normalized) * rotationDirection;
 
@@ -111,12 +93,12 @@ public class Invocateur : Enemy
 
             transform.position += orbitDirection * rotationSpeed * Time.deltaTime;
         }
-
-
     }
 
-    public void SpawnMinion()
-    {
+    /// <summary>
+    /// Invoque un sbire à la position de l'invocateur.
+    /// </summary>
+    public void SpawnMinion() {
         GameObject minion = Instantiate(minionPrefab, transform.position, Quaternion.identity);
         // Lui donner une référence au joueur
         WaveManager.Instance.RegisterEnemy(minion);

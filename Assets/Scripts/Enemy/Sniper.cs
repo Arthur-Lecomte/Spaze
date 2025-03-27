@@ -1,17 +1,17 @@
 using UnityEngine;
 
-public class Sniper : Enemy
-{
+public class Sniper : Enemy {
     bool canAttack = true;
 
-    protected override void MoveTowardsPlayer(float distanceToPlayer)
-    {
+    /// <summary>
+    /// Déplace le sniper vers le joueur ou le fait fuir si trop proche.
+    /// </summary>
+    /// <param name="distanceToPlayer">La distance entre le sniper et le joueur.</param>
+    protected override void MoveTowardsPlayer(float distanceToPlayer) {
         canAttack = true;
         isFleeing = false;
 
-        if (distanceToPlayer > shootRange)
-        {
-            
+        if (distanceToPlayer > shootRange) {
             // Se déplacer vers le joueur
             Vector3 direction = (player.position - transform.position).normalized;
             transform.position += direction * moveSpeed * Time.deltaTime;
@@ -21,8 +21,7 @@ public class Sniper : Enemy
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
         }
 
-        if (distanceToPlayer < 30f) // Range pour fuir
-        {
+        if (distanceToPlayer < 30f) { // Range pour fuir
             isFleeing = true; // Activer le mode fuite
 
             // Faire fuir l'ennemi en s'éloignant du joueur
@@ -38,18 +37,12 @@ public class Sniper : Enemy
         }
     }
 
-
-
-
-
-    protected override void ShootAtPlayer()
-    {
-        if (canAttack)
-        {
+    /// <summary>
+    /// Tire sur le joueur si le sniper peut attaquer.
+    /// </summary>
+    protected override void ShootAtPlayer() {
+        if (canAttack) {
             base.ShootAtPlayer();
         }
-        // Appeler la méthode parente pour conserver le comportement de base
-
-
     }
 }

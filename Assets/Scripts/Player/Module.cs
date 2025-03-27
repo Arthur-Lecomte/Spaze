@@ -6,9 +6,12 @@ public abstract class Module : MonoBehaviour {
     protected List<Module> Neighbors;
     private const float Scale = 2f;
     protected bool CanBeActivate;
-    
+
     protected Construction Construction;
 
+    /// <summary>
+    /// Méthode appelée lors de l'initialisation de l'objet. Initialise les voisins du module.
+    /// </summary>
     protected virtual void Awake() {
         Neighbors = new List<Module>();
         Vector3[] offsets = {
@@ -19,7 +22,7 @@ public abstract class Module : MonoBehaviour {
             new Vector3(0.5f * Scale, 0, -1 * Scale), // en bas à droite
             new Vector3(-0.5f * Scale, 0, -1 * Scale) // en bas à gauche
         };
-        
+
         foreach (Vector3 offset in offsets) {
             Vector3 neighborPosition = transform.position + offset;
 
@@ -37,15 +40,28 @@ public abstract class Module : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Active les voisins du module.
+    /// </summary>
     protected void CanActivateNeighbors() {
         foreach (Module module in Neighbors) {
             module.CanBeActivate = true;
         }
     }
 
+    /// <summary>
+    /// Affiche ou masque le module.
+    /// </summary>
+    /// <param name="value">True pour afficher, False pour masquer.</param>
     public virtual void DisplayModule(bool value) {
     }
-    
+
+    /// <summary>
+    /// Obtient les boucliers de recherche à une distance spécifiée.
+    /// </summary>
+    /// <param name="type">Le type de bouclier de recherche.</param>
+    /// <param name="distance">La distance à laquelle chercher.</param>
+    /// <returns>Une liste de boucliers de recherche.</returns>
     public List<SearchShield> GetSearchShieldAtDistance(Type type, int distance) {
         List<SearchShield> shields = new List<SearchShield>();
         List<Module> neighbors = GetNeighborsAtDistance(distance);
@@ -55,10 +71,15 @@ public abstract class Module : MonoBehaviour {
                 shields.Add((SearchShield)neighbor.Construction);
             }
         }
-        
+
         return shields;
     }
-    
+
+    /// <summary>
+    /// Obtient les voisins du module à une distance spécifiée.
+    /// </summary>
+    /// <param name="distance">La distance à laquelle chercher.</param>
+    /// <returns>Une liste de modules voisins.</returns>
     private List<Module> GetNeighborsAtDistance(int distance) {
         if (distance < 1) return new List<Module>();
         if (distance == 1) return new List<Module>(Neighbors);
