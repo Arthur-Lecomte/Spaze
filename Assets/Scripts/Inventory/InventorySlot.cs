@@ -86,6 +86,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         
         if (index == -1) {
             construction1 = module.GetConstruction();
+            SetGameObject(null);
         } else {
             construction1 = Inventory.Instance.RemoveInventorySlot(index);
         }

@@ -25,6 +25,7 @@ public class EnergyShield : MonoBehaviour, ICanTakeDamage {
             SecondePhaseRegenerateShield();
             yield return null;
         }
+        shield.ActiveLaserBeam(false);
     }
 
     private void FirstPhaseRegenerateShield() {
@@ -70,10 +71,12 @@ public class EnergyShield : MonoBehaviour, ICanTakeDamage {
         StopCoroutine(nameof(RegenerateShield));
         shield.ChangeLife(-damage);
         if (shield.GetLife() == 0) {
+            shield.ActiveLaserBeam(false);
             StopCoroutine(nameof(RegenerateShield));
             StartCoroutine(nameof(Repair));
         } else {
             StartCoroutine(nameof(RegenerateShield));
+            shield.ActiveLaserBeam(true);
         }
     }
 
