@@ -64,9 +64,6 @@ public class Invocateur : Enemy
                 lastShootTime = Time.time;
             }
         }
-
-        // Réduire le temps avant d'être une cible
-        timeBeforeBeingCible -= Time.deltaTime;
     }
 
 
