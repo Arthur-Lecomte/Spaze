@@ -25,6 +25,9 @@ public class GenerationStructure : MonoBehaviour {
 
     private System.Random random;
 
+    /// <summary>
+    /// Méthode appelée lors de l'initialisation de l'objet. Initialise les composants nécessaires.
+    /// </summary>
     void Awake() {
         if (Instance == null) {
             Instance = this;
@@ -33,6 +36,9 @@ public class GenerationStructure : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Méthode appelée au démarrage. Initialise les parents des structures et le générateur aléatoire.
+    /// </summary>
     void Start() {
         if (seed == 0) {
             seed = Random.Range(0, 100000);
@@ -51,10 +57,16 @@ public class GenerationStructure : MonoBehaviour {
         shopParent.parent = structureParent;
     }
 
+    /// <summary>
+    /// Méthode appelée à chaque frame pour mettre à jour les cellules chargées.
+    /// </summary>
     void Update() {
         UpdateLoadedCells();
     }
 
+    /// <summary>
+    /// Met à jour les cellules chargées autour du joueur.
+    /// </summary>
     void UpdateLoadedCells() {
         Vector2Int playerCell = GetCellCoordinates(Vaisseau.Instance.transform.position);
         HashSet<Vector2Int> newLoadedCells = new();
@@ -85,6 +97,11 @@ public class GenerationStructure : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Génère une cellule à la position spécifiée.
+    /// </summary>
+    /// <param name="cellCoord">Les coordonnées de la cellule à générer.</param>
+    /// <returns>Un IEnumerator pour la coroutine.</returns>
     IEnumerator GenerateCell(Vector2Int cellCoord) {
         if (cellCoord == Vector2Int.zero) yield break; // Ne pas générer de structure à la position (0, 0)
 
@@ -132,6 +149,14 @@ public class GenerationStructure : MonoBehaviour {
         yield return null;
     }
 
+    /// <summary>
+    /// Tente d'instancier une variante de structure à la position spécifiée.
+    /// </summary>
+    /// <param name="variants">La liste des variantes de structure.</param>
+    /// <param name="cellCenter">Le centre de la cellule.</param>
+    /// <param name="parent">Le parent de la structure.</param>
+    /// <param name="cellSeed">La seed de la cellule.</param>
+    /// <returns>Le GameObject instancié ou null si aucune variante n'a été instanciée.</returns>
     GameObject TryInstantiateVariant(List<VariantData> variants, Vector3 cellCenter, Transform parent, int cellSeed) {
         float randomValue = (float)random.NextDouble();
         float cumulativeProbability = 0f;
@@ -144,12 +169,29 @@ public class GenerationStructure : MonoBehaviour {
         return null;
     }
 
+    /// <summary>
+    /// Tente d'instancier un objet à la position spécifiée.
+    /// </summary>
+    /// <param name="prefab">Le prefab de l'objet à instancier.</param>
+    /// <param name="cellCenter">Le centre de la cellule.</param>
+    /// <param name="parent">Le parent de l'objet.</param>
+    /// <param name="cellSeed">La seed de la cellule.</param>
+    /// <returns>Le GameObject instancié.</returns>
     GameObject TryInstantiateObject(GameObject prefab, Vector3 cellCenter, Transform parent, int cellSeed) {
         // Appliquer un décalage aléatoire
         Vector3 spawnPosition = cellCenter + GetRandomOffset(cellSeed);
         return Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
     }
 
+    /// <summary>
+    /// Tente d'instancier un objet à la position spécifiée avec un type de ressource.
+    /// </summary>
+    /// <param name="prefab">Le prefab de l'objet à instancier.</param>
+    /// <param name="cellCenter">Le centre de la cellule.</param>
+    /// <param name="parent">Le parent de l'objet.</param>
+    /// <param name="cellSeed">La seed de la cellule.</param>
+    /// <param name="ressourceType">Le type de ressource de l'objet.</param>
+    /// <returns>Le GameObject instancié.</returns>
     GameObject TryInstantiateObject(GameObject prefab, Vector3 cellCenter, Transform parent, int cellSeed, TypeRessource ressourceType) {
         // Appliquer un décalage aléatoire
         Vector3 spawnPosition = cellCenter + GetRandomOffset(cellSeed);
@@ -166,6 +208,11 @@ public class GenerationStructure : MonoBehaviour {
         return obj;
     }
 
+    /// <summary>
+    /// Obtient un décalage aléatoire pour la position de l'objet.
+    /// </summary>
+    /// <param name="cellSeed">La seed de la cellule.</param>
+    /// <returns>Un Vector3 représentant le décalage aléatoire.</returns>
     Vector3 GetRandomOffset(int cellSeed) {
         System.Random random = new System.Random(cellSeed);
         float maxOffset = cellSize / 3f;
@@ -174,6 +221,10 @@ public class GenerationStructure : MonoBehaviour {
         return new Vector3(offsetX, 0, offsetZ);
     }
 
+    /// <summary>
+    /// Sauvegarde l'état de la cellule contenant l'objet spécifié.
+    /// </summary>
+    /// <param name="obj">L'objet dont l'état doit être sauvegardé.</param>
     public void SaveCellState(GameObject obj) {
         Vector2Int cellCoord = GetCellCoordinates(obj.transform.position);
         // Sauvegarder l'état de la structure
@@ -189,15 +240,27 @@ public class GenerationStructure : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Choisit la quantité de ressource pour un astéroïde.
+    /// </summary>
+    /// <param name="structure">La structure de l'astéroïde.</param>
+    /// <param name="ressourceType">Le type de ressource de l'astéroïde.</param>
+    /// <param name="cellSeed">La seed de la cellule.</param>
     private void ChooseQuantityAsteroid(Structure structure, TypeRessource ressourceType, int cellSeed) {
         System.Random random = new(cellSeed);
         Transform structureTransform = structure.transform;
         int returnRessourceValue = random.Next(0, 100);
-        structureTransform.localScale = new Vector3(1,1,1) * (1.5f + returnRessourceValue / 50f);
+        structureTransform.localScale = new Vector3(1, 1, 1) * (1.5f + returnRessourceValue / 50f);
 
         structure.SetRessource(new Ressource(ressourceType, returnRessourceValue));
     }
 
+    /// <summary>
+    /// Choisit la quantité de ressource pour une épave.
+    /// </summary>
+    /// <param name="structure">La structure de l'épave.</param>
+    /// <param name="ressourceType">Le type de ressource de l'épave.</param>
+    /// <param name="cellSeed">La seed de la cellule.</param>
     private void ChooseQuantityEpave(Structure structure, TypeRessource ressourceType, int cellSeed) {
         System.Random random = new(cellSeed);
         var returnRessourceValue = ressourceType switch {
@@ -211,6 +274,10 @@ public class GenerationStructure : MonoBehaviour {
         structure.ressource = new Ressource(ressourceType, returnRessourceValue);
     }
 
+    /// <summary>
+    /// Détruit la cellule à la position spécifiée.
+    /// </summary>
+    /// <param name="cellCoord">Les coordonnées de la cellule à détruire.</param>
     void DestroyCell(Vector2Int cellCoord) {
         if (loadedCells.TryGetValue(cellCoord, out var obj)) {
             if (obj != null) {
@@ -219,6 +286,11 @@ public class GenerationStructure : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Obtient les coordonnées de la cellule contenant la position spécifiée.
+    /// </summary>
+    /// <param name="position">La position à convertir en coordonnées de cellule.</param>
+    /// <returns>Un Vector2Int représentant les coordonnées de la cellule.</returns>
     Vector2Int GetCellCoordinates(Vector3 position) {
         // Calculer le point central de la cellule la plus proche
         float halfCellSize = cellSize / 2f;
@@ -229,6 +301,9 @@ public class GenerationStructure : MonoBehaviour {
         return new Vector2Int(Mathf.FloorToInt((closestX + halfCellSize) / cellSize), Mathf.FloorToInt((closestZ + halfCellSize) / cellSize));
     }
 
+    /// <summary>
+    /// Dessine des gizmos pour visualiser les cellules chargées et sauvegardées dans l'éditeur.
+    /// </summary>
     void OnDrawGizmos() {
         if (loadedCells == null) return;
 

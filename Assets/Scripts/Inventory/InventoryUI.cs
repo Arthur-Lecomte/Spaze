@@ -20,6 +20,9 @@ public class InventoryUI : MonoBehaviour {
     private GameObject dragImage;
     private Image dragImageComponent;
 
+    /// <summary>
+    /// Méthode appelée lors de l'initialisation de l'objet. Initialise les composants nécessaires.
+    /// </summary>
     private void Awake() {
         if (Instance == null) {
             Instance = this;
@@ -37,6 +40,10 @@ public class InventoryUI : MonoBehaviour {
         DisplayInventory(false);
     }
 
+    /// <summary>
+    /// Affiche ou masque l'inventaire.
+    /// </summary>
+    /// <param name="value">True pour afficher, False pour masquer.</param>
     public void DisplayInventory(bool value) {
         gameObject.SetActive(value);
         foreach (InventorySlot slot in inventorySlots) {
@@ -45,10 +52,18 @@ public class InventoryUI : MonoBehaviour {
         dragImage.SetActive(false);
     }
 
+    /// <summary>
+    /// Ajoute un slot d'inventaire à la liste des slots.
+    /// </summary>
+    /// <param name="inventorySlot">Le slot d'inventaire à ajouter.</param>
     public void AddInventorySlots(InventorySlot inventorySlot) {
         inventorySlots.Add(inventorySlot);
     }
 
+    /// <summary>
+    /// Change le nombre de slots d'inventaire affichés.
+    /// </summary>
+    /// <param name="numberSlots">Le nouveau nombre de slots.</param>
     public void ChangeNumberSlots(int numberSlots) {
         int columns = (numberSlots + 1) / 2;
         rectTransform.sizeDelta = new Vector2(15 + 105 * columns, 250);
@@ -66,7 +81,7 @@ public class InventoryUI : MonoBehaviour {
 
         // Limite de nombre de slots possible
         if (numberSlots >= numberSlotsMax) return;
-        
+
         // AddSlotsInventory (pour acheter des slots)
         int columnsAddSlots = (numberSlots + 2) / 2;
         panelAddSlots.sizeDelta = new Vector2(15 + 105 * columnsAddSlots, 250);
@@ -82,17 +97,26 @@ public class InventoryUI : MonoBehaviour {
             inventoryAddSlot.Initialisation();
             inventoryAddSlot.IsBuy(i != numberSlots + 1);
         }
-        
+
         numberSlotsMemory = numberSlots;
     }
 
+    /// <summary>
+    /// Définit la construction à l'emplacement spécifié de l'inventaire.
+    /// </summary>
+    /// <param name="index">L'index de l'emplacement.</param>
+    /// <param name="construction">La construction à ajouter.</param>
     public void SetInventorySlot(int index, Construction construction) {
         inventorySlots.Find(slot => slot.GetIndex() == index).SetGameObject(construction);
     }
 
+    /// <summary>
+    /// Met à jour l'inventaire lorsque la construction est améliorée.
+    /// </summary>
+    /// <param name="construction">La construction améliorée.</param>
     public void ConstructionHaveUpdate(Construction construction) {
         List<InventorySlot> slots = new List<InventorySlot>();
-        foreach(InventorySlot slot in inventorySlots) {
+        foreach (InventorySlot slot in inventorySlots) {
             if (slot.GetConstruction() != null && slot.GetConstruction().IsSameConstruction(construction)) {
                 slots.Add(slot);
             }
@@ -121,12 +145,17 @@ public class InventoryUI : MonoBehaviour {
             toDestroy.SetGameObject(null);
             toUpgrade.GetConstruction().Upgrade();
         }
-        
-        foreach(InventorySlot slot in inventorySlots) {
+
+        foreach (InventorySlot slot in inventorySlots) {
             slot.SetCorrectNiveau();
         }
     }
 
+    /// <summary>
+    /// Méthode appelée lorsque le pointeur clique sur un slot d'inventaire.
+    /// </summary>
+    /// <param name="eventData">Les données de l'événement du pointeur.</param>
+    /// <param name="inventorySlot">Le slot d'inventaire cliqué.</param>
     public void OnPointerDown(PointerEventData eventData, InventorySlot inventorySlot) {
         if (inventorySlot.GetConstruction() == null) return;
         draggedSlot = inventorySlot;
@@ -137,12 +166,20 @@ public class InventoryUI : MonoBehaviour {
         dragImage.SetActive(true);
     }
 
+    /// <summary>
+    /// Méthode appelée lors du glissement du pointeur.
+    /// </summary>
+    /// <param name="eventData">Les données de l'événement du pointeur.</param>
     public void OnDrag(PointerEventData eventData) {
         if (dragImage.activeSelf) {
             dragImage.transform.position = eventData.position;
         }
     }
 
+    /// <summary>
+    /// Méthode appelée lorsque le pointeur est relâché.
+    /// </summary>
+    /// <param name="eventData">Les données de l'événement du pointeur.</param>
     public void OnPointerUp(PointerEventData eventData) {
         if (dragImage.activeSelf) {
             dragImage.SetActive(false);

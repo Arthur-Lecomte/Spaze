@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Vaisseau : MonoBehaviour, ICanTakeDamage {
     public static Vaisseau Instance;
-    
+
     private float maxHealth;
     private float actualHealth;
     private RectTransform healthBar;
@@ -17,10 +17,13 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
     [SerializeField] private float drag = 0.99f; // Ralentissement progressif (momentum)
 
     private AudioSource ReactorAudioSource;
-    
+
     private Rigidbody rb;
     private bool isAccelerating;
 
+    /// <summary>
+    /// Méthode appelée lors de l'initialisation de l'objet. Initialise les composants nécessaires.
+    /// </summary>
     private void Awake() {
         if (Instance == null) {
             Instance = this;
@@ -29,7 +32,7 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
         }
 
         ReactorAudioSource = gameObject.AddComponent<AudioSource>();
-        
+
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false; // Pas de gravité pour un vaisseau spatial
         rb.angularDamping = 5f; // Réduit l'effet de rotation excessive
@@ -40,6 +43,9 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
         healthBarMaxWidth = healthBar.sizeDelta.x;
     }
 
+    /// <summary>
+    /// Méthode appelée à chaque frame pour mettre à jour l'état du vaisseau.
+    /// </summary>
     void Update() {
         // Récupérer l'input pour la rotation avec Q/D
         float rotationInput = Input.GetAxis("Horizontal");
@@ -51,6 +57,9 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
         }
     }
 
+    /// <summary>
+    /// Méthode appelée à chaque frame fixe pour mettre à jour la physique du vaisseau.
+    /// </summary>
     void FixedUpdate() {
         // Calcul de la vitesse max avec le boost
         float boostedMaxSpeed = maxSpeed + Speed.AllMaxSpeed;
@@ -58,12 +67,12 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
         // Appliquer une force vers l'avant seulement si le joueur accélère
         if (isAccelerating) {
             rb.AddForce(transform.forward * (acceleration + Speed.AllPower), ForceMode.Acceleration);
-            if(!ReactorAudioSource.isPlaying){
-                SoundManager.PlaySoundWithFade(SoundType.REACTOR,ReactorAudioSource,0.3f);
+            if (!ReactorAudioSource.isPlaying) {
+                SoundManager.PlaySoundWithFade(SoundType.REACTOR, ReactorAudioSource, 0.3f);
             }
-            
-        } else{
-            SoundManager.StopSoundWithFade(ReactorAudioSource,0.2f);
+
+        } else {
+            SoundManager.StopSoundWithFade(ReactorAudioSource, 0.2f);
         }
 
         // Limiter la vitesse
@@ -75,6 +84,10 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
         rb.linearVelocity *= drag;
     }
 
+    /// <summary>
+    /// Applique des dégâts au vaisseau.
+    /// </summary>
+    /// <param name="damage">La quantité de dégâts à appliquer.</param>
     public void TakeDamage(float damage) {
         actualHealth = Mathf.Max(0, actualHealth - damage);
         if (actualHealth == 0) {
@@ -82,16 +95,27 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
         }
         healthBar.sizeDelta = new Vector2(healthBarMaxWidth * actualHealth / maxHealth, healthBar.sizeDelta.y);
     }
-    
+
+    /// <summary>
+    /// Régénère la santé du vaisseau à son maximum.
+    /// </summary>
     public void Regeneration() {
         actualHealth = maxHealth;
         healthBar.sizeDelta = new Vector2(healthBarMaxWidth, healthBar.sizeDelta.y);
     }
-    
+
+    /// <summary>
+    /// Obtient la quantité de santé nécessaire pour être au maximum.
+    /// </summary>
+    /// <returns>La quantité de santé nécessaire.</returns>
     public float GetHealthForBeFull() {
         return maxHealth - actualHealth;
     }
-    
+
+    /// <summary>
+    /// Indique si l'objet est contrôlé par le joueur.
+    /// </summary>
+    /// <returns>True car il s'agit du vaisseau du joueur.</returns>
     public bool AmIPlayer() {
         return true;
     }

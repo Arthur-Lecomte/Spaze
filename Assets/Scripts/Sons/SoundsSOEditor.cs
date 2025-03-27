@@ -8,10 +8,11 @@ using UnityEngine.Audio;
 namespace SmallHedge.SoundManager
 {
     [CustomEditor(typeof(SoundsSO))]
-    public class SoundsSOEditor : Editor
-    {
-        private void OnEnable()
-        {
+    public class SoundsSOEditor : Editor {
+        /// <summary>
+        /// Méthode appelée lors de l'activation de l'éditeur. Initialise la liste des sons.
+        /// </summary>
+        private void OnEnable() {
             ref SoundList[] soundList = ref ((SoundsSO)target).sounds;
 
             if (soundList == null)
@@ -22,33 +23,26 @@ namespace SmallHedge.SoundManager
 
             Dictionary<string, SoundList> sounds = new();
 
-            if (differentSize)
-            {
-                for (int i = 0; i < soundList.Length; ++i)
-                {
+            if (differentSize) {
+                for (int i = 0; i < soundList.Length; ++i) {
                     sounds.Add(soundList[i].name, soundList[i]);
                 }
             }
 
             Array.Resize(ref soundList, names.Length);
-            for (int i = 0; i < soundList.Length; i++)
-            {
+            for (int i = 0; i < soundList.Length; i++) {
                 string currentName = names[i];
                 soundList[i].name = currentName;
                 if (soundList[i].volume == 0) soundList[i].volume = 1;
 
-                if (differentSize)
-                {
-                    if (sounds.ContainsKey(currentName))
-                    {
+                if (differentSize) {
+                    if (sounds.ContainsKey(currentName)) {
                         SoundList current = sounds[currentName];
                         UpdateElement(ref soundList[i], current.volume, current.sounds, current.mixer);
-                    }
-                    else
+                    } else
                         UpdateElement(ref soundList[i], 1, new AudioClip[0], null);
 
-                    static void UpdateElement(ref SoundList element, float volume, AudioClip[] sounds, AudioMixerGroup mixer)
-                    {
+                    static void UpdateElement(ref SoundList element, float volume, AudioClip[] sounds, AudioMixerGroup mixer) {
                         element.volume = volume;
                         element.sounds = sounds;
                         element.mixer = mixer;

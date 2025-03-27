@@ -2,8 +2,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-public class Parametres : MonoBehaviour
-{
+public class Parametres : MonoBehaviour {
     [Header("Sliders")]
     private Slider soundEffectsSlider;
     private Slider musicSlider;
@@ -17,35 +16,34 @@ public class Parametres : MonoBehaviour
     private AudioMixer audioMixer;
     private GameObject startMenu;
 
-    private void Start()
-    {
+    /// <summary>
+    /// Initialise les paramètres au démarrage, trouve les sliders et initialise leurs valeurs.
+    /// </summary>
+    private void Start() {
         startMenu = GameObject.Find("Canvas-StartMenu");
 
         // Trouver tous les sliders dans les enfants
         Slider[] sliders = GetComponentsInChildren<Slider>(true);
 
-        foreach (Slider slider in sliders)
-        {
-            if (slider.name.Contains("SoundEffect"))
-            {
+        foreach (Slider slider in sliders) {
+            if (slider.name.Contains("SoundEffect")) {
                 soundEffectsSlider = slider;
-            }
-            else if (slider.name.Contains("Musique"))
-            {
+            } else if (slider.name.Contains("Musique")) {
                 musicSlider = slider;
             }
         }
 
         audioMixer = SmallHedge.SoundManager.SoundManager.instance.audioMixer;
 
-        
         InitializeSliders();
     }
 
-    private void InitializeSliders()
-    {
-        float soundEffectsVolume = PlayerPrefs.GetFloat(SoundEffectsPrefKey, 1f); 
-        float musicVolume = PlayerPrefs.GetFloat(MusicPrefKey, 1f); 
+    /// <summary>
+    /// Initialise les sliders avec les valeurs sauvegardées et ajoute des listeners pour les changements de valeur.
+    /// </summary>
+    private void InitializeSliders() {
+        float soundEffectsVolume = PlayerPrefs.GetFloat(SoundEffectsPrefKey, 1f);
+        float musicVolume = PlayerPrefs.GetFloat(MusicPrefKey, 1f);
 
         soundEffectsSlider.value = soundEffectsVolume;
         musicSlider.value = musicVolume;
@@ -57,14 +55,14 @@ public class Parametres : MonoBehaviour
         musicSlider.onValueChanged.AddListener(SetMusicVolume);
     }
 
-    public void SetSoundEffectsVolume(float value)
-    {
-        if (value <= 0.01f)
-        {
+    /// <summary>
+    /// Définit le volume des effets sonores et sauvegarde la valeur.
+    /// </summary>
+    /// <param name="value">La nouvelle valeur du volume des effets sonores.</param>
+    public void SetSoundEffectsVolume(float value) {
+        if (value <= 0.01f) {
             audioMixer.SetFloat(SoundEffectsVolumeParam, -80f);
-        }
-        else
-        {
+        } else {
             float volumeInDb = Mathf.Log10(value) * 20;
             audioMixer.SetFloat(SoundEffectsVolumeParam, volumeInDb);
         }
@@ -72,14 +70,14 @@ public class Parametres : MonoBehaviour
         PlayerPrefs.SetFloat(SoundEffectsPrefKey, value); // Sauvegarder la valeur
     }
 
-    public void SetMusicVolume(float value)
-    {
-        if (value <= 0.01f)
-        {
+    /// <summary>
+    /// Définit le volume de la musique et sauvegarde la valeur.
+    /// </summary>
+    /// <param name="value">La nouvelle valeur du volume de la musique.</param>
+    public void SetMusicVolume(float value) {
+        if (value <= 0.01f) {
             audioMixer.SetFloat(MusicVolumeParam, -80f);
-        }
-        else
-        {
+        } else {
             float volumeInDb = Mathf.Log10(value) * 20;
             audioMixer.SetFloat(MusicVolumeParam, volumeInDb);
         }
@@ -87,13 +85,13 @@ public class Parametres : MonoBehaviour
         PlayerPrefs.SetFloat(MusicPrefKey, value); // Sauvegarder la valeur
     }
 
-    public void closeSettings()
-    {
+    /// <summary>
+    /// Ferme le menu des paramètres et réactive le menu de démarrage.
+    /// </summary>
+    public void closeSettings() {
         gameObject.SetActive(false);
-        if (startMenu != null)
-        {
+        if (startMenu != null) {
             startMenu.SetActive(true);
         }
     }
-    
 }

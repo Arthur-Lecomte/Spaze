@@ -8,15 +8,24 @@ public class ArrowPointer : MonoBehaviour {
     private List<GameObject> arrows = new();
     private GameObject arrowContainer;
 
+    /// <summary>
+    /// Méthode appelée au démarrage. Initialise les composants nécessaires.
+    /// </summary>
     private void Start() {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         arrowContainer = new GameObject("ARROW POINTER");
     }
 
+    /// <summary>
+    /// Méthode appelée à chaque frame pour mettre à jour l'état des flèches.
+    /// </summary>
     void Update() {
         UpdateArrows();
     }
 
+    /// <summary>
+    /// Met à jour les flèches pour qu'elles pointent vers les ennemis actifs.
+    /// </summary>
     private void UpdateArrows() {
         List<GameObject> activeEnemies = WaveManager.Instance.activeEnemies;
 

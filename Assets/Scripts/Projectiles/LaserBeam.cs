@@ -16,10 +16,16 @@ public class LaserBeam : MonoBehaviour {
     public ParticleSystem hitEffectPrefab;
     private ParticleSystem currentHitEffect;
 
+    /// <summary>
+    /// Méthode appelée lors de l'initialisation de l'objet. Initialise les composants nécessaires.
+    /// </summary>
     private void Awake() {
         extractorAudioSource = gameObject.AddComponent<AudioSource>();
     }
 
+    /// <summary>
+    /// Méthode appelée au démarrage. Initialise le laser et les effets de particules.
+    /// </summary>
     void Start() {
         if (laserPrefab) {
             laser = Instantiate(laserPrefab, firePoint.transform);
@@ -30,6 +36,10 @@ public class LaserBeam : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Active le laser et le dirige vers la cible spécifiée.
+    /// </summary>
+    /// <param name="cible">La cible à viser.</param>
     public void EnableLaser(Transform cible) {
         target = cible.gameObject;
 
@@ -43,6 +53,9 @@ public class LaserBeam : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Désactive le laser et arrête les effets de particules.
+    /// </summary>
     public void DisableLaser() {
         StopAllCoroutines();
         laser.SetActive(false);
@@ -55,6 +68,10 @@ public class LaserBeam : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Coroutine pour mettre à jour la position et la direction du laser.
+    /// </summary>
+    /// <returns>Un IEnumerator pour la coroutine.</returns>
     private IEnumerator UpdateLaser() {
         float maxLaserLength = 300f; // Longueur maximale du laser si rien n'est touché
         float laserMargin = 2f;
@@ -86,7 +103,7 @@ public class LaserBeam : MonoBehaviour {
                         newScale.z = maxLaserLength;
                         laser.transform.localScale = newScale;
 
-                        //Particules
+                        // Particules
                         if (hitEffectPrefab) {
                             currentHitEffect.transform.position = hit.point;
                             currentHitEffect.transform.forward = hit.normal;
@@ -95,7 +112,7 @@ public class LaserBeam : MonoBehaviour {
                             }
                         }
 
-                        //Son
+                        // Son
                         if (!extractorAudioSource.isPlaying) {
                             SoundManager.PlaySoundWithFade(SoundType.EXTRACTOR, extractorAudioSource, 0.5f);
                         }
@@ -113,10 +130,17 @@ public class LaserBeam : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Vérifie si le laser est activé.
+    /// </summary>
+    /// <returns>True si le laser est activé, sinon False.</returns>
     public bool IsLaserEnabled() {
         return laser.activeSelf;
     }
 
+    /// <summary>
+    /// Dessine des gizmos pour visualiser la direction du laser dans l'éditeur.
+    /// </summary>
     private void OnDrawGizmos() {
         if (firePoint != null) {
             Gizmos.color = Color.magenta;

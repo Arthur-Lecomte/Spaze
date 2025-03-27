@@ -1,12 +1,13 @@
 using UnityEngine;
 
-public class Tank : Enemy
-{
+public class Tank : Enemy {
 
-    protected override void MoveTowardsPlayer(float distanceToPlayer)
-    {
-        if (distanceToPlayer > shootRange)
-        {
+    /// <summary>
+    /// Déplace le tank vers le joueur si celui-ci est hors de portée de tir.
+    /// </summary>
+    /// <param name="distanceToPlayer">La distance entre le tank et le joueur.</param>
+    protected override void MoveTowardsPlayer(float distanceToPlayer) {
+        if (distanceToPlayer > shootRange) {
             // Calculer la direction vers le joueur
             Vector3 direction = (player.position - transform.position).normalized;
 
