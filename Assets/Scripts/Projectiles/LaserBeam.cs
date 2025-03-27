@@ -103,7 +103,7 @@ public class LaserBeam : MonoBehaviour {
     
     private void OnDrawGizmos() {
         if (firePoint != null) {
-            Gizmos.color = Color.red;
+            Gizmos.color = Color.magenta;
             if (target) {
                 Vector3 rayDirection = (target.transform.position - firePoint.transform.position).normalized;
                 Gizmos.DrawRay(firePoint.transform.position, rayDirection * 300);

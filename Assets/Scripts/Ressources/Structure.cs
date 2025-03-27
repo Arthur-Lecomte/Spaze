@@ -32,6 +32,7 @@ public class Structure : MonoBehaviour {
                 go.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
             }
             tag = "Untagged"; //Retire son tag pour que l'extracteur ne le détecte plus
+            gameObject.layer = 0; //Retire son layer pour que le laser de l'extracteur ne le détecte plus
         }
     }
 }
