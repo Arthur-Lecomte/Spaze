@@ -9,5 +9,6 @@ namespace SmallHedge.SoundManager
         BREAKSHIELD,
         COMBAT,
         EXPLORATION,
+        REACTOR,
     }
 }

@@ -48,3 +48,8 @@ MonoBehaviour:
     mixer: {fileID: 24300002, guid: 4bc8afeac87abc740ac950002cc59f2e, type: 2}
     sounds:
     - {fileID: 8300000, guid: a850d13a9772954448ecdbabc75c3345, type: 3}
+  - name: REACTOR
+    volume: 0.17
+    mixer: {fileID: 24300002, guid: 4bc8afeac87abc740ac950002cc59f2e, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: 56fced72c682e38479a28a88428fc46f, type: 3}
