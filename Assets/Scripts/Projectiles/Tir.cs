@@ -18,7 +18,7 @@ public class Tir : MonoBehaviour {
 
     private void Update() {
         float distance = speed / ralentissement * Time.deltaTime;
-        transform.Translate(Vector3.up * distance);
+        transform.Translate(Vector3.forward * distance);
         distanceTraveled += distance;
 
         if (distanceTraveled >= range) {

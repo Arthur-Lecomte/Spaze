@@ -35,7 +35,7 @@ public class Turret : SearchTag {
         
         Vector3 direction = (target.position - transform.position).normalized;
 
-        GameObject bullet = Instantiate(bulletPrefab, spawnPoint.position, Quaternion.LookRotation(direction)  * Quaternion.Euler(90, 0, 0));
+        GameObject bullet = Instantiate(bulletPrefab, spawnPoint.position, Quaternion.LookRotation(direction));
         bullet.GetComponent<Tir>().SetInformations(Vaisseau.Instance.gameObject, damageWithPercent, bulletSpeed, range);
     }
     

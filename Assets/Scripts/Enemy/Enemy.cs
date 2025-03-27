@@ -94,7 +94,7 @@ public class Enemy : MonoBehaviour, ICanTakeDamage
             Vector3 direction = (player.transform.position - transform.position).normalized;
             // Instancier le projectile au niveau de shootPoint
 
-            GameObject bullet = Instantiate(projectilePrefab, shootPoint.position, Quaternion.LookRotation(direction) * Quaternion.Euler(90, 0, 0));
+            GameObject bullet = Instantiate(projectilePrefab, shootPoint.position, Quaternion.LookRotation(direction));
             bullet.GetComponent<Tir>().SetInformations(false, damageEnemy, 20, shootRange); //DEBUG!!! Changer la vitesse du projectile en fonction de qui le tire
         }
     }

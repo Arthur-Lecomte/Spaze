@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8634685045668926384}
   - component: {fileID: -9171175822812265534}
+  - component: {fileID: 7047248131234481249}
+  - component: {fileID: 718373741109183184}
   m_Layer: 0
   m_Name: Assaut
   m_TagString: Untagged
@@ -46,6 +48,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68ff1a2a73994a8d91c51b92f57915fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &7047248131234481249
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7993188006615409297}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 1216
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 823
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.09, y: 5, z: 0.33}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &718373741109183184
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7993188006615409297}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &4452369438765302832
 PrefabInstance:
   m_ObjectHideFlags: 0
