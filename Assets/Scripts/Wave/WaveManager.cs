@@ -18,7 +18,7 @@ public class WaveManager : MonoBehaviour
     private TextMeshProUGUI waveInfoText; // Référence au texte UI
 
     private int currentWave = 0; // Numéro de la vague actuelle
-    private List<GameObject> activeEnemies = new(); // Liste des ennemis actifs
+    public List<GameObject> activeEnemies = new(); // Liste des ennemis actifs
     private int nextEnemyIndex = 0; // Index du prochain ennemi à spawn
     private float timeUntilNextWave; // Temps restant avant la prochaine vague
 
