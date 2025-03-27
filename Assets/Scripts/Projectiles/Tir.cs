@@ -3,16 +3,15 @@ using UnityEngine;
 public class Tir : MonoBehaviour {
     private bool fromPlayer;
     private float damage;
-    private float speed;
     private float range;
-    private float distanceTraveled;
     
+    [SerializeField] private float speed;
+    private float distanceTraveled;
     private float ralentissement = 1;
 
-    public void SetInformations(bool creator, float damageValue, float speedValue, float rangeValue) {
+    public void SetInformations(bool creator, float damageValue, float rangeValue) {
         fromPlayer = creator;
         damage = damageValue;
-        speed = speedValue;
         range = rangeValue + 1;
     }
 

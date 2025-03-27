@@ -1,6 +1,5 @@
 using SmallHedge.SoundManager;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Enemy : MonoBehaviour, ICanTakeDamage
 {
@@ -12,8 +11,6 @@ public class Enemy : MonoBehaviour, ICanTakeDamage
     [SerializeField] public float moveSpeed = 1f; // Vitesse de déplacement de l'ennemi
     [SerializeField] public int damageEnemy = 15;
     
-
-
     [Header("Comportement de tir")]
     [SerializeField]
     public GameObject projectilePrefab; // Préfabriqué du projectile
@@ -95,7 +92,7 @@ public class Enemy : MonoBehaviour, ICanTakeDamage
             // Instancier le projectile au niveau de shootPoint
 
             GameObject bullet = Instantiate(projectilePrefab, shootPoint.position, Quaternion.LookRotation(direction));
-            bullet.GetComponent<Tir>().SetInformations(false, damageEnemy, 20, shootRange); //DEBUG!!! Changer la vitesse du projectile en fonction de qui le tire
+            bullet.GetComponent<Tir>().SetInformations(false, damageEnemy, shootRange);
         }
     }
 
