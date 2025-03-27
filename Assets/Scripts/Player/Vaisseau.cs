@@ -59,11 +59,11 @@ public class Vaisseau : MonoBehaviour, ICanTakeDamage {
         if (isAccelerating) {
             rb.AddForce(transform.forward * (acceleration + Speed.AllPower), ForceMode.Acceleration);
             if(!ReactorAudioSource.isPlaying){
-                SoundManager.PlaySoundWithFade(SoundType.REACTOR,ReactorAudioSource, 1f, 0.3f);
+                SoundManager.PlaySoundWithFade(SoundType.REACTOR,ReactorAudioSource,0.3f);
             }
             
         } else{
-            SoundManager.StopSoundWithFade(ReactorAudioSource,1f);
+            SoundManager.StopSoundWithFade(ReactorAudioSource,0.2f);
         }
 
         // Limiter la vitesse

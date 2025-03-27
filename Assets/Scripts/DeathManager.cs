@@ -19,6 +19,7 @@ public class DeathManager : MonoBehaviour {
     public void GameOver() {
         gameObject.SetActive(true);
         Vaisseau.Instance.gameObject.SetActive(false);
+        SoundManager.PlaySound(SoundType.GAMEOVER);
         
         foreach (var obj in objectsToDisable) {
             if (obj != null)

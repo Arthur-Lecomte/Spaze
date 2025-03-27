@@ -72,7 +72,7 @@ public class WaveManager : MonoBehaviour
             if (!explorationAudioSource.isPlaying)
             {
                 
-                SoundManager.PlaySoundWithFade(SoundType.EXPLORATION, explorationAudioSource, 1f, 10f); //Lancer le son d'exploration
+                SoundManager.PlaySoundWithFade(SoundType.EXPLORATION, explorationAudioSource, 10f); //Lancer le son d'exploration
                 SoundManager.StopSoundWithFade(combatAudioSource, 2f);
 
                 while (timeUntilNextWave > 0)
@@ -81,7 +81,7 @@ public class WaveManager : MonoBehaviour
                     timeUntilNextWave -= Time.deltaTime;
                 }
                 
-                SoundManager.PlaySoundWithFade(SoundType.COMBAT, combatAudioSource, 1f, 10f); //Lancer le son de combat
+                SoundManager.PlaySoundWithFade(SoundType.COMBAT, combatAudioSource, 10f); //Lancer le son de combat
                 SoundManager.StopSoundWithFade(explorationAudioSource, 1f);
 
                 currentWave++;

@@ -10,5 +10,7 @@ namespace SmallHedge.SoundManager
         COMBAT,
         EXPLORATION,
         REACTOR,
+        EXPLOSIONVAISSEAU,
+        GAMEOVER,
     }
 }
