@@ -28,8 +28,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.18, y: 1.18, z: 1.18}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8691689969319365697}
   - {fileID: 3166261862344219036}
@@ -54,8 +54,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 2}
-  m_Center: {x: 0, y: 0, z: 0.15}
+  m_Size: {x: 1.1493125, y: 1, z: 2}
+  m_Center: {x: -0.021685358, y: 0, z: 0.15000004}
 --- !u!114 &182695092277472470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,13 +69,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Level: 1
-  health: 200
+  health: 100
   moveSpeed: 2
   damageEnemy: 5
-  projectilePrefab: {fileID: 3824452743231026403, guid: 59044da8fbf8d4e46862be06223b732a, type: 3}
+  projectilePrefab: {fileID: 7993188006615409297, guid: 0ab68db2f97263948bb01160bcc4a754, type: 3}
   shootInterval: 1.5
   lastShootTime: 0
-  shootRange: 8
+  shootRange: 15
   shootPoint: {fileID: 3166261862344219036}
   portal: {fileID: 0}
 --- !u!1 &3345544540168025527
