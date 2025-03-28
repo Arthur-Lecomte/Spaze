@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4646869933424889874, guid: e91f8d14264b3d24ea5159fc72729240, type: 3}
   ressourceType: 4
-  probability: 0.009
+  probability: 0.05
