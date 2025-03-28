@@ -333,7 +333,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Rejouer \n"
+  m_text: Rejouer
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 67a17254de5cffa488d8ee152e0790fa, type: 2}
   m_sharedMaterial: {fileID: 5457633821605475189, guid: 67a17254de5cffa488d8ee152e0790fa, type: 2}
@@ -360,7 +360,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 33.7
+  m_fontSize: 18
   m_fontSizeBase: 18.12
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2414,8 +2414,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7944534612904584381}
-        m_TargetAssemblyTypeName: StartScript, Assembly-CSharp
+      - m_Target: {fileID: 3055185459146121213}
+        m_TargetAssemblyTypeName: GameOver, Assembly-CSharp
         m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
@@ -2577,7 +2577,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3867785214781575734
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2835,7 +2835,6 @@ GameObject:
   - component: {fileID: 7047338847829566904}
   - component: {fileID: 750745086677724643}
   - component: {fileID: 5216442875303032697}
-  - component: {fileID: 7944534612904584381}
   m_Layer: 0
   m_Name: Panel
   m_TagString: Untagged
@@ -2903,18 +2902,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7944534612904584381
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2138471205184545019}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e6c614499b5bec4e85504a0a99039c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2141372160998497080
 GameObject:
   m_ObjectHideFlags: 0
@@ -3063,7 +3050,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7939373725786304317
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4878,16 +4865,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7944534612904584381}
-        m_TargetAssemblyTypeName: StartScript, Assembly-CSharp
-        m_MethodName: LoadScene
-        m_Mode: 5
+      - m_Target: {fileID: 3055185459146121213}
+        m_TargetAssemblyTypeName: GameOver, Assembly-CSharp
+        m_MethodName: RestartGame
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: GameScene
+          m_StringArgument: Start-Screen
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &4738011348606336036
@@ -6989,6 +6976,7 @@ GameObject:
   - component: {fileID: 4812127795734409177}
   - component: {fileID: 6018507408355163592}
   - component: {fileID: 4305225372234706339}
+  - component: {fileID: 3055185459146121213}
   m_Layer: 5
   m_Name: Canvas - Game Over
   m_TagString: Untagged
@@ -7079,6 +7067,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &3055185459146121213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6917386486656169939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a326fcec96853746ac29e74f1e5c630, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6990162479152834231
 GameObject:
   m_ObjectHideFlags: 0
