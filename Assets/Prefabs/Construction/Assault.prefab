@@ -78,7 +78,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nom: Tourelle d'assault
-  description: Tourelle d'attaque normale
+  description: "Tourelle d'attaque avec des capacit\xE9es dans la moyenne."
   rarity: 0
   type: 1
   coutRessources:

@@ -4565,6 +4565,7 @@ MonoBehaviour:
   spawnSpread: 2
   timeBetweenWaves: 5
   startEnemies: 3
+  activeEnemies: []
 --- !u!1 &4253729205304493433
 GameObject:
   m_ObjectHideFlags: 0
@@ -6688,12 +6689,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 20
-    m_Right: 20
+    m_Left: 70
+    m_Right: 0
     m_Top: 130
-    m_Bottom: 10
+    m_Bottom: 20
   m_ChildAlignment: 0
-  m_Spacing: 20
+  m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
@@ -8592,6 +8593,7 @@ MonoBehaviour:
   niveauText: {fileID: 7592388586441655284}
   container: {fileID: 3957435234730659114}
   fontAsset: {fileID: 11400000, guid: 67a17254de5cffa488d8ee152e0790fa, type: 2}
+  variableGraphique: {fileID: 5751384533843721717, guid: 173e57fa6b3f3cf4ea1222b5507e44fe, type: 3}
 --- !u!1 &8847557755541760788
 GameObject:
   m_ObjectHideFlags: 0

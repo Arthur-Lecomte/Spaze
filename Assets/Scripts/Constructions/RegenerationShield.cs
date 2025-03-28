@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Spaze {
     public class RegenerationShield : SearchShield {
-        [SerializeField] private float capacity;
+        [SerializeField] private float regeneration;
         [SerializeField] private float regenerationMax;
         [SerializeField] private float range;
 
@@ -14,9 +14,9 @@ namespace Spaze {
         [SerializeField] private GameObject firePoint;
 
         /// <summary>
-        /// Initialise le bouclier de régénération avec les paramètres de rareté spécifiés.
+        /// Initialise le bouclier de rï¿½gï¿½nï¿½ration avec les paramï¿½tres de raretï¿½ spï¿½cifiï¿½s.
         /// </summary>
-        /// <param name="rarityConstruction">La rareté de la construction.</param>
+        /// <param name="rarityConstruction">La raretï¿½ de la construction.</param>
         public override void Initialisation(RarityConstruction rarityConstruction) {
             base.Initialisation(rarityConstruction);
             range = 1; // DEBUG !!!
@@ -26,9 +26,9 @@ namespace Spaze {
         }
 
         /// <summary>
-        /// Définit le parent de cette construction et ajuste sa position et son échelle.
+        /// Dï¿½finit le parent de cette construction et ajuste sa position et son ï¿½chelle.
         /// </summary>
-        /// <param name="parent">Le parent à définir.</param>
+        /// <param name="parent">Le parent ï¿½ dï¿½finir.</param>
         /// <param name="onModule">Indique si la construction est sur un module.</param>
         public override void SetChildOf(Transform parent, bool onModule = true) {
             base.SetChildOf(parent, onModule);
@@ -37,7 +37,7 @@ namespace Spaze {
         }
 
         /// <summary>
-        /// Liste les boucliers à proximité et configure les faisceaux laser.
+        /// Liste les boucliers ï¿½ proximitï¿½ et configure les faisceaux laser.
         /// </summary>
         private void ListSearchShields() {
             foreach (LaserBeam laserBeam in laserBeams.Values) {
@@ -71,7 +71,7 @@ namespace Spaze {
                 }
             }
 
-            regenerationPerShield = Mathf.Min(regenerationMax, capacity / NearbySearchShields.Count);
+            regenerationPerShield = Mathf.Min(regenerationMax, regeneration / NearbySearchShields.Count);
             foreach (SearchShield t in NearbySearchShields) {
                 LaserBeam lb = gameObject.AddComponent<LaserBeam>();
                 lb.collisionMask = LayerMask.GetMask("Default");
@@ -84,17 +84,17 @@ namespace Spaze {
         }
 
         /// <summary>
-        /// Effectue des actions spécifiques lors de l'amélioration du bouclier de régénération.
+        /// Effectue des actions spï¿½cifiques lors de l'amï¿½lioration du bouclier de rï¿½gï¿½nï¿½ration.
         /// </summary>
         protected override void PerformUpgrade() {
             ListSearchShields();
         }
 
         /// <summary>
-        /// Active ou désactive le faisceau laser pour un bouclier spécifique.
+        /// Active ou dï¿½sactive le faisceau laser pour un bouclier spï¿½cifique.
         /// </summary>
         /// <param name="shield">Le bouclier cible.</param>
-        /// <param name="active">Indique si le faisceau laser doit être activé ou désactivé.</param>
+        /// <param name="active">Indique si le faisceau laser doit ï¿½tre activï¿½ ou dï¿½sactivï¿½.</param>
         public void ActiveLaserBeam(Shield shield, bool active) {
             if (this == null) {
                 Debug.Log("BUG2");
@@ -109,7 +109,7 @@ namespace Spaze {
         }
 
         /// <summary>
-        /// Méthode appelée lors de la destruction de l'objet.
+        /// Mï¿½thode appelï¿½e lors de la destruction de l'objet.
         /// </summary>
         private void OnDestroy() {
             newShield -= ListSearchShields;

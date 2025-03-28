@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+
 namespace Spaze {
     public abstract class Construction : MonoBehaviour {
         private static ConstructionStatsManager stats;
@@ -222,13 +223,13 @@ namespace Spaze {
         /// Obtient les statistiques de la construction sous forme de dictionnaire.
         /// </summary>
         /// <returns>Un dictionnaire contenant les statistiques de la construction.</returns>
-        public Dictionary<string, string> GetStats() {
-            Dictionary<string, string> dico = new Dictionary<string, string> {
-            { "Description", description }
-        };
+        public Dictionary<Sprite, string> GetStats() {
+            Dictionary<Sprite, string> dico = new Dictionary<Sprite, string> {
+                { Resources.Load<Sprite>($"IconVariable/description"), description }
+            };
             Dictionary<string, float> values = stats.GetDico(type, rarity, niveau - 1);
             foreach (KeyValuePair<string, float> kvp in values) {
-                dico.Add(kvp.Key, kvp.Value.ToString("F2"));
+                dico.Add(Resources.Load<Sprite>($"IconVariable/{kvp.Key}"), kvp.Value.ToString("F2"));
             }
 
             return dico;

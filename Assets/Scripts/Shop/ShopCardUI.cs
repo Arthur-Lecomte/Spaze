@@ -4,12 +4,15 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+
 namespace Spaze {
     public class ShopCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
         private Construction construction;
         private int index;
 
         private Dictionary<Ressource, TextMeshProUGUI> texts;
+
+        [SerializeField] private GameObject variableGraphique;
 
         [SerializeField] private Transform subPanel;
         [SerializeField] private Transform subPanelContainer;
@@ -61,14 +64,9 @@ namespace Spaze {
                 Destroy(child.gameObject);
             }
             foreach (var stat in construction.GetStats()) {
-                GameObject statText = new GameObject(stat.Key, typeof(TextMeshProUGUI));
-                statText.transform.SetParent(subPanelContainer);
-                statText.transform.localScale = Vector3.one;
-
-                TextMeshProUGUI textComponent = statText.GetComponent<TextMeshProUGUI>();
-                textComponent.text = $"{stat.Key}: {stat.Value}";
-                textComponent.font = fontAsset;
-                textComponent.fontSize = 20;
+                GameObject statText = Instantiate(variableGraphique, subPanelContainer);
+                statText.GetComponentInChildren<Image>().sprite = stat.Key;
+                statText.GetComponentInChildren<TextMeshProUGUI>().text = stat.Value;
             }
         }
 

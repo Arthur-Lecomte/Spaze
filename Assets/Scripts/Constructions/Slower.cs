@@ -1,8 +1,9 @@
 using UnityEngine;
+
 namespace Spaze {
     public class Slower : Construction {
         [SerializeField] private float range;
-        [SerializeField] private float power;
+        [SerializeField] private float slowPower;
 
         private SphereCollider trigger;
         [SerializeField] private Transform effect;
@@ -34,7 +35,7 @@ namespace Spaze {
         private void OnTriggerEnter(Collider other) {
             Tir projectile = other.GetComponent<Tir>();
             if (projectile != null && !projectile.IsFromPlayer()) {
-                projectile.InSlowArea(power);
+                projectile.InSlowArea(slowPower);
             }
         }
 
@@ -45,7 +46,7 @@ namespace Spaze {
         private void OnTriggerExit(Collider other) {
             Tir projectile = other.GetComponent<Tir>();
             if (projectile != null && !projectile.IsFromPlayer()) {
-                projectile.InSlowArea(-power);
+                projectile.InSlowArea(-slowPower);
             }
         }
 

@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nom: "Tourelle courte port\xE9e"
-  description: "\xC0 de gros d\xE9g\xE2t mais \xE0 courte port\xE9e."
+  description: "Inflige de gros d\xE9g\xE2t mais \xE0 courte port\xE9e seulement."
   rarity: 0
   type: 2
   coutRessources:

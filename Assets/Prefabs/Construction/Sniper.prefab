@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nom: Tourelle Sniper
-  description: "Grande port\xE9e d'attaque mais attaque lentement."
+  description: "Poss\xE8de une grande port\xE9e d'attaque mais recharge lentement."
   rarity: 50
   type: 0
   coutRessources:

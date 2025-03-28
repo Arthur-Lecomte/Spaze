@@ -66,7 +66,7 @@ namespace Spaze {
 
             // Appliquer une force vers l'avant seulement si le joueur accélère
             if (isAccelerating) {
-                rb.AddForce(transform.forward * (acceleration + Speed.AllPower), ForceMode.Acceleration);
+                rb.AddForce(transform.forward * (acceleration + Speed.AllSpeedPower), ForceMode.Acceleration);
                 if (!ReactorAudioSource.isPlaying) {
                     SoundManager.PlaySoundWithFade(SoundType.REACTOR, ReactorAudioSource, 0.3f);
                 }

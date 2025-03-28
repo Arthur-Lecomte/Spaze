@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
 namespace Spaze {
     public class ConstructionInformationsUI : MonoBehaviour {
         public static ConstructionInformationsUI Instance;
@@ -12,8 +13,10 @@ namespace Spaze {
         [SerializeField] private Transform container;
         [SerializeField] private TMP_FontAsset fontAsset;
 
+        [SerializeField] private GameObject variableGraphique;
+
         /// <summary>
-        /// Méthode appelée lors de l'initialisation de l'objet. Initialise l'instance et cache l'UI.
+        /// Mï¿½thode appelï¿½e lors de l'initialisation de l'objet. Initialise l'instance et cache l'UI.
         /// </summary>
         private void Awake() {
             if (Instance == null) {
@@ -26,9 +29,9 @@ namespace Spaze {
         }
 
         /// <summary>
-        /// Affiche l'UI de survol avec les informations de la construction spécifiée.
+        /// Affiche l'UI de survol avec les informations de la construction spï¿½cifiï¿½e.
         /// </summary>
-        /// <param name="construction">La construction dont les informations doivent être affichées.</param>
+        /// <param name="construction">La construction dont les informations doivent ï¿½tre affichï¿½es.</param>
         public void ShowHoverUI(Construction construction) {
             typeText.text = construction.GetType().Name;
             rarityText.text = construction.GetRarityText();
@@ -39,14 +42,9 @@ namespace Spaze {
                 Destroy(child.gameObject);
             }
             foreach (var stat in construction.GetStats()) {
-                GameObject statText = new GameObject(stat.Key, typeof(TextMeshProUGUI));
-                statText.transform.SetParent(container);
-                statText.transform.localScale = Vector3.one;
-
-                TextMeshProUGUI textComponent = statText.GetComponent<TextMeshProUGUI>();
-                textComponent.text = $"{stat.Key}: {stat.Value}";
-                textComponent.font = fontAsset;
-                textComponent.fontSize = 20;
+                GameObject statText = Instantiate(variableGraphique, container);
+                statText.GetComponentInChildren<Image>().sprite = stat.Key;
+                statText.GetComponentInChildren<TextMeshProUGUI>().text = stat.Value;
             }
 
             gameObject.SetActive(true);
