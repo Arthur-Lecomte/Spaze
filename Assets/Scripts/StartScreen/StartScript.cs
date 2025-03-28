@@ -7,7 +7,7 @@ namespace Spaze {
         private AudioSource musicAudioSource;
 
         /// <summary>
-        /// Méthode appelée lors de l'initialisation de l'objet. Initialise les composants nécessaires.
+        /// Mï¿½thode appelï¿½e lors de l'initialisation de l'objet. Initialise les composants nï¿½cessaires.
         /// </summary>
         public void Awake() {
             canvasParametre = GameObject.Find("Canvas-Parametres");
@@ -16,7 +16,7 @@ namespace Spaze {
         }
 
         /// <summary>
-        /// Méthode appelée au démarrage. Joue la musique de l'écran de démarrage et masque le canvas des paramètres.
+        /// Mï¿½thode appelï¿½e au dï¿½marrage. Joue la musique de l'ï¿½cran de dï¿½marrage et masque le canvas des paramï¿½tres.
         /// </summary>
         public void Start() {
             SoundManager.PlaySoundWithFade(SoundType.STARTSCREEN, musicAudioSource, 5f);
@@ -24,9 +24,9 @@ namespace Spaze {
         }
 
         /// <summary>
-        /// Charge la scène spécifiée.
+        /// Charge la scï¿½ne spï¿½cifiï¿½e.
         /// </summary>
-        /// <param name="sceneName">Le nom de la scène à charger.</param>
+        /// <param name="sceneName">Le nom de la scï¿½ne ï¿½ charger.</param>
         public void LoadScene(string sceneName) {
             SoundManager.PlaySound(SoundType.CLICK);
             musicAudioSource.Stop();
@@ -34,21 +34,19 @@ namespace Spaze {
         }
 
         /// <summary>
-        /// Ouvre le menu des paramètres.
+        /// Ouvre le menu des paramï¿½tres.
         /// </summary>
         public void OpenSettings() {
             SoundManager.PlaySound(SoundType.CLICK);
             canvasParametre.SetActive(true);
-            canvasStartMenu.SetActive(false);
         }
 
         /// <summary>
-        /// Ferme le menu des paramètres.
+        /// Ferme le menu des paramï¿½tres.
         /// </summary>
         public void CloseSettings() {
             SoundManager.PlaySound(SoundType.CLICK);
             canvasParametre.SetActive(false);
-            canvasStartMenu.SetActive(true);
         }
 
         /// <summary>
