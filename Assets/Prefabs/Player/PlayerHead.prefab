@@ -142,8 +142,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fda3cec2051c4604aa726530c78fc995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 3
-  maxSpeed: 8
+  acceleration: 3.25
+  maxSpeed: 9
   rotationSpeed: 90
   drag: 0.99
 --- !u!114 &1417199936730369500
@@ -264,7 +264,6 @@ MonoBehaviour:
   speed: 0.5
   damage: 5
   damageWithPercent: 0
-  bulletSpeed: 35
   bulletPrefab: {fileID: 7993188006615409297, guid: 0ab68db2f97263948bb01160bcc4a754, type: 3}
 --- !u!1 &7891754927442277139
 GameObject:
@@ -448,7 +447,8 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: [{fileID: 1743659426873759118, guid: 57806f65677c04a40a5dad0dcdab1cb7, type: 3}]
+    m_RemovedGameObjects:
+    - {fileID: 1743659426873759118, guid: 57806f65677c04a40a5dad0dcdab1cb7, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 57806f65677c04a40a5dad0dcdab1cb7, type: 3}
@@ -688,8 +688,9 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: [{fileID: 4822471151671175001, guid: 8b2c4980d71d4dd49888625ec653eeae, type: 3},
-      {fileID: 3700498971831900844, guid: 8b2c4980d71d4dd49888625ec653eeae, type: 3}]
+    m_RemovedGameObjects:
+    - {fileID: 4822471151671175001, guid: 8b2c4980d71d4dd49888625ec653eeae, type: 3}
+    - {fileID: 3700498971831900844, guid: 8b2c4980d71d4dd49888625ec653eeae, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b2c4980d71d4dd49888625ec653eeae, type: 3}
@@ -791,7 +792,8 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: [{fileID: 4404528423771737264, guid: d0359fe900e7b2443abef3c9ecd2d00e, type: 3}]
+    m_RemovedGameObjects:
+    - {fileID: 4404528423771737264, guid: d0359fe900e7b2443abef3c9ecd2d00e, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0359fe900e7b2443abef3c9ecd2d00e, type: 3}

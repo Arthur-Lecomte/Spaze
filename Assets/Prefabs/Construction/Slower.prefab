@@ -55,9 +55,9 @@ MonoBehaviour:
   coutRessources:
   - type: 1
     quantite: 50
-  - type: 3
-    quantite: 100
-  probability: 500
+  - type: 2
+    quantite: 25
+  probability: 4
   image: {fileID: 21300000, guid: 0a2cc76ef548b85428a63c3f87c35fcb, type: 3}
   range: 3
   power: 0

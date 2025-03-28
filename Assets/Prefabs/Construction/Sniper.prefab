@@ -52,16 +52,20 @@ MonoBehaviour:
   type: 0
   coutRessources:
   - type: 0
-    quantite: 100
+    quantite: 75
   - type: 1
-    quantite: 50
+    quantite: 25
+  - type: 2
+    quantite: 15
+  - type: 3
+    quantite: 5
   probability: 4
   image: {fileID: 21300000, guid: 91258b57d5d94194082a6330517b9a1e, type: 3}
   tagTarget: Enemy
   range: 20
   speed: 0
   damage: 10
-  bulletSpeed: 60
+  damageWithPercent: 0
   bulletPrefab: {fileID: 373955377053405097, guid: 26633952d94c31c48b8df9cf4dcb383f, type: 3}
 --- !u!1 &7159078570790184736
 GameObject:

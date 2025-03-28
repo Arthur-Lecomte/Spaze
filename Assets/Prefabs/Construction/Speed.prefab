@@ -138,14 +138,12 @@ MonoBehaviour:
   type: 6
   coutRessources:
   - type: 0
-    quantite: 75
+    quantite: 25
   - type: 1
-    quantite: 250
+    quantite: 25
   - type: 2
-    quantite: 10
-  - type: 3
-    quantite: 50
-  probability: 100
+    quantite: 15
+  probability: 6
   image: {fileID: 21300000, guid: 9596e40a5a85531418d570e14e68c705, type: 3}
   power: 0
   maxSpeed: 0
