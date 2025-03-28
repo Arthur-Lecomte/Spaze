@@ -264,10 +264,10 @@ namespace Spaze {
         private void ChooseQuantityEpave(Structure structure, TypeRessource ressourceType, int cellSeed) {
             System.Random random = new(cellSeed);
             var returnRessourceValue = ressourceType switch {
-                TypeRessource.Cuivre => random.Next(0, 51),
-                TypeRessource.Argent => random.Next(0, 51),
-                TypeRessource.Or => random.Next(0, 26),
-                TypeRessource.Platine => random.Next(0, 11),
+                TypeRessource.Cuivre => random.Next(20, 50),
+                TypeRessource.Argent => random.Next(20, 50),
+                TypeRessource.Or => random.Next(10, 30),
+                TypeRessource.Platine => random.Next(5, 10),
                 TypeRessource.NoyauEnergie => random.Next(1, 2),
                 _ => 0,
             };
