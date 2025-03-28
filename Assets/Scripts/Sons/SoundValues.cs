@@ -1,5 +1,4 @@
-namespace SmallHedge.SoundManager
-{
+namespace Spaze {
     public enum SoundType
     {
         BUY,

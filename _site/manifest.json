@@ -1,0 +1,992 @@
+{
+  "homepages": [],
+  "source_base_path": "E:/Unity/Projet/Spaze/docfx_project",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.AddonModule.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.AddonModule.html",
+          "hash": "iG0CI6T/h72/sROrqswCxTkwC6HTLWw3w4aRXs8xGWM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.ArrowPointer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.ArrowPointer.html",
+          "hash": "+0oUFbBrmIo0/B9du6K5R7e9GnziONfYEeBMD+I/3PM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.Assaillant.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.Assaillant.html",
+          "hash": "+q3PEVhrBjHq2XplFk/Nby/Wdh9fCNLAumX6F5PY1E0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.AsteroidData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.AsteroidData.html",
+          "hash": "yGXag8zqNA6XZrX60zgbvDhXA3p28l7kvsNhKl++Ff8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.BuildManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.BuildManager.html",
+          "hash": "4anYNuolfr8vvsKTKPX47EHyWOh/G6sqdIHbqGsKroI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.BuyHealth.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.BuyHealth.html",
+          "hash": "lHfLY+htEXLiwuHZ5FtVaJgZg8QWCZAwNn21gVqO1ak="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.BuyHoverUI.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.BuyHoverUI.html",
+          "hash": "ZVZ9TM2EgjWhMwFo+PhmGoU0Gx19/pYFfqJKDfNHA44="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.BuyUpgrade.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.BuyUpgrade.html",
+          "hash": "iioCnwhjqxiQ7N3lFibu58+5CMCO4y+0tK3ju5rqqWY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.CameraHolderFollow.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.CameraHolderFollow.html",
+          "hash": "lOwuRRORm/5sVmhHfDbDL47X2pKYmcO+y8nvZPpWxjY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.CameraZoom.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.CameraZoom.html",
+          "hash": "JTdQGdfkF3WpjlP8ugarDQzVonpBi0n3UIHbQrmosAQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.CellState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.CellState.html",
+          "hash": "70emNjbmOA7JucwW4DUI4sotyENSrGGlI5LoQaxpOFg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.Construction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.Construction.html",
+          "hash": "FSU6S/QSZ1GmHFQRnMSuSKSjWQ2EKFlJXzTbeX6Q69A="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.ConstructionInformationsUI.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.ConstructionInformationsUI.html",
+          "hash": "HEdW/9QvhIsaVgPt2OXMn8TJQdgxvu9WVvYPj6lxbPo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.ConstructionStatsManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.ConstructionStatsManager.html",
+          "hash": "+oB4jTfyxn6NMvZbTWI4peJrym+ZB5nkFtb/2BTr1yg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.DeathManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.DeathManager.html",
+          "hash": "YXYXBT9oOtXct/HuPnuzOhHm7q8ICkMrRGRiuxrkm44="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.Enemy.EnemyDestroyedHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.Enemy.EnemyDestroyedHandler.html",
+          "hash": "d51V1lkeGs4sXA3gYzDZ34LdMCPsjXp6FK+v057I+r0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.Enemy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.Enemy.html",
+          "hash": "TEvrpibO63naA92bmjJLL1zSh7WKQ0B0tw1vgdkYgRI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.EnergyShield.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.EnergyShield.html",
+          "hash": "XPJzB5VlcYT4JuNBz//a27ooBbIbeNLg9O++n1LFOEQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.Extracteur.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.Extracteur.html",
+          "hash": "gGQQw6lJpbFCMecMx2k/FzdZP1v7XIp6ynaBXmzUbec="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.FollowUV.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.FollowUV.html",
+          "hash": "r0IUjy077GPtk6wugCrmhmpoaVJmNDt4GEkAduQntY4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.GenerationStructure.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.GenerationStructure.html",
+          "hash": "Rrm7cydnCE1ubl2X34nmDTpX4vwdYzcJEoAbmMwVCXQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.ICanTakeDamage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.ICanTakeDamage.html",
+          "hash": "LxrTD6mfysy7+rOjTD+bU8rzFYGQjQ0oZQgpQB2cRQY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.Inventory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.Inventory.html",
+          "hash": "0i2IR//GKhIwiULUQSRPyB+mGcG43Ohx8K8btvIHQ1E="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.InventoryAddSlot.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.InventoryAddSlot.html",
+          "hash": "3yXwSPyS/S4YhNUEDGgQ372VsVrF2Q7LfgCZtGaKdb4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.InventorySlot.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.InventorySlot.html",
+          "hash": "yBSsn8joO49XQtrRxSD2GvwMnJNMX1aI8U2pKn2OBXM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.InventoryUI.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.InventoryUI.html",
+          "hash": "hY6ihJKXm3HiyDIyIuXCXKhAsDzBYv4el/UM/V6SFwU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.Invocateur.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.Invocateur.html",
+          "hash": "PEMH4jyVv5isrHUn54U/PQM0wjcSGPn/UgUbkclFF4A="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.LaserBeam.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.LaserBeam.html",
+          "hash": "yduUCAsUxMdDNL8xD0hi4JjvAJcaTc/vAq4VnzcMtVI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.MainModule.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.MainModule.html",
+          "hash": "6jbEV3VPjrP5Mf0TrVJmvUEk/W5oOB+wdcK7aMzpivs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.Minion.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.Minion.html",
+          "hash": "54tKFxWdtVT3QTrg9Bq83ZnmhEPzbJmND7lgpbAsLXw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.Module.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.Module.html",
+          "hash": "qyqig82B80XXDARdwkZD7M0GHx2uEMUPmvOwfA3jCLo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.Outline.Mode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.Outline.Mode.html",
+          "hash": "+j5PSPFBJSEGYOkXRBBedy4EPhMRZrTF4Kzwln4HOj0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.Outline.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.Outline.html",
+          "hash": "SOMRgLB5FbYoK0UjF4Kpck597ZsODseMLPEwAXKIDF4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.Parametres.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.Parametres.html",
+          "hash": "3y+GbObnMMZdAXIyKzHz5J6D7odHTn3cBelsKrPaPz0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.PlaySoundEnter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.PlaySoundEnter.html",
+          "hash": "v53BpP99TiBpjfxghz/0zVoqUoNr7XRcA5HfXekTayc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.PlaySoundExit.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.PlaySoundExit.html",
+          "hash": "d0VAan3y8jcSTob2lh6gcmbp6lYmu6NjIC4+W5txgC4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.Radar.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.Radar.html",
+          "hash": "cy8bBc6YWDHH8OC2rr42Y8yBlLbB7snMrNLfnwVd2CE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.RarityConstruction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.RarityConstruction.html",
+          "hash": "WT7zcObEENGtxg6uCoB1SzdKJnkUPcgX0NwpZy+1bW0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.RegenerationShield.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.RegenerationShield.html",
+          "hash": "1LKJ2elqCkPYsgNZus1M3awKSbRyvq5JlFdDT9OUJ+w="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.Ressource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.Ressource.html",
+          "hash": "HT6iYcQGi++J70ho/Ag5g0vlgeNTiC33/OfOEXb+0JA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.RessourcesUI.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.RessourcesUI.html",
+          "hash": "CtzyUibhe3Ut/LcYZ8xsIkBxTtzgf3FA9ncgwRhPhIU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.ScrollUV.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.ScrollUV.html",
+          "hash": "MO/28ycxxT20EvCwr+Ywh9PkCkP5vt18ZZDzXNeHPS4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.SearchShield.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.SearchShield.html",
+          "hash": "0FCz0gbkO/WsdGUk7noAEKaE9iFkQ4+0yOIMyW3im6w="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.SearchTag.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.SearchTag.html",
+          "hash": "jYQYEoWoykuIYpYWvNqggaHhFG1ifL0gD2h2LBy9GkY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.Shield.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.Shield.html",
+          "hash": "5EBITSG1xmpFOoxbR60tIaIimNDdiJvik4brzSJSIFU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.Shop.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.Shop.html",
+          "hash": "nrCg1Dk1b29OaSasT0kkkw7s4Gfwgv9a1IOMdxAvjHE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.ShopCardUI.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.ShopCardUI.html",
+          "hash": "onTUANMjNWdtZfZ16+tH7o+VkMVGqkpXXb+i22QzG7E="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.ShopManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.ShopManager.html",
+          "hash": "SINA7Eqqxix1l5BCJb9rJJeREN/9FfQcRWH88/QdRGo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.ShopOption.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.ShopOption.html",
+          "hash": "yWs885wLQsLQ9jAVk0UrCx0/TQqs1/hDTuTmTLujSqI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.Slower.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.Slower.html",
+          "hash": "WN/ZYkeeBg0xuBLQG701XjiEM5cG1iJKocnhfR99Nx0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.Sniper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.Sniper.html",
+          "hash": "FDGiwfddMhKWd98SrR3j3d5KWxmqxdDHeRz+jLoTlG0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.SoundList.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.SoundList.html",
+          "hash": "WQY9FoqQM1YOJxxjR4F0/REwh2OT2KsbjYKApCBZrKQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.SoundManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.SoundManager.html",
+          "hash": "cNsueJaoIPhcca5ArOVUTgnxY7EW3nEWiHBNE5aybOE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.SoundType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.SoundType.html",
+          "hash": "O2F5n5l4xbRIoj4VsPtBRN8Ejb0iJhXd9XEgkHMtM28="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.SoundsSO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.SoundsSO.html",
+          "hash": "0skG+PDEODolZjvvK80cmIwQ7LoKAr4P6faw6eqKBDw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.Speed.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.Speed.html",
+          "hash": "IxxPgNvH+wcBGBTnxoDE61ULXRkl+GC/cYJSM/GNr9Q="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.StartScript.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.StartScript.html",
+          "hash": "Idl+tCNP+47Jd13TN5UWidLLlP/m2NeNUFIJq0sezFk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.Structure.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.Structure.html",
+          "hash": "Z2zh0JM7XdyG7uzuPxXhWz6gt19G6PzKVFWtwKHjNLY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.Tank.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.Tank.html",
+          "hash": "bheBNn6Xib69pjwRlZs8g7hpgsRYDmPe1gO6yCigZpQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.Tir.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.Tir.html",
+          "hash": "vKlx4/gfjtTv2Ok9Vbg9epC3jovlem1b26QxEAvITME="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.TriggerAreaShop.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.TriggerAreaShop.html",
+          "hash": "shDZawP/uU5LnrSd9RV9ybu+cbzLW5zBMrpOSyYLG0M="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.Turret.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.Turret.html",
+          "hash": "R1ot659YQft1LV6Qa7BKKVGhsbNaiqc3rS3jqxa6MYc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.TypeConstruction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.TypeConstruction.html",
+          "hash": "Smt72X70SysJKJDhMUi05BcSwu8o2g6v+V0AURHudQc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.TypeRessource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.TypeRessource.html",
+          "hash": "voEYAChYwK5vJJMW4p0aE6YkYZTr7lhEepvHZAHAwX4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.TypeUpgrade.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.TypeUpgrade.html",
+          "hash": "k+VuBREOsB/Af6Ah6PL6rnETuGYE333MnNso64ISrbY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.UpgradeColumn.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.UpgradeColumn.html",
+          "hash": "Xuoxiu3gGl0V7ogQOTwQQYJw7k9P9x3rxE9NxO60+Ak="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.UpgradeManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.UpgradeManager.html",
+          "hash": "d/hOecRLNAoSi2ZpsP1ITmlS4kn8A+z19qcv+t96H+s="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.Vaisseau.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.Vaisseau.html",
+          "hash": "aXJuPB9YzqaN8P21hfvr70HXiFmsyxs1HYhGkZteD98="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.VariantData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.VariantData.html",
+          "hash": "XB0uWli6wFVqz4pzEBhMN3Cm/zDd/ACbh8V8MWCBaNc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.WaveManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.WaveManager.html",
+          "hash": "wbo41PurjwXJrPES+IsoXQ+0m6gMbCKXPZMyNli8ELM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.WreckData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.WreckData.html",
+          "hash": "4PRY8611ZQbu8qAW2nP8sv6bqojsmPkf+PIIqVhSDv0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Spaze.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Spaze.html",
+          "hash": "w1JuttBgUpzSL1l+ayrwdvjsa7B33DFGLW/BJqJnBpc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "BTPj3u1Iy/zkaZSoTSepJMmMxDarpATsFdKs2gkASZo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "QB4WrihAWAFQPzg2yNOM3SiR6qUwlz+bKSoKeM/NsmE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro.html",
+          "hash": "97eDObnjtEJFq5rp6MORvv5LVUoatLoDVB/e9jDav8w="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html",
+          "hash": "BlPxk5mtl2kgfcZUgkEguqiSAR/EUyUTT4EdebwkQvs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "O/5/fN7xIXAMHcZSPhtcptsXpkdfE4p8YBr/i9L8hKI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "WSuRrYiGwKKMbtdG9z8W9fXmLoCyTnGg9AxbPKLXm2Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot build incrementally because last build info is missing.",
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0,
+        "full_build_reason_code": "NoAvailableBuildCache"
+      },
+      "processors": {
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 3,
+          "skipped_file_count": 0
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 72,
+          "skipped_file_count": 0
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: last post processor info is null.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
