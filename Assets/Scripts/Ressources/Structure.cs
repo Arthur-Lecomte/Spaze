@@ -42,6 +42,8 @@ namespace Spaze {
                     Destroy(transform.GetChild(0).gameObject);
                     GameObject go = Instantiate(emptyAsteroid, transform);
                     go.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+                } else {
+                    Destroy(gameObject);
                 }
                 tag = "Untagged"; // Retire son tag pour que l'extracteur ne le détecte plus
                 gameObject.layer = 0; // Retire son layer pour que le laser de l'extracteur ne le détecte plus
