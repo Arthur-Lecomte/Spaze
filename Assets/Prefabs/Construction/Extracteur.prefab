@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nom: Extracteur
-  description: "R\xE9colte les ressources des ast\xE9ro\xEFdes proches."
+  description: "R\xE9colte les ressources des ast\xE9ro\xEFdes et \xE9paves proches."
   rarity: 0
   type: 8
   coutRessources:

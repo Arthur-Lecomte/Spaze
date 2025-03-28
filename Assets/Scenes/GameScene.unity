@@ -233,6 +233,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e25f0746b9f21347896a6b13a752a22, type: 3}
+--- !u!1 &1079480123 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3976477852891037575, guid: 0e25f0746b9f21347896a6b13a752a22, type: 3}
+  m_PrefabInstance: {fileID: 1079480122}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1150287819
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -245,6 +250,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 3013770914762338863, guid: 5ef76a7ef3a0d16469299057eb06e102, type: 3}
+      propertyPath: canvasParametre
+      value: 
+      objectReference: {fileID: 1079480123}
     - target: {fileID: 5551235663978619115, guid: 5ef76a7ef3a0d16469299057eb06e102, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

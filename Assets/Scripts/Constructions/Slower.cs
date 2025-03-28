@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Slower : Construction {
     [SerializeField] private float range;
-    [SerializeField] private float power;
+    [SerializeField] private float slowPower;
 
     private SphereCollider trigger;
     [SerializeField] private Transform effect;
@@ -34,7 +34,7 @@ public class Slower : Construction {
     private void OnTriggerEnter(Collider other) {
         Tir projectile = other.GetComponent<Tir>();
         if (projectile != null && !projectile.IsFromPlayer()) {
-            projectile.InSlowArea(power);
+            projectile.InSlowArea(slowPower);
         }
     }
 
@@ -45,7 +45,7 @@ public class Slower : Construction {
     private void OnTriggerExit(Collider other) {
         Tir projectile = other.GetComponent<Tir>();
         if (projectile != null && !projectile.IsFromPlayer()) {
-            projectile.InSlowArea(-power);
+            projectile.InSlowArea(-slowPower);
         }
     }
 

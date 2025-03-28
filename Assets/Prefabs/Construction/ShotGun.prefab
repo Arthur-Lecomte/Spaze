@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nom: "Tourelle courte port\xE9e"
-  description: "\xC0 de gros d\xE9g\xE2t mais \xE0 courte port\xE9e."
+  description: "Inflige de gros d\xE9g\xE2t mais \xE0 courte port\xE9e seulement."
   rarity: 0
   type: 2
   coutRessources:
@@ -61,7 +61,7 @@ MonoBehaviour:
   range: 8
   speed: 0
   damage: 15
-  bulletSpeed: 45
+  damageWithPercent: 0
   bulletPrefab: {fileID: 6703487588107487122, guid: f5c79ff063dbd5a448307898b92cfca1, type: 3}
 --- !u!1 &9202711405572471801
 GameObject:

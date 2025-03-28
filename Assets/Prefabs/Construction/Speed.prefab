@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nom: "Acc\xE9l\xE9rateur"
-  description: "Augmente votre vitesse de d\xE9placement."
+  description: "Augmente votre vitesse de d\xE9placement maximum et votre acc\xE9l\xE9ration."
   rarity: 0
   type: 6
   coutRessources:
@@ -147,7 +147,7 @@ MonoBehaviour:
     quantite: 50
   probability: 100
   image: {fileID: 21300000, guid: 9596e40a5a85531418d570e14e68c705, type: 3}
-  power: 0
+  speedPower: 0
   maxSpeed: 0
 --- !u!1001 &3594275550996967905
 PrefabInstance:

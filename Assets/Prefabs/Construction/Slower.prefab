@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nom: Distordeur gravitationelle
-  description: Rallentit les tirs proche de vous.
+  description: Rallentit les tirs ennemis qui sont proche de vous.
   rarity: 0
   type: 7
   coutRessources:
@@ -60,7 +60,7 @@ MonoBehaviour:
   probability: 500
   image: {fileID: 21300000, guid: 0a2cc76ef548b85428a63c3f87c35fcb, type: 3}
   range: 3
-  power: 0
+  slowPower: 0
   effect: {fileID: 3680790345162814224}
 --- !u!135 &3447411599339377685
 SphereCollider:

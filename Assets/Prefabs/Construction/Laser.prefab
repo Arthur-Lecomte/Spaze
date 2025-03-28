@@ -79,8 +79,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nom: Laser
-  description: "Attaque tr\xE8s rarement mais traverse les ennemis et inflige d'\xE9norme
-    d\xE9g\xE2t"
+  description: "Envoie un rayon laser infligeant d'\xE9norme d\xE9g\xE2t sur la dur\xE9e."
   rarity: 0
   type: 3
   coutRessources:
