@@ -50,11 +50,11 @@ MonoBehaviour:
   Level: 1
   health: 200
   moveSpeed: 3
-  damageEnemy: 15
+  damageEnemy: 20
   projectilePrefab: {fileID: 6703487588107487122, guid: f5c79ff063dbd5a448307898b92cfca1, type: 3}
   shootInterval: 2
   lastShootTime: 0
-  shootRange: 13
+  shootRange: 16
   shootPoint: {fileID: 6277486933807350847}
   portal: {fileID: 8693033771432911977}
 --- !u!65 &-3993993256796509600
