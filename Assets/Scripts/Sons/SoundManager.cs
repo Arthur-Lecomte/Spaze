@@ -22,7 +22,7 @@ namespace Spaze {
                 instance = this;
                 DontDestroyOnLoad(gameObject); // Rendre le SoundManager persistant
                 if (audioSource == null) {
-                    audioSource = gameObject.AddComponent<AudioSource>();
+                    audioSource = GetComponent<AudioSource>();
                 }
             } else {
                 Destroy(gameObject); // Détruire les instances supplémentaires

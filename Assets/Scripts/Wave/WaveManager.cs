@@ -29,7 +29,9 @@ namespace Spaze {
             if (Instance == null) {
                 Instance = this;
                 explorationAudioSource = gameObject.AddComponent<AudioSource>();
+                explorationAudioSource.loop = true;
                 combatAudioSource = gameObject.AddComponent<AudioSource>();
+                combatAudioSource.loop = true;
             } else {
                 Destroy(gameObject);
             }
