@@ -3,8 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace SmallHedge.SoundManager
-{
+namespace Spaze {
     [RequireComponent(typeof(AudioSource))]
     public class SoundManager : MonoBehaviour {
         [SerializeField] private SoundsSO SO;

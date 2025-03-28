@@ -1,7 +1,5 @@
 using UnityEngine;
-
-namespace SmallHedge.SoundManager
-{
+namespace Spaze {
     public class PlaySoundEnter : StateMachineBehaviour {
         [SerializeField] private SoundType sound;
         [SerializeField, Range(0, 1)] private float volume = 1;

@@ -5,8 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace SmallHedge.SoundManager
-{
+namespace Spaze {
     [CustomEditor(typeof(SoundsSO))]
     public class SoundsSOEditor : Editor {
         /// <summary>

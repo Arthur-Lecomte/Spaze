@@ -1,97 +1,98 @@
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+namespace Spaze {
+    public class Parametres : MonoBehaviour {
+        [Header("Sliders")]
+        private Slider soundEffectsSlider;
+        private Slider musicSlider;
 
-public class Parametres : MonoBehaviour {
-    [Header("Sliders")]
-    private Slider soundEffectsSlider;
-    private Slider musicSlider;
+        private const string SoundEffectsVolumeParam = "SoundEffectsVolume";
+        private const string MusicVolumeParam = "MusicVolume";
 
-    private const string SoundEffectsVolumeParam = "SoundEffectsVolume";
-    private const string MusicVolumeParam = "MusicVolume";
+        private const string SoundEffectsPrefKey = "SoundEffectsVolume";
+        private const string MusicPrefKey = "MusicVolume";
 
-    private const string SoundEffectsPrefKey = "SoundEffectsVolume";
-    private const string MusicPrefKey = "MusicVolume";
+        private AudioMixer audioMixer;
+        private GameObject startMenu;
 
-    private AudioMixer audioMixer;
-    private GameObject startMenu;
+        /// <summary>
+        /// Initialise les paramètres au démarrage, trouve les sliders et initialise leurs valeurs.
+        /// </summary>
+        private void Start() {
+            startMenu = GameObject.Find("Canvas-StartMenu");
 
-    /// <summary>
-    /// Initialise les paramètres au démarrage, trouve les sliders et initialise leurs valeurs.
-    /// </summary>
-    private void Start() {
-        startMenu = GameObject.Find("Canvas-StartMenu");
+            // Trouver tous les sliders dans les enfants
+            Slider[] sliders = GetComponentsInChildren<Slider>(true);
 
-        // Trouver tous les sliders dans les enfants
-        Slider[] sliders = GetComponentsInChildren<Slider>(true);
-
-        foreach (Slider slider in sliders) {
-            if (slider.name.Contains("SoundEffect")) {
-                soundEffectsSlider = slider;
-            } else if (slider.name.Contains("Musique")) {
-                musicSlider = slider;
+            foreach (Slider slider in sliders) {
+                if (slider.name.Contains("SoundEffect")) {
+                    soundEffectsSlider = slider;
+                } else if (slider.name.Contains("Musique")) {
+                    musicSlider = slider;
+                }
             }
+
+            audioMixer = SoundManager.instance.audioMixer;
+
+            InitializeSliders();
         }
 
-        audioMixer = SmallHedge.SoundManager.SoundManager.instance.audioMixer;
+        /// <summary>
+        /// Initialise les sliders avec les valeurs sauvegardées et ajoute des listeners pour les changements de valeur.
+        /// </summary>
+        private void InitializeSliders() {
+            float soundEffectsVolume = PlayerPrefs.GetFloat(SoundEffectsPrefKey, 1f);
+            float musicVolume = PlayerPrefs.GetFloat(MusicPrefKey, 1f);
 
-        InitializeSliders();
-    }
+            soundEffectsSlider.value = soundEffectsVolume;
+            musicSlider.value = musicVolume;
 
-    /// <summary>
-    /// Initialise les sliders avec les valeurs sauvegardées et ajoute des listeners pour les changements de valeur.
-    /// </summary>
-    private void InitializeSliders() {
-        float soundEffectsVolume = PlayerPrefs.GetFloat(SoundEffectsPrefKey, 1f);
-        float musicVolume = PlayerPrefs.GetFloat(MusicPrefKey, 1f);
+            SetSoundEffectsVolume(soundEffectsVolume);
+            SetMusicVolume(musicVolume);
 
-        soundEffectsSlider.value = soundEffectsVolume;
-        musicSlider.value = musicVolume;
-
-        SetSoundEffectsVolume(soundEffectsVolume);
-        SetMusicVolume(musicVolume);
-
-        soundEffectsSlider.onValueChanged.AddListener(SetSoundEffectsVolume);
-        musicSlider.onValueChanged.AddListener(SetMusicVolume);
-    }
-
-    /// <summary>
-    /// Définit le volume des effets sonores et sauvegarde la valeur.
-    /// </summary>
-    /// <param name="value">La nouvelle valeur du volume des effets sonores.</param>
-    public void SetSoundEffectsVolume(float value) {
-        if (value <= 0.01f) {
-            audioMixer.SetFloat(SoundEffectsVolumeParam, -80f);
-        } else {
-            float volumeInDb = Mathf.Log10(value) * 20;
-            audioMixer.SetFloat(SoundEffectsVolumeParam, volumeInDb);
+            soundEffectsSlider.onValueChanged.AddListener(SetSoundEffectsVolume);
+            musicSlider.onValueChanged.AddListener(SetMusicVolume);
         }
 
-        PlayerPrefs.SetFloat(SoundEffectsPrefKey, value); // Sauvegarder la valeur
-    }
+        /// <summary>
+        /// Définit le volume des effets sonores et sauvegarde la valeur.
+        /// </summary>
+        /// <param name="value">La nouvelle valeur du volume des effets sonores.</param>
+        public void SetSoundEffectsVolume(float value) {
+            if (value <= 0.01f) {
+                audioMixer.SetFloat(SoundEffectsVolumeParam, -80f);
+            } else {
+                float volumeInDb = Mathf.Log10(value) * 20;
+                audioMixer.SetFloat(SoundEffectsVolumeParam, volumeInDb);
+            }
 
-    /// <summary>
-    /// Définit le volume de la musique et sauvegarde la valeur.
-    /// </summary>
-    /// <param name="value">La nouvelle valeur du volume de la musique.</param>
-    public void SetMusicVolume(float value) {
-        if (value <= 0.01f) {
-            audioMixer.SetFloat(MusicVolumeParam, -80f);
-        } else {
-            float volumeInDb = Mathf.Log10(value) * 20;
-            audioMixer.SetFloat(MusicVolumeParam, volumeInDb);
+            PlayerPrefs.SetFloat(SoundEffectsPrefKey, value); // Sauvegarder la valeur
         }
 
-        PlayerPrefs.SetFloat(MusicPrefKey, value); // Sauvegarder la valeur
-    }
+        /// <summary>
+        /// Définit le volume de la musique et sauvegarde la valeur.
+        /// </summary>
+        /// <param name="value">La nouvelle valeur du volume de la musique.</param>
+        public void SetMusicVolume(float value) {
+            if (value <= 0.01f) {
+                audioMixer.SetFloat(MusicVolumeParam, -80f);
+            } else {
+                float volumeInDb = Mathf.Log10(value) * 20;
+                audioMixer.SetFloat(MusicVolumeParam, volumeInDb);
+            }
 
-    /// <summary>
-    /// Ferme le menu des paramètres et réactive le menu de démarrage.
-    /// </summary>
-    public void closeSettings() {
-        gameObject.SetActive(false);
-        if (startMenu != null) {
-            startMenu.SetActive(true);
+            PlayerPrefs.SetFloat(MusicPrefKey, value); // Sauvegarder la valeur
+        }
+
+        /// <summary>
+        /// Ferme le menu des paramètres et réactive le menu de démarrage.
+        /// </summary>
+        public void closeSettings() {
+            gameObject.SetActive(false);
+            if (startMenu != null) {
+                startMenu.SetActive(true);
+            }
         }
     }
 }

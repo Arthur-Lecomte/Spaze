@@ -1,6 +1,6 @@
-using UnityEngine;
-
-public interface ICanTakeDamage {
-    public void TakeDamage(float damage);
-    public bool AmIPlayer();
+namespace Spaze {
+    public interface ICanTakeDamage {
+        public void TakeDamage(float damage);
+        public bool AmIPlayer();
+    }
 }

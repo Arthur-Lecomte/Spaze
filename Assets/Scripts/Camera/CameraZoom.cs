@@ -1,27 +1,28 @@
 using Unity.VisualScripting;
 using UnityEngine;
+namespace Spaze {
+    public class CameraZoom : MonoBehaviour {
+        [SerializeField] private Camera cam; // La caméra à modifier
+        [SerializeField] private Camera camShield;
+        [SerializeField] private float zoomSpeed = 10f; // Vitesse du zoom
+        [SerializeField] private float minZoom = 5f;  // Zoom maximum (le plus proche)
+        [SerializeField] private GameObject background;
+        public float maxZoom = 50f; // Zoom minimum (le plus loin)
 
-public class CameraZoom : MonoBehaviour {
-    [SerializeField] private Camera cam; // La caméra à modifier
-    [SerializeField] private Camera camShield;
-    [SerializeField] private float zoomSpeed = 10f; // Vitesse du zoom
-    [SerializeField] private float minZoom = 5f;  // Zoom maximum (le plus proche)
-    [SerializeField] private GameObject background;
-    public float maxZoom = 50f; // Zoom minimum (le plus loin)
+        /// <summary>
+        /// Appelé à chaque frame. Gère le zoom de la caméra en fonction de l'entrée de la molette de la souris.
+        /// </summary>
+        private void Update() {
+            float scrollInput = Input.GetAxis("Mouse ScrollWheel"); // Récupère la molette
+            if (scrollInput != 0) {
+                cam.orthographicSize -= scrollInput * zoomSpeed;
+                cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, minZoom, maxZoom);
 
-    /// <summary>
-    /// Appelé à chaque frame. Gère le zoom de la caméra en fonction de l'entrée de la molette de la souris.
-    /// </summary>
-    private void Update() {
-        float scrollInput = Input.GetAxis("Mouse ScrollWheel"); // Récupère la molette
-        if (scrollInput != 0) {
-            cam.orthographicSize -= scrollInput * zoomSpeed;
-            cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, minZoom, maxZoom);
+                camShield.orthographicSize = cam.orthographicSize;
 
-            camShield.orthographicSize = cam.orthographicSize;
-
-            float scaleFactor = Mathf.Lerp(0.4f, 4.3f, (cam.orthographicSize - minZoom) / (maxZoom - minZoom));
-            background.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+                float scaleFactor = Mathf.Lerp(0.4f, 4.3f, (cam.orthographicSize - minZoom) / (maxZoom - minZoom));
+                background.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+            }
         }
     }
 }

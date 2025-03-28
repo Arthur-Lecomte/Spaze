@@ -1,48 +1,49 @@
 using UnityEngine;
+namespace Spaze {
+    public class Sniper : Enemy {
+        bool canAttack = true;
 
-public class Sniper : Enemy {
-    bool canAttack = true;
+        /// <summary>
+        /// Déplace le sniper vers le joueur ou le fait fuir si trop proche.
+        /// </summary>
+        /// <param name="distanceToPlayer">La distance entre le sniper et le joueur.</param>
+        protected override void MoveTowardsPlayer(float distanceToPlayer) {
+            canAttack = true;
+            isFleeing = false;
 
-    /// <summary>
-    /// Déplace le sniper vers le joueur ou le fait fuir si trop proche.
-    /// </summary>
-    /// <param name="distanceToPlayer">La distance entre le sniper et le joueur.</param>
-    protected override void MoveTowardsPlayer(float distanceToPlayer) {
-        canAttack = true;
-        isFleeing = false;
+            if (distanceToPlayer > shootRange) {
+                // Se déplacer vers le joueur
+                Vector3 direction = (player.position - transform.position).normalized;
+                transform.position += direction * moveSpeed * Time.deltaTime;
 
-        if (distanceToPlayer > shootRange) {
-            // Se déplacer vers le joueur
-            Vector3 direction = (player.position - transform.position).normalized;
-            transform.position += direction * moveSpeed * Time.deltaTime;
+                // Faire regarder le sniper vers le joueur
+                Quaternion lookRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+            }
 
-            // Faire regarder le sniper vers le joueur
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+            if (distanceToPlayer < 30f) { // Range pour fuir
+                isFleeing = true; // Activer le mode fuite
+
+                // Faire fuir l'ennemi en s'éloignant du joueur
+                Vector3 fleeDirection = (transform.position - player.position).normalized;
+                transform.position += fleeDirection * moveSpeed * Time.deltaTime;
+
+                // Faire regarder le sniper dans la direction de fuite
+                Quaternion fleeRotation = Quaternion.LookRotation(fleeDirection);
+                transform.rotation = Quaternion.Slerp(transform.rotation, fleeRotation, Time.deltaTime * 5f);
+
+                // Empêcher l'ennemi d'attaquer
+                canAttack = false;
+            }
         }
 
-        if (distanceToPlayer < 30f) { // Range pour fuir
-            isFleeing = true; // Activer le mode fuite
-
-            // Faire fuir l'ennemi en s'éloignant du joueur
-            Vector3 fleeDirection = (transform.position - player.position).normalized;
-            transform.position += fleeDirection * moveSpeed * Time.deltaTime;
-
-            // Faire regarder le sniper dans la direction de fuite
-            Quaternion fleeRotation = Quaternion.LookRotation(fleeDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, fleeRotation, Time.deltaTime * 5f);
-
-            // Empêcher l'ennemi d'attaquer
-            canAttack = false;
-        }
-    }
-
-    /// <summary>
-    /// Tire sur le joueur si le sniper peut attaquer.
-    /// </summary>
-    protected override void ShootAtPlayer() {
-        if (canAttack) {
-            base.ShootAtPlayer();
+        /// <summary>
+        /// Tire sur le joueur si le sniper peut attaquer.
+        /// </summary>
+        protected override void ShootAtPlayer() {
+            if (canAttack) {
+                base.ShootAtPlayer();
+            }
         }
     }
 }
