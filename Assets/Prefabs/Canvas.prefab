@@ -5143,14 +5143,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coutRessources:
-  - type: 0
-    quantite: 100
-  - type: 1
-    quantite: 50
-  - type: 2
-    quantite: 25
-  - type: 3
-    quantite: 10
   - type: 4
     quantite: 1
 --- !u!1 &4946476423794874040
