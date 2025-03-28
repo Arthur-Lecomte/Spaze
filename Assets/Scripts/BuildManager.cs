@@ -29,6 +29,7 @@ namespace Spaze {
         /// <param name="obj">Le contexte de l'action de rappel.</param>
         private void ToggleMenuPause(InputAction.CallbackContext obj) {
             canvasParametre.SetActive(!canvasParametre.activeSelf);
+            Time.timeScale = canvasParametre.activeSelf ? 0 : 1; 
         }
     }
 }

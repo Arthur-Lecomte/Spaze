@@ -17,7 +17,7 @@ namespace Spaze {
         private GameObject startMenu;
 
         /// <summary>
-        /// Initialise les paramètres au démarrage, trouve les sliders et initialise leurs valeurs.
+        /// Initialise les paramï¿½tres au dï¿½marrage, trouve les sliders et initialise leurs valeurs.
         /// </summary>
         private void Start() {
             startMenu = GameObject.Find("Canvas-StartMenu");
@@ -39,7 +39,7 @@ namespace Spaze {
         }
 
         /// <summary>
-        /// Initialise les sliders avec les valeurs sauvegardées et ajoute des listeners pour les changements de valeur.
+        /// Initialise les sliders avec les valeurs sauvegardï¿½es et ajoute des listeners pour les changements de valeur.
         /// </summary>
         private void InitializeSliders() {
             float soundEffectsVolume = PlayerPrefs.GetFloat(SoundEffectsPrefKey, 1f);
@@ -56,7 +56,7 @@ namespace Spaze {
         }
 
         /// <summary>
-        /// Définit le volume des effets sonores et sauvegarde la valeur.
+        /// Dï¿½finit le volume des effets sonores et sauvegarde la valeur.
         /// </summary>
         /// <param name="value">La nouvelle valeur du volume des effets sonores.</param>
         public void SetSoundEffectsVolume(float value) {
@@ -71,7 +71,7 @@ namespace Spaze {
         }
 
         /// <summary>
-        /// Définit le volume de la musique et sauvegarde la valeur.
+        /// Dï¿½finit le volume de la musique et sauvegarde la valeur.
         /// </summary>
         /// <param name="value">La nouvelle valeur du volume de la musique.</param>
         public void SetMusicVolume(float value) {
@@ -86,13 +86,19 @@ namespace Spaze {
         }
 
         /// <summary>
-        /// Ferme le menu des paramètres et réactive le menu de démarrage.
+        /// Ferme le menu des paramï¿½tres et rï¿½active le menu de dï¿½marrage.
         /// </summary>
         public void closeSettings() {
             gameObject.SetActive(false);
+            Time.timeScale = 1;
             if (startMenu != null) {
                 startMenu.SetActive(true);
             }
+            
+        }
+
+        public void QuitGame() {
+            Application.Quit();
         }
     }
 }
